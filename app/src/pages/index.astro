@@ -1,0 +1,65 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { fragenJeKapitel } from '../lib/inhalt.ts';
+import { fortschritt } from '../lib/lernen.ts';
+import { aktuellerMonat, monatszahlen } from '../lib/kunden.ts';
+import { euro, ladeAbrechnungen, monatsname, summen } from '../lib/provision.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const db = Astro.locals.db;
+
+const kapitel = (await getCollection('kapitel')).sort((a, b) => a.data.nummer - b.data.nummer);
+const stand = await fortschritt(db, benutzer.id, fragenJeKapitel(kapitel.map((k) => k.id)));
+const erledigt = stand.filter((s) => s.erledigt).length;
+const naechstes = kapitel.find((k) => !stand.find((s) => s.kapitel === k.id)?.erledigt);
+
+const monat = aktuellerMonat();
+const zahlen = await monatszahlen(db, benutzer.id, monat);
+
+const abrechnungen = benutzer.vertrieblerSlug ? await ladeAbrechnungen(db, benutzer.vertrieblerSlug) : [];
+const provision = summen(abrechnungen);
+const letzte = abrechnungen[0];
+---
+
+<Layout titel="Start" aktiv="start">
+  <h1>Guten Tag, {benutzer.name.split(' ')[0]}.</h1>
+  <p class="meta">{monatsname(monat)}</p>
+
+  <div class="raster">
+    <section class="karte">
+      <h2 style="margin-top:0">Lernen</h2>
+      <p class="punkte">{erledigt} von {kapitel.length} Kapiteln</p>
+      <div class="fortschritt" aria-hidden="true"><span style={`width:${kapitel.length ? Math.round((erledigt / kapitel.length) * 100) : 0}%`}></span></div>
+      {naechstes ? <p>Als Nächstes: <a href={`/lernen/${naechstes.id}`}>{naechstes.data.titel}</a></p> : <p>Alle Kapitel sind erledigt.</p>}
+      <a class="btn btn--zweit btn--klein" href="/lernen">Zum Lernbereich</a>
+    </section>
+
+    <section class="karte">
+      <h2 style="margin-top:0">Meine Kunden</h2>
+      <p class="punkte">{zahlen.termine} Termine, {zahlen.abschluesse} Abschlüsse</p>
+      <p class="meta">In diesem Monat. {zahlen.neue} neue Betriebe eingetragen.</p>
+      <div class="aktionen" style="margin-top:0">
+        <a class="btn btn--klein" href="/kunden/neu">Betrieb eintragen</a>
+        <a class="btn btn--zweit btn--klein" href="/kunden">Liste</a>
+      </div>
+    </section>
+
+    <section class="karte">
+      <h2 style="margin-top:0">Meine Provision</h2>
+      {letzte ? (
+        <>
+          <p class="punkte">{euro(letzte.auszahlungCent)}</p>
+          <p class="meta">Auszahlung aus der Abrechnung {monatsname(letzte.monat)}. Aufgelaufen: {euro(provision.aufgelaufenCent)} Hosting.</p>
+        </>
+      ) : (
+        <p class="meta">Noch keine Abrechnung. Die erste kommt mit dem ersten Zahlungseingang eines Ihrer Kunden.</p>
+      )}
+      <a class="btn btn--zweit btn--klein" href="/provision">Aufstellung</a>
+    </section>
+  </div>
+
+  {benutzer.rolle === 'admin' && (
+    <p><a href="/admin">Zum Admin-Bereich</a></p>
+  )}
+</Layout>
