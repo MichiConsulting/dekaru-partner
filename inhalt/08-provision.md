@@ -38,7 +38,7 @@ Seit dem 29.09.2026 gibt es auch auf Hosting Provision: **35 % auf die ersten zw
 | Basis, 39 € | 13,65 € | 163,80 € | 136,50 € auf einmal |
 | Plus, nur jährlich 590 € | entfällt | entfällt | 206,50 € auf einmal |
 
-Die Hosting-Provision entsteht mit jeder bezahlten Hosting-Rechnung und **verfällt nicht**, auch wenn der Kunde später kündigt. Sie wird gesammelt und **vierteljährlich ausgezahlt**, mit der Abrechnung zum Fünften nach Quartalsende: im Januar, April, Juli und Oktober. Bei Jahreszahlung kommen 35 % der Jahresrechnung auf einmal, mit der nächsten Quartalsabrechnung nach Zahlungseingang.
+Die Hosting-Provision entsteht mit jeder bezahlten Hosting-Rechnung und **verfällt nicht**, auch wenn der Kunde später kündigt. Sie wird gesammelt und **vierteljährlich ausgezahlt**, mit der Abrechnung zum Fünften nach Quartalsende: im Januar, April, Juli und Oktober. Bei Jahreszahlung kommen 35 % der Jahresrechnung auf einmal, mit der nächsten Quartalsabrechnung nach Zahlungseingang. Plus: 590 € im Jahr, nur als Jahresvertrag. Das sind zehn berechnete Monate zu je 59 €.
 
 Bei einem Kunden mit Gratisquartal entsteht die erste Hosting-Provision im vierten Monat nach Abnahme und kommt mit der nächsten Quartalsabrechnung.
 

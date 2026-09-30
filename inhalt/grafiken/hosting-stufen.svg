@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 496" role="img" aria-labelledby="t d" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#141414">
   <title id="t">Die drei Hosting-Stufen Start, Basis und Plus nebeneinander</title>
-  <desc id="d">Start 19 Euro im Monat oder 190 Euro im Jahr, bis 3 Änderungen, gesammelt umgesetzt zum Monatsende mit Stichtag am 25., monatlich kündbar. Basis 39 Euro im Monat oder 390 Euro im Jahr, bis 5 Änderungen, jede innerhalb von 3 Werktagen, monatlich kündbar, trägt das Beliebt-Badge. Plus nur als Jahresvertrag für 590 Euro, bis 10 Änderungen, jede innerhalb von 1 Werktag, dazu 2 Umbauten im Jahr und die Online-Terminanfrage. In allen Stufen enthalten: Hosting, Domain, HTTPS, Updates, gesicherter Quellstand. Jede weitere Änderung 25 Euro.</desc>
+  <desc id="d">Start 19 Euro im Monat oder 190 Euro im Jahr, bis 3 Änderungen, gesammelt umgesetzt zum Monatsende mit Stichtag am 25., monatlich kündbar. Basis 39 Euro im Monat oder 390 Euro im Jahr, bis 5 Änderungen, jede innerhalb von 3 Werktagen, monatlich kündbar, trägt das Beliebt-Badge. Plus nur als Jahresvertrag für 590 Euro, das sind zehn berechnete Monate zu je 59 Euro, bis 10 Änderungen, jede innerhalb von 1 Werktag, dazu 2 Umbauten im Jahr und die Online-Terminanfrage. In allen Stufen enthalten: Hosting, Domain, HTTPS, Updates, gesicherter Quellstand. Jede weitere Änderung 25 Euro.</desc>
   <style>
     .h { font-family: "Space Grotesk", Inter, system-ui, sans-serif; font-weight: 700; }
     .m { fill: #5C5C5C; }
@@ -61,7 +61,7 @@
     <text class="m" x="16" y="72">schnellste Umsetzung</text>
     <text class="h" x="16" y="120" font-size="16">590 € im Jahr</text>
     <text class="m" x="16" y="140">nur als Jahresvertrag,</text>
-    <text class="m" x="16" y="156">rund 49 € je Monat</text>
+    <text class="m" x="16" y="156">zehn Monate zu je 59 €</text>
     <text class="h" x="16" y="180" font-size="16">bis 10 im Monat</text>
     <text class="m" x="16" y="200">per Mail</text>
     <text x="16" y="240" font-weight="600">jede innerhalb von</text>

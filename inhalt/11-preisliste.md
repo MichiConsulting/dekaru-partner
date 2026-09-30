@@ -69,6 +69,7 @@ Stand 30.09.2026. Alle Preise sind Endpreise, es kommt keine Umsatzsteuer dazu. 
 | Plus | nur jährlich | 590 € | bis 10 im Monat | innerhalb von 1 Werktag | 2 Umbauten im Jahr, Online-Terminanfrage |
 
 - Jährlich: zehn Monate bezahlt, zwölf erhalten. Laufzeit zwölf Monate.
+- Plus: 590 € im Jahr, nur als Jahresvertrag. Das sind zehn berechnete Monate zu je 59 €.
 - Monatlich: keine Mindestlaufzeit, Kündigung ein Monat zum Monatsende.
 - Jede Änderung über das Kontingent hinaus: **25 €**, in jeder Stufe.
 - In jeder Stufe: Hosting, Domain (Kosten bis 15 € im Jahr enthalten), HTTPS, Updates, gesicherter Quellstand.

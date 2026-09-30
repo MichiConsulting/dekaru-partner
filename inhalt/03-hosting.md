@@ -24,6 +24,8 @@ Stand der Konditionen: entschieden am 29.09.2026. Der Betreuungsvertrag, den der
 | Mitarbeitende Funktion | nein | nein | Online-Terminanfrage |
 | Laufzeit | monatlich kündbar | monatlich kündbar | nur Jahresvertrag |
 
+Plus: 590 € im Jahr, nur als Jahresvertrag. Das sind zehn berechnete Monate zu je 59 €.
+
 Basis trägt auf der Website das "Beliebt"-Zeichen. Es ist die Stufe für Betriebe, bei denen öfter etwas passiert, die aber keinen Umbau brauchen.
 
 ## Was in jeder Stufe steckt
