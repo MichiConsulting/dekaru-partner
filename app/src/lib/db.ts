@@ -55,9 +55,9 @@ export async function pgDb(url: string): Promise<Db> {
 
 /** PGlite fuer Entwicklung und Tests. Wendet die Migrationen sofort an. */
 export async function pgliteDb(pfad?: string): Promise<Db> {
-  // Der Modulname steht in einer Variablen, damit weder Vite noch die
-  // Vercel-Paketierung PGlite in das Produktions-Bundle ziehen.
-  const modul = '@electric-sql/pglite';
+  // Der Modulname ist fuer Vite und die Vercel-Paketierung nicht statisch
+  // auswertbar, sonst zoegen beide PGlite (30 MB) in das Produktions-Bundle.
+  const modul = process.env.PGLITE_MODUL || '@electric-sql/pglite';
   const { PGlite } = await import(/* @vite-ignore */ modul);
   const pglite = pfad ? new PGlite(pfad) : new PGlite();
   await pglite.waitReady;

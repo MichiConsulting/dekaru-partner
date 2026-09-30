@@ -13,7 +13,13 @@ export default defineConfig({
   output: 'server',
   // ADAPTER=node baut einen eigenstaendigen Server, nur fuer die lokale
   // Lighthouse-Pruefung. Auf Vercel gilt immer der Vercel-Adapter.
-  adapter: process.env.ADAPTER === 'node' ? node({ mode: 'standalone' }) : vercel(),
+  adapter:
+    process.env.ADAPTER === 'node'
+      ? node({ mode: 'standalone' })
+      : vercel({
+          // PGlite ist nur fuer Entwicklung und Tests da und wiegt 30 MB.
+          excludeFiles: ['./node_modules/@electric-sql/pglite/**'],
+        }),
   // Alles laeuft ueber den Server, es gibt keine oeffentlichen Seiten mit Tracking.
   security: { checkOrigin: true },
   build: {
