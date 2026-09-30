@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" role="img" aria-labelledby="t d" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#141414">
+  <title id="t">Wann welche Zusatzleistung angesprochen wird</title>
+  <desc id="d">Vier Zeitpunkte von links nach rechts: Telefon, Erstgespräch, Zweittermin, zweites Jahr. Am Telefon geht es nur um den Termin, keine Zusatzleistungen. Im Erstgespräch werden Google-Profil und Aufsteller erklärt, ohne Preis. Im Zweittermin, nach der Entscheidung für die Website, werden sie konkret angeboten. Der Sichtbarkeits-Check kommt erst im zweiten Jahr bei bestehenden Kunden.</desc>
+  <style>
+    .h { font-family: "Space Grotesk", Inter, system-ui, sans-serif; font-weight: 700; }
+    .m { fill: #5C5C5C; }
+    .col { fill: #FFFFFF; stroke: #C9C9C5; }
+  </style>
+
+  <!-- Zeitpfeil -->
+  <line x1="20" y1="40" x2="770" y2="40" stroke="#141414" stroke-width="2"/>
+  <polygon points="770,34 782,40 770,46" fill="#141414"/>
+
+  <g transform="translate(20 60)">
+    <rect class="col" x="0" y="0" width="175" height="220" rx="4"/>
+    <text class="h" x="14" y="26" font-size="14">Telefon</text>
+    <text class="m" x="14" y="46" font-size="12">Ziel: das Erstgespräch</text>
+    <text x="14" y="84" font-weight="600">Keine Zusatzleistungen.</text>
+    <text class="m" x="14" y="104" font-size="12">Wer hier aufzählt, macht</text>
+    <text class="m" x="14" y="120" font-size="12">das Gespräch lang und den</text>
+    <text class="m" x="14" y="136" font-size="12">Termin unwahrscheinlicher.</text>
+  </g>
+
+  <g transform="translate(212 60)">
+    <rect class="col" x="0" y="0" width="175" height="220" rx="4"/>
+    <text class="h" x="14" y="26" font-size="14">Erstgespräch</text>
+    <text class="m" x="14" y="46" font-size="12">Bedarf und Interesse</text>
+    <text x="14" y="84" font-weight="600">Erklären, was es gibt.</text>
+    <text class="m" x="14" y="104" font-size="12">Google-Profil und Aufsteller</text>
+    <text class="m" x="14" y="120" font-size="12">kurz erklären, notieren,</text>
+    <text class="m" x="14" y="136" font-size="12">was ihn interessiert.</text>
+    <text class="m" x="14" y="164" font-size="12">Preis: "sagt Ihnen Herr</text>
+    <text class="m" x="14" y="180" font-size="12">Henning im Termin."</text>
+  </g>
+
+  <g transform="translate(404 60)">
+    <rect class="col" x="0" y="0" width="175" height="220" rx="4" stroke="#141414" stroke-width="2"/>
+    <text class="h" x="14" y="26" font-size="14">Zweittermin</text>
+    <text class="m" x="14" y="46" font-size="12">nach dem Ja zur Website</text>
+    <text x="14" y="84" font-weight="600">Jetzt konkret anbieten.</text>
+    <text class="m" x="14" y="104" font-size="12">Google-Profil 249 / 490 €,</text>
+    <text class="m" x="14" y="120" font-size="12">Aufsteller 190 €, nur mit</text>
+    <text class="m" x="14" y="136" font-size="12">Google-Profil. Beides auf</text>
+    <text class="m" x="14" y="152" font-size="12">den Briefing-Bogen.</text>
+    <text x="14" y="180" font-size="12" font-weight="600" fill="#6E1A26">Erhöht den Auftrag, ohne</text>
+    <text x="14" y="196" font-size="12" font-weight="600" fill="#6E1A26">einen dritten Termin.</text>
+  </g>
+
+  <g transform="translate(596 60)">
+    <rect class="col" x="0" y="0" width="184" height="220" rx="4"/>
+    <text class="h" x="14" y="26" font-size="14">Zweites Jahr</text>
+    <text class="m" x="14" y="46" font-size="12">bestehender Kunde</text>
+    <text x="14" y="84" font-weight="600">Sichtbarkeits-Check, 390 €.</text>
+    <text class="m" x="14" y="104" font-size="12">Setzt eine Website voraus.</text>
+    <text class="m" x="14" y="120" font-size="12">Nicht beim Erstauftrag</text>
+    <text class="m" x="14" y="136" font-size="12">anbieten.</text>
+  </g>
+</svg>

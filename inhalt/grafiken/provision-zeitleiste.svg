@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" role="img" aria-labelledby="t d" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#141414">
+  <title id="t">Wann das Geld kommt: Zeitleiste für eine Website zu 1.500 Euro mit Hosting Basis und Gratisquartal</title>
+  <desc id="d">Beispiel: Auftrag im Oktober, Anzahlung 750 Euro geht im Oktober ein, Provision 262,50 Euro mit der Abrechnung am 5. November. Abnahme und Restzahlung im November, weitere 262,50 Euro am 5. Dezember. Hosting Basis: Dezember bis Februar gratis, ab März bezahlt. Je bezahltem Monat 13,65 Euro, gesammelt und vierteljährlich zum 5. nach Quartalsende ausgezahlt: 13,65 Euro im April für März, 40,95 Euro im Juli für April bis Juni, und so weiter bis zwölf bezahlte Monate erreicht sind, zusammen höchstens 163,80 Euro.</desc>
+  <style>
+    .h { font-family: "Space Grotesk", Inter, system-ui, sans-serif; font-weight: 700; }
+    .m { fill: #5C5C5C; }
+    .acc { fill: #6E1A26; }
+  </style>
+
+  <text class="h" x="20" y="26" font-size="14">Beispiel: Website 1.500 €, Hosting Basis 39 € mit Gratisquartal, Auftrag im Oktober</text>
+
+  <!-- Monatsleiste: 12 Felder à 60 ab x=40, Okt bis Sep -->
+  <g font-size="11" text-anchor="middle">
+    <rect x="40" y="50" width="720" height="26" fill="#FFFFFF" stroke="#C9C9C5"/>
+    <line x1="100" y1="50" x2="100" y2="76" stroke="#C9C9C5"/><line x1="160" y1="50" x2="160" y2="76" stroke="#C9C9C5"/>
+    <line x1="220" y1="50" x2="220" y2="76" stroke="#C9C9C5"/><line x1="280" y1="50" x2="280" y2="76" stroke="#C9C9C5"/>
+    <line x1="340" y1="50" x2="340" y2="76" stroke="#C9C9C5"/><line x1="400" y1="50" x2="400" y2="76" stroke="#C9C9C5"/>
+    <line x1="460" y1="50" x2="460" y2="76" stroke="#C9C9C5"/><line x1="520" y1="50" x2="520" y2="76" stroke="#C9C9C5"/>
+    <line x1="580" y1="50" x2="580" y2="76" stroke="#C9C9C5"/><line x1="640" y1="50" x2="640" y2="76" stroke="#C9C9C5"/>
+    <line x1="700" y1="50" x2="700" y2="76" stroke="#C9C9C5"/>
+    <text x="70" y="67">Okt</text><text x="130" y="67">Nov</text><text x="190" y="67">Dez</text><text x="250" y="67">Jan</text>
+    <text x="310" y="67">Feb</text><text x="370" y="67">Mär</text><text x="430" y="67">Apr</text><text x="490" y="67">Mai</text>
+    <text x="550" y="67">Jun</text><text x="610" y="67">Jul</text><text x="670" y="67">Aug</text><text x="730" y="67">Sep</text>
+  </g>
+
+  <!-- Zeile Kunde zahlt -->
+  <text class="m" x="20" y="108" font-size="12">Der Kunde zahlt</text>
+  <g font-size="11">
+    <rect x="46" y="116" width="48" height="22" fill="#141414"/>
+    <text x="70" y="131" text-anchor="middle" fill="#FFFFFF">750 €</text>
+    <text class="m" x="70" y="152" text-anchor="middle" font-size="10">Anzahlung</text>
+    <rect x="106" y="116" width="48" height="22" fill="#141414"/>
+    <text x="130" y="131" text-anchor="middle" fill="#FFFFFF">750 €</text>
+    <text class="m" x="130" y="152" text-anchor="middle" font-size="10">Abnahme</text>
+    <rect x="166" y="116" width="168" height="22" fill="#EEEEEB" stroke="#C9C9C5"/>
+    <text x="250" y="131" text-anchor="middle">Hosting gratis</text>
+    <rect x="346" y="116" width="414" height="22" fill="#D9D9D5" stroke="#C9C9C5"/>
+    <text x="553" y="131" text-anchor="middle">Hosting 39 € je Monat, bis zwölf bezahlte Monate erreicht sind</text>
+  </g>
+
+  <!-- Zeile Provision -->
+  <text class="m" x="20" y="196" font-size="12">Sie bekommen</text>
+  <g font-size="11">
+    <!-- Einmalig: monatlich zum 5. -->
+    <line x1="130" y1="200" x2="130" y2="226" stroke="#7B1E2B" stroke-width="2"/>
+    <text class="h acc" x="124" y="242" text-anchor="end" font-size="13">262,50 €</text>
+    <text class="m" x="124" y="258" text-anchor="end" font-size="10">5. Nov.</text>
+    <line x1="190" y1="200" x2="190" y2="226" stroke="#7B1E2B" stroke-width="2"/>
+    <text class="h acc" x="196" y="242" font-size="13">262,50 €</text>
+    <text class="m" x="196" y="258" font-size="10">5. Dez.</text>
+    <!-- Hosting: vierteljährlich -->
+    <line x1="430" y1="200" x2="430" y2="226" stroke="#141414" stroke-width="2"/>
+    <text class="h" x="430" y="242" text-anchor="middle" font-size="13">13,65 €</text>
+    <text class="m" x="430" y="258" text-anchor="middle" font-size="10">5. Apr., für März</text>
+    <line x1="610" y1="200" x2="610" y2="226" stroke="#141414" stroke-width="2"/>
+    <text class="h" x="610" y="242" text-anchor="middle" font-size="13">40,95 €</text>
+    <text class="m" x="610" y="258" text-anchor="middle" font-size="10">5. Juli, für Apr. bis Juni</text>
+    <text class="m" x="760" y="242" text-anchor="end" font-size="11">weiter je Quartal ...</text>
+  </g>
+
+  <!-- Erläuterung -->
+  <g font-size="12">
+    <rect x="20" y="284" width="760" height="100" rx="4" fill="#EEEEEB"/>
+    <text x="34" y="306" font-weight="600">Einmaliges (Website, Zusatzleistungen): 35 %, monatlich zum 5. für den Vormonat, je Zahlungseingang.</text>
+    <text class="m" x="34" y="326">Anzahlung eingegangen im Oktober, Provision mit der Abrechnung am 5. November. Sie warten nicht bis zum Projektende.</text>
+    <text x="34" y="350" font-weight="600">Hosting: 35 % je bezahltem Monat, gesammelt, vierteljährlich zum 5. nach Quartalsende (Jan., Apr., Juli, Okt.).</text>
+    <text class="m" x="34" y="370">Gratismonate zählen nicht. Höchstens zwölf bezahlte Monate, bei Basis zusammen bis 163,80 €. Verfällt nicht bei Kündigung.</text>
+  </g>
+</svg>

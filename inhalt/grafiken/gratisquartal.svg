@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 220" role="img" aria-labelledby="t d" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#141414">
+  <title id="t">Das Gratisquartal: drei Monate frei, dann mindestens sechs bezahlte Monate</title>
+  <desc id="d">Eine Leiste mit zwölf Monaten ab Abnahme der Website. Monat 1 bis 3 sind gratis, in dieser Zeit gilt das Kontingent von Basis und es gibt keinen Umbau. Monat 4 bis 9 sind die sechs bezahlten Pflichtmonate. Ab Monat 10 ist das Hosting monatlich kündbar. Die Provision des Vertrieblers beginnt mit dem ersten bezahlten Monat.</desc>
+  <style>
+    .h { font-family: "Space Grotesk", Inter, system-ui, sans-serif; font-weight: 700; }
+    .m { fill: #5C5C5C; }
+  </style>
+  <text class="h" x="20" y="28" font-size="14">Monate ab Abnahme der Website</text>
+
+  <!-- 12 Monatsfelder à 60px ab x=20 -->
+  <g font-size="12" text-anchor="middle">
+    <rect x="20" y="50" width="180" height="40" fill="#EEEEEB" stroke="#C9C9C5"/>
+    <rect x="200" y="50" width="360" height="40" fill="#141414"/>
+    <rect x="560" y="50" width="220" height="40" fill="#FFFFFF" stroke="#C9C9C5" stroke-dasharray="4 3"/>
+    <text x="50" y="75">1</text><text x="110" y="75">2</text><text x="170" y="75">3</text>
+    <text x="230" y="75" fill="#FFFFFF">4</text><text x="290" y="75" fill="#FFFFFF">5</text><text x="350" y="75" fill="#FFFFFF">6</text>
+    <text x="410" y="75" fill="#FFFFFF">7</text><text x="470" y="75" fill="#FFFFFF">8</text><text x="530" y="75" fill="#FFFFFF">9</text>
+    <text x="590" y="75">10</text><text x="650" y="75">11</text><text x="710" y="75">12</text>
+    <text x="760" y="75" class="m">...</text>
+  </g>
+
+  <!-- Marke erster bezahlter Monat -->
+  <line x1="200" y1="42" x2="200" y2="98" stroke="#7B1E2B" stroke-width="2"/>
+
+  <g font-size="12">
+    <text class="h" x="20" y="118" font-size="13">gratis, genau drei Monate</text>
+    <text class="m" x="20" y="136">Basis-Kontingent, kein Umbau</text>
+    <text class="h" x="200" y="118" font-size="13">sechs bezahlte Monate, Pflicht</text>
+    <text class="m" x="200" y="136">Kündigung frühestens zum Ende dieser Zeit</text>
+    <text class="h" x="560" y="118" font-size="13">danach monatlich kündbar</text>
+    <text class="m" x="560" y="136">Jahresvertrag: zwölf Monate</text>
+  </g>
+
+  <text x="200" y="168" font-size="12" font-weight="600" fill="#6E1A26">ab hier: Ihre Hosting-Provision, 35 % je bezahltem Monat</text>
+  <text class="m" x="20" y="190" font-size="12">Voraussetzung: der Betrieb bucht das Hosting zusammen mit einer neuen Website.</text>
+  <text class="m" x="20" y="206" font-size="12">Keine andere Zahl als drei, nie als Nachlass auf die Website.</text>
+</svg>

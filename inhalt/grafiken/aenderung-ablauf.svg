@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 425" role="img" aria-labelledby="t d" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#141414">
+  <title id="t">So läuft eine Änderung: von der Mail des Kunden bis zur Zählung</title>
+  <desc id="d">Fünf Schritte. Erstens: der Kunde schreibt sein Anliegen per Mail an Michael Henning. Zweitens: die Umsetzung, je nach Stufe. Start sammelt bis zum 25. und setzt in den letzten Werktagen des Monats um, Basis innerhalb von 3 Werktagen, Plus innerhalb von 1 Werktag. Drittens: erst nach der Umsetzung wird gezählt. Viertens: innerhalb des Kontingents ist die Änderung enthalten, darüber kostet jede 25 Euro. Fünftens: am Monatsende verfallen nicht genutzte Änderungen.</desc>
+  <style>
+    .h { font-family: "Space Grotesk", Inter, system-ui, sans-serif; font-weight: 700; }
+    .m { fill: #5C5C5C; }
+    .step { fill: #FFFFFF; stroke: #C9C9C5; }
+    .num { fill: #141414; }
+    .w { fill: #FFFFFF; }
+    .arrow { stroke: #141414; stroke-width: 2; fill: none; }
+  </style>
+  <defs>
+    <marker id="pf" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#141414"/>
+    </marker>
+  </defs>
+
+  <!-- Schritt 1 -->
+  <g transform="translate(20 30)">
+    <rect class="step" x="0" y="0" width="230" height="86" rx="4"/>
+    <circle class="num" cx="24" cy="24" r="14"/>
+    <text class="w h" x="24" y="29" text-anchor="middle" font-size="14">1</text>
+    <text class="h" x="48" y="29" font-size="14">Kunde schreibt eine Mail</text>
+    <text class="m" x="16" y="54">an Michael Henning, in Textform.</text>
+    <text class="m" x="16" y="72">Ein Anliegen an einer Stelle.</text>
+  </g>
+  <path class="arrow" d="M250,73 L290,73" marker-end="url(#pf)"/>
+
+  <!-- Schritt 2 -->
+  <g transform="translate(295 30)">
+    <rect class="step" x="0" y="0" width="230" height="86" rx="4"/>
+    <circle class="num" cx="24" cy="24" r="14"/>
+    <text class="w h" x="24" y="29" text-anchor="middle" font-size="14">2</text>
+    <text class="h" x="48" y="29" font-size="14">Umsetzung je Stufe</text>
+    <text class="m" x="16" y="54" font-size="12">Start gesammelt, Basis 3 Werktage,</text>
+    <text class="m" x="16" y="72" font-size="12">Plus 1 Werktag. Dann ist es online.</text>
+  </g>
+  <path class="arrow" d="M525,73 L565,73" marker-end="url(#pf)"/>
+
+  <!-- Schritt 3 -->
+  <g transform="translate(570 30)">
+    <rect class="step" x="0" y="0" width="210" height="86" rx="4"/>
+    <circle class="num" cx="24" cy="24" r="14"/>
+    <text class="w h" x="24" y="29" text-anchor="middle" font-size="14">3</text>
+    <text class="h" x="48" y="29" font-size="14">Erst jetzt gezählt</text>
+    <text class="m" x="16" y="54">Gezählt wird nach Anliegen,</text>
+    <text class="m" x="16" y="72">nicht nach Mails.</text>
+  </g>
+
+  <!-- Detail Start-Sammeltermin -->
+  <g transform="translate(20 140)">
+    <rect x="0" y="0" width="505" height="100" rx="4" fill="#EEEEEB"/>
+    <text class="h" x="16" y="26" font-size="13">Sammeltermin bei Start</text>
+    <!-- Monatsleiste -->
+    <rect x="16" y="44" width="380" height="18" fill="#FFFFFF" stroke="#C9C9C5"/>
+    <rect x="16" y="44" width="304" height="18" fill="#D9D9D5"/>
+    <rect x="320" y="44" width="76" height="18" fill="#141414"/>
+    <line x1="320" y1="38" x2="320" y2="86" stroke="#7B1E2B" stroke-width="2"/>
+    <text class="m" x="16" y="82" font-size="12">1. des Monats</text>
+    <text x="320" y="97" text-anchor="middle" font-size="12" font-weight="600" fill="#6E1A26">Stichtag 25.</text>
+    <text class="m" x="396" y="82" text-anchor="end" font-size="12">Monatsende</text>
+    <text class="m" x="410" y="52" font-size="11">bis zum 25. gesammelt,</text>
+    <text class="m" x="410" y="66" font-size="11">danach in einem Rutsch</text>
+  </g>
+
+  <!-- Schritt 4 -->
+  <g transform="translate(570 140)">
+    <rect class="step" x="0" y="0" width="210" height="100" rx="4"/>
+    <circle class="num" cx="24" cy="24" r="14"/>
+    <text class="w h" x="24" y="29" text-anchor="middle" font-size="14">4</text>
+    <text class="h" x="48" y="29" font-size="14">Im Kontingent?</text>
+    <text x="16" y="56">Ja: enthalten.</text>
+    <text x="16" y="76">Nein: <tspan font-weight="600" fill="#6E1A26">25 € je Änderung</tspan>,</text>
+    <text class="m" x="16" y="92" font-size="12">in jeder Stufe gleich.</text>
+  </g>
+  <path class="arrow" d="M675,116 L675,136" marker-end="url(#pf)"/>
+
+  <!-- Schritt 5 -->
+  <g transform="translate(20 265)">
+    <rect class="step" x="0" y="0" width="760" height="74" rx="4"/>
+    <circle class="num" cx="24" cy="30" r="14"/>
+    <text class="w h" x="24" y="35" text-anchor="middle" font-size="14">5</text>
+    <text class="h" x="48" y="26" font-size="14">Monatsende</text>
+    <text class="m" x="48" y="46">Nicht genutzte Änderungen verfallen und wandern nicht in den nächsten Monat.</text>
+    <text class="m" x="48" y="64">Das Kontingent gilt erst ab der Abnahme der Website, vorher läuft die Korrekturrunde aus dem Werkvertrag.</text>
+  </g>
+
+  <!-- Kein Fall für eine Änderung -->
+  <g transform="translate(20 356)">
+    <text class="h" x="0" y="14" font-size="13">Keine Änderung, sondern ein eigener Auftrag mit Festpreis vorher:</text>
+    <text class="m" x="0" y="34">neue Unterseite, neue Funktion, Umbau, alles über etwa 15 Minuten.</text>
+    <text class="m" x="0" y="52">Fehler, die Michael Henning selbst verursacht hat, zählen nie.</text>
+  </g>
+</svg>

@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 496" role="img" aria-labelledby="t d" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#141414">
+  <title id="t">Die drei Hosting-Stufen Start, Basis und Plus nebeneinander</title>
+  <desc id="d">Start 19 Euro im Monat oder 190 Euro im Jahr, bis 3 Änderungen, gesammelt umgesetzt zum Monatsende mit Stichtag am 25., monatlich kündbar. Basis 39 Euro im Monat oder 390 Euro im Jahr, bis 5 Änderungen, jede innerhalb von 3 Werktagen, monatlich kündbar, trägt das Beliebt-Badge. Plus nur als Jahresvertrag für 590 Euro, bis 10 Änderungen, jede innerhalb von 1 Werktag, dazu 2 Umbauten im Jahr und die Online-Terminanfrage. In allen Stufen enthalten: Hosting, Domain, HTTPS, Updates, gesicherter Quellstand. Jede weitere Änderung 25 Euro.</desc>
+  <style>
+    .h { font-family: "Space Grotesk", Inter, system-ui, sans-serif; font-weight: 700; }
+    .m { fill: #5C5C5C; }
+    .card { fill: #FFFFFF; stroke: #C9C9C5; }
+    .row { fill: #EEEEEB; }
+  </style>
+
+  <!-- Zeilenbeschriftung links -->
+  <text class="m" x="20" y="140">Preis</text>
+  <text class="m" x="20" y="200">Änderungen</text>
+  <text class="m" x="20" y="260">Umsetzung</text>
+  <text class="m" x="20" y="320">Umbau</text>
+  <text class="m" x="20" y="380">Funktion</text>
+  <text class="m" x="20" y="425">Laufzeit</text>
+
+  <!-- Karte Start -->
+  <g transform="translate(120 20)">
+    <rect class="card" x="0" y="0" width="200" height="430" rx="4"/>
+    <text class="h" x="16" y="34" font-size="20">Start</text>
+    <text class="m" x="16" y="56">für Betriebe, die selten</text>
+    <text class="m" x="16" y="72">etwas ändern</text>
+    <text class="h" x="16" y="120" font-size="16">19 € im Monat</text>
+    <text class="m" x="16" y="140">oder 190 € im Jahr</text>
+    <text class="h" x="16" y="180" font-size="16">bis 3 im Monat</text>
+    <text class="m" x="16" y="200">per Mail</text>
+    <text x="16" y="240" font-weight="600">gesammelt zum</text>
+    <text x="16" y="256" font-weight="600">Monatsende</text>
+    <text class="m" x="16" y="274">Stichtag der 25.</text>
+    <text x="16" y="300">kein Umbau</text>
+    <text x="16" y="360">keine</text>
+    <text x="16" y="405">monatlich kündbar</text>
+  </g>
+
+  <!-- Karte Basis, hervorgehoben -->
+  <g transform="translate(340 20)">
+    <rect class="card" x="0" y="0" width="200" height="430" rx="4" stroke="#141414" stroke-width="2"/>
+    <rect x="120" y="10" width="68" height="20" rx="10" fill="#7B1E2B"/>
+    <text x="154" y="24" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="600">Beliebt</text>
+    <text class="h" x="16" y="34" font-size="20">Basis</text>
+    <text class="m" x="16" y="56">für Betriebe, bei denen</text>
+    <text class="m" x="16" y="72">öfter etwas passiert</text>
+    <text class="h" x="16" y="120" font-size="16">39 € im Monat</text>
+    <text class="m" x="16" y="140">oder 390 € im Jahr</text>
+    <text class="h" x="16" y="180" font-size="16">bis 5 im Monat</text>
+    <text class="m" x="16" y="200">per Mail</text>
+    <text x="16" y="240" font-weight="600">jede innerhalb von</text>
+    <text x="16" y="256" font-weight="600">3 Werktagen</text>
+    <text x="16" y="300">kein Umbau</text>
+    <text x="16" y="360">keine</text>
+    <text x="16" y="405">monatlich kündbar</text>
+  </g>
+
+  <!-- Karte Plus -->
+  <g transform="translate(560 20)">
+    <rect class="card" x="0" y="0" width="200" height="430" rx="4"/>
+    <text class="h" x="16" y="34" font-size="20">Plus</text>
+    <text class="m" x="16" y="56">die Website arbeitet mit,</text>
+    <text class="m" x="16" y="72">schnellste Umsetzung</text>
+    <text class="h" x="16" y="120" font-size="16">590 € im Jahr</text>
+    <text class="m" x="16" y="140">nur als Jahresvertrag,</text>
+    <text class="m" x="16" y="156">rund 49 € je Monat</text>
+    <text class="h" x="16" y="180" font-size="16">bis 10 im Monat</text>
+    <text class="m" x="16" y="200">per Mail</text>
+    <text x="16" y="240" font-weight="600">jede innerhalb von</text>
+    <text x="16" y="256" font-weight="600">1 Werktag</text>
+    <text x="16" y="300">2 im Jahr, je bis 3 Std.</text>
+    <text class="m" x="16" y="318" font-size="11">erster nach 6 bezahlten Monaten</text>
+    <text x="16" y="360">Online-Terminanfrage</text>
+    <text class="m" x="16" y="378">heute die einzige Funktion</text>
+    <text x="16" y="405">12 Monate, verlängert sich</text>
+  </g>
+
+  <!-- Fußzeile -->
+  <text class="m" x="20" y="470" font-size="12">In jeder Stufe enthalten: Hosting, Domain, HTTPS, Updates, gesicherter Quellstand.</text>
+  <text class="m" x="20" y="488" font-size="12">Jede Änderung über das Kontingent hinaus kostet 25 €, in jeder Stufe gleich.</text>
+</svg>

@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" role="img" aria-labelledby="t d" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#141414">
+  <title id="t">Vom ersten Anruf bis zur Rechnung: wer was macht</title>
+  <desc id="d">Neun Schritte in zwei Spuren. Spur Vertriebler: Anruf oder Cold Visit, Erstgespräch, Zweittermin mit Vorschau und Briefing-Bogen. Spur Michael Henning: Vorschau bauen, Angebot mit Fertigstellungstermin, Werkvertrag und AVV zur Unterschrift, Anzahlung, Bau in der Reihenfolge der Anzahlungen, Abnahme und Restzahlung, danach Hosting. Provision fließt nach jedem Zahlungseingang.</desc>
+  <style>
+    .h { font-family: "Space Grotesk", Inter, system-ui, sans-serif; font-weight: 700; }
+    .m { fill: #5C5C5C; }
+    .v { fill: #FFFFFF; stroke: #141414; stroke-width: 1.5; }
+    .mh { fill: #EEEEEB; stroke: #C9C9C5; }
+    .arrow { stroke: #141414; stroke-width: 1.5; fill: none; }
+  </style>
+  <defs>
+    <marker id="pf" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#141414"/>
+    </marker>
+  </defs>
+
+  <!-- Spurköpfe -->
+  <text class="h" x="20" y="24" font-size="14">Sie, der Vertriebler</text>
+  <text class="h" x="420" y="24" font-size="14">Michael Henning</text>
+  <line x1="400" y1="34" x2="400" y2="470" stroke="#C9C9C5" stroke-dasharray="4 4"/>
+
+  <!-- 1 Anruf -->
+  <g transform="translate(20 40)">
+    <rect class="v" x="0" y="0" width="360" height="56" rx="4"/>
+    <text class="h" x="14" y="22" font-size="13">1  Anruf oder Cold Visit</text>
+    <text class="m" x="14" y="42" font-size="12">Nur Gewerbe, geschäftliche Nummer. Ziel: das Erstgespräch.</text>
+  </g>
+  <path class="arrow" d="M200,96 L200,110" marker-end="url(#pf)"/>
+
+  <!-- 2 Erstgespräch -->
+  <g transform="translate(20 112)">
+    <rect class="v" x="0" y="0" width="360" height="72" rx="4"/>
+    <text class="h" x="14" y="22" font-size="13">2  Erstgespräch, Sie allein</text>
+    <text class="m" x="14" y="42" font-size="12">Leistung, Zusatzleistungen, Preisrahmen "ab 500 €".</text>
+    <text class="m" x="14" y="58" font-size="12">Zweittermin nur bei echtem Interesse, mit dem Entscheider.</text>
+  </g>
+  <path class="arrow" d="M380,148 L440,148" marker-end="url(#pf)"/>
+
+  <!-- 3 Vorschau bauen -->
+  <g transform="translate(440 112)">
+    <rect class="mh" x="0" y="0" width="340" height="72" rx="4"/>
+    <text class="h" x="14" y="22" font-size="13">3  Vorschau bauen</text>
+    <text class="m" x="14" y="42" font-size="12">Mit den echten Daten des Betriebs, aus Ihrer Notiz.</text>
+    <text class="m" x="14" y="58" font-size="12">Deshalb: geplatzten Termin sofort melden.</text>
+  </g>
+  <path class="arrow" d="M440,184 L200,184 L200,208" marker-end="url(#pf)"/>
+
+  <!-- 4 Zweittermin -->
+  <g transform="translate(20 210)">
+    <rect class="v" x="0" y="0" width="360" height="88" rx="4"/>
+    <text class="h" x="14" y="22" font-size="13">4  Zweittermin mit der Vorschau</text>
+    <text class="m" x="14" y="42" font-size="12">Stufe 1: gemeinsam, Michael Henning nennt den Preis.</text>
+    <text class="m" x="14" y="58" font-size="12">Stufe 2: Sie allein, Preisrechner-Preis, kein Nachlass.</text>
+    <text class="m" x="14" y="74" font-size="12">Bei Ja: Briefing-Bogen gemeinsam ausfüllen.</text>
+  </g>
+  <path class="arrow" d="M380,254 L440,254" marker-end="url(#pf)"/>
+
+  <!-- 5 Angebot -->
+  <g transform="translate(440 210)">
+    <rect class="mh" x="0" y="0" width="340" height="88" rx="4"/>
+    <text class="h" x="14" y="22" font-size="13">5  Angebot, Werkvertrag, AVV</text>
+    <text class="m" x="14" y="42" font-size="12">Im Angebot steht der Fertigstellungstermin als Datum.</text>
+    <text class="m" x="14" y="58" font-size="12">Der Kunde unterschreibt bei Michael Henning per Mail.</text>
+    <text class="m" x="14" y="74" font-size="12">Sie unterschreiben nichts in seinem Namen.</text>
+  </g>
+  <path class="arrow" d="M610,298 L610,318" marker-end="url(#pf)"/>
+
+  <!-- 6 Anzahlung -->
+  <g transform="translate(440 320)">
+    <rect class="mh" x="0" y="0" width="340" height="56" rx="4"/>
+    <text class="h" x="14" y="22" font-size="13">6  Anzahlung, die Hälfte</text>
+    <text class="m" x="14" y="42" font-size="12">Zahlungseingang löst Ihre erste Provision aus.</text>
+  </g>
+  <path class="arrow" d="M610,376 L610,396" marker-end="url(#pf)"/>
+
+  <!-- 7 Bau -->
+  <g transform="translate(440 398)">
+    <rect class="mh" x="0" y="0" width="340" height="72" rx="4"/>
+    <text class="h" x="14" y="22" font-size="13">7  Bau in der Warteschlange</text>
+    <text class="m" x="14" y="42" font-size="12">Reihenfolge nach Eingang der Anzahlung. Ein harter</text>
+    <text class="m" x="14" y="58" font-size="12">Anlass (Eröffnung, Saison) kann vorgezogen werden.</text>
+  </g>
+  <path class="arrow" d="M440,434 L380,434" marker-end="url(#pf)"/>
+
+  <!-- 8 Abnahme -->
+  <g transform="translate(20 398)">
+    <rect class="mh" x="0" y="0" width="360" height="72" rx="4"/>
+    <text class="h" x="14" y="22" font-size="13">8  Abnahme und Restzahlung</text>
+    <text class="m" x="14" y="42" font-size="12">Kunde nimmt ab, zahlt die zweite Hälfte. Ab jetzt läuft</text>
+    <text class="m" x="14" y="58" font-size="12">das Hosting mit seinem Kontingent.</text>
+  </g>
+
+  <!-- Provisionsleiste -->
+  <g transform="translate(20 490)">
+    <rect x="0" y="0" width="760" height="52" rx="4" fill="#FFFFFF" stroke="#7B1E2B" stroke-width="1.5"/>
+    <text class="h" x="14" y="22" font-size="13" fill="#6E1A26">Ihre Provision</text>
+    <text class="m" x="14" y="42" font-size="12">35 % auf jede bezahlte Rechnung (Anzahlung, Rest, Zusatzleistungen). Hosting: 35 % je bezahltem Monat, zwölf Monate lang.</text>
+  </g>
+</svg>
