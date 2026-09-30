@@ -1,0 +1,630 @@
+{
+  "version": 1,
+  "stand": "2026-09-30",
+  "titel": "Lernfragen zum Informationsblatt für dekaru-Vertriebler",
+  "typen": {
+    "multiple-choice": "Eine Frage, mehrere Optionen. 'richtig' ist eine Liste von Indizes (0-basiert) in 'optionen'. Enthält sie mehr als einen Index, sind mehrere Antworten richtig und 'mehrfach' ist true.",
+    "wahr-falsch": "Eine Aussage, 'richtig' ist true oder false.",
+    "zuordnen": "Paare aus 'links' und 'rechts'. Das Portal mischt die rechte Seite, der Lernende ordnet zu. Jede linke Seite hat genau eine richtige rechte Seite.",
+    "lueckentext": "Ein Text mit Platzhaltern {{n}}. 'luecken' nennt je Platzhalter die akzeptierten Antworten (Groß- und Kleinschreibung egal, Leerzeichen am Rand egal)."
+  },
+  "fragen": [
+    {
+      "id": "q01",
+      "typ": "multiple-choice",
+      "kapitel": "01-dekaru",
+      "frage": "Ein Betrieb fragt am Telefon: 'Wer ist denn schon Kunde bei dekaru?' Was ist die richtige Antwort?",
+      "optionen": [
+        "Die vier Beispielseiten auf dekaru.de nennen, das sind Kunden aus der Region.",
+        "Offen sagen, dass Michael Henning gerade anfängt, und auf die eigene Vorschau verweisen, die der Betrieb vor der Entscheidung sieht.",
+        "Ausweichen und das Thema wechseln.",
+        "Sagen, dass es zufriedene Kunden in ganz Deutschland gibt."
+      ],
+      "richtig": [1],
+      "mehrfach": false,
+      "erklaerung": "Stand 30.09.2026 gibt es keine abgeschlossenen Kundenprojekte. Die vier Beispielseiten sind erfunden und so gekennzeichnet. Ehrlichkeit plus Vorschau ist die Antwort, die trägt."
+    },
+    {
+      "id": "q02",
+      "typ": "wahr-falsch",
+      "kapitel": "01-dekaru",
+      "aussage": "dekaru wird am Satzanfang großgeschrieben.",
+      "richtig": false,
+      "erklaerung": "dekaru wird immer kleingeschrieben, auch am Satzanfang, auch in Mails."
+    },
+    {
+      "id": "q03",
+      "typ": "lueckentext",
+      "kapitel": "01-dekaru",
+      "text": "Das Gewerbe hinter dekaru heißt {{1}}. Michael Henning ist Kleinunternehmer nach § 19 UStG, auf Rechnungen steht deshalb keine {{2}}.",
+      "luecken": [
+        { "nr": 1, "richtig": ["Michael Henning Consulting"] },
+        { "nr": 2, "richtig": ["Umsatzsteuer", "Mehrwertsteuer", "USt", "MwSt"] }
+      ],
+      "erklaerung": "Alle Preise sind Endpreise. Die Provision wird auf genau die Zahl gerechnet, die auf der Rechnung steht."
+    },
+    {
+      "id": "q04",
+      "typ": "multiple-choice",
+      "kapitel": "01-dekaru",
+      "frage": "Was heißt 'ein Ansprechpartner' bei dekaru?",
+      "optionen": [
+        "Der Vertriebler bleibt für den Kunden bis zum Livegang zuständig.",
+        "Ab dem Auftrag läuft alles direkt mit Michael Henning: Rückfragen, Freigabe, Abnahme, Hosting.",
+        "Es gibt eine Hotline von dekaru.",
+        "Der Kunde spricht immer mit dem, der gerade Zeit hat."
+      ],
+      "richtig": [1],
+      "mehrfach": false,
+      "erklaerung": "Bis zur Unterschrift ist der Vertriebler das Gesicht. Ab dem Auftrag ist Michael Henning der eine Ansprechpartner."
+    },
+    {
+      "id": "q05",
+      "typ": "multiple-choice",
+      "kapitel": "02-website",
+      "frage": "Was ist im Grundpreis von 500 € enthalten?",
+      "optionen": [
+        "Startseite, Darstellung auf Handy, Tablet und Rechner, Impressum und Datenschutzerklärung, Kontaktformular, verschlüsselte Verbindung",
+        "Startseite und drei Unterseiten",
+        "Startseite und Hosting für ein Jahr",
+        "Startseite, Galerie und Karte"
+      ],
+      "richtig": [0],
+      "mehrfach": false,
+      "erklaerung": "Der Grundpreis deckt alles ab, was jede Website braucht. Jeder Baustein darüber hinaus hat einen festen Preis."
+    },
+    {
+      "id": "q06",
+      "typ": "zuordnen",
+      "kapitel": "02-website",
+      "frage": "Ordnen Sie den Bausteinen ihren Preis zu.",
+      "paare": [
+        { "links": "Unterseite", "rechts": "75 € je Seite" },
+        { "links": "Bildergalerie", "rechts": "100 €" },
+        { "links": "Terminanfrage", "rechts": "125 €" },
+        { "links": "Suchmaschinen-Grundlagen", "rechts": "200 €" },
+        { "links": "Ratgeber-Bereich", "rechts": "300 €" },
+        { "links": "Logo-Entwurf", "rechts": "250 €" }
+      ],
+      "erklaerung": "Alle Preise stehen im Preisrechner auf dekaru.de und in der Preisliste im Anhang. Was dort nicht steht, hat keinen Preis, den Sie nennen dürfen."
+    },
+    {
+      "id": "q07",
+      "typ": "multiple-choice",
+      "kapitel": "02-website",
+      "frage": "Ab welchem Preis gilt eine Website als Größenordnung M, ab welchem als L?",
+      "optionen": [
+        "M ab 900 €, L ab 1.400 €",
+        "M ab 1.000 €, L ab 1.700 €",
+        "M ab 1.500 €, L ab 1.800 €",
+        "M ab 750 €, L ab 1.200 €"
+      ],
+      "richtig": [1],
+      "mehrfach": false,
+      "erklaerung": "Die Schwellen kommen aus dem Preisrechner: unter 1.000 € ist S, ab 1.000 € M, ab 1.700 € L. Sie dienen nur der Einordnung untereinander."
+    },
+    {
+      "id": "q08",
+      "typ": "lueckentext",
+      "kapitel": "02-website",
+      "text": "Die drei Voreinstellungen des Preisrechners kosten: Klein {{1}} €, Mittel {{2}} €, Groß {{3}} €.",
+      "luecken": [
+        { "nr": 1, "richtig": ["500"] },
+        { "nr": 2, "richtig": ["1500", "1.500"] },
+        { "nr": 3, "richtig": ["1800", "1.800"] }
+      ],
+      "erklaerung": "Voreinstellungen sind Startpunkte, keine Pakete. Ein Klick setzt die Schalter, danach lässt sich alles anpassen."
+    },
+    {
+      "id": "q09",
+      "typ": "multiple-choice",
+      "kapitel": "02-website",
+      "frage": "Ein Café will: Grundpreis, Speisekarte, Karte mit Anfahrt, Bildergalerie, eine Unterseite und einen Text von Michael Henning. Was kostet das?",
+      "optionen": ["800 €", "925 €", "1.000 €", "1.075 €"],
+      "richtig": [1],
+      "mehrfach": false,
+      "erklaerung": "500 + 100 + 100 + 100 + 75 + 50 = 925 €. Das ist Größenordnung S."
+    },
+    {
+      "id": "q10",
+      "typ": "multiple-choice",
+      "kapitel": "02-website",
+      "frage": "Ein Kunde fragt: 'Suchmaschinen-Grundlagen für 200 € und Google-Profil für 249 €, zahle ich da doppelt?' Was stimmt?",
+      "optionen": [
+        "Ja, das ist dieselbe Leistung, eines davon reicht immer.",
+        "Nein. Die Suchmaschinen-Grundlagen sind Arbeit an der Website, das Google-Profil ist der Eintrag bei Google Maps.",
+        "Das Google-Profil ist im Grundpreis enthalten.",
+        "Die Suchmaschinen-Grundlagen brauchen zwingend das Google-Profil."
+      ],
+      "richtig": [1],
+      "mehrfach": false,
+      "erklaerung": "Das eine macht die Website auffindbar, das andere den Betrieb auf der Karte sichtbar. Beides sind eigene Leistungen mit eigenem Nutzen."
+    },
+    {
+      "id": "q11",
+      "typ": "zuordnen",
+      "kapitel": "03-hosting",
+      "frage": "Ordnen Sie den Hosting-Stufen ihre Konditionen zu.",
+      "paare": [
+        { "links": "Start", "rechts": "19 € im Monat, bis 3 Änderungen, gesammelt zum Monatsende" },
+        { "links": "Basis", "rechts": "39 € im Monat, bis 5 Änderungen, innerhalb von 3 Werktagen" },
+        { "links": "Plus", "rechts": "590 € im Jahr, bis 10 Änderungen, innerhalb von 1 Werktag" }
+      ],
+      "erklaerung": "Plus gibt es nur als Jahresvertrag. Start und Basis sind monatlich kündbar oder jährlich für 190 beziehungsweise 390 €."
+    },
+    {
+      "id": "q12",
+      "typ": "wahr-falsch",
+      "kapitel": "03-hosting",
+      "aussage": "Hosting Plus kann monatlich für 59 € gebucht werden.",
+      "richtig": false,
+      "erklaerung": "Plus gibt es nur als Jahresvertrag für 590 € im Jahr. Das entspricht rund 49 € je Monat, eine monatliche Zahlweise gibt es nicht."
+    },
+    {
+      "id": "q13",
+      "typ": "multiple-choice",
+      "kapitel": "03-hosting",
+      "frage": "Was macht Hosting Plus teurer als Basis? Mehrere Antworten sind richtig.",
+      "optionen": [
+        "Mehr Änderungen im Monat (10 statt 5)",
+        "Kürzere Umsetzung (1 Werktag statt 3)",
+        "Zwei Umbauten im Jahr",
+        "Die Online-Terminanfrage ist enthalten",
+        "Ein Redaktionssystem zum Selbst-Ändern",
+        "Tägliche Backups"
+      ],
+      "richtig": [0, 1, 2, 3],
+      "mehrfach": true,
+      "erklaerung": "Arbeitszeit, Reaktionszeit, Umbauten und die mitarbeitende Funktion. Ein Redaktionssystem gibt es noch nicht, und Backups gibt es in keiner Stufe, sondern den gesicherten Quellstand."
+    },
+    {
+      "id": "q14",
+      "typ": "multiple-choice",
+      "kapitel": "03-hosting",
+      "frage": "Ein Kunde fragt: 'Kann ich meine Öffnungszeiten dann selbst ändern?' Was antworten Sie?",
+      "optionen": [
+        "Ja, jede Stufe hat ein Redaktionssystem.",
+        "Ja, ab Basis.",
+        "Im Moment schickt er eine Mail an Michael Henning, der ändert es. Ein System zum Selbst-Ändern ist in Arbeit, ohne Termin.",
+        "Nein, das geht bei dekaru grundsätzlich nicht."
+      ],
+      "richtig": [2],
+      "mehrfach": false,
+      "erklaerung": "Das Redaktionssystem gibt es noch nicht und wird nicht versprochen, auch nicht als 'kommt bald'. Änderungen per Mail sind in jeder Stufe enthalten."
+    },
+    {
+      "id": "q15",
+      "typ": "lueckentext",
+      "kapitel": "03-hosting",
+      "text": "Bei Jahreszahlung werden {{1}} Monate bezahlt und {{2}} Monate erhalten. Start kostet dann {{3}} € im Jahr.",
+      "luecken": [
+        { "nr": 1, "richtig": ["zehn", "10"] },
+        { "nr": 2, "richtig": ["zwölf", "12"] },
+        { "nr": 3, "richtig": ["190"] }
+      ],
+      "erklaerung": "Zehn bezahlt, zwölf erhalten: Start 190 €, Basis 390 €, Plus 590 €."
+    },
+    {
+      "id": "q16",
+      "typ": "multiple-choice",
+      "kapitel": "03-hosting",
+      "frage": "Welche Bedingungen gelten für das Gratisquartal? Mehrere Antworten sind richtig.",
+      "optionen": [
+        "Genau drei Monate, keine andere Zahl",
+        "Nur zusammen mit einer neuen Website",
+        "Danach mindestens sechs bezahlte Monate",
+        "Im Gratiszeitraum gilt das Kontingent von Basis, kein Umbau",
+        "Es kann mit einem Rabatt auf die Website kombiniert werden",
+        "Auch für Betriebe, die nur Hosting wollen"
+      ],
+      "richtig": [0, 1, 2, 3],
+      "mehrfach": true,
+      "erklaerung": "Das Gratisquartal ist die einzige Zusage, die der Vertriebler machen darf. Nie als Nachlass auf die Website, nie ohne Website, und höchstens ein Vorteil je Kunde."
+    },
+    {
+      "id": "q17",
+      "typ": "multiple-choice",
+      "kapitel": "03-hosting",
+      "frage": "Ein Kunde fragt nach Backups. Was ist richtig?",
+      "optionen": [
+        "Tägliche Backups sind in jeder Stufe enthalten.",
+        "Backups gibt es nur bei Plus.",
+        "Jede Version der Website ist als Quellstand gesichert und jederzeit vollständig neu bereitstellbar. Eine laufende Serversicherung gibt es nicht, weil die Website keine Daten auf dem Server speichert.",
+        "Der Kunde muss sich selbst um Backups kümmern."
+      ],
+      "richtig": [2],
+      "mehrfach": false,
+      "erklaerung": "So steht es im Betreuungsvertrag. Das Wort 'Backup' nicht selbst verwenden, sondern vom gesicherten Quellstand sprechen."
+    },
+    {
+      "id": "q18",
+      "typ": "multiple-choice",
+      "kapitel": "03-hosting",
+      "frage": "Was passiert, wenn ein Hosting-Kunde kündigt?",
+      "optionen": [
+        "Die Domain bleibt bei dekaru.",
+        "Die Domain gehört dem Kunden, den AuthCode bekommt er kostenlos, die Website auf Wunsch als Paket gegen 99 € Pauschale.",
+        "Die Website wird sofort gelöscht.",
+        "Er muss eine Ablöse von 590 € zahlen."
+      ],
+      "richtig": [1],
+      "mehrfach": false,
+      "erklaerung": "Die Domain wird auf den Namen des Kunden registriert. Daten werden 30 Tage nach Vertragsende gelöscht, die Übergabe erfolgt in dieser Frist."
+    },
+    {
+      "id": "q19",
+      "typ": "multiple-choice",
+      "kapitel": "04-aenderung",
+      "frage": "Was ist eine Änderung im Sinne des Hosting-Kontingents?",
+      "optionen": [
+        "Jede Mail des Kunden, egal wie viele Punkte sie enthält",
+        "Ein Anliegen an einer Stelle der Website mit bis zu etwa 15 Minuten Aufwand",
+        "Alles, was der Kunde in einem Monat wünscht",
+        "Eine neue Unterseite"
+      ],
+      "richtig": [1],
+      "mehrfach": false,
+      "erklaerung": "Öffnungszeiten, ein Preis, ein Absatz, ein Bild. Eine Mail mit zehn Punkten sind zehn Änderungen. Eine neue Unterseite ist ein eigener Auftrag."
+    },
+    {
+      "id": "q20",
+      "typ": "wahr-falsch",
+      "kapitel": "04-aenderung",
+      "aussage": "Nicht genutzte Änderungen aus dem März kann der Kunde im April zusätzlich nutzen.",
+      "richtig": false,
+      "erklaerung": "Nicht genutzte Änderungen verfallen am Monatsende und wandern nicht mit."
+    },
+    {
+      "id": "q21",
+      "typ": "lueckentext",
+      "kapitel": "04-aenderung",
+      "text": "Bei Start ist der Stichtag der {{1}}. des Monats. Jede Änderung über das Kontingent hinaus kostet in jeder Stufe {{2}} €. Gezählt wird erst nach der {{3}}.",
+      "luecken": [
+        { "nr": 1, "richtig": ["25", "25."] },
+        { "nr": 2, "richtig": ["25"] },
+        { "nr": 3, "richtig": ["Umsetzung"] }
+      ],
+      "erklaerung": "Was bis zum 25. da ist, wird in den letzten Werktagen des Monats gesammelt umgesetzt. Was später kommt, zählt zum nächsten Monat."
+    },
+    {
+      "id": "q22",
+      "typ": "multiple-choice",
+      "kapitel": "04-aenderung",
+      "frage": "Ab wann gilt das Hosting-Kontingent?",
+      "optionen": [
+        "Ab Unterschrift des Betreuungsvertrags",
+        "Ab Eingang der Anzahlung",
+        "Ab der Abnahme der Website",
+        "Ab dem ersten bezahlten Hosting-Monat"
+      ],
+      "richtig": [2],
+      "mehrfach": false,
+      "erklaerung": "Vorher läuft die eine Korrekturrunde aus dem Werkvertrag. Sonst würde Plus zur billigen Nacharbeit am Projekt."
+    },
+    {
+      "id": "q23",
+      "typ": "multiple-choice",
+      "kapitel": "04-aenderung",
+      "frage": "Ein Plus-Kunde möchte im dritten bezahlten Monat einen Bereich seiner Seite neu gestalten lassen. Was gilt?",
+      "optionen": [
+        "Das ist eine normale Änderung und im Kontingent.",
+        "Der erste Umbau steht frühestens nach sechs bezahlten Monaten zur Verfügung. Vorher wäre es ein eigener Auftrag mit Festpreis.",
+        "Umbauten sind jederzeit und unbegrenzt enthalten.",
+        "Umbauten gibt es nur bei Basis."
+      ],
+      "richtig": [1],
+      "mehrfach": false,
+      "erklaerung": "Zwei Umbauten im Jahr, je bis drei Stunden, der erste frühestens nach sechs bezahlten Monaten, danach einer je Halbjahr. Nicht genutzte verfallen."
+    },
+    {
+      "id": "q24",
+      "typ": "zuordnen",
+      "kapitel": "05-zusatzleistungen",
+      "frage": "Ordnen Sie den Zusatzleistungen ihren Preis zu.",
+      "paare": [
+        { "links": "Google-Unternehmensprofil einrichten", "rechts": "249 €" },
+        { "links": "Google-Unternehmensprofil einrichten und ausbauen", "rechts": "490 €" },
+        { "links": "Bewertungs-Aufsteller mit QR-Code", "rechts": "190 € plus Druckkosten beim Drucker" },
+        { "links": "Sichtbarkeits-Check", "rechts": "390 € je Jahr" }
+      ],
+      "erklaerung": "Auf alle drei Leistungen gibt es 35 % Provision. Die Druckkosten des Aufstellers, etwa 15 bis 30 €, zahlt der Betrieb direkt bei der Druckerei."
+    },
+    {
+      "id": "q25",
+      "typ": "multiple-choice",
+      "kapitel": "05-zusatzleistungen",
+      "frage": "Wann sprechen Sie den Sichtbarkeits-Check an?",
+      "optionen": [
+        "Am Telefon, als Einstieg",
+        "Im Zweittermin zusammen mit der Website",
+        "Erst im zweiten Jahr, bei einem Betrieb, der schon Kunde ist",
+        "Nie, das macht Michael Henning"
+      ],
+      "richtig": [2],
+      "mehrfach": false,
+      "erklaerung": "Der Sichtbarkeits-Check setzt eine Website voraus und wird nicht beim Erstauftrag angeboten."
+    },
+    {
+      "id": "q26",
+      "typ": "multiple-choice",
+      "kapitel": "05-zusatzleistungen",
+      "frage": "Ein Betrieb fragt beim Aufsteller: 'Kann man das so machen, dass nur zufriedene Kunden bei Google landen?' Was antworten Sie?",
+      "optionen": [
+        "Ja, das ist der Sinn des Aufstellers.",
+        "Das machen manche, es ist gegen die Regeln von Google, und wenn es auffällt, ist der Eintrag weg. Wir machen das nicht.",
+        "Das klären wir mit Michael Henning.",
+        "Das geht nur gegen Aufpreis."
+      ],
+      "richtig": [1],
+      "mehrfach": false,
+      "erklaerung": "Eine Filterung verstößt gegen Googles Richtlinien und kann den Betrieb sein ganzes Profil kosten. Bei dekaru zeigt der Code für alle auf dasselbe Ziel."
+    },
+    {
+      "id": "q27",
+      "typ": "wahr-falsch",
+      "kapitel": "05-zusatzleistungen",
+      "aussage": "Der Bewertungs-Aufsteller setzt ein Google-Unternehmensprofil voraus, aber keine Website.",
+      "richtig": true,
+      "erklaerung": "Der QR-Code führt zum Bewertungsformular des Google-Profils. Deshalb ergibt es Sinn, beides zusammen zu verkaufen."
+    },
+    {
+      "id": "q28",
+      "typ": "multiple-choice",
+      "kapitel": "06-ablauf",
+      "frage": "Ein Betrieb fragt im Erstgespräch: 'Wie lange dauert das, bis die Seite fertig ist?' Was ist richtig?",
+      "optionen": [
+        "'Ungefähr zwei Wochen.'",
+        "'In sieben Tagen, das ist das Versprechen von dekaru.'",
+        "'Das steht als Datum im Angebot, bevor Sie unterschreiben. Wenn Sie einen festen Anlass haben, sagen Sie es jetzt.'",
+        "'Das hängt davon ab, wie viel gerade los ist, aber schnell.'"
+      ],
+      "richtig": [2],
+      "mehrfach": false,
+      "erklaerung": "Es gibt keine feste Bauzeit. Der Fertigstellungstermin steht im Angebot. Was über die Kapazität geht, kommt in eine Warteschlange nach Eingang der Anzahlung, ein harter Anlass kann vorgezogen werden."
+    },
+    {
+      "id": "q29",
+      "typ": "multiple-choice",
+      "kapitel": "06-ablauf",
+      "frage": "Wann darf ein Zweittermin vereinbart werden? Alle Bedingungen müssen zutreffen.",
+      "optionen": [
+        "Der Inhaber hat selbst gesagt, was ihn an seiner jetzigen Lage stört.",
+        "Er kennt den Preisrahmen und hat nicht abgewunken.",
+        "Er weiß, welche Zusatzleistungen ihn interessieren.",
+        "Der Entscheider sitzt beim Zweittermin mit am Tisch.",
+        "Er hat die Vorschau vorab per Mail erhalten."
+      ],
+      "richtig": [0, 1, 2, 3],
+      "mehrfach": true,
+      "erklaerung": "Für jeden Zweittermin baut Michael Henning eine Vorschau. Deshalb nur bei echtem Interesse. Die Vorschau wird nie per Mail verschickt."
+    },
+    {
+      "id": "q30",
+      "typ": "lueckentext",
+      "kapitel": "06-ablauf",
+      "text": "Stufe 1: die ersten {{1}} Zweittermine finden gemeinsam mit Michael Henning statt. In Stufe 2 nennt der Vertriebler den Preis aus dem {{2}}, ohne Nachlass. Angebot, Verträge und Unterschrift bleiben bei {{3}}.",
+      "luecken": [
+        { "nr": 1, "richtig": ["fünf", "5"] },
+        { "nr": 2, "richtig": ["Preisrechner"] },
+        { "nr": 3, "richtig": ["Michael Henning", "Herrn Henning", "Michael Henning Consulting"] }
+      ],
+      "erklaerung": "Der Vertriebler vermittelt bis zur Unterschrift. Er unterschreibt nichts im Namen von Michael Henning."
+    },
+    {
+      "id": "q31",
+      "typ": "multiple-choice",
+      "kapitel": "06-ablauf",
+      "frage": "In welcher Reihenfolge werden Aufträge begonnen?",
+      "optionen": [
+        "Nach Höhe des Auftrags",
+        "Nach Eingang der Anzahlung, ein harter Anlass kann vorgezogen werden",
+        "Nach Datum der Unterschrift",
+        "Nach Wunsch des Vertrieblers"
+      ],
+      "richtig": [1],
+      "mehrfach": false,
+      "erklaerung": "Es gibt kein Limit an Abschlüssen. Was über die Kapazität geht, kommt in die Warteschlange. Der Betrieb erfährt seinen Termin im Angebot."
+    },
+    {
+      "id": "q32",
+      "typ": "multiple-choice",
+      "kapitel": "06-ablauf",
+      "frage": "Was gehört NICHT auf den Briefing-Bogen?",
+      "optionen": [
+        "Die Öffnungszeiten des Betriebs",
+        "Passwörter und Zugangsdaten",
+        "Was der Vertriebler im Termin zugesagt hat, wörtlich",
+        "Ein harter Anlass wie eine Eröffnung"
+      ],
+      "richtig": [1],
+      "mehrfach": false,
+      "erklaerung": "Keine Passwörter, nicht auf Papier, nicht per Mail, nicht per Messenger. Zugangsdaten klärt Michael Henning direkt mit dem Kunden."
+    },
+    {
+      "id": "q33",
+      "typ": "multiple-choice",
+      "kapitel": "07-do-und-dont",
+      "frage": "Welche Nummern dürfen Sie für die Kaltakquise anrufen?",
+      "optionen": [
+        "Jede Nummer, die im Impressum steht",
+        "Nur die geschäftliche Nummer eines Gewerbetreibenden, zu einem geschäftlichen Anlass",
+        "Auch private Mobilnummern, wenn der Inhaber sie öffentlich angibt",
+        "Alle Nummern aus dem Branchenverzeichnis, auch von Privatpersonen"
+      ],
+      "richtig": [1],
+      "mehrfach": false,
+      "erklaerung": "§ 7 UWG erlaubt Kaltakquise ohne Einwilligung nur gegenüber Gewerbetreibenden. Privatnummern nie, auch nicht aus dem Impressum. Im Zweifel gilt der Zweifel."
+    },
+    {
+      "id": "q34",
+      "typ": "wahr-falsch",
+      "kapitel": "07-do-und-dont",
+      "aussage": "Wenn ein Betrieb ausdrücklich darum bittet, dürfen Sie ihm die Vorschau vorab per Mail schicken.",
+      "richtig": false,
+      "erklaerung": "Die Vorschau wird nur im Termin gemeinsam angesehen, nie per Mail, auch nicht auf Bitte. Bei 'Schicken Sie mir was' folgt eine Wiedervorlage."
+    },
+    {
+      "id": "q35",
+      "typ": "multiple-choice",
+      "kapitel": "07-do-und-dont",
+      "frage": "Welche Preiszusagen dürfen Sie am Telefon machen?",
+      "optionen": [
+        "'ab 500 €' und sonst nichts",
+        "Einen Festpreis, wenn der Betrieb seinen Wunsch beschreibt",
+        "Einen Rabatt, wenn der Betrieb noch diese Woche zusagt",
+        "Den Preis aus dem Preisrechner, auch in Stufe 1"
+      ],
+      "richtig": [0],
+      "mehrfach": false,
+      "erklaerung": "Am Telefon ist 'ab 500 €' die einzige Zahl. Nie verhandeln, nie eine zweite Zahl. Im Zweittermin nennt in Stufe 1 Michael Henning den Preis, in Stufe 2 der Vertriebler den Listenpreis."
+    },
+    {
+      "id": "q36",
+      "typ": "multiple-choice",
+      "kapitel": "07-do-und-dont",
+      "frage": "Ein Betrieb sagt: 'Melden Sie sich nicht mehr.' Was tun Sie?",
+      "optionen": [
+        "In drei Monaten mit einem anderen Anlass anrufen",
+        "Gespräch beenden, als gesperrt vermerken, an Michael Henning melden, nie wieder anrufen",
+        "Eine Mail mit Informationen schicken",
+        "Beim nächsten Cold Visit vorbeischauen"
+      ],
+      "richtig": [1],
+      "mehrfach": false,
+      "erklaerung": "Widerspruch wird sofort umgesetzt. Ein verärgerter Betrieb ist teurer als zehn nicht erreichte."
+    },
+    {
+      "id": "q37",
+      "typ": "zuordnen",
+      "kapitel": "07-do-und-dont",
+      "frage": "Ordnen Sie zu: Was sagen Sie statt des falschen Begriffs?",
+      "paare": [
+        { "links": "'Backups'", "rechts": "'gesicherter Quellstand'" },
+        { "links": "'Das können Sie dann selbst ändern'", "rechts": "'Änderungen per Mail an Herrn Henning'" },
+        { "links": "'Fertig in zwei Wochen'", "rechts": "'Der Termin steht im Angebot'" },
+        { "links": "'Unsere Kunden in der Region'", "rechts": "'Er fängt gerade an, Sie sehen Ihre eigene Seite vorher'" },
+        { "links": "'Wir von dekaru'", "rechts": "'Ich rufe für Michael Henning an'" }
+      ],
+      "erklaerung": "Jeder linke Satz verspricht etwas, das es nicht gibt, oder tritt falsch auf. Die rechten Sätze sind wahr und halten."
+    },
+    {
+      "id": "q38",
+      "typ": "multiple-choice",
+      "kapitel": "08-provision",
+      "frage": "Wann wird Ihre Provision auf eine Website fällig?",
+      "optionen": [
+        "Bei Vereinbarung des Zweittermins",
+        "Bei Unterschrift des Kunden",
+        "Nach Zahlungseingang beim Kunden, abgerechnet monatlich zum Fünften für den Vormonat",
+        "Bei Abnahme der Website"
+      ],
+      "richtig": [2],
+      "mehrfach": false,
+      "erklaerung": "Bezahlt wird, wenn der Kunde bezahlt hat. Bei Teilzahlungen anteilig: die Provision auf die Anzahlung kommt mit der Abrechnung des Monats, in dem sie eingegangen ist."
+    },
+    {
+      "id": "q39",
+      "typ": "multiple-choice",
+      "kapitel": "08-provision",
+      "frage": "Ein Kunde beauftragt eine Website für 1.200 € und bucht Google-Profil einrichten (249 €) dazu. Er zahlt alles. Wie hoch ist Ihre Provision?",
+      "optionen": ["420 €", "507,15 €", "435 €", "1.449 €"],
+      "richtig": [1],
+      "mehrfach": false,
+      "erklaerung": "35 % von 1.449 € sind 507,15 €. Die Provision gilt auf alles Einmalige auf der Rechnung, also auch auf die Zusatzleistungen."
+    },
+    {
+      "id": "q40",
+      "typ": "multiple-choice",
+      "kapitel": "08-provision",
+      "frage": "Wie funktioniert die Provision auf Hosting?",
+      "optionen": [
+        "35 % auf jeden bezahlten Monat, unbegrenzt lange",
+        "35 % auf die ersten zwölf bezahlten Monate, gesammelt und vierteljährlich ausgezahlt, ohne Verfall bei Kündigung",
+        "Eine Pauschale von 50 € je Hosting-Vertrag",
+        "Es gibt keine Provision auf Hosting"
+      ],
+      "richtig": [1],
+      "mehrfach": false,
+      "erklaerung": "Gratismonate zählen nicht. Bei Basis sind das 13,65 € je bezahltem Monat, höchstens 163,80 €. Ausgezahlt zum Fünften nach Quartalsende: Januar, April, Juli, Oktober."
+    },
+    {
+      "id": "q41",
+      "typ": "lueckentext",
+      "kapitel": "08-provision",
+      "text": "Bei Jahreszahlung beträgt die Hosting-Provision 35 % der Jahresrechnung auf einmal: Start {{1}} €, Basis {{2}} €, Plus {{3}} €.",
+      "luecken": [
+        { "nr": 1, "richtig": ["66,50", "66.50", "66,5"] },
+        { "nr": 2, "richtig": ["136,50", "136.50", "136,5"] },
+        { "nr": 3, "richtig": ["206,50", "206.50", "206,5"] }
+      ],
+      "erklaerung": "35 % von 190, 390 und 590 €. Ausgezahlt mit der nächsten Quartalsabrechnung nach Zahlungseingang."
+    },
+    {
+      "id": "q42",
+      "typ": "multiple-choice",
+      "kapitel": "08-provision",
+      "frage": "Ein Kunde zahlt 600 € an, die Schlussrechnung über 600 € bleibt offen und wird storniert. Was passiert mit Ihrer Provision?",
+      "optionen": [
+        "Die 210 € auf die Anzahlung bleiben bei Ihnen, auf den offenen Teil gibt es nichts.",
+        "Die 210 € werden zurückgefordert.",
+        "Sie bekommen die vollen 420 €, weil der Auftrag erteilt war.",
+        "Sie bekommen 105 €."
+      ],
+      "richtig": [0],
+      "mehrfach": false,
+      "erklaerung": "Was der Kunde bezahlt hat, bleibt beim Vertriebler. Zurückgefordert wird nur, wenn eine bereits bezahlte Rechnung storniert und das Geld erstattet wird."
+    },
+    {
+      "id": "q43",
+      "typ": "wahr-falsch",
+      "kapitel": "08-provision",
+      "aussage": "Zwischen dem ersten Anruf und dem ersten Geld liegen realistisch sechs bis zehn Wochen.",
+      "richtig": true,
+      "erklaerung": "Erstgespräch, Vorschau, Zweittermin, Entscheidung, Anzahlung, Abrechnung zum Fünften. Wer den Anlauf wegrechnet, hat im zweiten Monat ein Problem."
+    },
+    {
+      "id": "q44",
+      "typ": "multiple-choice",
+      "kapitel": "09-einwaende",
+      "frage": "Ein Betrieb sagt im Erstgespräch: 'Eigentlich können wir das gleich festmachen.' Was antworten Sie?",
+      "optionen": [
+        "Sofort den Briefing-Bogen ausfüllen und den Auftrag annehmen.",
+        "'Umso besser, dann geht der Zweittermin schnell. Sie sehen Ihre Seite, und dann machen wir es fest.'",
+        "Einen Rabatt anbieten, damit er gleich unterschreibt.",
+        "Michael Henning anrufen, damit er sofort den Vertrag schickt."
+      ],
+      "richtig": [1],
+      "mehrfach": false,
+      "erklaerung": "Kein Abschluss ohne Vorschau. Ein Betrieb, der ohne Vorschau halb überzeugt wurde, kommt mit einer Erwartung, die die Seite nicht erfüllen kann."
+    },
+    {
+      "id": "q45",
+      "typ": "multiple-choice",
+      "kapitel": "09-einwaende",
+      "frage": "Ein Betrieb fragt etwas, das Sie nicht wissen. Was ist die richtige Antwort?",
+      "optionen": [
+        "Eine plausible Vermutung äußern, damit das Gespräch weitergeht.",
+        "'Das weiß ich nicht sicher, und ich will Ihnen nichts Falsches sagen. Das klären wir mit Herrn Henning.'",
+        "'Das ist bestimmt enthalten.'",
+        "Das Thema wechseln."
+      ],
+      "richtig": [1],
+      "mehrfach": false,
+      "erklaerung": "Ehrlichkeit ist auch bei Wissenslücken die richtige Antwort. Wer etwas zusagt, was nicht geht, kostet den Termin und das Vertrauen."
+    },
+    {
+      "id": "q46",
+      "typ": "zuordnen",
+      "kapitel": "10-glossar",
+      "frage": "Ordnen Sie den Begriffen ihre Bedeutung zu.",
+      "paare": [
+        { "links": "Abnahme", "rechts": "Der Kunde erklärt die fertige Website für in Ordnung, die Restzahlung wird fällig" },
+        { "links": "AVV", "rechts": "Vertrag über die Verarbeitung von Besucherdaten nach Art. 28 DSGVO" },
+        { "links": "Kernradius", "rechts": "Raum Horb am Neckar und Nagold" },
+        { "links": "Quellstand", "rechts": "Der versionierte Bauplan der Website, aus dem sie jederzeit neu bereitgestellt wird" },
+        { "links": "Stichtag", "rechts": "Der 25. eines Monats, bis dahin sammelt Start die Änderungen" }
+      ],
+      "erklaerung": "Alle Begriffe stehen im Glossar des Informationsblatts."
+    }
+  ]
+}
