@@ -1,0 +1,173 @@
+/* Print-Stylesheet für das Informationsblatt. Marke dekaru: monochrom,
+   Bordeaux nur als seltener Akzent, Space Grotesk für Überschriften,
+   Inter für Text. Schriften liegen unter pdf/fonts/ (OFL, aus @fontsource). */
+
+@font-face { font-family: "Space Grotesk"; font-weight: 500; font-style: normal; src: url("../fonts/space-grotesk-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Space Grotesk"; font-weight: 700; font-style: normal; src: url("../fonts/space-grotesk-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 400; font-style: normal; src: url("../fonts/inter-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 500; font-style: normal; src: url("../fonts/inter-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 600; font-style: normal; src: url("../fonts/inter-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 700; font-style: normal; src: url("../fonts/inter-latin-700-normal.woff2") format("woff2"); }
+
+:root {
+  --ink: #141414;
+  --muted: #4A4A4A;
+  --line: #C9C9C5;
+  --fill: #EEEEEB;
+  --paper: #FFFFFF;
+  --accent: #7B1E2B;
+  --accent-text: #6E1A26;
+  --dark: #121212;
+  --dark-text: #F2F2F2;
+}
+
+@page {
+  size: A4;
+  margin: 18mm 17mm 20mm 17mm;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 10pt;
+  line-height: 1.45;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+h1, h2, h3, .cover-title, .toc-title {
+  font-family: "Space Grotesk", "Inter", system-ui, sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+h1 { font-size: 24pt; margin: 0 0 4mm 0; }
+h2 { font-size: 14pt; margin: 8mm 0 2.5mm 0; }
+h3 { font-size: 11.5pt; margin: 5mm 0 2mm 0; }
+
+p { margin: 0 0 3mm 0; orphans: 3; widows: 3; }
+strong { font-weight: 600; }
+
+ul, ol { margin: 0 0 3.5mm 0; padding-left: 5.5mm; }
+li { margin: 0 0 1.2mm 0; }
+li p { margin: 0; }
+
+blockquote {
+  margin: 3mm 0 4mm 0;
+  padding: 2mm 0 2mm 4mm;
+  border-left: 1.5pt solid var(--accent);
+  color: var(--ink);
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+blockquote p { margin: 0; }
+blockquote p + p { margin-top: 2mm; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2mm 0 5mm 0;
+  font-size: 9pt;
+  line-height: 1.4;
+  page-break-inside: auto;
+}
+thead { display: table-header-group; }
+tr { break-inside: avoid; page-break-inside: avoid; }
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 1.6mm 2.2mm;
+  border-bottom: 0.5pt solid var(--line);
+}
+th {
+  font-weight: 600;
+  border-bottom: 1pt solid var(--ink);
+  background: var(--fill);
+}
+td:first-child, th:first-child { padding-left: 0; }
+td:last-child, th:last-child { padding-right: 0; }
+table.kv th { display: none; }
+table.kompakt { break-inside: avoid; page-break-inside: avoid; }
+.nowrap { white-space: nowrap; }
+p.frage { break-after: avoid; page-break-after: avoid; margin-bottom: 2mm; }
+p.frage + blockquote { break-before: avoid; page-break-before: avoid; }
+
+figure {
+  margin: 4mm 0 5mm 0;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+figure svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 150mm;
+}
+figcaption {
+  margin-top: 1.5mm;
+  font-size: 8.5pt;
+  color: var(--muted);
+}
+
+hr { border: 0; border-top: 0.5pt solid var(--line); margin: 5mm 0; }
+
+/* Titelseite */
+.cover {
+  break-after: page;
+  page-break-after: always;
+  min-height: 240mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.cover-mark {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 16pt;
+  letter-spacing: 0.02em;
+}
+.cover-rule { width: 22mm; height: 1.5pt; background: var(--accent); margin: 60mm 0 8mm 0; }
+.cover-title { font-size: 34pt; margin: 0 0 4mm 0; max-width: 140mm; }
+.cover-sub { font-size: 13pt; color: var(--muted); margin: 0; max-width: 140mm; line-height: 1.4; }
+.cover-meta { font-size: 9.5pt; color: var(--muted); line-height: 1.6; }
+.cover-meta strong { color: var(--ink); font-weight: 600; }
+
+/* Inhaltsverzeichnis */
+.toc { break-after: page; page-break-after: always; }
+.toc-title { font-size: 20pt; margin: 0 0 6mm 0; }
+.toc ol { list-style: none; padding: 0; margin: 0; }
+.toc li { display: grid; grid-template-columns: 10mm 1fr; gap: 0 3mm; padding: 2.4mm 0; border-bottom: 0.5pt solid var(--line); margin: 0; }
+.toc .toc-num { font-family: "Space Grotesk", sans-serif; font-weight: 700; color: var(--accent-text); }
+.toc .toc-name { font-weight: 600; }
+.toc .toc-kurz { color: var(--muted); font-size: 9.5pt; display: block; }
+
+/* Kapitel */
+.kapitel { break-before: page; page-break-before: always; }
+.kapitel-label {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 9.5pt;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+  margin: 0 0 2mm 0;
+}
+.kapitel > h1 { padding-bottom: 3mm; border-bottom: 1pt solid var(--ink); margin-bottom: 5mm; }
+.kapitel > p:first-of-type { font-size: 11pt; }
+
+/* Hinweiskasten am Ende */
+.hinweis {
+  background: var(--fill);
+  padding: 3mm 4mm;
+  margin: 5mm 0 0 0;
+  font-size: 9.5pt;
+  break-inside: avoid;
+}
+.hinweis p { margin: 0; }
