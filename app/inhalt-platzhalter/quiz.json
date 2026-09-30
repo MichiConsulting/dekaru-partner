@@ -1,30 +1,40 @@
 {
+  "version": 1,
+  "stand": "2026-09-30",
+  "titel": "Platzhalter-Fragen, nur solange inhalt/quiz.json fehlt",
   "fragen": [
     {
       "id": "platz-01",
-      "kapitel": "01-platzhalter",
       "typ": "multiple-choice",
+      "kapitel": "01-platzhalter",
       "frage": "Wo entstehen die echten Lerninhalte?",
       "optionen": ["Im Ordner inhalt/ im Repo", "Direkt in der Datenbank", "In einer Tabellenkalkulation"],
-      "richtig": 0,
+      "richtig": [0],
+      "mehrfach": false,
       "erklaerung": "Kapitel, Fragen und Grafiken liegen in inhalt/ und werden beim Build eingelesen."
     },
     {
       "id": "platz-02",
+      "typ": "zuordnen",
       "kapitel": "01-platzhalter",
-      "typ": "paare",
       "frage": "Ordnen Sie die Dateien ihrem Zweck zu.",
       "paare": [
         { "links": "quiz.json", "rechts": "Fragen" },
         { "links": "grafiken/", "rechts": "SVG-Bilder" },
         { "links": "01-name.md", "rechts": "Kapitel" }
-      ]
+      ],
+      "erklaerung": "So ist inhalt/ aufgebaut."
     },
     {
       "id": "platz-03",
-      "kapitel": "01-platzhalter",
       "typ": "lueckentext",
-      "text": "Kapitel liegen als Markdown im Ordner {{inhalt}} und Grafiken im Unterordner {{grafiken}}."
+      "kapitel": "01-platzhalter",
+      "text": "Kapitel liegen als Markdown im Ordner {{1}} und Grafiken im Unterordner {{2}}.",
+      "luecken": [
+        { "nr": 1, "richtig": ["inhalt", "inhalt/"] },
+        { "nr": 2, "richtig": ["grafiken", "grafiken/"] }
+      ],
+      "erklaerung": "inhalt/ und inhalt/grafiken/."
     }
   ]
 }

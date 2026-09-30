@@ -1,11 +1,12 @@
 // Quizfragen: Format pruefen, Antworten aus dem Formular lesen, bewerten.
 // Reine Funktionen ohne Datenbank und ohne Astro, damit sie sich testen lassen.
 //
-// Vier Fragetypen, wie in inhalt/README.md beschrieben:
-//   multiple-choice  eine richtige Option aus mehreren
+// Vier Fragetypen, Format nach inhalt/README.md:
+//   multiple-choice  "richtig" ist eine Liste von Indizes, "mehrfach" erlaubt mehrere
 //   wahr-falsch      eine Aussage stimmt oder nicht
-//   paare            Begriffe links den passenden rechts zuordnen
-//   lueckentext      Luecken im Text als {{antwort}} oder {{antwort|alternative}}
+//   zuordnen         Paare aus "links" und "rechts", die rechte Seite wird gemischt
+//   lueckentext      Platzhalter {{n}} im Text, "luecken" nennt je Nummer die
+//                    akzeptierten Antworten. Als Kurzform geht auch {{antwort|alternative}}
 
 export interface FrageBasis {
   id: string;
@@ -17,7 +18,8 @@ export interface MultipleChoice extends FrageBasis {
   typ: 'multiple-choice';
   frage: string;
   optionen: string[];
-  richtig: number;
+  richtig: number[];
+  mehrfach: boolean;
 }
 
 export interface WahrFalsch extends FrageBasis {
@@ -26,8 +28,8 @@ export interface WahrFalsch extends FrageBasis {
   richtig: boolean;
 }
 
-export interface Paare extends FrageBasis {
-  typ: 'paare';
+export interface Zuordnen extends FrageBasis {
+  typ: 'zuordnen';
   frage: string;
   paare: { links: string; rechts: string }[];
 }
@@ -35,14 +37,16 @@ export interface Paare extends FrageBasis {
 export interface Lueckentext extends FrageBasis {
   typ: 'lueckentext';
   text: string;
+  /** Je Luecke die akzeptierten Antworten, in der Reihenfolge des Textes. */
+  luecken: string[][];
 }
 
-export type Frage = MultipleChoice | WahrFalsch | Paare | Lueckentext;
+export type Frage = MultipleChoice | WahrFalsch | Zuordnen | Lueckentext;
 
 export type Antwort =
-  | { typ: 'multiple-choice'; index: number | null }
+  | { typ: 'multiple-choice'; indizes: number[] }
   | { typ: 'wahr-falsch'; wert: boolean | null }
-  | { typ: 'paare'; zuordnung: Record<string, string> }
+  | { typ: 'zuordnen'; zuordnung: Record<string, string> }
   | { typ: 'lueckentext'; eingaben: string[] };
 
 export interface Bewertung {
@@ -55,7 +59,7 @@ export interface Bewertung {
 // ---------------------------------------------------------------------------
 // Format
 
-const TYPEN = ['multiple-choice', 'wahr-falsch', 'paare', 'lueckentext'];
+const TYPEN = ['multiple-choice', 'wahr-falsch', 'zuordnen', 'lueckentext'];
 
 /** Prueft quiz.json. Fehlerhafte Fragen werden mit Begruendung uebersprungen. */
 export function pruefeQuizDaten(daten: unknown): { fragen: Frage[]; fehler: string[] } {
@@ -75,22 +79,23 @@ export function pruefeQuizDaten(daten: unknown): { fragen: Frage[]; fehler: stri
     ids.add(id);
     const kapitel = String(f.kapitel ?? '').trim();
     if (!kapitel) return fehler.push(`${wo}: kapitel fehlt.`);
-    const typ = String(f.typ ?? '');
+    const typ = f.typ === 'paare' ? 'zuordnen' : String(f.typ ?? '');
     if (!TYPEN.includes(typ)) return fehler.push(`${wo}: typ "${typ}" unbekannt.`);
     const basis = { id, kapitel, erklaerung: f.erklaerung ? String(f.erklaerung) : undefined };
 
     if (typ === 'multiple-choice') {
       const optionen = Array.isArray(f.optionen) ? f.optionen.map(String) : [];
-      const richtig = Number(f.richtig);
+      const richtig = (Array.isArray(f.richtig) ? f.richtig : [f.richtig]).map(Number);
       if (optionen.length < 2) return fehler.push(`${wo}: mindestens zwei Optionen.`);
-      if (!Number.isInteger(richtig) || richtig < 0 || richtig >= optionen.length) {
-        return fehler.push(`${wo}: richtig muss ein Index von 0 bis ${optionen.length - 1} sein.`);
+      if (richtig.length === 0 || richtig.some((r) => !Number.isInteger(r) || r < 0 || r >= optionen.length)) {
+        return fehler.push(`${wo}: richtig muss Indizes von 0 bis ${optionen.length - 1} enthalten.`);
       }
-      fragen.push({ ...basis, typ, frage: String(f.frage ?? ''), optionen, richtig });
+      const mehrfach = f.mehrfach === true || richtig.length > 1;
+      fragen.push({ ...basis, typ, frage: String(f.frage ?? ''), optionen, richtig: [...new Set(richtig)].sort((a, b) => a - b), mehrfach });
     } else if (typ === 'wahr-falsch') {
       if (typeof f.richtig !== 'boolean') return fehler.push(`${wo}: richtig muss true oder false sein.`);
       fragen.push({ ...basis, typ, aussage: String(f.aussage ?? f.frage ?? ''), richtig: f.richtig });
-    } else if (typ === 'paare') {
+    } else if (typ === 'zuordnen') {
       const roh = Array.isArray(f.paare) ? f.paare : [];
       const paare = roh
         .map((p: unknown) => {
@@ -104,8 +109,12 @@ export function pruefeQuizDaten(daten: unknown): { fragen: Frage[]; fehler: stri
       fragen.push({ ...basis, typ, frage: String(f.frage ?? 'Ordnen Sie zu.'), paare });
     } else {
       const text = String(f.text ?? '');
-      if (luecken(text).length === 0) return fehler.push(`${wo}: der Text hat keine Luecke {{...}}.`);
-      fragen.push({ ...basis, typ: 'lueckentext', text });
+      const teile = zerlegeLueckentext(text, lueckenListe(f.luecken));
+      const alle = teile.filter((t): t is Extract<Textteil, { art: 'luecke' }> => t.art === 'luecke');
+      if (alle.length === 0) return fehler.push(`${wo}: der Text hat keine Luecke {{...}}.`);
+      const ohne = alle.find((l) => l.loesungen.length === 0);
+      if (ohne) return fehler.push(`${wo}: fuer Luecke ${ohne.index + 1} fehlt die Loesung in "luecken".`);
+      fragen.push({ ...basis, typ: 'lueckentext', text, luecken: alle.map((l) => l.loesungen) });
     }
   });
   return { fragen, fehler };
@@ -116,8 +125,23 @@ export function pruefeQuizDaten(daten: unknown): { fragen: Frage[]; fehler: stri
 
 export type Textteil = { art: 'text'; text: string } | { art: 'luecke'; index: number; loesungen: string[] };
 
-/** Zerlegt "Die Provision betraegt {{35}} Prozent." in Text und Luecken. */
-export function zerlegeLueckentext(text: string): Textteil[] {
+/** "luecken" aus quiz.json als Karte Nummer -> Loesungen. */
+function lueckenListe(roh: unknown): Map<string, string[]> {
+  const karte = new Map<string, string[]>();
+  if (!Array.isArray(roh)) return karte;
+  for (const eintrag of roh) {
+    const o = (eintrag ?? {}) as Record<string, unknown>;
+    const liste = Array.isArray(o.richtig) ? o.richtig : [o.richtig];
+    karte.set(String(o.nr ?? ''), liste.map(String).map((l) => l.trim()).filter(Boolean));
+  }
+  return karte;
+}
+
+/**
+ * Zerlegt einen Lueckentext in Text und Luecken. {{1}} schlaegt in der
+ * Loesungsliste nach, {{antwort|alternative}} traegt die Loesung selbst.
+ */
+export function zerlegeLueckentext(text: string, loesungen: Map<string, string[]> = new Map()): Textteil[] {
   const teile: Textteil[] = [];
   const muster = /\{\{([^}]*)\}\}/g;
   let letzte = 0;
@@ -125,11 +149,12 @@ export function zerlegeLueckentext(text: string): Textteil[] {
   for (const treffer of text.matchAll(muster)) {
     const start = treffer.index ?? 0;
     if (start > letzte) teile.push({ art: 'text', text: text.slice(letzte, start) });
-    const loesungen = treffer[1]
-      .split('|')
-      .map((l) => l.trim())
-      .filter(Boolean);
-    teile.push({ art: 'luecke', index, loesungen });
+    const inhalt = treffer[1].trim();
+    // Eine reine Nummer verweist auf "luecken", alles andere traegt die Loesung selbst.
+    const eigene = /^\d+$/.test(inhalt)
+      ? (loesungen.get(inhalt) ?? [])
+      : inhalt.split('|').map((l) => l.trim()).filter(Boolean);
+    teile.push({ art: 'luecke', index, loesungen: eigene });
     index += 1;
     letzte = start + treffer[0].length;
   }
@@ -137,10 +162,12 @@ export function zerlegeLueckentext(text: string): Textteil[] {
   return teile;
 }
 
-export function luecken(text: string): string[][] {
-  return zerlegeLueckentext(text)
-    .filter((t): t is Extract<Textteil, { art: 'luecke' }> => t.art === 'luecke')
-    .map((t) => t.loesungen);
+/** Textteile einer geprueften Frage, Loesungen schon aufgeloest. */
+export function lueckenteile(frage: Lueckentext): Textteil[] {
+  let i = 0;
+  return zerlegeLueckentext(frage.text).map((t) =>
+    t.art === 'luecke' ? { ...t, loesungen: frage.luecken[i++] ?? [] } : t,
+  );
 }
 
 function normalisiere(text: string): string {
@@ -161,25 +188,33 @@ export function feldname(frage: Frage, teil?: number | string): string {
 }
 
 /** Liest die Antwort einer Frage aus den Formularfeldern. */
-export function antwortAusFormular(frage: Frage, form: { get(name: string): unknown }): Antwort {
+export interface FormularQuelle {
+  get(name: string): unknown;
+  getAll?(name: string): unknown[];
+}
+
+export function antwortAusFormular(frage: Frage, form: FormularQuelle): Antwort {
   if (frage.typ === 'multiple-choice') {
-    const roh = form.get(feldname(frage));
-    const index = roh === null || roh === undefined || roh === '' ? null : Number(roh);
-    return { typ: 'multiple-choice', index: Number.isInteger(index) ? index : null };
+    const roh = form.getAll ? form.getAll(feldname(frage)) : [form.get(feldname(frage))];
+    const indizes = roh
+      .filter((r) => r !== null && r !== undefined && r !== '')
+      .map(Number)
+      .filter((n) => Number.isInteger(n) && n >= 0 && n < frage.optionen.length);
+    return { typ: 'multiple-choice', indizes: [...new Set(indizes)].sort((a, b) => a - b) };
   }
   if (frage.typ === 'wahr-falsch') {
     const roh = form.get(feldname(frage));
     return { typ: 'wahr-falsch', wert: roh === 'wahr' ? true : roh === 'falsch' ? false : null };
   }
-  if (frage.typ === 'paare') {
+  if (frage.typ === 'zuordnen') {
     const zuordnung: Record<string, string> = {};
     frage.paare.forEach((p, i) => {
       const wert = form.get(feldname(frage, i));
       if (typeof wert === 'string' && wert) zuordnung[p.links] = wert;
     });
-    return { typ: 'paare', zuordnung };
+    return { typ: 'zuordnen', zuordnung };
   }
-  const eingaben = luecken(frage.text).map((_, i) => String(form.get(feldname(frage, i)) ?? ''));
+  const eingaben = frage.luecken.map((_, i) => String(form.get(feldname(frage, i)) ?? '').slice(0, 200));
   return { typ: 'lueckentext', eingaben };
 }
 
@@ -188,15 +223,16 @@ export function antwortAusFormular(frage: Frage, form: { get(name: string): unkn
 
 export function bewerte(frage: Frage, antwort: Antwort): Bewertung {
   if (frage.typ === 'multiple-choice') {
-    const richtig = antwort.typ === 'multiple-choice' && antwort.index === frage.richtig;
-    return { richtig, teile: [richtig], loesung: frage.optionen[frage.richtig] };
+    const gewaehlt = antwort.typ === 'multiple-choice' ? antwort.indizes : [];
+    const richtig = gewaehlt.length === frage.richtig.length && frage.richtig.every((r) => gewaehlt.includes(r));
+    return { richtig, teile: [richtig], loesung: frage.richtig.map((r) => frage.optionen[r]).join('; ') };
   }
   if (frage.typ === 'wahr-falsch') {
     const richtig = antwort.typ === 'wahr-falsch' && antwort.wert === frage.richtig;
     return { richtig, teile: [richtig], loesung: frage.richtig ? 'Wahr' : 'Falsch' };
   }
-  if (frage.typ === 'paare') {
-    const zuordnung = antwort.typ === 'paare' ? antwort.zuordnung : {};
+  if (frage.typ === 'zuordnen') {
+    const zuordnung = antwort.typ === 'zuordnen' ? antwort.zuordnung : {};
     const teile = frage.paare.map((p) => zuordnung[p.links] === p.rechts);
     return {
       richtig: teile.every(Boolean),
@@ -205,9 +241,8 @@ export function bewerte(frage: Frage, antwort: Antwort): Bewertung {
     };
   }
   const eingaben = antwort.typ === 'lueckentext' ? antwort.eingaben : [];
-  const alle = luecken(frage.text);
-  const teile = alle.map((loesungen, i) => loesungen.some((l) => normalisiere(l) === normalisiere(eingaben[i] ?? '')));
-  return { richtig: teile.every(Boolean), teile, loesung: alle.map((l) => l[0]).join(', ') };
+  const teile = frage.luecken.map((loesungen, i) => loesungen.some((l) => normalisiere(l) === normalisiere(eingaben[i] ?? '')));
+  return { richtig: teile.every(Boolean), teile, loesung: frage.luecken.map((l) => l[0]).join(', ') };
 }
 
 /** Punkte eines Durchlaufs: eine je richtig beantworteter Frage. */

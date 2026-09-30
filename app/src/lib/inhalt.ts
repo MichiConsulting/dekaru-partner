@@ -2,9 +2,12 @@
 // eingelesen. Nur dieses Modul kennt import.meta.glob, alles andere bleibt
 // reines TypeScript.
 
-import { echteInhalte } from './inhalt-pfade.ts';
 import { pruefeQuizDaten, type Frage } from './quiz.ts';
 
+// Die Globs werden beim Build aufgeloest und die Inhalte in das Bundle
+// geschrieben. Zur Laufzeit liest nichts mehr vom Dateisystem, deshalb darf
+// die Entscheidung echt oder Platzhalter nur von den Globs abhaengen, nicht
+// von Pfaden relativ zum Bundle.
 const quizEcht = import.meta.glob('../../../inhalt/quiz.json', { eager: true, import: 'default' });
 const quizPlatzhalter = import.meta.glob('../../inhalt-platzhalter/quiz.json', { eager: true, import: 'default' });
 const grafikenEcht = import.meta.glob('../../../inhalt/grafiken/*.svg', { eager: true, query: '?raw', import: 'default' });
@@ -13,8 +16,7 @@ const grafikenPlatzhalter = import.meta.glob('../../inhalt-platzhalter/grafiken/
   query: '?raw',
   import: 'default',
 });
-
-const echt = echteInhalte();
+const echt = Object.keys(quizEcht).length > 0 || Object.keys(grafikenEcht).length > 0;
 
 const quizRoh = Object.values(echt ? quizEcht : quizPlatzhalter)[0] ?? { fragen: [] };
 const geprueft = pruefeQuizDaten(quizRoh);

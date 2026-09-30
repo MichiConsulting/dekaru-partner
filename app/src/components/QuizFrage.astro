@@ -2,7 +2,7 @@
 // Eine Quizfrage als Formularblock. Ohne JavaScript funktioniert alles ueber
 // Radios, Textfelder und Auswahllisten. Mit JavaScript werden die Paare zu
 // zwei Spalten, die sich per Klick verbinden lassen.
-import { feldname, mischeStabil, zerlegeLueckentext, type Antwort, type Bewertung, type Frage } from '../lib/quiz.ts';
+import { feldname, lueckenteile, mischeStabil, type Antwort, type Bewertung, type Frage } from '../lib/quiz.ts';
 
 interface Props {
   frage: Frage;
@@ -16,17 +16,17 @@ const { frage, nummer, antwort = null, bewertung = null } = Astro.props;
 const TYP_LABEL: Record<Frage['typ'], string> = {
   'multiple-choice': 'Auswahl',
   'wahr-falsch': 'Wahr oder falsch',
-  paare: 'Zuordnen',
+  zuordnen: 'Zuordnen',
   lueckentext: 'Lückentext',
 };
 
-const mcIndex = antwort?.typ === 'multiple-choice' ? antwort.index : null;
+const mcIndizes = antwort?.typ === 'multiple-choice' ? antwort.indizes : [];
 const wfWert = antwort?.typ === 'wahr-falsch' ? antwort.wert : null;
-const zuordnung = antwort?.typ === 'paare' ? antwort.zuordnung : {};
+const zuordnung = antwort?.typ === 'zuordnen' ? antwort.zuordnung : {};
 const eingaben = antwort?.typ === 'lueckentext' ? antwort.eingaben : [];
 
-const rechtsGemischt = frage.typ === 'paare' ? mischeStabil(frage.paare.map((p) => p.rechts), frage.id) : [];
-const teile = frage.typ === 'lueckentext' ? zerlegeLueckentext(frage.text) : [];
+const rechtsGemischt = frage.typ === 'zuordnen' ? mischeStabil(frage.paare.map((p) => p.rechts), frage.id) : [];
+const teile = frage.typ === 'lueckentext' ? lueckenteile(frage) : [];
 ---
 
 <fieldset
@@ -38,8 +38,9 @@ const teile = frage.typ === 'lueckentext' ? zerlegeLueckentext(frage.text) : [];
     <legend class="frage__text">
       <span class="sr-only">Frage {nummer}: </span>
       {frage.typ === 'multiple-choice' && frage.frage}
+      {frage.typ === 'multiple-choice' && frage.mehrfach && <span class="meta"> (mehrere Antworten richtig)</span>}
       {frage.typ === 'wahr-falsch' && frage.aussage}
-      {frage.typ === 'paare' && frage.frage}
+      {frage.typ === 'zuordnen' && frage.frage}
       {frage.typ === 'lueckentext' && 'Füllen Sie die Lücken aus.'}
     </legend>
     <span class="frage__typ" aria-hidden="true">{nummer}. {TYP_LABEL[frage.typ]}</span>
@@ -50,7 +51,13 @@ const teile = frage.typ === 'lueckentext' ? zerlegeLueckentext(frage.text) : [];
       <div class="optionen">
         {frage.optionen.map((option, i) => (
           <label>
-            <input type="radio" name={feldname(frage)} value={i} checked={mcIndex === i} required />
+            <input
+              type={frage.mehrfach ? 'checkbox' : 'radio'}
+              name={feldname(frage)}
+              value={i}
+              checked={mcIndizes.includes(i)}
+              required={!frage.mehrfach}
+            />
             <span>{option}</span>
           </label>
         ))}
@@ -74,7 +81,7 @@ const teile = frage.typ === 'lueckentext' ? zerlegeLueckentext(frage.text) : [];
   }
 
   {
-    frage.typ === 'paare' && (
+    frage.typ === 'zuordnen' && (
       <>
         <div class="paare paare--auswahl">
           {frage.paare.map((p, i) => (
