@@ -1,0 +1,123 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { holeBenutzer, setzeAktiv, setzePasswort } from '../../../lib/auth.ts';
+import { erzeugeEinmalPasswort } from '../../../lib/passwort.ts';
+import { fortschritt } from '../../../lib/lernen.ts';
+import { fragenJeKapitel } from '../../../lib/inhalt.ts';
+import { alleKunden, istUuid, statusLabel } from '../../../lib/kunden.ts';
+import { datumDe } from '../../../lib/provision.ts';
+import { formular, istPost } from '../../../lib/http.ts';
+
+const db = Astro.locals.db;
+const ich = Astro.locals.benutzer!;
+const csrf = Astro.locals.csrf ?? '';
+const id = String(Astro.params.id ?? '');
+const b = istUuid(id) ? await holeBenutzer(db, id) : null;
+if (!b) return new Response('Nicht gefunden', { status: 404 });
+
+let meldung: string | null = null;
+let einmal: string | null = null;
+let fehler: string | null = null;
+
+if (istPost(Astro.request)) {
+  const d = await formular(Astro.request);
+  if (d.aktion === 'deaktivieren' && b.id !== ich.id) {
+    await setzeAktiv(db, b.id, false);
+    return Astro.redirect(`/admin/vertriebler/${b.id}?ok=deaktiviert`, 303);
+  } else if (d.aktion === 'aktivieren') {
+    await setzeAktiv(db, b.id, true);
+    return Astro.redirect(`/admin/vertriebler/${b.id}?ok=aktiviert`, 303);
+  } else if (d.aktion === 'passwort') {
+    einmal = erzeugeEinmalPasswort();
+    await setzePasswort(db, b.id, einmal, true);
+    await db.query('DELETE FROM sitzungen WHERE benutzer_id = $1', [b.id]);
+  } else if (d.aktion === 'slug') {
+    const slug = String(d.slug ?? '').trim();
+    if (slug && !/^[a-z0-9-]+$/.test(slug)) fehler = 'Der Slug darf nur Kleinbuchstaben, Ziffern und Bindestriche enthalten.';
+    else {
+      try {
+        await db.query('UPDATE benutzer SET vertriebler_slug = $2 WHERE id = $1', [b.id, slug || null]);
+        return Astro.redirect(`/admin/vertriebler/${b.id}?ok=slug`, 303);
+      } catch {
+        fehler = 'Dieser Slug ist schon vergeben.';
+      }
+    }
+  } else {
+    fehler = 'Unbekannte Aktion.';
+  }
+}
+
+const ok = Astro.url.searchParams.get('ok');
+if (ok === 'deaktiviert') meldung = 'Der Zugang ist deaktiviert, alle Sitzungen beendet.';
+if (ok === 'aktiviert') meldung = 'Der Zugang ist wieder aktiv.';
+if (ok === 'slug') meldung = 'Der Slug ist gespeichert.';
+
+const benutzer = (await holeBenutzer(db, id))!;
+const kapitel = (await getCollection('kapitel')).sort((a, c) => a.data.nummer - c.data.nummer);
+const stand = await fortschritt(db, benutzer.id, fragenJeKapitel(kapitel.map((k) => k.id)));
+const standJe = new Map(stand.map((s) => [s.kapitel, s]));
+const kunden = await alleKunden(db, { benutzerId: benutzer.id });
+---
+
+<Layout titel={benutzer.name} aktiv="admin">
+  <p class="meta"><a href="/admin">Admin</a> / <a href="/admin/vertriebler">Vertriebler</a> / {benutzer.name}</p>
+  <h1>{benutzer.name}</h1>
+  <p class="meta">{benutzer.email}, Rolle {benutzer.rolle}, Slug {benutzer.vertrieblerSlug ?? 'keiner'}. <span class:list={['badge', benutzer.aktiv && 'badge--voll']}>{benutzer.aktiv ? 'aktiv' : 'deaktiviert'}</span></p>
+
+  {meldung && <div class="meldung meldung--ok" role="status"><p>{meldung}</p></div>}
+  {fehler && <div class="meldung meldung--fehler" role="alert"><p>{fehler}</p></div>}
+  {einmal && (
+    <div class="meldung meldung--ok" role="status">
+      <p><strong>Neues Einmal-Passwort, nur jetzt sichtbar:</strong></p>
+      <p><code style="font-size:1.2em">{einmal}</code></p>
+      <p>Alle Sitzungen wurden beendet. Beim nächsten Login muss ein eigenes Passwort gesetzt werden.</p>
+    </div>
+  )}
+
+  <div class="aktionen">
+    {benutzer.id !== ich.id && (
+      benutzer.aktiv ? (
+        <form method="post" class="inline"><input type="hidden" name="_csrf" value={csrf} /><input type="hidden" name="aktion" value="deaktivieren" /><button class="btn btn--gefahr" type="submit">Zugang deaktivieren</button></form>
+      ) : (
+        <form method="post" class="inline"><input type="hidden" name="_csrf" value={csrf} /><input type="hidden" name="aktion" value="aktivieren" /><button class="btn" type="submit">Zugang aktivieren</button></form>
+      )
+    )}
+    <form method="post" class="inline"><input type="hidden" name="_csrf" value={csrf} /><input type="hidden" name="aktion" value="passwort" /><button class="btn btn--zweit" type="submit">Neues Einmal-Passwort</button></form>
+  </div>
+
+  <h2>Vertriebler-Slug</h2>
+  <form method="post" class="karte">
+    <input type="hidden" name="_csrf" value={csrf} />
+    <input type="hidden" name="aktion" value="slug" />
+    <div class="feld">
+      <label for="slug">Slug wie in vertriebler.json</label>
+      <input id="slug" name="slug" type="text" pattern="[a-z0-9-]*" value={benutzer.vertrieblerSlug ?? ''} />
+    </div>
+    <button class="btn btn--zweit" type="submit">Speichern</button>
+  </form>
+
+  <h2>Lernfortschritt</h2>
+  <div class="tabelle-wrap">
+    <table>
+      <thead><tr><th>Kapitel</th><th>Stand</th><th class="zahl">Fragen richtig</th></tr></thead>
+      <tbody>
+        {kapitel.map((k) => {
+          const s = standJe.get(k.id);
+          return <tr><td>{k.data.nummer}. {k.data.titel}</td><td>{s?.erledigt ? 'Erledigt' : s?.beantwortet ? 'Begonnen' : 'Offen'}</td><td class="zahl">{s ? `${s.richtig} / ${s.fragen}` : ''}</td></tr>;
+        })}
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Kunden ({kunden.length})</h2>
+  <div class="tabelle-wrap">
+    <table>
+      <thead><tr><th>Betrieb</th><th>Ort</th><th>Status</th><th>Termin</th><th>Geändert</th></tr></thead>
+      <tbody>
+        {kunden.length === 0 && <tr><td colspan="5">Keine Einträge.</td></tr>}
+        {kunden.map((k) => <tr><td>{k.name}</td><td>{k.ort}</td><td>{statusLabel(k.status)}</td><td>{datumDe(k.terminDatum)}</td><td>{k.geaendertAm.toLocaleDateString('de-DE')}</td></tr>)}
+      </tbody>
+    </table>
+  </div>
+</Layout>

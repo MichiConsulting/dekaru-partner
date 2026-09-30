@@ -1,0 +1,100 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { alleBenutzer, erstelleBenutzer, type Rolle } from '../../../lib/auth.ts';
+import { erzeugeEinmalPasswort } from '../../../lib/passwort.ts';
+import { formular, istPost } from '../../../lib/http.ts';
+
+const db = Astro.locals.db;
+const csrf = Astro.locals.csrf ?? '';
+let fehler: string | null = null;
+let neu: { name: string; email: string; passwort: string } | null = null;
+let werte = { name: '', email: '', slug: '', rolle: 'vertriebler' };
+
+if (istPost(Astro.request)) {
+  const d = await formular(Astro.request);
+  werte = { name: d.name ?? '', email: d.email ?? '', slug: d.slug ?? '', rolle: d.rolle === 'admin' ? 'admin' : 'vertriebler' };
+  const passwort = erzeugeEinmalPasswort();
+  try {
+    const b = await erstelleBenutzer(db, {
+      name: werte.name,
+      email: werte.email,
+      rolle: werte.rolle as Rolle,
+      vertrieblerSlug: werte.slug || null,
+      passwort,
+      wechselNoetig: true,
+    });
+    neu = { name: b.name, email: b.email, passwort };
+    werte = { name: '', email: '', slug: '', rolle: 'vertriebler' };
+  } catch (e) {
+    const text = e instanceof Error ? e.message : String(e);
+    fehler = /unique|duplicate|doppelt/i.test(text) ? 'E-Mail-Adresse oder Slug sind schon vergeben.' : text;
+  }
+}
+
+const liste = await alleBenutzer(db);
+---
+
+<Layout titel="Vertriebler" aktiv="admin">
+  <p class="meta"><a href="/admin">Admin</a> / Vertriebler</p>
+  <h1>Vertriebler</h1>
+
+  {neu && (
+    <div class="meldung meldung--ok" role="status">
+      <p><strong>{neu.name} ist angelegt.</strong> Einmal-Passwort, nur jetzt sichtbar, bitte persönlich weitergeben:</p>
+      <p><code style="font-size:1.2em">{neu.passwort}</code></p>
+      <p>Anmeldung mit {neu.email}. Beim ersten Login muss ein eigenes Passwort gesetzt werden.</p>
+    </div>
+  )}
+  {fehler && <div class="meldung meldung--fehler" role="alert"><p>{fehler}</p></div>}
+
+  <div class="tabelle-wrap">
+    <table>
+      <thead><tr><th>Name</th><th>E-Mail</th><th>Rolle</th><th>Slug</th><th>Letzter Login</th><th>Status</th><th></th></tr></thead>
+      <tbody>
+        {liste.map((b) => (
+          <tr>
+            <td>{b.name}</td>
+            <td>{b.email}</td>
+            <td>{b.rolle}</td>
+            <td>{b.vertrieblerSlug ?? ''}</td>
+            <td>{b.letzterLogin ? b.letzterLogin.toLocaleDateString('de-DE') : 'nie'}</td>
+            <td><span class:list={['badge', b.aktiv && 'badge--voll']}>{b.aktiv ? 'aktiv' : 'deaktiviert'}</span>{b.passwortWechselNoetig && <span class="meta"> Einmal-Passwort</span>}</td>
+            <td><a href={`/admin/vertriebler/${b.id}`}>Öffnen</a></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Neuen Zugang anlegen</h2>
+  <form method="post" class="karte">
+    <input type="hidden" name="_csrf" value={csrf} />
+    <div class="feld--zeile">
+      <div class="feld">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" required maxlength="120" value={werte.name} />
+      </div>
+      <div class="feld">
+        <label for="email">E-Mail-Adresse</label>
+        <input id="email" name="email" type="email" required value={werte.email} />
+      </div>
+    </div>
+    <div class="feld--zeile">
+      <div class="feld">
+        <label for="slug">Vertriebler-Slug</label>
+        <input id="slug" name="slug" type="text" pattern="[a-z0-9-]+" value={werte.slug} />
+        <p class="feld__hilfe">Genau wie in vertriebler.json in dekaru-rechnungen. Darüber findet die Provision ihren Empfänger.</p>
+      </div>
+      <div class="feld">
+        <label for="rolle">Rolle</label>
+        <select id="rolle" name="rolle">
+          <option value="vertriebler" selected={werte.rolle === 'vertriebler'}>Vertriebler</option>
+          <option value="admin" selected={werte.rolle === 'admin'}>Admin</option>
+        </select>
+      </div>
+    </div>
+    <div class="aktionen">
+      <button type="submit" class="btn">Anlegen und Einmal-Passwort erzeugen</button>
+    </div>
+  </form>
+</Layout>

@@ -1,0 +1,47 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { alleBenutzer } from '../../lib/auth.ts';
+import { alleKunden } from '../../lib/kunden.ts';
+import { alleAbrechnungen } from '../../lib/provision.ts';
+import { fortschrittAller } from '../../lib/lernen.ts';
+
+const db = Astro.locals.db;
+const benutzer = await alleBenutzer(db);
+const vertriebler = benutzer.filter((b) => b.rolle === 'vertriebler');
+const kunden = await alleKunden(db);
+const abrechnungen = await alleAbrechnungen(db);
+const lern = await fortschrittAller(db);
+---
+
+<Layout titel="Admin" aktiv="admin">
+  <h1>Admin</h1>
+  <div class="raster">
+    <div class="kennzahl"><div class="kennzahl__wert">{vertriebler.filter((v) => v.aktiv).length}</div><div class="kennzahl__label">aktive Vertriebler</div></div>
+    <div class="kennzahl"><div class="kennzahl__wert">{kunden.length}</div><div class="kennzahl__label">Kunden gesamt</div></div>
+    <div class="kennzahl"><div class="kennzahl__wert">{kunden.filter((k) => k.status === 'abschluss').length}</div><div class="kennzahl__label">Abschlüsse</div></div>
+    <div class="kennzahl"><div class="kennzahl__wert">{abrechnungen.length}</div><div class="kennzahl__label">importierte Abrechnungen</div></div>
+  </div>
+  <div class="aktionen">
+    <a class="btn" href="/admin/vertriebler">Vertriebler</a>
+    <a class="btn btn--zweit" href="/admin/kunden">Alle Kunden</a>
+    <a class="btn btn--zweit" href="/admin/provision">Provision importieren</a>
+  </div>
+
+  <h2>Lernfortschritt</h2>
+  <div class="tabelle-wrap">
+    <table>
+      <thead><tr><th>Vertriebler</th><th class="zahl">Kapitel erledigt</th><th class="zahl">Fragen richtig</th><th>Zuletzt</th></tr></thead>
+      <tbody>
+        {lern.length === 0 && <tr><td colspan="4">Noch keine Vertriebler.</td></tr>}
+        {lern.map((l) => (
+          <tr>
+            <td><a href={`/admin/vertriebler/${l.benutzerId}`}>{l.name}</a>{!l.aktiv && <span class="badge" style="margin-left:8px">deaktiviert</span>}</td>
+            <td class="zahl">{l.erledigt}</td>
+            <td class="zahl">{l.richtig} / {l.beantwortet}</td>
+            <td>{l.zuletzt ? l.zuletzt.toLocaleDateString('de-DE') : ''}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</Layout>
