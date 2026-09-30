@@ -1,0 +1,91 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import QuizFrage from '../../components/QuizFrage.astro';
+import { getCollection, getEntry, render } from 'astro:content';
+import { fragenJeKapitel } from '../../lib/inhalt.ts';
+import { erledigteKapitel, ladeAntworten, markiereErledigt } from '../../lib/lernen.ts';
+import { ergebnisseAusAntworten, verarbeiteQuiz } from '../../lib/quiz-durchlauf.ts';
+import { punkte } from '../../lib/quiz.ts';
+import { istPost } from '../../lib/http.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const db = Astro.locals.db;
+const csrf = Astro.locals.csrf ?? '';
+const slug = String(Astro.params.kapitel ?? '');
+
+const eintrag = await getEntry('kapitel', slug);
+if (!eintrag) return new Response('Kapitel nicht gefunden', { status: 404 });
+
+const alle = (await getCollection('kapitel')).sort((a, b) => a.data.nummer - b.data.nummer);
+const index = alle.findIndex((k) => k.id === slug);
+const vorher = alle[index - 1];
+const nachher = alle[index + 1];
+const fragen = fragenJeKapitel([slug]).get(slug) ?? [];
+
+if (istPost(Astro.request)) {
+  const form = await Astro.request.formData();
+  if (form.get('aktion') === 'gelesen') {
+    await markiereErledigt(db, benutzer.id, slug);
+    return Astro.redirect(`/lernen/${slug}?gelesen=1`, 303);
+  }
+  await verarbeiteQuiz(db, benutzer.id, fragen, form);
+  return Astro.redirect(`/lernen/${slug}?ergebnis=1#quiz`, 303);
+}
+
+const { Content } = await render(eintrag);
+const zeigeErgebnis = Astro.url.searchParams.get('ergebnis') === '1';
+const antworten = await ladeAntworten(db, benutzer.id, slug);
+const ergebnisse = ergebnisseAusAntworten(fragen, antworten);
+const stand = punkte(fragen.map((f) => ergebnisse.get(f.id)?.bewertung).filter((b): b is NonNullable<typeof b> => Boolean(b)));
+const erledigt = (await erledigteKapitel(db, benutzer.id)).has(slug) || (fragen.length > 0 && fragen.every((f) => antworten.get(f.id)?.jeRichtig));
+if (erledigt) await markiereErledigt(db, benutzer.id, slug);
+---
+
+<Layout titel={eintrag.data.titel} aktiv="lernen">
+  <p class="meta"><a href="/lernen">Lernen</a> / Kapitel {eintrag.data.nummer}</p>
+  <article class="prosa">
+    <Content />
+  </article>
+
+  <section id="quiz" aria-labelledby="quiz-titel">
+    <h2 id="quiz-titel">Fragen zum Kapitel</h2>
+    {fragen.length === 0 ? (
+      <div class="karte">
+        <p>Zu diesem Kapitel gibt es keine Fragen.</p>
+        {erledigt ? (
+          <p class="meta">Als gelesen markiert.</p>
+        ) : (
+          <form method="post">
+            <input type="hidden" name="_csrf" value={csrf} />
+            <input type="hidden" name="aktion" value="gelesen" />
+            <button class="btn" type="submit">Als gelesen markieren</button>
+          </form>
+        )}
+      </div>
+    ) : (
+      <>
+        {zeigeErgebnis && (
+          <div class:list={['meldung', stand.punkte === fragen.length ? 'meldung--ok' : 'meldung--fehler']} role="status">
+            <p><strong>{stand.punkte} von {fragen.length} richtig.</strong> {stand.punkte === fragen.length ? 'Kapitel erledigt.' : 'Die falschen Fragen stehen unten mit Lösung, Sie können sie gleich noch einmal beantworten.'}</p>
+          </div>
+        )}
+        {!zeigeErgebnis && erledigt && <p class="meta">Kapitel erledigt. Sie können die Fragen jederzeit wiederholen.</p>}
+        <form method="post">
+          <input type="hidden" name="_csrf" value={csrf} />
+          {fragen.map((f, i) => {
+            const e = ergebnisse.get(f.id);
+            return <QuizFrage frage={f} nummer={i + 1} antwort={e?.antwort} bewertung={zeigeErgebnis ? e?.bewertung : null} />;
+          })}
+          <div class="aktionen">
+            <button class="btn" type="submit">Antworten prüfen</button>
+          </div>
+        </form>
+      </>
+    )}
+  </section>
+
+  <nav class="kapitel-nav" aria-label="Kapitelnavigation">
+    {vorher ? <a href={`/lernen/${vorher.id}`}>← {vorher.data.titel}</a> : <span></span>}
+    {nachher ? <a href={`/lernen/${nachher.id}`}>{nachher.data.titel} →</a> : <a href="/lernen">Zur Übersicht</a>}
+  </nav>
+</Layout>

@@ -1,0 +1,213 @@
+---
+// Eine Quizfrage als Formularblock. Ohne JavaScript funktioniert alles ueber
+// Radios, Textfelder und Auswahllisten. Mit JavaScript werden die Paare zu
+// zwei Spalten, die sich per Klick verbinden lassen.
+import { feldname, mischeStabil, zerlegeLueckentext, type Antwort, type Bewertung, type Frage } from '../lib/quiz.ts';
+
+interface Props {
+  frage: Frage;
+  nummer: number;
+  antwort?: Antwort | null;
+  bewertung?: Bewertung | null;
+}
+
+const { frage, nummer, antwort = null, bewertung = null } = Astro.props;
+
+const TYP_LABEL: Record<Frage['typ'], string> = {
+  'multiple-choice': 'Auswahl',
+  'wahr-falsch': 'Wahr oder falsch',
+  paare: 'Zuordnen',
+  lueckentext: 'Lückentext',
+};
+
+const mcIndex = antwort?.typ === 'multiple-choice' ? antwort.index : null;
+const wfWert = antwort?.typ === 'wahr-falsch' ? antwort.wert : null;
+const zuordnung = antwort?.typ === 'paare' ? antwort.zuordnung : {};
+const eingaben = antwort?.typ === 'lueckentext' ? antwort.eingaben : [];
+
+const rechtsGemischt = frage.typ === 'paare' ? mischeStabil(frage.paare.map((p) => p.rechts), frage.id) : [];
+const teile = frage.typ === 'lueckentext' ? zerlegeLueckentext(frage.text) : [];
+---
+
+<fieldset
+  class:list={['frage', bewertung && (bewertung.richtig ? 'frage--richtig' : 'frage--falsch')]}
+  data-typ={frage.typ}
+  data-frage={frage.id}
+>
+  <div class="frage__kopf">
+    <legend class="frage__text">
+      <span class="sr-only">Frage {nummer}: </span>
+      {frage.typ === 'multiple-choice' && frage.frage}
+      {frage.typ === 'wahr-falsch' && frage.aussage}
+      {frage.typ === 'paare' && frage.frage}
+      {frage.typ === 'lueckentext' && 'Füllen Sie die Lücken aus.'}
+    </legend>
+    <span class="frage__typ" aria-hidden="true">{nummer}. {TYP_LABEL[frage.typ]}</span>
+  </div>
+
+  {
+    frage.typ === 'multiple-choice' && (
+      <div class="optionen">
+        {frage.optionen.map((option, i) => (
+          <label>
+            <input type="radio" name={feldname(frage)} value={i} checked={mcIndex === i} required />
+            <span>{option}</span>
+          </label>
+        ))}
+      </div>
+    )
+  }
+
+  {
+    frage.typ === 'wahr-falsch' && (
+      <div class="optionen">
+        <label>
+          <input type="radio" name={feldname(frage)} value="wahr" checked={wfWert === true} required />
+          <span>Wahr</span>
+        </label>
+        <label>
+          <input type="radio" name={feldname(frage)} value="falsch" checked={wfWert === false} required />
+          <span>Falsch</span>
+        </label>
+      </div>
+    )
+  }
+
+  {
+    frage.typ === 'paare' && (
+      <>
+        <div class="paare paare--auswahl">
+          {frage.paare.map((p, i) => (
+            <div class="paare__zeile">
+              <label class="paare__links" for={`${feldname(frage, i)}-sel`}>
+                {p.links}
+              </label>
+              <select id={`${feldname(frage, i)}-sel`} name={feldname(frage, i)}>
+                <option value="">Bitte wählen</option>
+                {rechtsGemischt.map((r) => (
+                  <option value={r} selected={zuordnung[p.links] === r}>
+                    {r}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ))}
+        </div>
+        <div class="verbinden js-nur" data-verbinden>
+          <p class="verbinden__hilfe">Links einen Begriff antippen, dann rechts den passenden. Noch einmal antippen löst die Verbindung.</p>
+          {frage.paare.map((p, i) => (
+            <button type="button" data-seite="links" data-index={i} data-wert={p.links} aria-pressed="false">
+              {p.links}
+            </button>
+          ))}
+          {rechtsGemischt.map((r) => (
+            <button type="button" data-seite="rechts" data-wert={r} aria-pressed="false">
+              {r}
+            </button>
+          ))}
+        </div>
+      </>
+    )
+  }
+
+  {
+    frage.typ === 'lueckentext' && (
+      <p class="luecken">
+        {teile.map((t) =>
+          t.art === 'text' ? (
+            <span>{t.text}</span>
+          ) : (
+            <input
+              type="text"
+              name={feldname(frage, t.index)}
+              value={eingaben[t.index] ?? ''}
+              aria-label={`Lücke ${t.index + 1}`}
+              autocomplete="off"
+              required
+            />
+          ),
+        )}
+      </p>
+    )
+  }
+
+  {
+    bewertung && (
+      <div class:list={['frage__ergebnis', bewertung.richtig ? 'ist-richtig' : 'ist-falsch']}>
+        <strong>{bewertung.richtig ? 'Richtig.' : 'Noch nicht.'}</strong>
+        {!bewertung.richtig && <span>Lösung: {bewertung.loesung}. </span>}
+        {frage.erklaerung && <span>{frage.erklaerung}</span>}
+      </div>
+    )
+  }
+</fieldset>
+
+<script>
+  // Paare per Klick verbinden. Schreibt das Ergebnis in die versteckten
+  // Auswahllisten, damit der Server nur ein Format kennt.
+  document.documentElement.classList.add('js');
+
+  for (const block of document.querySelectorAll<HTMLElement>('[data-verbinden]')) {
+    const frage = block.closest<HTMLElement>('.frage');
+    if (!frage) continue;
+    const selects = Array.from(frage.querySelectorAll<HTMLSelectElement>('select'));
+    const links = Array.from(block.querySelectorAll<HTMLButtonElement>('[data-seite="links"]'));
+    const rechts = Array.from(block.querySelectorAll<HTMLButtonElement>('[data-seite="rechts"]'));
+    let gewaehlt: HTMLButtonElement | null = null;
+
+    const zeige = () => {
+      const belegt = new Map<string, string>();
+      selects.forEach((s, i) => {
+        const l = links[i];
+        if (!l) return;
+        l.classList.toggle('verbunden', Boolean(s.value));
+        l.dataset.paar = s.value ? `→ ${s.value}` : '';
+        if (s.value) belegt.set(s.value, l.dataset.wert ?? '');
+      });
+      for (const r of rechts) {
+        const partner = belegt.get(r.dataset.wert ?? '');
+        r.classList.toggle('verbunden', Boolean(partner));
+        r.dataset.paar = partner ? `← ${partner}` : '';
+      }
+    };
+
+    const setze = (index: number, wert: string) => {
+      // Ein rechter Begriff gehoert nur zu einem linken.
+      selects.forEach((s, i) => {
+        if (i !== index && s.value === wert) s.value = '';
+      });
+      const select = selects[index];
+      if (select) select.value = wert;
+    };
+
+    links.forEach((l, index) => {
+      l.addEventListener('click', () => {
+        if (selects[index]?.value) {
+          setze(index, '');
+          gewaehlt = null;
+        } else {
+          gewaehlt = gewaehlt === l ? null : l;
+        }
+        for (const b of links) b.setAttribute('aria-pressed', String(b === gewaehlt));
+        zeige();
+      });
+    });
+
+    rechts.forEach((r) => {
+      r.addEventListener('click', () => {
+        const wert = r.dataset.wert ?? '';
+        const vorhandenIndex = selects.findIndex((s) => s.value === wert);
+        if (gewaehlt) {
+          setze(Number(gewaehlt.dataset.index), wert);
+          gewaehlt.setAttribute('aria-pressed', 'false');
+          gewaehlt = null;
+        } else if (vorhandenIndex >= 0) {
+          setze(vorhandenIndex, '');
+        }
+        zeige();
+      });
+    });
+
+    zeige();
+  }
+</script>

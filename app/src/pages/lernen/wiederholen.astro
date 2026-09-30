@@ -1,0 +1,54 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import QuizFrage from '../../components/QuizFrage.astro';
+import { frageNachId } from '../../lib/inhalt.ts';
+import { falscheFragen, ladeAntworten } from '../../lib/lernen.ts';
+import { ergebnisseAusAntworten, verarbeiteQuiz } from '../../lib/quiz-durchlauf.ts';
+import { istPost } from '../../lib/http.ts';
+import type { Frage } from '../../lib/quiz.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const db = Astro.locals.db;
+const csrf = Astro.locals.csrf ?? '';
+
+if (istPost(Astro.request)) {
+  const form = await Astro.request.formData();
+  const ids = String(form.get('fragen') ?? '').split(',').filter(Boolean);
+  const fragen = ids.map(frageNachId).filter((f): f is Frage => Boolean(f));
+  const ergebnisse = await verarbeiteQuiz(db, benutzer.id, fragen, form);
+  const richtig = ergebnisse.filter((e) => e.bewertung.richtig).length;
+  return Astro.redirect(`/lernen/wiederholen?richtig=${richtig}&von=${ergebnisse.length}`, 303);
+}
+
+const ids = await falscheFragen(db, benutzer.id);
+const fragen = ids.map(frageNachId).filter((f): f is Frage => Boolean(f));
+const antworten = await ladeAntworten(db, benutzer.id);
+const ergebnisse = ergebnisseAusAntworten(fragen, antworten);
+const richtig = Astro.url.searchParams.get('richtig');
+const von = Astro.url.searchParams.get('von');
+---
+
+<Layout titel="Wiederholen" aktiv="lernen">
+  <p class="meta"><a href="/lernen">Lernen</a> / Wiederholen</p>
+  <h1>Falsche Fragen wiederholen</h1>
+  {richtig !== null && (
+    <div class:list={['meldung', fragen.length === 0 ? 'meldung--ok' : 'meldung--fehler']} role="status">
+      <p><strong>{richtig} von {von} richtig.</strong> {fragen.length === 0 ? 'Nichts mehr offen.' : 'Was noch falsch war, steht unten mit Lösung.'}</p>
+    </div>
+  )}
+  {fragen.length === 0 ? (
+    <p>Es gibt keine offenen Fragen. <a href="/lernen">Zurück zur Übersicht</a></p>
+  ) : (
+    <form method="post">
+      <input type="hidden" name="_csrf" value={csrf} />
+      <input type="hidden" name="fragen" value={fragen.map((f) => f.id).join(',')} />
+      {fragen.map((f, i) => {
+        const e = ergebnisse.get(f.id);
+        return <QuizFrage frage={f} nummer={i + 1} antwort={null} bewertung={richtig !== null ? e?.bewertung : null} />;
+      })}
+      <div class="aktionen">
+        <button class="btn" type="submit">Antworten prüfen</button>
+      </div>
+    </form>
+  )}
+</Layout>

@@ -1,0 +1,59 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { fragenJeKapitel, inhaltsQuelle, quizFehler } from '../../lib/inhalt.ts';
+import { falscheFragen, fortschritt } from '../../lib/lernen.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const db = Astro.locals.db;
+
+const kapitel = (await getCollection('kapitel')).sort((a, b) => a.data.nummer - b.data.nummer);
+const stand = await fortschritt(db, benutzer.id, fragenJeKapitel(kapitel.map((k) => k.id)));
+const standJe = new Map(stand.map((s) => [s.kapitel, s]));
+const erledigt = stand.filter((s) => s.erledigt).length;
+const richtig = stand.reduce((s, k) => s + k.richtig, 0);
+const fragenGesamt = stand.reduce((s, k) => s + k.fragen, 0);
+const offen = (await falscheFragen(db, benutzer.id)).length;
+---
+
+<Layout titel="Lernen" aktiv="lernen">
+  <h1>Lernen</h1>
+  <p>Das Angebot von dekaru, Kapitel für Kapitel. Am Ende jedes Kapitels ein paar Fragen. Ein Kapitel gilt als erledigt, wenn alle Fragen einmal richtig beantwortet sind.</p>
+
+  <div class="raster">
+    <div class="kennzahl"><div class="kennzahl__wert">{erledigt} / {kapitel.length}</div><div class="kennzahl__label">Kapitel erledigt</div></div>
+    <div class="kennzahl"><div class="kennzahl__wert">{richtig} / {fragenGesamt}</div><div class="kennzahl__label">Fragen zuletzt richtig</div></div>
+    <div class="kennzahl"><div class="kennzahl__wert">{offen}</div><div class="kennzahl__label">Fragen zum Wiederholen</div></div>
+  </div>
+
+  {offen > 0 && <p style="margin-top:var(--space-l)"><a class="btn btn--zweit" href="/lernen/wiederholen">Falsche Fragen wiederholen</a></p>}
+
+  {benutzer.rolle === 'admin' && quizFehler.length > 0 && (
+    <div class="meldung meldung--fehler" style="margin-top:var(--space-l)">
+      <p><strong>Nur für den Admin sichtbar:</strong> {quizFehler.length} Fragen in quiz.json wurden wegen Formatfehlern übersprungen.</p>
+      <ul>{quizFehler.map((f) => <li>{f}</li>)}</ul>
+    </div>
+  )}
+
+  <h2>Kapitel</h2>
+  <ol class="kapitel-liste">
+    {kapitel.map((k) => {
+      const s = standJe.get(k.id);
+      return (
+        <li>
+          <a href={`/lernen/${k.id}`}>
+            <span class="nummer" aria-hidden="true">{k.data.nummer}</span>
+            <span class="titel">
+              <span class="sr-only">Kapitel {k.data.nummer}: </span>{k.data.titel}
+              {k.data.kurz && <span class="kurz">{k.data.kurz}</span>}
+            </span>
+            <span class:list={['badge', s?.erledigt && 'badge--voll']}>
+              {s?.erledigt ? 'Erledigt' : s && s.fragen > 0 ? `${s.richtig} / ${s.fragen}` : 'Offen'}
+            </span>
+          </a>
+        </li>
+      );
+    })}
+  </ol>
+  {benutzer.rolle === 'admin' && <p class="meta">Inhalte aus {inhaltsQuelle}</p>}
+</Layout>

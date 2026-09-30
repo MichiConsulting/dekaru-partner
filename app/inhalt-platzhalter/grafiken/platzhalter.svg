@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 120" role="img" aria-labelledby="t" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#141414">
+  <title id="t">Drei Schritte nebeneinander: Kapitel lesen, Fragen beantworten, Wiederholen</title>
+  <g stroke="#141414" stroke-width="1.5" fill="none">
+    <rect x="10" y="30" width="160" height="60" rx="4"/>
+    <rect x="220" y="30" width="160" height="60" rx="4"/>
+    <rect x="430" y="30" width="160" height="60" rx="4"/>
+    <path d="M170 60h50M380 60h50"/>
+  </g>
+  <text x="90" y="65" text-anchor="middle">Kapitel lesen</text>
+  <text x="300" y="65" text-anchor="middle">Fragen beantworten</text>
+  <text x="510" y="65" text-anchor="middle">Wiederholen</text>
+</svg>

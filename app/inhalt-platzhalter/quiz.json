@@ -1,0 +1,30 @@
+{
+  "fragen": [
+    {
+      "id": "platz-01",
+      "kapitel": "01-platzhalter",
+      "typ": "multiple-choice",
+      "frage": "Wo entstehen die echten Lerninhalte?",
+      "optionen": ["Im Ordner inhalt/ im Repo", "Direkt in der Datenbank", "In einer Tabellenkalkulation"],
+      "richtig": 0,
+      "erklaerung": "Kapitel, Fragen und Grafiken liegen in inhalt/ und werden beim Build eingelesen."
+    },
+    {
+      "id": "platz-02",
+      "kapitel": "01-platzhalter",
+      "typ": "paare",
+      "frage": "Ordnen Sie die Dateien ihrem Zweck zu.",
+      "paare": [
+        { "links": "quiz.json", "rechts": "Fragen" },
+        { "links": "grafiken/", "rechts": "SVG-Bilder" },
+        { "links": "01-name.md", "rechts": "Kapitel" }
+      ]
+    },
+    {
+      "id": "platz-03",
+      "kapitel": "01-platzhalter",
+      "typ": "lueckentext",
+      "text": "Kapitel liegen als Markdown im Ordner {{inhalt}} und Grafiken im Unterordner {{grafiken}}."
+    }
+  ]
+}
