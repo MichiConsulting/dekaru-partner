@@ -1,0 +1,84 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { datumDe, euro, ladeAbrechnung, monatsname } from '../../lib/provision.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const monat = String(Astro.params.monat ?? '');
+const a = benutzer.vertrieblerSlug ? await ladeAbrechnung(Astro.locals.db, benutzer.vertrieblerSlug, monat) : null;
+if (!a) return new Response('Nicht gefunden', { status: 404 });
+
+const kunden = [...new Set(a.zeilen.map((z) => z.slug))];
+const hinweise = a.hinweise.filter((h) => !h.monat || h.monat === a.monat);
+---
+
+<Layout titel={`Provision ${monatsname(a.monat)}`} aktiv="provision">
+  <p class="meta"><a href="/provision">Meine Provision</a> / {monatsname(a.monat)}</p>
+  <h1>Provisionsabrechnung {monatsname(a.monat)}</h1>
+  <p class="meta">
+    Auszahlung zum {datumDe(a.auszahlungZum) || 'Fünften des Folgemonats'}.
+    {a.erstellt && ` Erstellt am ${datumDe(a.erstellt)}.`}
+    {a.ausgezahltAm && ` Überwiesen am ${datumDe(a.ausgezahltAm)}.`}
+  </p>
+
+  {a.zeilen.length === 0 ? (
+    <p>In diesem Monat ist keine Provision fällig geworden.</p>
+  ) : (
+    kunden.map((slug) => {
+      const eigene = a.zeilen.filter((z) => z.slug === slug);
+      const summe = eigene.reduce((s, z) => s + z.betragCent, 0);
+      return (
+        <>
+          <h2>{eigene[0].kunde || slug}</h2>
+          <div class="tabelle-wrap">
+            <table>
+              <thead><tr><th>Rechnung</th><th>Vorgang</th><th>Zahlungseingang</th><th class="zahl">Grundlage</th><th class="zahl">Provision</th></tr></thead>
+              <tbody>
+                {eigene.map((z) => (
+                  <tr><td>{z.nummer}</td><td>{z.text}</td><td>{datumDe(z.zahlungIso)}</td><td class="zahl">{euro(z.grundlageCent)}</td><td class="zahl">{euro(z.betragCent)}</td></tr>
+                ))}
+              </tbody>
+              <tfoot><tr><td colspan="4">Summe Abschluss</td><td class="zahl">{euro(summe)}</td></tr></tfoot>
+            </table>
+          </div>
+        </>
+      );
+    })
+  )}
+
+  <h2>Summe</h2>
+  <div class="tabelle-wrap">
+    <table>
+      <tbody>
+        <tr><td>Provision {monatsname(a.monat)}</td><td class="zahl">{euro(a.summeCent)}</td></tr>
+        {a.vortragCent !== 0 && <tr><td>Vortrag aus Vormonaten</td><td class="zahl">{euro(a.vortragCent)}</td></tr>}
+        <tr><td><strong>Auszahlung</strong></td><td class="zahl"><strong>{euro(a.auszahlungCent)}</strong></td></tr>
+        {a.neuerVortragCent !== 0 && <tr><td>Vortrag in die nächste Abrechnung</td><td class="zahl">{euro(a.neuerVortragCent)}</td></tr>}
+      </tbody>
+    </table>
+  </div>
+
+  {a.aufgelaufen.length > 0 && (
+    <>
+      <h2>Aufgelaufene Hosting-Provision</h2>
+      <p>Entstanden, aber noch nicht ausgezahlt. Hosting-Provision wird gesammelt und mit der Abrechnung zum Fünften nach Quartalsende ausgezahlt.</p>
+      <div class="tabelle-wrap">
+        <table>
+          <thead><tr><th>Kunde</th><th>Rechnung</th><th>Vorgang</th><th>Zahlungseingang</th><th class="zahl">Provision</th><th>Ausgezahlt mit</th></tr></thead>
+          <tbody>
+            {a.aufgelaufen.map((z) => (
+              <tr><td>{z.kunde || z.slug}</td><td>{z.nummer}</td><td>{z.text}</td><td>{datumDe(z.zahlungIso)}</td><td class="zahl">{euro(z.betragCent)}</td><td>{monatsname(z.monat)}</td></tr>
+            ))}
+          </tbody>
+          <tfoot><tr><td colspan="4">Summe aufgelaufen</td><td class="zahl">{euro(a.aufgelaufenCent)}</td><td></td></tr></tfoot>
+        </table>
+      </div>
+    </>
+  )}
+
+  {hinweise.length > 0 && (
+    <>
+      <h2>Hinweise</h2>
+      <ul>{hinweise.map((h) => <li>{h.slug}: {h.text}</li>)}</ul>
+    </>
+  )}
+</Layout>

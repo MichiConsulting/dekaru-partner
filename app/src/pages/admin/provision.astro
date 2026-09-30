@@ -1,0 +1,111 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { alleAbrechnungen, datumDe, euro, importiereAbrechnung, markiereAusgezahlt, monatsname, pruefeAbrechnung } from '../../lib/provision.ts';
+import { istPost } from '../../lib/http.ts';
+import { istUuid } from '../../lib/kunden.ts';
+
+const db = Astro.locals.db;
+const ich = Astro.locals.benutzer!;
+const csrf = Astro.locals.csrf ?? '';
+const meldungen: { ok: boolean; text: string }[] = [];
+
+if (istPost(Astro.request)) {
+  const form = await Astro.request.formData();
+  const aktion = form.get('aktion');
+  if (aktion === 'ausgezahlt') {
+    const id = String(form.get('id') ?? '');
+    const datum = String(form.get('datum') ?? '').slice(0, 10);
+    if (istUuid(id) && /^\d{4}-\d{2}-\d{2}$/.test(datum)) {
+      await markiereAusgezahlt(db, id, datum);
+      return Astro.redirect('/admin/provision?ok=ausgezahlt', 303);
+    }
+    meldungen.push({ ok: false, text: 'Datum fehlt oder ist ungültig.' });
+  } else if (aktion === 'offen') {
+    const id = String(form.get('id') ?? '');
+    if (istUuid(id)) await markiereAusgezahlt(db, id, null);
+    return Astro.redirect('/admin/provision', 303);
+  } else {
+    const dateien = form.getAll('dateien').filter((d): d is File => d instanceof File && d.size > 0);
+    if (dateien.length === 0) meldungen.push({ ok: false, text: 'Keine Datei ausgewählt.' });
+    for (const datei of dateien) {
+      if (datei.size > 2_000_000) {
+        meldungen.push({ ok: false, text: `${datei.name}: zu groß.` });
+        continue;
+      }
+      let json: unknown;
+      try {
+        json = JSON.parse(await datei.text());
+      } catch {
+        meldungen.push({ ok: false, text: `${datei.name}: kein gültiges JSON.` });
+        continue;
+      }
+      const { abrechnung, fehler } = pruefeAbrechnung(json);
+      if (!abrechnung) {
+        meldungen.push({ ok: false, text: `${datei.name}: ${fehler.join(' ')}` });
+        continue;
+      }
+      const e = await importiereAbrechnung(db, abrechnung, ich.id);
+      meldungen.push({
+        ok: true,
+        text: `${datei.name}: ${abrechnung.vertriebler}, ${monatsname(abrechnung.monat)}, Auszahlung ${euro(abrechnung.auszahlungCent)}${e.ersetzt ? ' (vorhandene ersetzt)' : ''}.`,
+      });
+    }
+  }
+}
+if (Astro.url.searchParams.get('ok') === 'ausgezahlt') meldungen.push({ ok: true, text: 'Als ausgezahlt markiert.' });
+
+const liste = await alleAbrechnungen(db);
+const heute = new Date().toISOString().slice(0, 10);
+---
+
+<Layout titel="Provision importieren" aktiv="admin">
+  <p class="meta"><a href="/admin">Admin</a> / Provision</p>
+  <h1>Provision importieren</h1>
+  <p>Die JSON-Dateien entstehen mit <code>npm run provision</code> in dekaru-rechnungen unter <code>provision/&lt;Monat&gt;/&lt;slug&gt;.json</code>. Mehrere Dateien auf einmal sind möglich. Eine Abrechnung für denselben Monat und Slug wird ersetzt.</p>
+
+  {meldungen.map((m) => <div class:list={['meldung', m.ok ? 'meldung--ok' : 'meldung--fehler']} role={m.ok ? 'status' : 'alert'}><p>{m.text}</p></div>)}
+
+  <form method="post" enctype="multipart/form-data" class="karte">
+    <input type="hidden" name="_csrf" value={csrf} />
+    <div class="feld">
+      <label for="dateien">JSON-Dateien</label>
+      <input id="dateien" name="dateien" type="file" accept="application/json,.json" multiple required />
+    </div>
+    <button type="submit" class="btn">Importieren</button>
+  </form>
+
+  <h2>Importierte Abrechnungen</h2>
+  <div class="tabelle-wrap">
+    <table>
+      <thead><tr><th>Monat</th><th>Vertriebler</th><th class="zahl">Provision</th><th class="zahl">Auszahlung</th><th class="zahl">Aufgelaufen</th><th>Importiert</th><th>Ausgezahlt</th></tr></thead>
+      <tbody>
+        {liste.length === 0 && <tr><td colspan="7">Noch nichts importiert.</td></tr>}
+        {liste.map((a) => (
+          <tr>
+            <td>{monatsname(a.monat)}</td>
+            <td>{a.name} <span class="meta">({a.vertriebler})</span></td>
+            <td class="zahl">{euro(a.summeCent)}</td>
+            <td class="zahl">{euro(a.auszahlungCent)}</td>
+            <td class="zahl">{euro(a.aufgelaufenCent)}</td>
+            <td>{a.importiertAm.toLocaleDateString('de-DE')}</td>
+            <td>
+              {a.ausgezahltAm ? (
+                <form method="post" class="inline">
+                  <input type="hidden" name="_csrf" value={csrf} /><input type="hidden" name="aktion" value="offen" /><input type="hidden" name="id" value={a.id} />
+                  {datumDe(a.ausgezahltAm)} <button type="submit" class="btn btn--zweit btn--klein">Zurücksetzen</button>
+                </form>
+              ) : a.auszahlungCent > 0 ? (
+                <form method="post" class="inline">
+                  <input type="hidden" name="_csrf" value={csrf} /><input type="hidden" name="aktion" value="ausgezahlt" /><input type="hidden" name="id" value={a.id} />
+                  <label class="sr-only" for={`d-${a.id}`}>Auszahlungsdatum</label>
+                  <input id={`d-${a.id}`} type="date" name="datum" value={heute} style="min-height:32px;padding:0 6px;border:1px solid var(--border-strong);border-radius:4px;background:var(--surface);color:var(--text)" />
+                  <button type="submit" class="btn btn--klein">Ausgezahlt</button>
+                </form>
+              ) : ''}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</Layout>

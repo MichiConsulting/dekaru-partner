@@ -1,0 +1,60 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { datumDe, euro, ladeAbrechnungen, monatsname, summen } from '../../lib/provision.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const slug = benutzer.vertrieblerSlug;
+const abrechnungen = slug ? await ladeAbrechnungen(Astro.locals.db, slug) : [];
+const s = summen(abrechnungen);
+---
+
+<Layout titel="Meine Provision" aktiv="provision">
+  <h1>Meine Provision</h1>
+  {!slug ? (
+    <p>Ihrem Zugang ist noch kein Vertriebler-Kürzel zugeordnet. Michael Henning trägt es nach, dann erscheinen hier die Abrechnungen.</p>
+  ) : abrechnungen.length === 0 ? (
+    <p>Noch keine Abrechnung. Die erste entsteht mit dem ersten Zahlungseingang eines Ihrer Kunden, abgerechnet zum Fünften für den Vormonat.</p>
+  ) : (
+    <>
+      <div class="raster">
+        <div class="kennzahl"><div class="kennzahl__wert">{euro(s.entstandenCent)}</div><div class="kennzahl__label">Provision entstanden, alle Monate</div></div>
+        <div class="kennzahl"><div class="kennzahl__wert">{euro(s.ausgezahltCent)}</div><div class="kennzahl__label">Ausgezahlt</div></div>
+        <div class="kennzahl"><div class="kennzahl__wert">{euro(s.offenCent)}</div><div class="kennzahl__label">Zur Auszahlung, noch nicht überwiesen</div></div>
+        <div class="kennzahl"><div class="kennzahl__wert">{euro(s.aufgelaufenCent)}</div><div class="kennzahl__label">Aufgelaufen: Hosting bis zur Quartalsabrechnung</div></div>
+      </div>
+
+      <h2>Je Monat</h2>
+      <div class="tabelle-wrap">
+        <table>
+          <thead>
+            <tr><th>Abrechnungsmonat</th><th class="zahl">Provision</th><th class="zahl">Vortrag</th><th class="zahl">Auszahlung</th><th class="zahl">Aufgelaufen</th><th>Ausgezahlt</th></tr>
+          </thead>
+          <tbody>
+            {abrechnungen.map((a) => (
+              <tr>
+                <td><a href={`/provision/${a.monat}`}>{monatsname(a.monat)}</a></td>
+                <td class="zahl">{euro(a.summeCent)}</td>
+                <td class="zahl">{a.vortragCent ? euro(a.vortragCent) : ''}</td>
+                <td class="zahl">{euro(a.auszahlungCent)}</td>
+                <td class="zahl">{euro(a.aufgelaufenCent)}</td>
+                <td>{a.ausgezahltAm ? datumDe(a.ausgezahltAm) : a.auszahlungCent > 0 ? 'offen' : ''}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  )}
+
+  <h2>Die Regeln in Kürze</h2>
+  <div class="karte">
+    <ul>
+      <li><strong>35 %</strong> auf alles Einmalige, also Website und Zusatzleistungen, gerechnet auf den Betrag, den der Kunde tatsächlich gezahlt hat. Keine Umsatzsteuer, Rechnungsbetrag ist Grundlage.</li>
+      <li><strong>Fällig nach Zahlungseingang</strong>, nicht nach Auftrag. Abgerechnet wird monatlich zum Fünften für den Vormonat. Teilzahlungen anteilig.</li>
+      <li><strong>Hosting:</strong> 35 % auf die ersten zwölf bezahlten Monate. Die Provision entsteht mit jeder bezahlten Hosting-Rechnung, verfällt nicht und wird gesammelt vierteljährlich ausgezahlt, mit den Abrechnungen für März, Juni, September und Dezember. Bis dahin steht sie hier als "aufgelaufen". Gratismonate zählen nicht.</li>
+      <li><strong>Storno:</strong> wird eine bereits abgerechnete, bezahlte Rechnung storniert, wird der Betrag mit der nächsten Abrechnung verrechnet. Ein negativer Saldo wird vorgetragen, nie zurückgefordert, solange es eine nächste Abrechnung gibt.</li>
+      <li><strong>Zuordnung:</strong> ein Abschluss zählt zu dem, der den Termin gebracht hat, auch wenn zwischen Termin und Auftrag Monate liegen.</li>
+    </ul>
+    <p class="meta">Die genaue Regelung steht im Partnervertrag. Diese Aufstellung ist eine Zuarbeit, die Gutschrift selbst kommt getrennt.</p>
+  </div>
+</Layout>
