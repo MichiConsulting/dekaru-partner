@@ -1,0 +1,56 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { beendeAlleSitzungen, setzePasswort } from '../lib/auth.ts';
+import { pruefePasswort, pruefeNeuesPasswort } from '../lib/passwort.ts';
+import { formular, istPost } from '../lib/http.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const db = Astro.locals.db;
+const csrf = Astro.locals.csrf ?? '';
+const erzwungen = benutzer.passwortWechselNoetig;
+
+let fehler: string | null = null;
+let erledigt = Astro.url.searchParams.get('ok') === '1';
+
+if (istPost(Astro.request)) {
+  const daten = await formular(Astro.request);
+  const zeilen = await db.query<{ passwort_hash: string }>('SELECT passwort_hash FROM benutzer WHERE id = $1', [benutzer.id]);
+  const altStimmt = await pruefePasswort(daten.alt ?? '', zeilen[0]?.passwort_hash ?? '');
+  if (!altStimmt) fehler = 'Das bisherige Passwort stimmt nicht.';
+  else if (daten.neu !== daten.neu2) fehler = 'Die beiden neuen Passwörter sind nicht gleich.';
+  else fehler = pruefeNeuesPasswort(daten.neu ?? '');
+  if (!fehler && daten.neu === daten.alt) fehler = 'Das neue Passwort muss sich vom bisherigen unterscheiden.';
+
+  if (!fehler) {
+    await setzePasswort(db, benutzer.id, daten.neu, false);
+    await beendeAlleSitzungen(db, benutzer.id, Astro.locals.sitzungId ?? undefined);
+    return Astro.redirect(erzwungen ? '/' : '/passwort?ok=1', 303);
+  }
+}
+---
+
+<Layout titel="Passwort ändern" schmal>
+  <h1>Passwort ändern</h1>
+  {erzwungen && <p>Bitte legen Sie zuerst ein eigenes Passwort fest. Das Einmal-Passwort aus der Einladung gilt nur für diese Anmeldung.</p>}
+  {erledigt && <div class="meldung meldung--ok" role="status"><p>Das Passwort ist geändert. Andere Geräte wurden abgemeldet.</p></div>}
+  {fehler && <div class="meldung meldung--fehler" role="alert"><p>{fehler}</p></div>}
+  <form method="post" class="karte">
+    <input type="hidden" name="_csrf" value={csrf} />
+    <div class="feld">
+      <label for="alt">{erzwungen ? 'Einmal-Passwort' : 'Bisheriges Passwort'}</label>
+      <input id="alt" name="alt" type="password" autocomplete="current-password" required />
+    </div>
+    <div class="feld">
+      <label for="neu">Neues Passwort</label>
+      <input id="neu" name="neu" type="password" autocomplete="new-password" required minlength="10" />
+      <p class="feld__hilfe">Mindestens zehn Zeichen. Am besten ein Satz, den Sie sich merken können.</p>
+    </div>
+    <div class="feld">
+      <label for="neu2">Neues Passwort wiederholen</label>
+      <input id="neu2" name="neu2" type="password" autocomplete="new-password" required minlength="10" />
+    </div>
+    <div class="aktionen">
+      <button type="submit" class="btn">Passwort speichern</button>
+    </div>
+  </form>
+</Layout>

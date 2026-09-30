@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+Astro.response.status = 403;
+---
+
+<Layout titel="Kein Zugriff" schmal>
+  <h1>Kein Zugriff</h1>
+  <p>Diese Seite ist dem Admin vorbehalten.</p>
+  <p><a href="/">Zur Startseite</a></p>
+</Layout>

@@ -1,0 +1,61 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { COOKIE_NAME, login } from '../lib/auth.ts';
+import { clientIp, formular, istPost } from '../lib/http.ts';
+import { sichererWeiterPfad } from '../lib/zugriff.ts';
+
+const weiter = sichererWeiterPfad(Astro.url.searchParams.get('weiter'));
+if (Astro.locals.benutzer) return Astro.redirect(weiter, 303);
+
+let fehler: string | null = null;
+let email = '';
+
+if (istPost(Astro.request)) {
+  const daten = await formular(Astro.request);
+  email = daten.email ?? '';
+  const ergebnis = await login(Astro.locals.db, {
+    email,
+    passwort: daten.passwort ?? '',
+    ip: clientIp(Astro),
+  });
+  if (ergebnis.ok) {
+    Astro.cookies.set(COOKIE_NAME, ergebnis.sitzung.token, {
+      httpOnly: true,
+      secure: import.meta.env.PROD,
+      sameSite: 'lax',
+      path: '/',
+      expires: ergebnis.sitzung.laeuftAb,
+    });
+    return Astro.redirect(ergebnis.benutzer.passwortWechselNoetig ? '/passwort' : weiter, 303);
+  }
+  fehler =
+    ergebnis.grund === 'gesperrt'
+      ? `Zu viele Fehlversuche. Bitte in ${Math.ceil(ergebnis.wartenSekunden / 60)} Minuten noch einmal.`
+      : 'E-Mail-Adresse oder Passwort stimmen nicht.';
+}
+---
+
+<Layout titel="Anmelden" schmal>
+  <h1>Anmelden</h1>
+  <p class="meta">Zugang nur für Vertriebspartner von dekaru. Ihre Zugangsdaten bekommen Sie von Michael Henning.</p>
+  {
+    fehler && (
+      <div class="meldung meldung--fehler" role="alert">
+        <p>{fehler}</p>
+      </div>
+    )
+  }
+  <form method="post" class="karte">
+    <div class="feld">
+      <label for="email">E-Mail-Adresse</label>
+      <input id="email" name="email" type="email" autocomplete="username" required value={email} />
+    </div>
+    <div class="feld">
+      <label for="passwort">Passwort</label>
+      <input id="passwort" name="passwort" type="password" autocomplete="current-password" required />
+    </div>
+    <div class="aktionen">
+      <button type="submit" class="btn">Anmelden</button>
+    </div>
+  </form>
+</Layout>
