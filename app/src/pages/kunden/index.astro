@@ -1,0 +1,73 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { STATUS, aktuellerMonat, listeKunden, monatszahlen, statusLabel } from '../../lib/kunden.ts';
+import { datumDe, monatsname } from '../../lib/provision.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const db = Astro.locals.db;
+const status = Astro.url.searchParams.get('status') ?? '';
+const suche = Astro.url.searchParams.get('suche') ?? '';
+const kunden = await listeKunden(db, benutzer.id, { status, suche });
+const monat = aktuellerMonat();
+const zahlen = await monatszahlen(db, benutzer.id, monat);
+const gespeichert = Astro.url.searchParams.get('ok');
+---
+
+<Layout titel="Meine Kunden" aktiv="kunden">
+  <h1>Meine Kunden</h1>
+  {gespeichert === 'neu' && <div class="meldung meldung--ok" role="status"><p>Der Betrieb ist eingetragen.</p></div>}
+  {gespeichert === 'geloescht' && <div class="meldung meldung--ok" role="status"><p>Der Eintrag ist gelöscht.</p></div>}
+
+  <div class="raster">
+    <div class="kennzahl"><div class="kennzahl__wert">{zahlen.termine}</div><div class="kennzahl__label">Termine im {monatsname(monat)}</div></div>
+    <div class="kennzahl"><div class="kennzahl__wert">{zahlen.abschluesse}</div><div class="kennzahl__label">Abschlüsse im {monatsname(monat)}</div></div>
+    <div class="kennzahl"><div class="kennzahl__wert">{kunden.length}</div><div class="kennzahl__label">{status || suche ? 'Treffer' : 'Betriebe gesamt'}</div></div>
+  </div>
+
+  <div class="aktionen">
+    <a class="btn" href="/kunden/neu">Betrieb eintragen</a>
+  </div>
+
+  <form method="get" class="filter" style="margin-top:var(--space-l)">
+    <div class="feld">
+      <label for="suche">Suche</label>
+      <input id="suche" name="suche" type="search" value={suche} placeholder="Betrieb, Ort, Ansprechpartner" />
+    </div>
+    <div class="feld">
+      <label for="status">Status</label>
+      <select id="status" name="status">
+        <option value="">Alle</option>
+        {STATUS.map((s) => <option value={s.wert} selected={status === s.wert}>{s.label}</option>)}
+      </select>
+    </div>
+    <button type="submit" class="btn btn--zweit">Filtern</button>
+  </form>
+
+  {kunden.length === 0 ? (
+    <p>Noch kein Eintrag{status || suche ? ' zu diesem Filter' : ''}.</p>
+  ) : (
+    <div class="tabelle-wrap">
+      <table>
+        <thead>
+          <tr><th>Betrieb</th><th>Ort</th><th>Ansprechpartner</th><th>Status</th><th>Termin</th><th></th></tr>
+        </thead>
+        <tbody>
+          {kunden.map((k) => (
+            <tr>
+              <td><a href={`/kunden/${k.id}`}>{k.name}</a></td>
+              <td>{k.ort}</td>
+              <td>{k.ansprechpartner}{k.telefon && <span class="meta"><br />{k.telefon}</span>}</td>
+              <td><span class:list={['badge', k.status === 'abschluss' && 'badge--voll']}>{statusLabel(k.status)}</span></td>
+              <td>{datumDe(k.terminDatum)}</td>
+              <td><a href={`/kunden/${k.id}`}>Bearbeiten</a></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )}
+
+  <div class="hinweis">
+    <strong>Datensparsamkeit.</strong> Bitte nur geschäftliche Kontaktdaten von Betrieben eintragen: Firmenname, Ort, Ansprechpartner in seiner Funktion, geschäftliche Telefonnummer. Keine privaten Nummern, keine Angaben über die Person. Kaltakquise nur gegenüber Gewerbetreibenden (§ 7 UWG), Privatpersonen werden nicht angesprochen und nicht eingetragen.
+  </div>
+</Layout>

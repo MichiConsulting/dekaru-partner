@@ -1,0 +1,50 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import KundeFormular from '../../components/KundeFormular.astro';
+import { aendereKunde, holeKunde, loescheKunde, pruefeKunde, statusLabel, type KundeEingabe } from '../../lib/kunden.ts';
+import { datumDe } from '../../lib/provision.ts';
+import { formular, istPost } from '../../lib/http.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const db = Astro.locals.db;
+const csrf = Astro.locals.csrf ?? '';
+const id = String(Astro.params.id ?? '');
+
+// Nur eigene Eintraege. Fremde IDs enden hier mit 404, nicht mit 403, damit
+// sich nicht einmal die Existenz eines fremden Eintrags erraten laesst.
+const kunde = await holeKunde(db, benutzer.id, id);
+if (!kunde) return new Response('Nicht gefunden', { status: 404 });
+
+let werte: Partial<KundeEingabe> = kunde;
+let fehler: string[] = [];
+let gespeichert = Astro.url.searchParams.get('ok') === '1';
+
+if (istPost(Astro.request)) {
+  const daten = await formular(Astro.request);
+  if (daten.aktion === 'loeschen') {
+    await loescheKunde(db, benutzer.id, id);
+    return Astro.redirect('/kunden?ok=geloescht', 303);
+  }
+  const geprueft = pruefeKunde(daten);
+  werte = geprueft.wert;
+  fehler = geprueft.fehler;
+  if (fehler.length === 0) {
+    await aendereKunde(db, benutzer.id, id, geprueft.wert);
+    return Astro.redirect(`/kunden/${id}?ok=1`, 303);
+  }
+}
+---
+
+<Layout titel={kunde.name} aktiv="kunden" schmal>
+  <p class="meta"><a href="/kunden">Meine Kunden</a> / {kunde.name}</p>
+  <h1>{kunde.name}</h1>
+  <p class="meta">Status {statusLabel(kunde.status)} seit {datumDe(kunde.statusSeit)}. Eingetragen am {datumDe(kunde.erstelltAm.toISOString())}.</p>
+  {gespeichert && <div class="meldung meldung--ok" role="status"><p>Gespeichert.</p></div>}
+  <KundeFormular werte={werte} csrf={csrf} fehler={fehler} knopf="Speichern" />
+  <form method="post" class="karte">
+    <input type="hidden" name="_csrf" value={csrf} />
+    <input type="hidden" name="aktion" value="loeschen" />
+    <p class="meta">Eintrag löschen, wenn der Betrieb nicht mehr angesprochen wird. Das lässt sich nicht rückgängig machen.</p>
+    <button type="submit" class="btn btn--gefahr btn--klein">Eintrag löschen</button>
+  </form>
+</Layout>

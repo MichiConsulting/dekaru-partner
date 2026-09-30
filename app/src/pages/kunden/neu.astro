@@ -1,0 +1,28 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import KundeFormular from '../../components/KundeFormular.astro';
+import { erstelleKunde, pruefeKunde, type KundeEingabe } from '../../lib/kunden.ts';
+import { formular, istPost } from '../../lib/http.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const csrf = Astro.locals.csrf ?? '';
+let werte: Partial<KundeEingabe> = {};
+let fehler: string[] = [];
+
+if (istPost(Astro.request)) {
+  const daten = await formular(Astro.request);
+  const geprueft = pruefeKunde(daten);
+  werte = geprueft.wert;
+  fehler = geprueft.fehler;
+  if (fehler.length === 0) {
+    await erstelleKunde(Astro.locals.db, benutzer.id, geprueft.wert);
+    return Astro.redirect('/kunden?ok=neu', 303);
+  }
+}
+---
+
+<Layout titel="Betrieb eintragen" aktiv="kunden" schmal>
+  <p class="meta"><a href="/kunden">Meine Kunden</a> / Neu</p>
+  <h1>Betrieb eintragen</h1>
+  <KundeFormular werte={werte} csrf={csrf} fehler={fehler} knopf="Eintragen" />
+</Layout>

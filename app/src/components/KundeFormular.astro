@@ -1,0 +1,63 @@
+---
+import { STATUS, type KundeEingabe } from '../lib/kunden.ts';
+
+interface Props {
+  werte: Partial<KundeEingabe>;
+  csrf: string;
+  fehler?: string[];
+  knopf: string;
+}
+
+const { werte, csrf, fehler = [], knopf } = Astro.props;
+---
+
+{fehler.length > 0 && (
+  <div class="meldung meldung--fehler" role="alert">
+    <ul>{fehler.map((f) => <li>{f}</li>)}</ul>
+  </div>
+)}
+<form method="post" class="karte">
+  <input type="hidden" name="_csrf" value={csrf} />
+  <div class="feld--zeile">
+    <div class="feld">
+      <label for="name">Betrieb</label>
+      <input id="name" name="name" type="text" required maxlength="120" value={werte.name ?? ''} autocomplete="organization" />
+    </div>
+    <div class="feld">
+      <label for="ort">Ort</label>
+      <input id="ort" name="ort" type="text" maxlength="120" value={werte.ort ?? ''} />
+    </div>
+  </div>
+  <div class="feld--zeile">
+    <div class="feld">
+      <label for="ansprechpartner">Ansprechpartner</label>
+      <input id="ansprechpartner" name="ansprechpartner" type="text" maxlength="120" value={werte.ansprechpartner ?? ''} />
+    </div>
+    <div class="feld">
+      <label for="telefon">Telefon (geschäftlich)</label>
+      <input id="telefon" name="telefon" type="tel" maxlength="40" value={werte.telefon ?? ''} />
+    </div>
+  </div>
+  <div class="feld--zeile">
+    <div class="feld">
+      <label for="status">Status</label>
+      <select id="status" name="status" required>
+        {STATUS.map((s) => <option value={s.wert} selected={(werte.status ?? 'angerufen') === s.wert}>{s.label}</option>)}
+      </select>
+    </div>
+    <div class="feld">
+      <label for="terminDatum">Termin am</label>
+      <input id="terminDatum" name="terminDatum" type="date" value={werte.terminDatum ?? ''} />
+      <p class="feld__hilfe">Pflicht bei Termin und Zweittermin.</p>
+    </div>
+  </div>
+  <div class="feld">
+    <label for="notiz">Notiz</label>
+    <textarea id="notiz" name="notiz" maxlength="2000">{werte.notiz ?? ''}</textarea>
+    <p class="feld__hilfe">Nur, was für den nächsten Kontakt nötig ist. Keine privaten Angaben über Personen.</p>
+  </div>
+  <div class="aktionen">
+    <button type="submit" class="btn">{knopf}</button>
+    <a href="/kunden" class="btn btn--zweit">Abbrechen</a>
+  </div>
+</form>
