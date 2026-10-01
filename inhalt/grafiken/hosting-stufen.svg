@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 496" role="img" aria-labelledby="t d" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#141414">
   <title id="t">Die drei Hosting-Stufen Start, Basis und Plus nebeneinander</title>
-  <desc id="d">Start 19 Euro im Monat oder 190 Euro im Jahr, bis 3 Änderungen, gesammelt umgesetzt zum Monatsende mit Stichtag am 25., monatlich kündbar. Basis 39 Euro im Monat oder 390 Euro im Jahr, bis 5 Änderungen, jede innerhalb von 3 Werktagen, monatlich kündbar, trägt das Beliebt-Badge. Plus nur als Jahresvertrag für 590 Euro, das sind zehn berechnete Monate zu je 59 Euro, bis 10 Änderungen, jede innerhalb von 1 Werktag, dazu 2 Umbauten im Jahr und die Online-Terminanfrage. In allen Stufen enthalten: Hosting, Domain, HTTPS, Updates, gesicherter Quellstand. Jede weitere Änderung 25 Euro.</desc>
+  <desc id="d">Start 19 Euro im Monat oder 190 Euro im Jahr, bis 3 Änderungen, gesammelt umgesetzt zum Monatsende mit Stichtag am 25., monatlich kündbar. Basis 39 Euro im Monat oder 390 Euro im Jahr, bis 5 Änderungen, jede innerhalb von 3 Werktagen, monatlich kündbar, trägt das Beliebt-Badge. Plus nur als Jahresvertrag für 590 Euro, das sind zehn berechnete Monate zu je 59 Euro, bis 10 Änderungen, jede innerhalb von 1 Werktag, dazu 2 Umbauten im Jahr. Die mitarbeitende Funktion hängt nicht an der Stufe: sie gehört zum Website-Paket Groß und läuft in jeder Stufe, solange bei Michael Henning gehostet wird. In allen Stufen enthalten: Hosting, Domain, HTTPS, Updates, gesicherter Quellstand. Jede weitere Änderung 25 Euro.</desc>
   <style>
     .h { font-family: "Space Grotesk", Inter, system-ui, sans-serif; font-weight: 700; }
     .m { fill: #5C5C5C; }
@@ -30,7 +30,8 @@
     <text x="16" y="256" font-weight="600">Monatsende</text>
     <text class="m" x="16" y="274">Stichtag der 25.</text>
     <text x="16" y="300">kein Umbau</text>
-    <text x="16" y="360">keine</text>
+    <text x="16" y="360">mit Paket Groß</text>
+    <text class="m" x="16" y="378">läuft in jeder Stufe</text>
     <text x="16" y="405">monatlich kündbar</text>
   </g>
 
@@ -49,7 +50,8 @@
     <text x="16" y="240" font-weight="600">jede innerhalb von</text>
     <text x="16" y="256" font-weight="600">3 Werktagen</text>
     <text x="16" y="300">kein Umbau</text>
-    <text x="16" y="360">keine</text>
+    <text x="16" y="360">mit Paket Groß</text>
+    <text class="m" x="16" y="378">läuft in jeder Stufe</text>
     <text x="16" y="405">monatlich kündbar</text>
   </g>
 
@@ -57,8 +59,8 @@
   <g transform="translate(560 20)">
     <rect class="card" x="0" y="0" width="200" height="430" rx="4"/>
     <text class="h" x="16" y="34" font-size="20">Plus</text>
-    <text class="m" x="16" y="56">die Website arbeitet mit,</text>
-    <text class="m" x="16" y="72">schnellste Umsetzung</text>
+    <text class="m" x="16" y="56">für Betriebe mit vielen</text>
+    <text class="m" x="16" y="72">Änderungen, schnellste Umsetzung</text>
     <text class="h" x="16" y="120" font-size="16">590 € im Jahr</text>
     <text class="m" x="16" y="140">nur als Jahresvertrag,</text>
     <text class="m" x="16" y="156">zehn Monate zu je 59 €</text>
@@ -68,8 +70,8 @@
     <text x="16" y="256" font-weight="600">1 Werktag</text>
     <text x="16" y="300">2 im Jahr, je bis 3 Std.</text>
     <text class="m" x="16" y="318" font-size="11">erster nach 6 bezahlten Monaten</text>
-    <text x="16" y="360">Online-Terminanfrage</text>
-    <text class="m" x="16" y="378">heute die einzige Funktion</text>
+    <text x="16" y="360">mit Paket Groß</text>
+    <text class="m" x="16" y="378">läuft in jeder Stufe</text>
     <text x="16" y="405">12 Monate, verlängert sich</text>
   </g>
 

@@ -21,12 +21,14 @@ Stand der Konditionen: entschieden am 29.09.2026. Der Betreuungsvertrag, den der
 | Änderungen per Mail | bis 3 im Monat | bis 5 im Monat | bis 10 im Monat |
 | Umsetzung | gesammelt zum Monatsende, Stichtag der 25. | innerhalb von 3 Werktagen | innerhalb von 1 Werktag |
 | Umbau | nein | nein | 2 im Jahr |
-| Mitarbeitende Funktion | nein | nein | Online-Terminanfrage |
+| Mitarbeitende Funktion | mit Paket Groß | mit Paket Groß | mit Paket Groß |
 | Laufzeit | monatlich kündbar | monatlich kündbar | nur Jahresvertrag |
 
 Plus: 590 € im Jahr, nur als Jahresvertrag. Das sind zehn berechnete Monate zu je 59 €.
 
 Basis trägt auf der Website das "Beliebt"-Zeichen. Es ist die Stufe für Betriebe, bei denen öfter etwas passiert, die aber keinen Umbau brauchen.
+
+Plus ist reiner Service: mehr Änderungen, schnellere Umsetzung, zwei Umbauten im Jahr. **Eine Terminanfrage oder andere Funktion steckt in keiner Hosting-Stufe.** Die mitarbeitende Funktion gehört zum Website-Paket Groß (Kapitel 2) und läuft in jeder Stufe, solange die Website bei mir gehostet wird.
 
 ## Was in jeder Stufe steckt
 
@@ -41,12 +43,21 @@ Egal welche Stufe, das ist immer dabei:
 
 ## Was das teurere Hosting teurer macht
 
-Der Preisunterschied ist keine Marge, sondern Arbeitszeit. Vier Dinge unterscheiden die Stufen:
+Der Preisunterschied ist keine Marge, sondern Arbeitszeit. Drei Dinge unterscheiden die Stufen:
 
 1. **Arbeitszeit.** Drei, fünf oder zehn Änderungen im Monat. Eine Änderung kostet mich mit Mail, Umsetzung, Vorschau und Freigabe realistisch 15 bis 20 Minuten. Zehn davon sind ein halber Arbeitstag, jeden Monat.
 2. **Reaktionszeit.** Bei Start sammle ich und setze einmal im Monat um. Das ist der Grund, warum Start günstig bleibt. Basis heißt drei Werktage, Plus heißt ein Werktag. Je kürzer, desto öfter muss ich meine Planung unterbrechen.
 3. **Umbauten.** Nur bei Plus: zwei im Jahr, jeder bis zu drei Stunden Arbeit, zum Beispiel ein Bereich neu gestaltet. Der erste frühestens nach sechs bezahlten Monaten, danach einer je Halbjahr. Nicht genutzte Umbauten verfallen. Diese Grenzen sind nicht verhandelbar, weil die Rechnung bei 590 € sonst nicht aufgeht.
-4. **Eine Funktion, die mitarbeitet.** Nur bei Plus: die Website nimmt dem Betrieb eine Aufgabe ab. **Heute ist das die Online-Terminanfrage**, ein Formular mit Wunschtermin und Rückmeldung per Mail. Ohne Plus kostet dieser Baustein 125 € einmalig. Mehr gibt es derzeit nicht: keine Tischreservierung, keine Terminbuchung mit Kalender. Das ist geplant, aber nicht versprochen.
+
+## Hosting und die mitarbeitende Funktion
+
+Die Funktion, die dem Betrieb Arbeit abnimmt, ist **kein Teil des Hostings**, sondern des Website-Pakets Groß. Heute ist das die Online-Terminanfrage. Sie hängt trotzdem am Hosting: der Dienst, der die Anfragen verarbeitet, läuft bei mir.
+
+- Groß mit Hosting bei mir, egal ob Start, Basis oder Plus: die Funktion läuft.
+- Groß ohne Hosting bei mir: die Funktion gibt es nicht.
+- Endet das Hosting später, entfällt die Funktion.
+
+Für Sie heißt das: Groß bringt fast immer Hosting mit, und Hosting bringt Ihnen Provision (Kapitel 8). Wer Groß verkauft, sagt die Bindung ans Hosting offen dazu.
 
 ## Was es noch nicht gibt
 
@@ -76,14 +87,14 @@ Das Gratisquartal ist eine öffentliche Kondition: es steht auf dekaru.de und gi
 - **Nur zusammen mit einer neuen Website.** Nicht für Betriebe, die nur Hosting wollen.
 - **Danach mindestens sechs bezahlte Monate**, erst dann monatlich kündbar.
 - **Im Gratiszeitraum gilt das Kontingent von Basis**, auch wenn Plus gebucht ist, und es gibt keinen Umbau.
-- **Nie als Nachlass auf die Website.** Der Website-Preis bleibt, wie der Preisrechner ihn ausgibt.
+- **Nie als Nachlass auf die Website.** Der Website-Preis bleibt, wie er ist: Paket plus Bausteine.
 - **Höchstens ein Vorteil je Kunde** zusätzlich zur Jahreszahlung. Wer das Gratisquartal bekommt, bekommt nichts weiter.
 
 Die Konditionen sind fest und veröffentlicht, für alle gleich. Sie erwähnen sie, Sie vergeben und verhandeln sie nicht.
 
 ## Was der Kunde sonst noch fragt
 
-**Wenn er kündigt.** Die Domain gehört ihm, den Code zum Umzug bekommt er auf Anfrage ohne Kosten. Seine Website bekommt er auf Wunsch als lauffähiges Paket mit dem vollständigen Quellstand, gegen eine Pauschale von 99 €. Die mitarbeitende Funktion aus Plus fällt dann weg. Seine Daten lösche ich 30 Tage nach Vertragsende.
+**Wenn er kündigt.** Die Domain gehört ihm, den Code zum Umzug bekommt er auf Anfrage ohne Kosten. Seine Website bekommt er auf Wunsch als lauffähiges Paket mit dem vollständigen Quellstand, gegen eine Pauschale von 99 €. Hat er Groß, fällt die mitarbeitende Funktion dann weg. Seine Daten lösche ich 30 Tage nach Vertragsende.
 
 **Wenn er nicht zahlt.** Nach 14 Tagen eine Erinnerung, nach 28 Tagen eine Mahnung mit Ankündigung der Sperrung, nach 42 Tagen ist die Seite offline. Am Tag des Zahlungseingangs ist sie wieder da.
 
