@@ -18,7 +18,7 @@ Bleibt es bei der Mail: Wiedervorlage in vier Wochen, nichts verschicken.
 
 **"Was kostet das?"**
 
-> "Ab 500 €, Festpreis. Was Ihre Seite genau kostet, hängt davon ab, was Sie brauchen, und das sehen wir im Gespräch. Sie bekommen die Zahl vorher, nicht hinterher auf der Rechnung."
+> "Ab 600 €, Festpreis. Was Ihre Seite genau kostet, hängt davon ab, was Sie brauchen, und das sehen wir im Gespräch. Sie bekommen die Zahl vorher, nicht hinterher auf der Rechnung."
 
 Nie eine zweite Zahl, nie verhandeln.
 
@@ -86,7 +86,49 @@ Das Gratisquartal nur zusammen mit der Website, danach mindestens sechs bezahlte
 
 **"Was ist, wenn ich kündige? Gehört mir die Seite dann?"**
 
-> "Die Domain gehört Ihnen, den Code für den Umzug bekommen Sie kostenlos. Die Website bekommen Sie auf Wunsch als komplettes Paket übergeben, dafür gibt es eine Pauschale von 99 €. Was wegfällt, ist die Betreuung."
+> "Die Domain gehört Ihnen, den Code für den Umzug bekommen Sie kostenlos. Die Website bekommen Sie auf Wunsch als komplettes Paket übergeben, dafür gibt es eine Pauschale von 99 €. Was wegfällt, ist die Betreuung, und bei Groß die Terminanfrage, weil die über das Hosting von Herrn Henning läuft."
+
+Das mit der Funktion sagen Sie im Zweittermin, bevor er Groß nimmt, nicht erst bei der Kündigung.
+
+## Im Zweittermin, zu den Paketen
+
+In Stufe 1 nennt Michael Henning die Preise. Die Antworten hier gelten ab Stufe 2, wenn Sie die Pakete selbst vorstellen.
+
+**"Warum nicht einfach Klein?"**
+
+> "Wenn Ihnen eine Seite reicht, auf der man Sie findet und anruft, ist Klein genau richtig. Wenn Sie zeigen wollen, was Sie machen, mit Bildern, Leistungen und Referenzen, kommen Sie mit Klein und einzelnen Bausteinen schnell in die Nähe von Mittel. Dann ist Mittel das bessere Geschäft."
+
+Ehrlich bleiben: wer wirklich nur eine Visitenkarte braucht, bekommt Klein. Niemand wird hochgeredet.
+
+**"Mittel reicht mir doch. Wozu Groß?"**
+
+> "Für 300 € mehr arbeitet die Seite mit. Sie nimmt Terminanfragen an, auch abends und am Wochenende. Dazu kommen die Team-Seite, die Bearbeitung Ihrer Fotos, eine Seite und zwei Texte mehr. Einzeln wäre das deutlich mehr als 300 €."
+
+Danach die Bindung ans Hosting im selben Atemzug nennen, siehe unten.
+
+**"Kann ich die Terminanfrage zu Mittel dazukaufen?"**
+
+> "Nein, die gibt es nur in Groß. Das ist kein Zusatzteil, sondern der Kern von Groß, und der Unterschied zu Mittel sind 300 €."
+
+Nie einen Baustein "Terminanfrage" anbieten. Den gibt es seit dem 01.10.2026 nicht mehr.
+
+**"Was passiert mit der Funktion, wenn ich selbst hoste?"**
+
+> "Dann gibt es sie nicht. Die Terminanfrage läuft über einen Dienst bei Herrn Henning, deshalb funktioniert sie nur, solange er Ihre Seite hostet, egal in welcher Stufe. Hören Sie später mit dem Hosting auf, bleibt die Website, die Terminanfrage nicht."
+
+Wer sicher selbst hosten will, ist mit Mittel besser bedient. Das dürfen Sie so sagen.
+
+**"Brauche ich dann Hosting Plus für die Terminanfrage?"**
+
+> "Nein. Die Terminanfrage gehört zum Paket Groß und läuft in jeder Hosting-Stufe, schon ab Start. Plus bringt mehr Änderungen, schnellere Umsetzung und zwei Umbauten im Jahr, aber keine zusätzliche Funktion."
+
+**"Kann ich ein Paket kleiner machen und dafür billiger haben?"**
+
+> "Nein, die Pakete sind fest. Was Sie nicht brauchen, lassen Sie einfach leer, aber der Preis bleibt. Was Sie zusätzlich brauchen, kommt als Baustein dazu."
+
+Kein Nachlass, kein Tauschen von Inhalten zwischen den Paketen.
+
+## Weitere Fragen im Gespräch
 
 **"Die Google-Sache, zahle ich da doppelt?"**
 
