@@ -1,123 +1,138 @@
 ---
 nummer: 2
 titel: Was eine Website bei dekaru ist
-kurz: Grundpreis, Bausteine, die Größenordnungen S, M und L und drei Beispielrechnungen.
+kurz: Die drei Pakete Klein, Mittel und Groß, die Zusatzbausteine und warum Groß meist die beste Wahl ist.
 ---
 
 # Was eine Website bei dekaru ist
 
-Es gibt keine Pakete mehr. Seit dem 24.08.2026 entsteht jeder Preis aus dem **Preisrechner** auf dekaru.de: ein Grundpreis plus die Bausteine, die der Betrieb braucht. Was der Rechner ausgibt, ist der Preis. Nicht mehr, nicht weniger, kein Nachlass.
+Seit dem 01.10.2026 gibt es drei feste Pakete: **Klein, Mittel und Groß.** Jedes hat einen festen Preis und einen festen Inhalt. Was ein Betrieb darüber hinaus braucht, kommt als Zusatzbaustein dazu, ebenfalls zu einem festen Preis. Paket plus Bausteine ist der Preis. Nicht mehr, nicht weniger, kein Nachlass.
 
-## Der Grundpreis: 500 €
+Am Telefon und im Erstgespräch heißt es weiterhin nur: **"ab 600 €".** Die Pakete und ihre Preise kommen erst im Zweittermin auf den Tisch.
 
-Unter 500 € geht kein Angebot. Darin steckt alles, was jede Website braucht:
+## Die drei Pakete
 
-- Startseite
-- Darstellung auf Handy, Tablet und Rechner
-- Impressum und Datenschutzerklärung
-- Kontaktformular mit Einwilligung
-- Verschlüsselte Verbindung (HTTPS)
+![Die drei Website-Pakete Klein, Mittel und Groß im Vergleich](grafiken/website-pakete.svg)
 
-Eine Seite für 500 € ist eine einzelne, gut gemachte Startseite. Für einen Betrieb, der vor allem gefunden werden und erreichbar sein will, reicht das oft.
+| | Klein | Mittel | Groß |
+|---|---|---|---|
+| Preis | **600 €** | **1.300 €** | **1.600 €** |
+| Aufbau | eine Seite mit Abschnitten | Startseite und 4 Unterseiten | Startseite und 5 Unterseiten |
+| Impressum, Datenschutz, Kontaktformular, Handy, Verschlüsselung | ja | ja | ja |
+| Karte mit Anfahrt (Zwei-Klick) | ja | ja | ja |
+| Bildergalerie | | ja | ja |
+| Leistungs- oder Speisekarte | | ja | ja |
+| Referenzen und Bewertungen | | ja | ja |
+| Suchmaschinen-Grundlagen | | ja | ja |
+| Texte von mir | | 2 Seiten | 4 Seiten |
+| Team-Seite | | | ja |
+| Bildaufbereitung (bis 20 Bilder) | | | ja |
+| **Mitarbeitende Funktion** | | | **ja, nur hier** |
 
-## Die Bausteine
+Groß trägt auf dekaru.de das Zeichen "Empfohlen".
 
-Alles darüber hinaus ist ein Baustein mit festem Preis. Die vollständige Liste steht im Anhang (Kapitel 11). Die wichtigsten:
+**Wer was bekommt, in einem Satz je Paket:**
 
-| Baustein | Preis | Was es ist |
-|---|---|---|
-| Unterseite | 75 € je Seite | Leistungen, Über uns, Anfahrt, Kontakt |
-| Bildergalerie | 100 € | Bilder im Raster, auf Wunsch mit Großansicht |
-| Karte mit Anfahrt | 100 € | Lädt erst nach Zustimmung, DSGVO-fest |
-| Leistungs- oder Speisekarte | 100 € | Liste mit Preisen und Beschreibungen |
-| Team-Sektion | 100 € | Personen mit Bild und Funktion |
-| Referenzen und Bewertungen | 100 € | Kundenstimmen, gepflegt oder aus Google |
-| Ratgeber-Bereich | 300 € | Eigener Bereich für Beiträge |
-| Terminanfrage | 125 € | Formular mit Wunschtermin, Antwort per Mail |
-| Texte von mir | 50 € je Seite | Statt dass der Kunde Texte liefert |
-| Bildaufbereitung | 125 € | Bis 20 vorhandene Bilder zuschneiden und optimieren |
-| Logo-Entwurf | 250 € | Nur falls noch keines vorhanden ist |
-| Suchmaschinen-Grundlagen | 200 € | Titel, Beschreibungen, lokale Auszeichnung |
+- **Klein** ist für den Betrieb, der vor allem gefunden werden und erreichbar sein will. Eine gut gemachte Seite mit allem Nötigen und der Anfahrt.
+- **Mittel** ist für den Betrieb, der zeigen will, was er kann: eigene Seiten für Leistungen und Referenzen, Bilder, Texte von mir, gut auffindbar bei Google.
+- **Groß** ist für den Betrieb, dem die Website auch Arbeit abnehmen soll. Alles aus Mittel, dazu das Team, aufbereitete Fotos, mehr Seiten und Texte und die mitarbeitende Funktion.
+
+Was nicht teurer wird: die Machart. Klein ist genauso auf dem Handy gebaut, genauso barrierefrei und genauso DSGVO-fest wie Groß.
+
+## Die mitarbeitende Funktion, nur in Groß
+
+Die Website nimmt dem Betrieb eine Aufgabe ab. **Heute ist das die Online-Terminanfrage:** ein Formular mit Wunschtermin, die Anfrage kommt per Mail beim Betrieb an. Geplant sind je Branche Reservierung (Gastro), Terminbuchung (Friseur, Praxis) und Anfrage mit Foto-Upload (Handwerk). Geplant heißt: nicht versprochen. Verkauft wird, was es heute gibt.
+
+Drei Regeln, die Sie kennen müssen:
+
+1. **Nur in Groß.** Die Funktion lässt sich nicht als Baustein zu Klein oder Mittel dazukaufen.
+2. **Nur mit Hosting bei mir.** Der Dienst, der die Anfragen verarbeitet, läuft bei mir. Die Funktion läuft deshalb, solange die Website bei mir gehostet wird, egal in welcher Hosting-Stufe.
+3. **Endet das Hosting, entfällt die Funktion.** Die Website bleibt, das Formular für die Terminanfrage nicht. Das sagen Sie dem Betrieb vorher, nicht hinterher.
+
+## Warum Groß meist die beste Wahl ist
+
+Das ist der Teil, den Sie im Zweittermin brauchen. In einfachen Worten:
+
+**Mittel ist der Vergleichspunkt.** Wer sich Mittel ansieht, hat entschieden, dass er mehr will als eine einzelne Seite. Einzeln gerechnet stecken in Mittel rund 1.500 €, das Paket kostet 1.300 €.
+
+**Groß kostet nur 300 € mehr.** Dafür kommt sichtbar viel dazu: die Funktion, die Team-Seite, die Bildaufbereitung, eine Seite und zwei Texte mehr. Einzeln wäre das rund 700 € wert, und die Funktion gibt es einzeln gar nicht. Der Satz dazu:
+
+> "Für 300 € mehr arbeitet die Seite mit. Sie nimmt Ihnen Terminanfragen ab, auch abends und am Wochenende, wenn bei Ihnen keiner ans Telefon geht."
+
+**Warum das für den Betrieb stimmt.** Die meisten Betriebe vergleichen nicht drei Pakete, sondern zwei: das, was sie eigentlich wollten, und das nächstgrößere. Liegt das größere nur ein kleines Stück darüber und bringt etwas, das das kleinere gar nicht kann, ist die Entscheidung leicht. Das ist kein Trick, sondern ein ehrlicher Preisabstand.
+
+**Was Sie offen dazusagen.** Die Funktion hängt am Hosting bei mir. Wer Groß nimmt und später selbst hosten will, verliert die Funktion. Das sagen Sie im selben Atemzug. Für die meisten Betriebe ist das keine Hürde, weil sie ohnehin nicht selbst hosten wollen.
+
+**Wann Klein oder Mittel richtig ist.** Wenn ein Betrieb wirklich nur eine Visitenkarte im Netz braucht, ist Klein richtig, und dann sagen Sie das auch. Wer keine Termine vergibt und kein Team zeigen will, ist mit Mittel gut bedient. Niemand wird in Groß geredet. Ein Kunde, der sich überredet fühlt, kündigt das Hosting im ersten Jahr.
+
+## Zusatzbausteine, zu jedem Paket
+
+Was ein Paket nicht schon enthält, lässt sich als Baustein dazubuchen. Ein Baustein, der im Paket schon steckt, wird nicht noch einmal verkauft: Mittel bekommt keine Bildergalerie dazu, Groß keine Team-Seite.
+
+| Baustein | Preis |
+|---|---|
+| Weitere Unterseite | 75 € je Seite |
+| Bildergalerie | 100 € |
+| Leistungs- oder Speisekarte | 100 € |
+| Team-Seite | 100 € |
+| Referenzen und Bewertungen | 100 € |
+| Ratgeber-Bereich | 300 € |
+| Newsletter-Anmeldung | 150 € |
+| Besucherstatistik ohne Cookies | 90 € |
+| Weitere Sprache | 200 € je Sprache |
+| Texte von mir | 50 € je Seite |
+| Bildaufbereitung | 125 € |
+| Logo-Entwurf | 250 € |
+| Suchmaschinen-Grundlagen | 200 € |
+| Individuelles Feature | auf Anfrage |
+
+Die Karte mit Anfahrt ist in allen Paketen enthalten und deshalb kein Baustein. **Nicht als Baustein buchbar ist die mitarbeitende Funktion.** Den früheren Baustein "Terminanfrage" für 125 € gibt es nicht mehr.
 
 **Individuelles Feature:** alles, was nicht auf der Liste steht. Dafür gibt es keinen Listenpreis. Den nenne nur ich, nach Rücksprache, und es kommt als Nachtrag ins Angebot. Sie sagen dazu: "Das klärt Herr Henning mit Ihnen."
 
-## Die drei Größenordnungen
-
-Die alten Pakete S, M und L leben nur noch als Einordnung weiter. Die Grenzen kommen aus dem Preisrechner:
-
-![Die Größenordnungen S, M und L auf dem Preisstrahl](grafiken/groessen-schwellen.svg)
-
-| Größe | Preis | Typischer Umfang |
-|---|---|---|
-| S | unter 1.000 € | Startseite, ein bis drei Bausteine |
-| M | ab 1.000 € | mehrere Unterseiten, Galerie, Karte, Suchmaschinen-Grundlagen |
-| L | ab 1.700 € | wie M, dazu Team, Bildaufbereitung, weitere Funktionen |
-
-Die Grenzen dienen nur dem Gespräch untereinander. Dem Kunden gegenüber gibt es keine Größen, nur seine Bausteine und seine Summe.
-
-## Was die günstigste von der teuersten Website unterscheidet
-
-Der Preisrechner hat drei Voreinstellungen, die ich im Gespräch zeige: **Klein, Mittel und Groß.** Sie sind keine Pakete, sondern Startpunkte. Ein Klick setzt die Schalter, danach lässt sich alles anpassen.
-
-![Von der günstigsten zur teuersten Website: drei Voreinstellungen des Preisrechners](grafiken/website-spanne.svg)
-
-Der Unterschied liegt in drei Dingen:
-
-1. **Umfang.** Klein ist eine Seite. Mittel hat vier Unterseiten, Groß fünf. Jede Unterseite ist eine Seite mehr, die geschrieben, gestaltet und gepflegt wird.
-2. **Sektionen.** Galerie, Karte, Leistungsliste, Referenzen, bei Groß auch das Team. Jede Sektion ist ein Block auf der Seite mit eigener Gestaltung.
-3. **Arbeit an den Inhalten.** Texte von mir, aufbereitete Bilder, Suchmaschinen-Grundlagen. Das ist Arbeitszeit, die der Betrieb sonst selbst investieren müsste.
-
-Was nicht teurer wird: die Machart. Die Seite für 500 € ist genauso auf dem Handy gebaut, genauso barrierefrei und genauso DSGVO-fest wie die für 1.800 €.
-
 ## Drei Beispielrechnungen
 
-Alle Zahlen aus dem Preisrechner, Stand 01.10.2026.
+Stand 01.10.2026.
 
-**Beispiel 1: Café, Größenordnung S**
+**Beispiel 1: Café, Paket Klein**
 
 | Position | Preis |
 |---|---|
-| Grundpreis | 500 € |
+| Paket Klein | 600 € |
 | Speisekarte | 100 € |
-| Karte mit Anfahrt | 100 € |
 | Bildergalerie | 100 € |
-| 1 Unterseite (Über uns) | 75 € |
-| 1 Text von mir | 50 € |
-| **Summe** | **925 €** |
+| **Summe** | **800 €** |
 
-**Beispiel 2: Friseursalon, Größenordnung M**
+**Beispiel 2: Steuerberatung, Paket Mittel**
 
 | Position | Preis |
 |---|---|
-| Grundpreis | 500 € |
-| 2 Unterseiten (Leistungen, Team) | 150 € |
-| Bildergalerie | 100 € |
-| Terminanfrage | 125 € |
-| Bildaufbereitung | 125 € |
-| **Summe** | **1.000 €** |
+| Paket Mittel | 1.300 € |
+| Team-Seite | 100 € |
+| **Summe** | **1.400 €** |
 
-**Beispiel 3: Handwerksbetrieb, Größenordnung L**
+**Beispiel 3: Friseursalon, Paket Groß**
 
 | Position | Preis |
 |---|---|
-| Voreinstellung Groß (5 Unterseiten, Galerie, Karte, Leistungsliste, Referenzen, Team, Suchmaschinen-Grundlagen, 2 Texte, Bildaufbereitung) | 1.800 € |
-| Ratgeber-Bereich | 300 € |
-| **Summe** | **2.100 €** |
+| Paket Groß, mit Online-Terminanfrage | 1.600 € |
+| Logo-Entwurf | 250 € |
+| **Summe** | **1.850 €** |
 
-Die Voreinstellungen selbst: Klein 500 €, Mittel 1.500 €, Groß 1.800 €.
+Beim Friseursalon in Beispiel 3 läuft die Terminanfrage, solange er bei mir hostet.
 
 ## Suchmaschinen-Grundlagen und Google-Profil: nicht dasselbe
 
 Beides klingt nach "bei Google gefunden werden", und Kunden fragen, ob sie doppelt zahlen. Sie zahlen nicht doppelt:
 
-- **Suchmaschinen-Grundlagen, 200 €**, sind Arbeit **an der Website**: Seitentitel, Beschreibungen, die in der Suche erscheinen, und die technische Auszeichnung, mit der Google den Betrieb als lokales Unternehmen versteht. Dazu gehört, dass die Website mit dem Google-Eintrag verknüpft ist.
+- **Suchmaschinen-Grundlagen**, in Mittel und Groß enthalten, zu Klein für 200 € dazubuchbar, sind Arbeit **an der Website**: Seitentitel, Beschreibungen, die in der Suche erscheinen, und die technische Auszeichnung für Google. Dazu gehört, dass die Website mit dem Google-Eintrag verknüpft ist.
 - **Das Google-Unternehmensprofil, 249 € oder 490 €**, ist Arbeit **am Eintrag bei Google Maps**: anlegen oder übernehmen, Öffnungszeiten, Kategorien, Fotos, Beiträge. Das ist ein eigener Kanal, der auch ohne Website funktioniert (Kapitel 5).
 
 Das eine macht die Website auffindbar, das andere den Betrieb auf der Karte sichtbar.
 
 ## Was immer dazugehört, aber nicht im Preis steckt
 
-- **Hosting** ist getrennt vom einmaligen Website-Preis und optional. Kapitel 3.
+- **Hosting** ist getrennt vom einmaligen Website-Preis und optional. Kapitel 3. Bei Groß ist es die Voraussetzung dafür, dass die Funktion läuft.
 - **Domain:** wird auf den Namen des Kunden registriert. Im Hosting sind die laufenden Domainkosten bis 15 € im Jahr enthalten.
 - **Zahlung:** die Hälfte bei Auftrag, der Rest bei Übergabe. Davon wird nicht abgewichen.
 - **Eine Korrekturrunde** nach der Vorstellung der fertigen Seite gehört zum Werkvertrag. Was danach kommt, läuft über das Hosting-Kontingent.

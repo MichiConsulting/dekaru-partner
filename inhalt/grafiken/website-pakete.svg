@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 540" role="img" aria-labelledby="t d" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#141414">
+  <title id="t">Die drei Website-Pakete Klein, Mittel und Groß im Vergleich</title>
+  <desc id="d">Klein 600 Euro: eine Seite mit Abschnitten, Grundausstattung und Karte mit Anfahrt. Mittel 1.300 Euro: Startseite und 4 Unterseiten, dazu Bildergalerie, Leistungs- oder Speisekarte, Referenzen und Bewertungen, Suchmaschinen-Grundlagen und Texte von mir für 2 Seiten. Groß 1.600 Euro, empfohlen: Startseite und 5 Unterseiten, alles aus Mittel, Texte für 4 Seiten, dazu Team-Seite, Bildaufbereitung bis 20 Bilder und als einziges Paket die mitarbeitende Funktion. Die Funktion läuft nur, solange die Website bei Michael Henning gehostet wird. Grundausstattung heißt Impressum, Datenschutz, Kontaktformular, Darstellung auf dem Handy und verschlüsselte Verbindung.</desc>
+  <style>
+    .h { font-family: "Space Grotesk", Inter, system-ui, sans-serif; font-weight: 700; }
+    .m { fill: #5C5C5C; }
+    .row { fill: #EEEEEB; }
+    .acc { fill: #7B1E2B; }
+    .ja { fill: #141414; }
+    .nein { stroke: #C9C9C5; stroke-width: 2; }
+  </style>
+  <rect class="row" x="20" y="132" width="760" height="28"/>
+  <rect class="row" x="20" y="188" width="760" height="28"/>
+  <rect class="row" x="20" y="244" width="760" height="28"/>
+  <rect class="row" x="20" y="300" width="760" height="28"/>
+  <rect class="row" x="20" y="356" width="760" height="28"/>
+  <rect x="600" y="16" width="180" height="424" rx="4" fill="none" stroke="#141414" stroke-width="2"/>
+  <rect x="690" y="26" width="80" height="20" rx="10" fill="#7B1E2B"/>
+  <text x="730" y="40" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="600">Empfohlen</text>
+  <text class="h" x="250" y="44" font-size="20">Klein</text>
+  <text class="h acc" x="250" y="76" font-size="22">600 €</text>
+  <text class="m" x="250" y="100">eine Seite</text>
+  <text class="m" x="250" y="116">mit Abschnitten</text>
+  <text class="h" x="430" y="44" font-size="20">Mittel</text>
+  <text class="h acc" x="430" y="76" font-size="22">1.300 €</text>
+  <text class="m" x="430" y="100">Startseite und</text>
+  <text class="m" x="430" y="116">4 Unterseiten</text>
+  <text class="h" x="610" y="44" font-size="20">Groß</text>
+  <text class="h acc" x="610" y="76" font-size="22">1.600 €</text>
+  <text class="m" x="610" y="100">Startseite und</text>
+  <text class="m" x="610" y="116">5 Unterseiten</text>
+  <text class="m" x="30" y="76">Preis, einmalig</text>
+  <text class="m" x="30" y="100">Aufbau</text>
+  <text x="30" y="150">Grundausstattung</text>
+  <circle class="ja" cx="256" cy="145" r="5"/>
+  <circle class="ja" cx="436" cy="145" r="5"/>
+  <circle class="ja" cx="616" cy="145" r="5"/>
+  <text x="30" y="178">Karte mit Anfahrt</text>
+  <circle class="ja" cx="256" cy="173" r="5"/>
+  <circle class="ja" cx="436" cy="173" r="5"/>
+  <circle class="ja" cx="616" cy="173" r="5"/>
+  <text x="30" y="206">Bildergalerie</text>
+  <line class="nein" x1="250" y1="201" x2="262" y2="201"/>
+  <circle class="ja" cx="436" cy="201" r="5"/>
+  <circle class="ja" cx="616" cy="201" r="5"/>
+  <text x="30" y="234">Leistungs- oder Speisekarte</text>
+  <line class="nein" x1="250" y1="229" x2="262" y2="229"/>
+  <circle class="ja" cx="436" cy="229" r="5"/>
+  <circle class="ja" cx="616" cy="229" r="5"/>
+  <text x="30" y="262">Referenzen und Bewertungen</text>
+  <line class="nein" x1="250" y1="257" x2="262" y2="257"/>
+  <circle class="ja" cx="436" cy="257" r="5"/>
+  <circle class="ja" cx="616" cy="257" r="5"/>
+  <text x="30" y="290">Suchmaschinen-Grundlagen</text>
+  <line class="nein" x1="250" y1="285" x2="262" y2="285"/>
+  <circle class="ja" cx="436" cy="285" r="5"/>
+  <circle class="ja" cx="616" cy="285" r="5"/>
+  <text x="30" y="318">Texte von mir</text>
+  <line class="nein" x1="250" y1="313" x2="262" y2="313"/>
+  <text x="430" y="318" font-weight="600">2 Seiten</text>
+  <text x="610" y="318" font-weight="600">4 Seiten</text>
+  <text x="30" y="346">Team-Seite</text>
+  <line class="nein" x1="250" y1="341" x2="262" y2="341"/>
+  <line class="nein" x1="430" y1="341" x2="442" y2="341"/>
+  <circle class="ja" cx="616" cy="341" r="5"/>
+  <text x="30" y="374">Bildaufbereitung, bis 20 Bilder</text>
+  <line class="nein" x1="250" y1="369" x2="262" y2="369"/>
+  <line class="nein" x1="430" y1="369" x2="442" y2="369"/>
+  <circle class="ja" cx="616" cy="369" r="5"/>
+  <text x="30" y="402" font-weight="600">Mitarbeitende Funktion</text>
+  <line class="nein" x1="250" y1="397" x2="262" y2="397"/>
+  <line class="nein" x1="430" y1="397" x2="442" y2="397"/>
+  <circle class="acc" cx="616" cy="397" r="5"/><text class="acc" x="628" y="402" font-weight="600">nur hier</text>
+  <text x="20" y="452" font-weight="600">Für 300 € mehr als Mittel arbeitet die Seite mit: Funktion, Team, Bildaufbereitung, eine Seite und zwei Texte mehr.</text>
+  <text class="m" x="20" y="472" font-size="12">Die mitarbeitende Funktion, heute die Online-Terminanfrage, läuft nur, solange die Website bei Michael Henning gehostet wird.</text>
+  <text class="m" x="20" y="490" font-size="12">Grundausstattung: Impressum, Datenschutz, Kontaktformular, Darstellung auf dem Handy, verschlüsselte Verbindung.</text>
+</svg>
