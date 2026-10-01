@@ -1,62 +1,56 @@
 ---
 nummer: 11
 titel: Preisliste für Vertriebler
-kurz: Alle Bausteine, Voreinstellungen, Hosting-Stufen und Zusatzleistungen auf einer Seite. Stand 01.10.2026.
+kurz: Pakete, Zusatzbausteine, Hosting-Stufen und Zusatzleistungen auf einer Seite. Stand 01.10.2026.
 ---
 
 # Preisliste für Vertriebler
 
-Stand 01.10.2026. Alle Preise sind Endpreise, es kommt keine Umsatzsteuer dazu. Quelle für die Website-Preise ist der Preisrechner auf dekaru.de. Ändert sich dort etwas, bekommen Sie eine neue Liste. Was hier nicht steht, hat keinen Preis, den Sie nennen dürfen.
+Stand 01.10.2026. Alle Preise sind Endpreise, es kommt keine Umsatzsteuer dazu. Quelle für die Website-Preise ist der Preisrechner. Ändert sich dort etwas, bekommen Sie eine neue Liste. Was hier nicht steht, hat keinen Preis, den Sie nennen dürfen.
 
 ## Website
 
-**Grundpreis: 500 €.** Enthalten: Startseite, Darstellung auf Handy, Tablet und Rechner, Impressum und Datenschutzerklärung, Kontaktformular mit Einwilligung, verschlüsselte Verbindung.
+Drei feste Pakete. Was ein Paket nicht enthält, kommt als Zusatzbaustein dazu. Paket plus Bausteine ist der Preis.
 
-**Seiten**
+**Pakete**
+
+| | Klein | Mittel | Groß, empfohlen |
+|---|---|---|---|
+| Preis | **600 €** | **1.300 €** | **1.600 €** |
+| Aufbau | eine Seite mit Abschnitten | Startseite und 4 Unterseiten | Startseite und 5 Unterseiten |
+| Impressum, Datenschutz, Kontaktformular, Handy, Verschlüsselung | ja | ja | ja |
+| Karte mit Anfahrt (Zwei-Klick) | ja | ja | ja |
+| Bildergalerie | | ja | ja |
+| Leistungs- oder Speisekarte | | ja | ja |
+| Referenzen und Bewertungen | | ja | ja |
+| Suchmaschinen-Grundlagen | | ja | ja |
+| Texte von mir | | 2 Seiten | 4 Seiten |
+| Team-Seite | | | ja |
+| Bildaufbereitung (bis 20 Bilder) | | | ja |
+| Mitarbeitende Funktion | | | ja, nur hier |
+
+**Mitarbeitende Funktion:** heute die Online-Terminanfrage. Nur in Groß, nicht als Baustein buchbar. Läuft nur, solange die Website bei Michael Henning gehostet wird, egal in welcher Stufe. Endet das Hosting, entfällt sie.
+
+**Zusatzbausteine, zu jedem Paket**, nur was im Paket nicht schon enthalten ist:
 
 | Baustein | Preis | Hinweis |
 |---|---|---|
-| Unterseite | 75 € je Seite, bis 15 | Zum Beispiel Leistungen, Über uns, Anfahrt, Kontakt |
-
-**Sektionen**
-
-| Baustein | Preis | Hinweis |
-|---|---|---|
+| Weitere Unterseite | 75 € je Seite | Zum Beispiel Leistungen, Über uns, Kontakt |
 | Bildergalerie | 100 € | Bilder im Raster, auf Wunsch mit Großansicht |
-| Karte mit Anfahrt | 100 € | Zwei-Klick-Lösung, lädt erst nach Zustimmung |
 | Leistungs- oder Speisekarte | 100 € | Strukturierte Liste mit Preisen und Beschreibungen |
-| Team-Sektion | 100 € | Personen mit Bild, Funktion und kurzem Text |
+| Team-Seite | 100 € | Personen mit Bild, Funktion und kurzem Text |
 | Referenzen und Bewertungen | 100 € | Kundenstimmen, gepflegt oder aus Google übernommen |
 | Ratgeber-Bereich | 300 € | Eigener Bereich für Beiträge, später erweiterbar |
-
-**Funktionen**
-
-| Baustein | Preis | Hinweis |
-|---|---|---|
-| Terminanfrage | 125 € | Formular mit Wunschtermin und Rückmeldung per Mail. In Hosting Plus enthalten |
 | Newsletter-Anmeldung | 150 € | Anmeldung mit doppelter Bestätigung |
-| Besucherstatistik | 90 € | Ohne Cookies, ohne Einwilligungsbanner |
-| Weitere Sprache | 200 € je Sprache, bis 3 | Vollständige Übersetzung aller Inhalte |
-| Individuelles Feature | kein Listenpreis | Alles, was hier nicht steht. Preis nennt nur Michael Henning, kommt als Nachtrag ins Angebot |
-
-**Inhalte und Sichtbarkeit**
-
-| Baustein | Preis | Hinweis |
-|---|---|---|
-| Texte von mir | 50 € je Seite, bis 15 | Statt dass der Kunde fertige Texte liefert |
+| Besucherstatistik ohne Cookies | 90 € | Ohne Einwilligungsbanner |
+| Weitere Sprache | 200 € je Sprache | Vollständige Übersetzung aller Inhalte |
+| Texte von mir | 50 € je Seite | Statt dass der Kunde fertige Texte liefert |
 | Bildaufbereitung | 125 € | Bis 20 vorhandene Bilder zuschneiden und optimieren |
 | Logo-Entwurf | 250 € | Nur falls noch keines vorhanden ist |
-| Suchmaschinen-Grundlagen | 200 € | Titel, Beschreibungen, lokale Auszeichnung, Verknüpfung mit dem Google-Eintrag |
+| Suchmaschinen-Grundlagen | 200 € | Titel, Beschreibungen, technische Auszeichnung für Google, Verknüpfung mit dem Google-Eintrag |
+| Individuelles Feature | auf Anfrage | Alles, was hier nicht steht. Preis nennt nur Michael Henning, kommt als Nachtrag ins Angebot |
 
-**Voreinstellungen des Preisrechners** (Startpunkte, keine Pakete)
-
-| Voreinstellung | Preis | Enthalten |
-|---|---|---|
-| Klein | 500 € | Grundpreis |
-| Mittel | 1.500 € | 4 Unterseiten, Galerie, Karte, Leistungsliste, Referenzen, Suchmaschinen-Grundlagen, 2 Texte |
-| Groß | 1.800 € | 5 Unterseiten, Galerie, Karte, Leistungsliste, Referenzen, Team, Suchmaschinen-Grundlagen, 2 Texte, Bildaufbereitung |
-
-**Größenordnungen** zur Einordnung: S unter 1.000 €, M ab 1.000 €, L ab 1.700 €.
+Nicht als Baustein buchbar: die mitarbeitende Funktion. Einen Baustein "Terminanfrage" gibt es nicht mehr.
 
 **Zahlung:** die Hälfte bei Auftrag, der Rest bei Übergabe.
 
@@ -66,7 +60,7 @@ Stand 01.10.2026. Alle Preise sind Endpreise, es kommt keine Umsatzsteuer dazu. 
 |---|---|---|---|---|---|
 | Start | 19 € | 190 € | bis 3 im Monat | gesammelt zum Monatsende, Stichtag der 25. | |
 | Basis | 39 € | 390 € | bis 5 im Monat | innerhalb von 3 Werktagen | |
-| Plus | nur jährlich | 590 € | bis 10 im Monat | innerhalb von 1 Werktag | 2 Umbauten im Jahr, Online-Terminanfrage |
+| Plus | nur jährlich | 590 € | bis 10 im Monat | innerhalb von 1 Werktag | 2 Umbauten im Jahr |
 
 - Jährlich: zehn Monate bezahlt, zwölf erhalten. Laufzeit zwölf Monate.
 - Plus: 590 € im Jahr, nur als Jahresvertrag. Das sind zehn berechnete Monate zu je 59 €.
@@ -75,6 +69,7 @@ Stand 01.10.2026. Alle Preise sind Endpreise, es kommt keine Umsatzsteuer dazu. 
 - In jeder Stufe: Hosting, Domain (Kosten bis 15 € im Jahr enthalten), HTTPS, Updates, gesicherter Quellstand.
 - **Gratisquartal:** drei Monate frei, nur zusammen mit einer neuen Website, danach mindestens sechs bezahlte Monate. Im Gratiszeitraum Kontingent von Basis, kein Umbau. Öffentliche Kondition, steht auf dekaru.de, gilt für alle.
 - Übergabe der Website als Paket bei Vertragsende: 99 € Pauschale.
+- Die mitarbeitende Funktion ist nicht Teil des Hostings. Sie gehört zum Paket Groß und läuft in jeder Stufe.
 
 ## Zusatzleistungen
 
@@ -91,7 +86,7 @@ Bewertungs-Aufsteller: die Druckkosten von etwa 15 bis 30 € zahlt der Betrieb 
 
 | Situation | Was Sie sagen |
 |---|---|
-| Telefon | "ab 500 €", sonst keine Zahl |
-| Erstgespräch | "ab 500 €", Hosting "ab 19 € im Monat", das Gratisquartal |
+| Telefon | "ab 600 €", sonst keine Zahl |
+| Erstgespräch | "ab 600 €", Hosting "ab 19 € im Monat", das Gratisquartal |
 | Zweittermin, Stufe 1 | Michael Henning nennt die Zahl |
-| Zweittermin, Stufe 2 | die Summe aus dem Preisrechner, die Hosting-Stufe, die Zusatzleistungen. Ohne Nachlass |
+| Zweittermin, Stufe 2 | die drei Pakete mit Preis, die Zusatzbausteine, die Summe aus dem Preisrechner, die Hosting-Stufe, die Zusatzleistungen. Ohne Nachlass |
