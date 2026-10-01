@@ -21,7 +21,7 @@ Ich bin Kleinunternehmer und weise keine Umsatzsteuer aus. Rechnungsbetrag und U
 
 ## Worauf gerechnet wird
 
-Auf alles Einmalige, das auf der Rechnung steht: der Website-Preis **und die Zusatzleistungen** Google-Profil, Aufsteller, Sichtbarkeits-Check.
+Auf alles Einmalige, das auf der Rechnung steht: der Website-Preis **und die Zusatzleistungen** Google-Profil und Aufsteller. Der Sichtbarkeits-Check zählt nur, wenn er im Erstauftrag mitverkauft wird. Später gebucht ist er Folgegeschäft ohne Provision.
 
 | | Preis | Ihre 35 % |
 |---|---|---|

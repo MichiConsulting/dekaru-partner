@@ -36,13 +36,13 @@ Dazu kommen laufendes Hosting mit Pflege (Kapitel 3) und drei Zusatzleistungen r
 
 **Man sieht es vorher.** Vor der Entscheidung gibt es eine gebaute Vorschau mit den echten Daten des Betriebs. Keine Beschreibung, keine Skizze, eine Seite.
 
-**Ein Termin, der gilt.** Wann die Seite fertig ist, steht im Angebot als Datum. Er richtet sich nach dem Betrieb und seinem Anlass. Eine pauschale Bauzeit wie "in sieben Tagen" gibt es nicht und wird nicht versprochen, auch nicht ungefähr.
+**Ein Termin, der gilt.** Wann die Seite fertig ist, steht im Angebot als Datum und ist im Werkvertrag verbindlich. Er richtet sich nach dem Betrieb und seinem Anlass. Eine pauschale Bauzeit wie "in sieben Tagen" gibt es nicht und wird nicht versprochen, auch nicht ungefähr.
 
 **Ab dem Auftrag ein Ansprechpartner.** Bis zur Unterschrift sind Sie das Gesicht. Ab dem Auftrag läuft alles direkt mit mir: Rückfragen, Freigabe, Abnahme, später das Hosting. Eine Nummer, eine Mailadresse, dieselbe Person.
 
 ## Was ehrlich gesagt wird
 
-**Es gibt noch keine abgeschlossenen Kundenprojekte.** Stand 30.09.2026 hat dekaru kein bezahltes Kundenprojekt vorzuweisen. Das wird nicht umschifft und nicht angedeutet. Ein Vertriebler, der von "zufriedenen Kunden" spricht, sagt etwas Falsches, und er sagt es in meinem Namen.
+**Es gibt noch keine abgeschlossenen Kundenprojekte.** Stand 01.10.2026 hat dekaru kein bezahltes Kundenprojekt vorzuweisen. Das wird nicht umschifft und nicht angedeutet. Ein Vertriebler, der von "zufriedenen Kunden" spricht, sagt etwas Falsches, und er sagt es in meinem Namen.
 
 Was Sie stattdessen zeigen dürfen:
 

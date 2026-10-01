@@ -1,12 +1,12 @@
 ---
 nummer: 11
 titel: Preisliste für Vertriebler
-kurz: Alle Bausteine, Voreinstellungen, Hosting-Stufen und Zusatzleistungen auf einer Seite. Stand 30.09.2026.
+kurz: Alle Bausteine, Voreinstellungen, Hosting-Stufen und Zusatzleistungen auf einer Seite. Stand 01.10.2026.
 ---
 
 # Preisliste für Vertriebler
 
-Stand 30.09.2026. Alle Preise sind Endpreise, es kommt keine Umsatzsteuer dazu. Quelle für die Website-Preise ist der Preisrechner auf dekaru.de. Ändert sich dort etwas, bekommen Sie eine neue Liste. Was hier nicht steht, hat keinen Preis, den Sie nennen dürfen.
+Stand 01.10.2026. Alle Preise sind Endpreise, es kommt keine Umsatzsteuer dazu. Quelle für die Website-Preise ist der Preisrechner auf dekaru.de. Ändert sich dort etwas, bekommen Sie eine neue Liste. Was hier nicht steht, hat keinen Preis, den Sie nennen dürfen.
 
 ## Website
 
@@ -73,7 +73,7 @@ Stand 30.09.2026. Alle Preise sind Endpreise, es kommt keine Umsatzsteuer dazu. 
 - Monatlich: keine Mindestlaufzeit, Kündigung ein Monat zum Monatsende.
 - Jede Änderung über das Kontingent hinaus: **25 €**, in jeder Stufe.
 - In jeder Stufe: Hosting, Domain (Kosten bis 15 € im Jahr enthalten), HTTPS, Updates, gesicherter Quellstand.
-- **Gratisquartal:** drei Monate frei, nur zusammen mit einer neuen Website, danach mindestens sechs bezahlte Monate. Im Gratiszeitraum Kontingent von Basis, kein Umbau.
+- **Gratisquartal:** drei Monate frei, nur zusammen mit einer neuen Website, danach mindestens sechs bezahlte Monate. Im Gratiszeitraum Kontingent von Basis, kein Umbau. Öffentliche Kondition, steht auf dekaru.de, gilt für alle.
 - Übergabe der Website als Paket bei Vertragsende: 99 € Pauschale.
 
 ## Zusatzleistungen
@@ -83,7 +83,7 @@ Stand 30.09.2026. Alle Preise sind Endpreise, es kommt keine Umsatzsteuer dazu. 
 | Google-Unternehmensprofil einrichten | 249 € | keine | Zweittermin, nach der Website |
 | Google-Unternehmensprofil einrichten und ausbauen | 490 € | keine | Zweittermin, nach der Website |
 | Bewertungs-Aufsteller mit QR-Code | 190 € | Google-Unternehmensprofil | Zweittermin, nach der Website |
-| Sichtbarkeits-Check | 390 € je Jahr | Website | erst im zweiten Jahr, nicht beim Erstauftrag |
+| Sichtbarkeits-Check | 390 € je Jahr | Website | erst im zweiten Jahr sinnvoll. Provision nur, wenn er im Erstauftrag mitverkauft wird |
 
 Bewertungs-Aufsteller: die Druckkosten von etwa 15 bis 30 € zahlt der Betrieb direkt bei der Druckerei. Lieferzeit als Rahmen zwei Wochen.
 

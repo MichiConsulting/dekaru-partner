@@ -1,7 +1,7 @@
 ---
 nummer: 3
 titel: Hosting und Pflege
-kurz: Die drei Stufen Start, Basis und Plus, was das teurere Hosting teurer macht, Jahreszahlung und Gratisquartal.
+kurz: Die drei Stufen Start, Basis und Plus, was das teurere Hosting teurer macht, Jahreszahlung und das öffentliche Gratisquartal.
 ---
 
 # Hosting und Pflege
@@ -68,7 +68,7 @@ Bei monatlicher Zahlung gibt es keine Mindestlaufzeit, die Kündigungsfrist ist 
 
 ## Das Gratisquartal
 
-Das ist der eine Vorteil, den Sie im Termin zusagen dürfen. Genau so und nicht anders:
+Das Gratisquartal ist eine öffentliche Kondition: es steht auf dekaru.de und gilt für jeden Betrieb, der Hosting zusammen mit einer neuen Website bucht, egal ob über Sie oder direkt. Für Sie ist es die einzige Zusage, die Sie im Termin machen dürfen. Es ist kein Vertriebler-Rabatt, den Sie vergeben, sondern eine Kondition, die Sie nennen. Genau so und nicht anders:
 
 ![Das Gratisquartal: drei Monate frei, dann mindestens sechs bezahlte Monate](grafiken/gratisquartal.svg)
 

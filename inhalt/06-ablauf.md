@@ -12,7 +12,7 @@ Sie sind **Vertriebler**, kein Terminierer. Sie sprechen Betriebe an, erklären,
 
 ![Vom ersten Anruf bis zur Rechnung: wer was macht](grafiken/ablauf-auftrag.svg)
 
-**1. Anruf oder Cold Visit.** Nur Gewerbetreibende, nur unter der geschäftlichen Nummer, mit klarem Anlass (Kapitel 7). Ziel ist das Erstgespräch mit dem Inhaber.
+**1. Anruf oder Cold Visit.** Nur Gewerbetreibende, nur unter der geschäftlichen Nummer, mit klarem Anlass (Kapitel 7). Cold Visits, also unangemeldete Besuche im Betrieb, sind in Ihrem ganzen Gebiet erlaubt, nicht nur im Kernradius. Ziel ist das Erstgespräch mit dem Inhaber.
 
 **2. Erstgespräch, Sie allein.** Sie erklären, was der Betrieb bekommt, welche Zusatzleistungen es gibt und welcher Preisrahmen gilt: "ab 500 €". Sie nehmen auf, was ihn an seiner jetzigen Lage stört. Ein Zweittermin wird nur vereinbart, wenn das Interesse echt ist, denn für jeden Zweittermin baue ich eine Vorschau. Echt heißt:
 
@@ -27,7 +27,7 @@ Fragen Sie direkt: "Entscheiden Sie das selbst oder redet da noch jemand mit?"
 
 **4. Zweittermin mit der Vorschau.** Vor Ort oder per Video, je nach Gebiet. Die Vorschau wird gemeinsam angeschaut, nie vorab verschickt. Sagt der Inhaber Ja, füllen Sie mit ihm den **Briefing-Bogen** aus. Rechnen Sie dafür mit zwanzig Minuten. Aus dem Bogen entstehen Angebot, Verträge und die Website. Was dort fehlt, fehlt auf der Seite.
 
-**5. Angebot, Werkvertrag, AVV.** Kommen von mir per Mail, der Kunde unterschreibt bei mir. Im Angebot steht der **Fertigstellungstermin als Datum**. Sie unterschreiben nichts in meinem Namen und versprechen nichts, was nach Vertrag klingt.
+**5. Angebot, Werkvertrag, AVV.** Kommen von mir per Mail, der Kunde unterschreibt bei mir. Im Angebot steht der **Fertigstellungstermin als Datum**, im Werkvertrag ist er verbindlich. Sie unterschreiben nichts in meinem Namen und versprechen nichts, was nach Vertrag klingt.
 
 **6. Anzahlung.** Die Hälfte des Website-Preises bei Auftrag. Ihr erster Zahlungseingang, also Ihre erste Provision.
 
@@ -39,7 +39,7 @@ Ab dem Auftrag laufen Rückfragen, Freigabe und Abnahme direkt zwischen mir und 
 
 ## Warteschlange statt Bauzeit
 
-Es gibt **keine feste Bauzeit** und **kein Limit an Abschlüssen.** Sie müssen nicht bremsen, wenn viel reinkommt. Was über meine Kapazität geht, kommt in die Warteschlange. Der Betrieb erfährt seinen Termin im Angebot, bevor er unterschreibt, und der Termin wird gehalten.
+Es gibt **keine feste Bauzeit** und **kein Limit an Abschlüssen.** Sie müssen nicht bremsen, wenn viel reinkommt. Was über meine Kapazität geht, kommt in die Warteschlange. Der Betrieb erfährt seinen Termin im Angebot, bevor er unterschreibt, im Werkvertrag ist er verbindlich, und er wird gehalten.
 
 Für Sie heißt das: **keine Bauzeit zusagen, weder Tage noch Wochen.** Nicht "das geht schnell", nicht "so zwei, drei Wochen". Die Antwort auf "Wie lange dauert das?" ist:
 
@@ -77,6 +77,8 @@ Beide Termine sind gleich viel wert. Welcher gilt, hängt am Ort des Betriebs:
 Ein Video-Termin ist kein Termin zweiter Klasse. Zwanzig Minuten am Bildschirm sagt fast jeder zu.
 
 **Ihr Gebiet** ist eine Liste aus Städten und Landkreisen, die ich beim Aufsetzen mit Ihnen festlege. Dort ruft niemand sonst an, und ein Betrieb, den Sie bearbeitet haben, bleibt Ihrer, auch wenn der Abschluss Monate später kommt. Betriebe außerhalb melden Sie mir, ich ordne sie zu.
+
+**Cold Visits im ganzen Gebiet.** Unangemeldet im Betrieb vorbeizugehen ist überall in Ihrem Gebiet erlaubt, egal welche Zone. Was auf den Kernradius beschränkt bleibt, ist nur der Satz zur Nähe: "Michael Henning sitzt in Horb, ein Termin bei Ihnen im Betrieb geht ohne zwei Wochen Vorlauf." Außerhalb des Kernradius ist das nicht wahr, und erfundene Nähe fliegt im Termin auf.
 
 ## Der Wochenbericht
 

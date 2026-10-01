@@ -71,7 +71,7 @@ Was nicht teurer wird: die Machart. Die Seite für 500 € ist genauso auf dem H
 
 ## Drei Beispielrechnungen
 
-Alle Zahlen aus dem Preisrechner, Stand 30.09.2026.
+Alle Zahlen aus dem Preisrechner, Stand 01.10.2026.
 
 **Beispiel 1: Café, Größenordnung S**
 

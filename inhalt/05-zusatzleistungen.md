@@ -6,7 +6,7 @@ kurz: Google-Unternehmensprofil, Bewertungs-Aufsteller und Sichtbarkeits-Check. 
 
 # Zusatzleistungen
 
-Drei Leistungen, die zur Website dazukommen, aber kein Ersatz für sie sind. Ihr Wert für Sie: **sie erhöhen den Auftrag im selben Termin**, und Ihre 35 % gelten auch darauf.
+Drei Leistungen, die zur Website dazukommen, aber kein Ersatz für sie sind. Ihr Wert für Sie: **sie erhöhen den Auftrag im selben Termin**, und Ihre 35 % gelten auf Google-Profil und Aufsteller. Beim Sichtbarkeits-Check gibt es Provision nur, wenn er im Erstauftrag mitverkauft wird.
 
 ## 1. Google-Unternehmensprofil
 
@@ -56,7 +56,9 @@ So sprechen Sie es an:
 
 **390 € je Jahr.** Setzt als einzige der drei Leistungen eine Website voraus.
 
-**Nicht beim Erstauftrag ansprechen.** Das ist die Leistung für das zweite Jahr, bei einem Betrieb, der schon Kunde ist. Steht deshalb auch nicht auf dem Briefing-Bogen.
+**Nicht beim Erstauftrag aktiv ansprechen.** Das ist die Leistung für das zweite Jahr, bei einem Betrieb, der schon Kunde ist. Steht deshalb auch nicht auf dem Briefing-Bogen.
+
+**Provision, ehrlich gesagt:** Provision auf den Sichtbarkeits-Check gibt es nur, wenn er im Erstauftrag mitverkauft wird. Wird er später gebucht, ist das Folgegeschäft zwischen mir und dem Kunden, ohne Provision. Da er erst im zweiten Jahr sinnvoll ist, gibt es darauf in der Praxis selten Provision. Rechnen Sie nicht damit.
 
 ## Wann Sie was ansprechen
 

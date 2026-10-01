@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" role="img" aria-labelledby="t d" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#141414">
   <title id="t">Wann welche Zusatzleistung angesprochen wird</title>
-  <desc id="d">Vier Zeitpunkte von links nach rechts: Telefon, Erstgespräch, Zweittermin, zweites Jahr. Am Telefon geht es nur um den Termin, keine Zusatzleistungen. Im Erstgespräch werden Google-Profil und Aufsteller erklärt, ohne Preis. Im Zweittermin, nach der Entscheidung für die Website, werden sie konkret angeboten. Der Sichtbarkeits-Check kommt erst im zweiten Jahr bei bestehenden Kunden.</desc>
+  <desc id="d">Vier Zeitpunkte von links nach rechts: Telefon, Erstgespräch, Zweittermin, zweites Jahr. Am Telefon geht es nur um den Termin, keine Zusatzleistungen. Im Erstgespräch werden Google-Profil und Aufsteller erklärt, ohne Preis. Im Zweittermin, nach der Entscheidung für die Website, werden sie konkret angeboten. Der Sichtbarkeits-Check kommt erst im zweiten Jahr bei bestehenden Kunden, Provision gibt es nur bei Verkauf im Erstauftrag.</desc>
   <style>
     .h { font-family: "Space Grotesk", Inter, system-ui, sans-serif; font-weight: 700; }
     .m { fill: #5C5C5C; }
@@ -53,6 +53,8 @@
     <text x="14" y="84" font-weight="600">Sichtbarkeits-Check, 390 €.</text>
     <text class="m" x="14" y="104" font-size="12">Setzt eine Website voraus.</text>
     <text class="m" x="14" y="120" font-size="12">Nicht beim Erstauftrag</text>
-    <text class="m" x="14" y="136" font-size="12">anbieten.</text>
+    <text class="m" x="14" y="136" font-size="12">aktiv anbieten.</text>
+    <text class="m" x="14" y="164" font-size="12">Provision nur, wenn er im</text>
+    <text class="m" x="14" y="180" font-size="12">Erstauftrag mitverkauft wird.</text>
   </g>
 </svg>

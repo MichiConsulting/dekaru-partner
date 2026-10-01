@@ -37,7 +37,7 @@ Zwei Bereiche: was rechtlich gilt, und was die Marke trägt. Der erste Teil ist 
 - kostenlose Zusatzleistungen
 - ein Preis für etwas, das nicht im Preisrechner steht
 
-Die eine Ausnahme ist das **Gratisquartal**: drei Monate Hosting frei, wenn der Betrieb mit der Website bucht, danach mindestens sechs bezahlte Monate. Genau so, keine andere Zahl, nie als Nachlass auf die Website.
+Die eine Ausnahme ist das **Gratisquartal**: drei Monate Hosting frei, wenn der Betrieb mit der Website bucht, danach mindestens sechs bezahlte Monate. Genau so, keine andere Zahl, nie als Nachlass auf die Website. Es ist eine öffentliche Kondition von dekaru.de, die für alle gilt, kein Rabatt, den Sie vergeben.
 
 **Keine erfundene Nähe.** Außerhalb des Kernradius wird nicht so getan, als säße jemand um die Ecke. Nicht "aus Ihrer Region", nicht "wir sind auch bei Ihnen vertreten". Der Betrieb merkt es spätestens im Termin, und dann ist die erste Frage nicht mehr die Website.
 
