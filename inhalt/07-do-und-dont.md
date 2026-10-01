@@ -39,7 +39,7 @@ Zwei Bereiche: was rechtlich gilt, und was die Marke trägt. Der erste Teil ist 
 
 Die eine Ausnahme ist das **Gratisquartal**: drei Monate Hosting frei, wenn der Betrieb mit der Website bucht, danach mindestens sechs bezahlte Monate. Genau so, keine andere Zahl, nie als Nachlass auf die Website. Es ist eine öffentliche Kondition von dekaru.de, die für alle gilt, kein Rabatt, den Sie vergeben.
 
-**Keine erfundene Nähe.** Außerhalb des Kernradius wird nicht so getan, als säße jemand um die Ecke. Nicht "aus Ihrer Region", nicht "wir sind auch bei Ihnen vertreten". Der Betrieb merkt es spätestens im Termin, und dann ist die erste Frage nicht mehr die Website.
+**Keine erfundene Nähe.** Es wird nirgends so getan, als säße jemand um die Ecke. Nicht "aus Ihrer Region", nicht "hier aus der Gegend", nicht "wir sind auch bei Ihnen vertreten". Fragt jemand, wo ich sitze: "Er arbeitet für Betriebe in ganz Deutschland, abgestimmt wird per Video, Telefon und Mail." Der Betrieb merkt es spätestens im Termin, und dann ist die erste Frage nicht mehr die Website.
 
 **Keine Bauzeit.** Weder Tage noch Wochen, auch nicht ungefähr. Der Termin steht im Angebot.
 
@@ -66,7 +66,7 @@ Die eine Ausnahme ist das **Gratisquartal**: drei Monate Hosting frei, wenn der 
 | Gestaltungsbeispiele als erfunden benennen | Kundenprojekte behaupten |
 | Widerspruch sofort umsetzen | später nochmal probieren |
 | Vorschau nur im Termin | Vorschau per Mail |
-| Nähe nur im Kernradius | Nähe behaupten, wo keine ist |
+| sagen, dass per Video, Telefon und Mail abgestimmt wird | Nähe zu Michael Henning oder einem Ort behaupten |
 | ehrlich sagen, was man nicht weiß | Vermutungen als Auskunft |
 | ein Soft-Versuch nach dem Nein | nachhaken, bis es unangenehm wird |
 | Briefing-Bogen, Unterschrift bei Michael Henning | etwas unterschreiben oder zusagen, das nach Vertrag klingt |

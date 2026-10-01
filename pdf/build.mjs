@@ -185,7 +185,7 @@ const html = `<!doctype html>
     <p class="cover-sub">Was dekaru verkauft, was Sie sagen dürfen und wie Ihre Provision entsteht. Für Laien geschrieben, jede Zahl geprüft.</p>
   </div>
   <div class="cover-meta">
-    <p><strong>Stand ${STAND}</strong><br>Michael Henning Consulting, Marke dekaru, Horb am Neckar<br>Vertraulich, nur für Vertriebspartner von dekaru. Ersetzt nicht den Handelsvertretervertrag.</p>
+    <p><strong>Stand ${STAND}</strong><br>Michael Henning Consulting, Marke dekaru<br>Vertraulich, nur für Vertriebspartner von dekaru. Ersetzt nicht den Handelsvertretervertrag.</p>
   </div>
 </section>
 <section class="toc">

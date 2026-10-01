@@ -15,7 +15,7 @@
       "kapitel": "01-dekaru",
       "frage": "Ein Betrieb fragt am Telefon: 'Wer ist denn schon Kunde bei dekaru?' Was ist die richtige Antwort?",
       "optionen": [
-        "Die vier Beispielseiten auf dekaru.de nennen, das sind Kunden aus der Region.",
+        "Die vier Beispielseiten auf dekaru.de nennen, das sind Kunden von dekaru.",
         "Offen sagen, dass Michael Henning gerade anfängt, und auf die eigene Vorschau verweisen, die der Betrieb vor der Entscheidung sieht.",
         "Ausweichen und das Thema wechseln.",
         "Sagen, dass es zufriedene Kunden in ganz Deutschland gibt."
@@ -692,7 +692,7 @@
           "rechts": "'Der Termin steht im Angebot'"
         },
         {
-          "links": "'Unsere Kunden in der Region'",
+          "links": "'Unsere zufriedenen Kunden'",
           "rechts": "'Er fängt gerade an, Sie sehen Ihre eigene Seite vorher'"
         },
         {
@@ -860,8 +860,8 @@
           "rechts": "Vertrag über die Verarbeitung von Besucherdaten nach Art. 28 DSGVO"
         },
         {
-          "links": "Kernradius",
-          "rechts": "Raum Horb am Neckar und Nagold"
+          "links": "Gebiet",
+          "rechts": "Ihre Liste aus Städten und Landkreisen, in der nur Sie Betriebe ansprechen"
         },
         {
           "links": "Quellstand",
@@ -903,18 +903,18 @@
       "id": "q49",
       "typ": "multiple-choice",
       "kapitel": "06-ablauf",
-      "frage": "Wo dürfen Sie Cold Visits machen, also unangemeldet im Betrieb vorbeigehen?",
+      "frage": "Ein Inhaber fragt im Gespräch: 'Ist Herr Henning hier aus der Gegend?' Was antworten Sie?",
       "optionen": [
-        "Nur im Kernradius um Horb und Nagold",
-        "Im ganzen eigenen Gebiet, in jeder Zone",
-        "Nur im Bahn-Gebiet",
-        "Nirgends, nur Telefon"
+        "'Ja, ganz in der Nähe.'",
+        "'Er arbeitet für Betriebe in ganz Deutschland, abgestimmt wird per Video, Telefon und Mail.'",
+        "'Wir sind auch bei Ihnen vertreten.'",
+        "Die Frage überhören und weiterreden."
       ],
       "richtig": [
         1
       ],
       "mehrfach": false,
-      "erklaerung": "Cold Visits sind im ganzen eigenen Gebiet erlaubt. Auf den Kernradius beschränkt bleibt nur der Satz zur Nähe, dass Michael Henning in Horb sitzt und ein Termin vor Ort kurzfristig geht. Außerhalb wäre das erfundene Nähe."
+      "erklaerung": "Einen Ortsbezug gibt es seit dem 01.10.2026 nicht mehr. dekaru arbeitet für Betriebe in ganz Deutschland, und Nähe wird nie behauptet. Die ehrliche Antwort trägt, erfundene Nähe fliegt spätestens im Termin auf."
     },
     {
       "id": "q50",

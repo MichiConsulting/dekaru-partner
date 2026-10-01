@@ -10,7 +10,7 @@ dekaru baut Websites für kleine Betriebe, zu einem Festpreis, den der Betrieb v
 
 ## Wer dahintersteht
 
-dekaru ist der Markenname. Dahinter steht ein Mensch: **Michael Henning**, Webdesigner in Horb am Neckar, Büro am Bahnhofplatz. Kein Team, keine Agentur, kein Projektleiter dazwischen. Wer den Auftrag bespricht, baut die Website auch.
+dekaru ist der Markenname. Dahinter steht ein Mensch: **Michael Henning**, Webdesigner, für Betriebe in ganz Deutschland. Kein Team, keine Agentur, kein Projektleiter dazwischen. Wer den Auftrag bespricht, baut die Website auch.
 
 Das Gewerbe heißt **Michael Henning Consulting**. Ich bin Kleinunternehmer nach § 19 UStG, auf meinen Rechnungen steht keine Umsatzsteuer. Alle Preise in diesem Blatt sind deshalb Endpreise. Das ist für Sie wichtig, weil Ihre Provision auf genau die Zahl gerechnet wird, die auf der Rechnung steht.
 

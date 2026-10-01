@@ -12,7 +12,7 @@ Sie sind **Vertriebler**, kein Terminierer. Sie sprechen Betriebe an, erklären,
 
 ![Vom ersten Anruf bis zur Rechnung: wer was macht](grafiken/ablauf-auftrag.svg)
 
-**1. Anruf oder Cold Visit.** Nur Gewerbetreibende, nur unter der geschäftlichen Nummer, mit klarem Anlass (Kapitel 7). Cold Visits, also unangemeldete Besuche im Betrieb, sind in Ihrem ganzen Gebiet erlaubt, nicht nur im Kernradius. Ziel ist das Erstgespräch mit dem Inhaber.
+**1. Anruf oder Cold Visit.** Nur Gewerbetreibende, nur unter der geschäftlichen Nummer, mit klarem Anlass (Kapitel 7). Cold Visits, also unangemeldete Besuche im Betrieb, sind in Ihrem ganzen Gebiet erlaubt. Ziel ist das Erstgespräch mit dem Inhaber.
 
 **2. Erstgespräch, Sie allein.** Sie erklären, was der Betrieb bekommt, welche Zusatzleistungen es gibt und welcher Preisrahmen gilt: "ab 500 €". Sie nehmen auf, was ihn an seiner jetzigen Lage stört. Ein Zweittermin wird nur vereinbart, wenn das Interesse echt ist, denn für jeden Zweittermin baue ich eine Vorschau. Echt heißt:
 
@@ -25,7 +25,7 @@ Fragen Sie direkt: "Entscheiden Sie das selbst oder redet da noch jemand mit?"
 
 **3. Ich baue die Vorschau.** Mit den echten Daten des Betriebs, aus Ihrer Notiz. Das ist Arbeit, die ich in einen Termin stecke, bevor klar ist, ob etwas daraus wird. Deshalb zwei Bitten: einen geplatzten Termin sofort melden, nicht erst im Wochenbericht. Und die Notiz aus dem Gespräch mitschicken, auch wenn sie kurz ist. Je besser die Vorschau trifft, desto eher wird daraus Ihre Provision.
 
-**4. Zweittermin mit der Vorschau.** Vor Ort oder per Video, je nach Gebiet. Die Vorschau wird gemeinsam angeschaut, nie vorab verschickt. Sagt der Inhaber Ja, füllen Sie mit ihm den **Briefing-Bogen** aus. Rechnen Sie dafür mit zwanzig Minuten. Aus dem Bogen entstehen Angebot, Verträge und die Website. Was dort fehlt, fehlt auf der Seite.
+**4. Zweittermin mit der Vorschau.** Vor Ort oder per Video, wie es für den Betrieb passt. Die Vorschau wird gemeinsam angeschaut, nie vorab verschickt. Sagt der Inhaber Ja, füllen Sie mit ihm den **Briefing-Bogen** aus. Rechnen Sie dafür mit zwanzig Minuten. Aus dem Bogen entstehen Angebot, Verträge und die Website. Was dort fehlt, fehlt auf der Seite.
 
 **5. Angebot, Werkvertrag, AVV.** Kommen von mir per Mail, der Kunde unterschreibt bei mir. Im Angebot steht der **Fertigstellungstermin als Datum**, im Werkvertrag ist er verbindlich. Sie unterschreiben nichts in meinem Namen und versprechen nichts, was nach Vertrag klingt.
 
@@ -58,7 +58,7 @@ Für Sie heißt das: **keine Bauzeit zusagen, weder Tage noch Wochen.** Nicht "d
 
 ## Stufe 1 und Stufe 2
 
-**Stufe 1: die ersten fünf Zweittermine gemeinsam.** Sie präsentieren die Vorschau, ich sitze daneben, beantworte Technikfragen und nenne den Preis. So sehe ich, was Sie versprechen, und Sie lernen die Fragen kennen, die kommen.
+**Stufe 1: die ersten fünf Zweittermine gemeinsam.** Ich bin per Video dabei oder nach Absprache vor Ort. Sie präsentieren die Vorschau, ich beantworte Technikfragen und nenne den Preis. So sehe ich, was Sie versprechen, und Sie lernen die Fragen kennen, die kommen.
 
 **Stufe 2: ab dem sechsten Zweittermin allein.** Sie präsentieren, nennen den Preis aus dem Preisrechner, gewinnen den Auftrag und füllen den Briefing-Bogen aus. Der Preis ist der Listenpreis, ohne Nachlass. Was nicht im Preisrechner steht, klären Sie mit mir, es kommt als Nachtrag ins Angebot.
 
@@ -66,19 +66,15 @@ Was in beiden Stufen bei mir bleibt: Angebot, Verträge, Unterschrift, Rückfrag
 
 ## Vor Ort oder per Video
 
-Beide Termine sind gleich viel wert. Welcher gilt, hängt am Ort des Betriebs:
+Beide Formen sind gleich viel wert, und beide gehen überall in Ihrem Gebiet. Eine Regel nach Entfernung gibt es nicht. In Stufe 1 bin ich per Video dabei oder nach Absprache vor Ort.
 
-| Zone | Was möglich ist | Ortsbezug |
-|---|---|---|
-| Kernradius, Raum Horb am Neckar und Nagold | Vor-Ort-Termin und Video | "aus Horb", "hier aus der Gegend" erlaubt |
-| Bahn-Gebiet, Orte an der Gäubahn | Vor-Ort-Termin und Video | kein "aus der Gegend" |
-| Überregional | nur Video | kein Ortsbezug, "Büro in Baden-Württemberg, gearbeitet wird online" |
+Einen Ortsbezug gibt es im Gespräch nicht. dekaru arbeitet für Betriebe in ganz Deutschland. Fragt jemand, wo ich sitze: "Er arbeitet für Betriebe in ganz Deutschland, abgestimmt wird per Video, Telefon und Mail."
 
 Ein Video-Termin ist kein Termin zweiter Klasse. Zwanzig Minuten am Bildschirm sagt fast jeder zu.
 
-**Ihr Gebiet** ist eine Liste aus Städten und Landkreisen, die ich beim Aufsetzen mit Ihnen festlege. Dort ruft niemand sonst an, und ein Betrieb, den Sie bearbeitet haben, bleibt Ihrer, auch wenn der Abschluss Monate später kommt. Betriebe außerhalb melden Sie mir, ich ordne sie zu.
+**Ihr Gebiet** ist eine Liste aus Städten und Landkreisen, die ich beim Aufsetzen mit Ihnen festlege. Es regelt nur, wer welche Betriebe anspricht. Dort ruft niemand sonst an, und ein Betrieb, den Sie bearbeitet haben, bleibt Ihrer, auch wenn der Abschluss Monate später kommt. Betriebe außerhalb melden Sie mir, ich ordne sie zu.
 
-**Cold Visits im ganzen Gebiet.** Unangemeldet im Betrieb vorbeizugehen ist überall in Ihrem Gebiet erlaubt, egal welche Zone. Was auf den Kernradius beschränkt bleibt, ist nur der Satz zur Nähe: "Michael Henning sitzt in Horb, ein Termin bei Ihnen im Betrieb geht ohne zwei Wochen Vorlauf." Außerhalb des Kernradius ist das nicht wahr, und erfundene Nähe fliegt im Termin auf.
+**Cold Visits im ganzen Gebiet.** Unangemeldet im Betrieb vorbeizugehen ist überall in Ihrem Gebiet erlaubt.
 
 ## Der Wochenbericht
 

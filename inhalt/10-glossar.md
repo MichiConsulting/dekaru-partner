@@ -13,7 +13,6 @@ kurz: Die Begriffe aus diesem Blatt, kurz erklärt.
 | **Anzahlung** | Die Hälfte des Website-Preises bei Auftrag. Der Rest bei Übergabe. Davon wird nicht abgewichen. |
 | **AuthCode** | Der Code, mit dem eine Domain zu einem anderen Anbieter umziehen kann. Der Kunde bekommt ihn auf Anfrage kostenlos. |
 | **AVV** | Auftragsverarbeitungsvertrag nach Art. 28 DSGVO. Nötig, sobald über die Website Daten von Besuchern verarbeitet werden, etwa über ein Formular. Kommt von mir, gehört zum Betreuungsvertrag. |
-| **Bahn-Gebiet** | Orte an der Gäubahn, die ohne Auto erreichbar sind. Vor-Ort-Termin möglich, aber ohne den Satz "hier aus der Gegend". |
 | **Betreuungsvertrag** | Der Vertrag über Hosting und Pflege. Regelt Stufe, Änderungen, Laufzeit, Kündigung, Übergabe. |
 | **BFSG** | Barrierefreiheitsstärkungsgesetz, gilt seit Juni 2025. Websites von Betrieben müssen barrierefrei nutzbar sein. Viele Baukasten-Seiten erfüllen das nicht. |
 | **Briefing-Bogen** | Das Formular, das Sie im Zweittermin mit dem Kunden ausfüllen, nachdem er Ja gesagt hat. Daraus entstehen Angebot, Verträge und Website. |
@@ -25,11 +24,11 @@ kurz: Die Begriffe aus diesem Blatt, kurz erklärt.
 | **Fertigstellungstermin** | Das Datum, an dem die Website fertig ist. Steht im Angebot und ist im Werkvertrag verbindlich. Ersetzt jede pauschale Bauzeit. |
 | **Gestaltungsbeispiele** | Die vier erfundenen Beispielseiten auf dekaru.de: Trattoria, Tattoo-Studio, Metallbau, Kanzlei. Zeigen die Machart, sind keine Kunden. |
 | **Gratisquartal** | Genau drei Monate Hosting frei, nur zusammen mit einer neuen Website, danach mindestens sechs bezahlte Monate. Öffentliche Kondition auf dekaru.de, gilt für alle. Die einzige Zusage, die Sie machen dürfen. |
+| **Gebiet** | Ihre Liste aus Städten und Landkreisen. Dort spricht nur ein Vertriebler Betriebe an. Es regelt die Zuordnung, nicht die Entfernung zu mir. |
 | **Grundpreis** | 500 €. Startseite, Darstellung auf allen Geräten, Impressum, Datenschutz, Kontaktformular, HTTPS. Unter den geht kein Angebot. |
 | **Handelsvertreter** | Ihre rechtliche Rolle nach § 84 HGB: selbstständig, auf Provision, ohne Weisungen zu Zeiten und Quoten. |
 | **Hosting** | Betrieb und Pflege der Website durch mich: Server, Domain, HTTPS, Updates, gesicherter Quellstand, Änderungen. Drei Stufen: Start, Basis, Plus. |
 | **HTTPS** | Verschlüsselte Verbindung zwischen Besucher und Website. Immer dabei. |
-| **Kernradius** | Raum Horb am Neckar und Nagold. Hier bin ich in einer knappen Stunde beim Betrieb, nur hier darf mit der Nähe argumentiert werden. Cold Visits sind davon unabhängig im ganzen Gebiet erlaubt. |
 | **Kleinunternehmer** | Ich rechne nach § 19 UStG ohne Umsatzsteuer ab. Alle Preise sind Endpreise, Ihre Provision wird auf den Rechnungsbetrag gerechnet. |
 | **Kontingent** | Die Zahl der Änderungen, die im Monat in der Hosting-Stufe enthalten sind: 3, 5 oder 10. Verfällt am Monatsende. Gilt ab Abnahme. |
 | **Korrekturrunde** | Eine Runde Änderungen an der fertigen Website vor der Abnahme, im Werkvertrag enthalten. Hat mit dem Hosting-Kontingent nichts zu tun. |
