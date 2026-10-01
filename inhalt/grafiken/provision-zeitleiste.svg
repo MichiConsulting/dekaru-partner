@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" role="img" aria-labelledby="t d" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#141414">
-  <title id="t">Wann das Geld kommt: Zeitleiste für eine Website zu 1.500 Euro mit Hosting Basis und Gratisquartal</title>
-  <desc id="d">Beispiel: Auftrag im Oktober, Anzahlung 750 Euro geht im Oktober ein, Provision 262,50 Euro mit der Abrechnung am 5. November. Abnahme und Restzahlung im November, weitere 262,50 Euro am 5. Dezember. Hosting Basis: Dezember bis Februar gratis, ab März bezahlt. Je bezahltem Monat 13,65 Euro, gesammelt und vierteljährlich zum 5. nach Quartalsende ausgezahlt: 13,65 Euro im April für März, 40,95 Euro im Juli für April bis Juni, und so weiter bis zwölf bezahlte Monate erreicht sind, zusammen höchstens 163,80 Euro.</desc>
+  <title id="t">Wann das Geld kommt: Zeitleiste für eine Website im Paket Groß zu 1.600 Euro mit Hosting Basis und Gratisquartal</title>
+  <desc id="d">Beispiel: Auftrag im Oktober, Anzahlung 800 Euro geht im Oktober ein, Provision 280 Euro mit der Abrechnung am 5. November. Abnahme und Restzahlung im November, weitere 280 Euro am 5. Dezember. Hosting Basis: Dezember bis Februar gratis, ab März bezahlt. Je bezahltem Monat 13,65 Euro, gesammelt und vierteljährlich zum 5. nach Quartalsende ausgezahlt: 13,65 Euro im April für März, 40,95 Euro im Juli für April bis Juni, und so weiter bis zwölf bezahlte Monate erreicht sind, zusammen höchstens 163,80 Euro.</desc>
   <style>
     .h { font-family: "Space Grotesk", Inter, system-ui, sans-serif; font-weight: 700; }
     .m { fill: #5C5C5C; }
     .acc { fill: #6E1A26; }
   </style>
 
-  <text class="h" x="20" y="26" font-size="14">Beispiel: Website 1.500 €, Hosting Basis 39 € mit Gratisquartal, Auftrag im Oktober</text>
+  <text class="h" x="20" y="26" font-size="14">Beispiel: Paket Groß 1.600 €, Hosting Basis 39 € mit Gratisquartal, Auftrag im Oktober</text>
 
   <!-- Monatsleiste: 12 Felder à 60 ab x=40, Okt bis Sep -->
   <g font-size="11" text-anchor="middle">
@@ -27,10 +27,10 @@
   <text class="m" x="20" y="108" font-size="12">Der Kunde zahlt</text>
   <g font-size="11">
     <rect x="46" y="116" width="48" height="22" fill="#141414"/>
-    <text x="70" y="131" text-anchor="middle" fill="#FFFFFF">750 €</text>
+    <text x="70" y="131" text-anchor="middle" fill="#FFFFFF">800 €</text>
     <text class="m" x="70" y="152" text-anchor="middle" font-size="10">Anzahlung</text>
     <rect x="106" y="116" width="48" height="22" fill="#141414"/>
-    <text x="130" y="131" text-anchor="middle" fill="#FFFFFF">750 €</text>
+    <text x="130" y="131" text-anchor="middle" fill="#FFFFFF">800 €</text>
     <text class="m" x="130" y="152" text-anchor="middle" font-size="10">Abnahme</text>
     <rect x="166" y="116" width="168" height="22" fill="#EEEEEB" stroke="#C9C9C5"/>
     <text x="250" y="131" text-anchor="middle">Hosting gratis</text>
@@ -43,10 +43,10 @@
   <g font-size="11">
     <!-- Einmalig: monatlich zum 5. -->
     <line x1="130" y1="200" x2="130" y2="226" stroke="#7B1E2B" stroke-width="2"/>
-    <text class="h acc" x="124" y="242" text-anchor="end" font-size="13">262,50 €</text>
+    <text class="h acc" x="124" y="242" text-anchor="end" font-size="13">280 €</text>
     <text class="m" x="124" y="258" text-anchor="end" font-size="10">5. Nov.</text>
     <line x1="190" y1="200" x2="190" y2="226" stroke="#7B1E2B" stroke-width="2"/>
-    <text class="h acc" x="196" y="242" font-size="13">262,50 €</text>
+    <text class="h acc" x="196" y="242" font-size="13">280 €</text>
     <text class="m" x="196" y="258" font-size="10">5. Dez.</text>
     <!-- Hosting: vierteljährlich -->
     <line x1="430" y1="200" x2="430" y2="226" stroke="#141414" stroke-width="2"/>
