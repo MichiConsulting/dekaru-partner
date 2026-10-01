@@ -79,114 +79,114 @@
       "id": "q05",
       "typ": "multiple-choice",
       "kapitel": "02-website",
-      "frage": "Was ist im Grundpreis von 500 € enthalten?",
+      "frage": "Was ist in jedem der drei Pakete enthalten, auch in Klein?",
       "optionen": [
-        "Startseite, Darstellung auf Handy, Tablet und Rechner, Impressum und Datenschutzerklärung, Kontaktformular, verschlüsselte Verbindung",
+        "Impressum, Datenschutz, Kontaktformular, Darstellung auf dem Handy, verschlüsselte Verbindung und die Karte mit Anfahrt",
         "Startseite und drei Unterseiten",
         "Startseite und Hosting für ein Jahr",
-        "Startseite, Galerie und Karte"
+        "Bildergalerie und Suchmaschinen-Grundlagen"
       ],
       "richtig": [
         0
       ],
       "mehrfach": false,
-      "erklaerung": "Der Grundpreis deckt alles ab, was jede Website braucht. Jeder Baustein darüber hinaus hat einen festen Preis."
+      "erklaerung": "Klein ist eine Seite mit Abschnitten und bringt alles mit, was jede Website braucht, dazu die Karte mit Anfahrt. Galerie und Suchmaschinen-Grundlagen kommen erst mit Mittel."
     },
     {
       "id": "q06",
       "typ": "zuordnen",
       "kapitel": "02-website",
-      "frage": "Ordnen Sie den Bausteinen ihren Preis zu.",
+      "frage": "Ordnen Sie den Zusatzbausteinen ihren Preis zu.",
       "paare": [
         {
-          "links": "Unterseite",
+          "links": "Weitere Unterseite",
           "rechts": "75 € je Seite"
         },
         {
-          "links": "Bildergalerie",
-          "rechts": "100 €"
+          "links": "Besucherstatistik ohne Cookies",
+          "rechts": "90 €"
         },
         {
-          "links": "Terminanfrage",
-          "rechts": "125 €"
+          "links": "Newsletter-Anmeldung",
+          "rechts": "150 €"
         },
         {
           "links": "Suchmaschinen-Grundlagen",
           "rechts": "200 €"
         },
         {
-          "links": "Ratgeber-Bereich",
-          "rechts": "300 €"
-        },
-        {
           "links": "Logo-Entwurf",
           "rechts": "250 €"
+        },
+        {
+          "links": "Ratgeber-Bereich",
+          "rechts": "300 €"
         }
       ],
-      "erklaerung": "Alle Preise stehen im Preisrechner auf dekaru.de und in der Preisliste im Anhang. Was dort nicht steht, hat keinen Preis, den Sie nennen dürfen."
+      "erklaerung": "Alle Preise stehen im Preisrechner und in der Preisliste im Anhang. Bausteine gibt es zu jedem Paket, aber nur, was im Paket nicht schon steckt."
     },
     {
       "id": "q07",
       "typ": "multiple-choice",
       "kapitel": "02-website",
-      "frage": "Ab welchem Preis gilt eine Website als Größenordnung M, ab welchem als L?",
+      "frage": "Welches Paket enthält die mitarbeitende Funktion, heute die Online-Terminanfrage?",
       "optionen": [
-        "M ab 900 €, L ab 1.400 €",
-        "M ab 1.000 €, L ab 1.700 €",
-        "M ab 1.500 €, L ab 1.800 €",
-        "M ab 750 €, L ab 1.200 €"
+        "Alle drei Pakete",
+        "Mittel und Groß",
+        "Nur Groß",
+        "Keines, sie ist ein Baustein für 125 €"
       ],
       "richtig": [
-        1
+        2
       ],
       "mehrfach": false,
-      "erklaerung": "Die Schwellen kommen aus dem Preisrechner: unter 1.000 € ist S, ab 1.000 € M, ab 1.700 € L. Sie dienen nur der Einordnung untereinander."
+      "erklaerung": "Die Funktion gibt es nur in Groß und nie als Baustein. Den früheren Baustein Terminanfrage für 125 € gibt es seit dem 01.10.2026 nicht mehr."
     },
     {
       "id": "q08",
       "typ": "lueckentext",
       "kapitel": "02-website",
-      "text": "Die drei Voreinstellungen des Preisrechners kosten: Klein {{1}} €, Mittel {{2}} €, Groß {{3}} €.",
+      "text": "Die drei Pakete kosten: Klein {{1}} €, Mittel {{2}} €, Groß {{3}} €.",
       "luecken": [
         {
           "nr": 1,
           "richtig": [
-            "500"
+            "600"
           ]
         },
         {
           "nr": 2,
           "richtig": [
-            "1500",
-            "1.500"
+            "1300",
+            "1.300"
           ]
         },
         {
           "nr": 3,
           "richtig": [
-            "1800",
-            "1.800"
+            "1600",
+            "1.600"
           ]
         }
       ],
-      "erklaerung": "Voreinstellungen sind Startpunkte, keine Pakete. Ein Klick setzt die Schalter, danach lässt sich alles anpassen."
+      "erklaerung": "Feste Pakete mit festem Inhalt. Groß liegt nur 300 € über Mittel und trägt das Zeichen 'Empfohlen'."
     },
     {
       "id": "q09",
       "typ": "multiple-choice",
       "kapitel": "02-website",
-      "frage": "Ein Café will: Grundpreis, Speisekarte, Karte mit Anfahrt, Bildergalerie, eine Unterseite und einen Text von Michael Henning. Was kostet das?",
+      "frage": "Ein Café nimmt das Paket Klein und dazu Speisekarte und Bildergalerie. Was kostet das?",
       "optionen": [
+        "700 €",
         "800 €",
-        "925 €",
-        "1.000 €",
-        "1.075 €"
+        "900 €",
+        "1.300 €"
       ],
       "richtig": [
         1
       ],
       "mehrfach": false,
-      "erklaerung": "500 + 100 + 100 + 100 + 75 + 50 = 925 €. Das ist Größenordnung S."
+      "erklaerung": "600 + 100 + 100 = 800 €. Die Karte mit Anfahrt ist schon in Klein enthalten und wird nicht extra berechnet."
     },
     {
       "id": "q10",
@@ -196,7 +196,7 @@
       "optionen": [
         "Ja, das ist dieselbe Leistung, eines davon reicht immer.",
         "Nein. Die Suchmaschinen-Grundlagen sind Arbeit an der Website, das Google-Profil ist der Eintrag bei Google Maps.",
-        "Das Google-Profil ist im Grundpreis enthalten.",
+        "Das Google-Profil ist in jedem Paket enthalten.",
         "Die Suchmaschinen-Grundlagen brauchen zwingend das Google-Profil."
       ],
       "richtig": [
@@ -250,11 +250,10 @@
       "richtig": [
         0,
         1,
-        2,
-        3
+        2
       ],
       "mehrfach": true,
-      "erklaerung": "Arbeitszeit, Reaktionszeit, Umbauten und die mitarbeitende Funktion. Ein Redaktionssystem gibt es noch nicht, und Backups gibt es in keiner Stufe, sondern den gesicherten Quellstand."
+      "erklaerung": "Arbeitszeit, Reaktionszeit und Umbauten. Plus ist reiner Service. Die Terminanfrage gehört zum Paket Groß, nicht zu einer Hosting-Stufe. Ein Redaktionssystem gibt es noch nicht, und Backups gibt es in keiner Stufe, sondern den gesicherten Quellstand."
     },
     {
       "id": "q14",
@@ -645,16 +644,16 @@
       "kapitel": "07-do-und-dont",
       "frage": "Welche Preiszusagen dürfen Sie am Telefon machen?",
       "optionen": [
-        "'ab 500 €' und sonst nichts",
+        "'ab 600 €' und sonst nichts",
         "Einen Festpreis, wenn der Betrieb seinen Wunsch beschreibt",
         "Einen Rabatt, wenn der Betrieb noch diese Woche zusagt",
-        "Den Preis aus dem Preisrechner, auch in Stufe 1"
+        "Die Paketpreise, auch in Stufe 1"
       ],
       "richtig": [
         0
       ],
       "mehrfach": false,
-      "erklaerung": "Am Telefon ist 'ab 500 €' die einzige Zahl. Nie verhandeln, nie eine zweite Zahl. Im Zweittermin nennt in Stufe 1 Michael Henning den Preis, in Stufe 2 der Vertriebler den Listenpreis."
+      "erklaerung": "Am Telefon und im Erstgespräch ist 'ab 600 €' die einzige Zahl. Nie verhandeln, nie eine zweite Zahl. Im Zweittermin nennt in Stufe 1 Michael Henning die Preise, in Stufe 2 der Vertriebler Paket und Bausteine aus dem Preisrechner."
     },
     {
       "id": "q36",
@@ -723,18 +722,18 @@
       "id": "q39",
       "typ": "multiple-choice",
       "kapitel": "08-provision",
-      "frage": "Ein Kunde beauftragt eine Website für 1.200 € und bucht Google-Profil einrichten (249 €) dazu. Er zahlt alles. Wie hoch ist Ihre Provision?",
+      "frage": "Ein Kunde beauftragt das Paket Mittel für 1.300 € und bucht Google-Profil einrichten (249 €) dazu. Er zahlt alles. Wie hoch ist Ihre Provision?",
       "optionen": [
-        "420 €",
-        "507,15 €",
-        "435 €",
-        "1.449 €"
+        "455 €",
+        "542,15 €",
+        "520 €",
+        "1.549 €"
       ],
       "richtig": [
         1
       ],
       "mehrfach": false,
-      "erklaerung": "35 % von 1.449 € sind 507,15 €. Die Provision gilt auf alles Einmalige auf der Rechnung, also auch auf die Zusatzleistungen."
+      "erklaerung": "35 % von 1.549 € sind 542,15 €. Die Provision gilt auf alles Einmalige auf der Rechnung, also auf Paket, Bausteine und Zusatzleistungen."
     },
     {
       "id": "q40",
@@ -790,12 +789,12 @@
       "id": "q42",
       "typ": "multiple-choice",
       "kapitel": "08-provision",
-      "frage": "Ein Kunde zahlt 600 € an, die Schlussrechnung über 600 € bleibt offen und wird storniert. Was passiert mit Ihrer Provision?",
+      "frage": "Ein Kunde beauftragt das Paket Mittel für 1.300 €, zahlt 650 € an, die Schlussrechnung über 650 € bleibt offen und wird storniert. Was passiert mit Ihrer Provision?",
       "optionen": [
-        "Die 210 € auf die Anzahlung bleiben bei Ihnen, auf den offenen Teil gibt es nichts.",
-        "Die 210 € werden zurückgefordert.",
-        "Sie bekommen die vollen 420 €, weil der Auftrag erteilt war.",
-        "Sie bekommen 105 €."
+        "Die 227,50 € auf die Anzahlung bleiben bei Ihnen, auf den offenen Teil gibt es nichts.",
+        "Die 227,50 € werden zurückgefordert.",
+        "Sie bekommen die vollen 455 €, weil der Auftrag erteilt war.",
+        "Sie bekommen 113,75 €."
       ],
       "richtig": [
         0
@@ -923,6 +922,153 @@
       "aussage": "Der Fertigstellungstermin steht im Angebot und ist im Werkvertrag verbindlich.",
       "richtig": true,
       "erklaerung": "So ist es entschieden: ein Datum im Angebot, verbindlich im Werkvertrag. Was Sie trotzdem nie nennen, ist eine pauschale Bauzeit in Tagen oder Wochen."
+    },
+    {
+      "id": "q51",
+      "typ": "wahr-falsch",
+      "kapitel": "02-website",
+      "aussage": "Die Online-Terminanfrage kann als Zusatzbaustein zum Paket Mittel dazugekauft werden.",
+      "richtig": false,
+      "erklaerung": "Die mitarbeitende Funktion gibt es nur in Groß, nie als Baustein. Wer sie will, nimmt Groß, das sind 300 € mehr als Mittel."
+    },
+    {
+      "id": "q52",
+      "typ": "multiple-choice",
+      "kapitel": "02-website",
+      "frage": "Ein Betrieb hat Groß gekauft und kündigt nach zwei Jahren das Hosting, um selbst zu hosten. Was passiert mit der Terminanfrage?",
+      "optionen": [
+        "Sie läuft weiter, sie gehört ja zur Website.",
+        "Sie entfällt, weil sie nur läuft, solange die Website bei Michael Henning gehostet wird.",
+        "Sie läuft weiter gegen 125 € einmalig.",
+        "Sie läuft nur weiter, wenn er vorher Plus hatte."
+      ],
+      "richtig": [
+        1
+      ],
+      "mehrfach": false,
+      "erklaerung": "Der Dienst für die Funktion liegt bei Michael Henning. Endet das Hosting, entfällt die Funktion. Das wird vor dem Kauf gesagt, nicht erst bei der Kündigung."
+    },
+    {
+      "id": "q53",
+      "typ": "wahr-falsch",
+      "kapitel": "03-hosting",
+      "aussage": "Für die Online-Terminanfrage braucht ein Kunde mit Paket Groß mindestens Hosting Plus.",
+      "richtig": false,
+      "erklaerung": "Die Funktion läuft in jeder Hosting-Stufe, schon ab Start, solange bei Michael Henning gehostet wird. Plus ist reiner Service ohne Funktion."
+    },
+    {
+      "id": "q54",
+      "typ": "multiple-choice",
+      "kapitel": "02-website",
+      "frage": "Was bekommt der Betrieb in Groß zusätzlich zu Mittel? Mehrere Antworten sind richtig.",
+      "optionen": [
+        "Die mitarbeitende Funktion",
+        "Die Team-Seite",
+        "Die Bildaufbereitung bis 20 Bilder",
+        "Eine Unterseite und zwei Texte mehr",
+        "Hosting Plus gratis",
+        "Den Logo-Entwurf"
+      ],
+      "richtig": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "mehrfach": true,
+      "erklaerung": "Für 300 € mehr: Funktion, Team, Bildaufbereitung, eine Seite und zwei Texte mehr. Hosting und Logo-Entwurf sind nicht im Paket."
+    },
+    {
+      "id": "q55",
+      "typ": "multiple-choice",
+      "kapitel": "09-einwaende",
+      "frage": "Im Zweittermin, Stufe 2, sagt ein Inhaber: 'Mittel reicht mir doch.' Was ist die beste Antwort?",
+      "optionen": [
+        "'Dann nehmen Sie Mittel, Groß lohnt sich nicht.'",
+        "'Für 300 € mehr arbeitet die Seite mit: sie nimmt Terminanfragen an, auch abends. Dazu Team-Seite, Fotobearbeitung, eine Seite und zwei Texte mehr. Die Terminanfrage läuft, solange Herr Henning Ihre Seite hostet.'",
+        "'Groß bekommen Sie heute zum Preis von Mittel.'",
+        "'Die Terminanfrage kann ich Ihnen auch einzeln zu Mittel geben.'"
+      ],
+      "richtig": [
+        1
+      ],
+      "mehrfach": false,
+      "erklaerung": "Der Satz 'Für 300 € mehr arbeitet die Seite mit' trägt, und die Bindung ans Hosting wird im selben Atemzug genannt. Kein Nachlass, keine Funktion als Baustein."
+    },
+    {
+      "id": "q56",
+      "typ": "multiple-choice",
+      "kapitel": "09-einwaende",
+      "frage": "Ein Inhaber fragt: 'Warum nicht einfach Klein?' Was stimmt?",
+      "optionen": [
+        "Klein immer ausreden, Groß ist Pflicht.",
+        "Wer nur gefunden und angerufen werden will, ist mit Klein richtig. Wer Bilder, Leistungen und Referenzen zeigen will, landet mit Bausteinen schnell bei Mittel, dann ist Mittel das bessere Geschäft.",
+        "Klein gibt es nur mit Hosting.",
+        "Klein ist nicht barrierefrei."
+      ],
+      "richtig": [
+        1
+      ],
+      "mehrfach": false,
+      "erklaerung": "Ehrlich beraten, niemanden hochreden. Klein ist genauso gebaut wie Groß, nur kleiner. Wer sich überredet fühlt, kündigt das Hosting im ersten Jahr."
+    },
+    {
+      "id": "q57",
+      "typ": "wahr-falsch",
+      "kapitel": "07-do-und-dont",
+      "aussage": "Am Telefon dürfen Sie die drei Paketpreise nennen, wenn der Betrieb danach fragt.",
+      "richtig": false,
+      "erklaerung": "Am Telefon und im Erstgespräch ist 'ab 600 €' die einzige Zahl. Die Pakete mit Preis kommen erst im Zweittermin, in Stufe 1 von Michael Henning."
+    },
+    {
+      "id": "q58",
+      "typ": "multiple-choice",
+      "kapitel": "08-provision",
+      "frage": "Sie verkaufen das Paket Groß für 1.600 € statt Mittel für 1.300 €. Wie viel mehr Provision bekommen Sie auf das Einmalige?",
+      "optionen": [
+        "35 €",
+        "105 €",
+        "300 €",
+        "560 €"
+      ],
+      "richtig": [
+        1
+      ],
+      "mehrfach": false,
+      "erklaerung": "35 % von 300 € sind 105 €. Auf Groß sind es 560 € statt 455 €. Dazu kommt meist Hosting, weil die Funktion nur mit Hosting bei Michael Henning läuft, und darauf gibt es eigene Provision."
+    },
+    {
+      "id": "q59",
+      "typ": "zuordnen",
+      "kapitel": "02-website",
+      "frage": "Ordnen Sie zu: Ab welchem Paket ist was enthalten?",
+      "paare": [
+        {
+          "links": "Karte mit Anfahrt",
+          "rechts": "in allen Paketen, ab Klein"
+        },
+        {
+          "links": "Bildergalerie",
+          "rechts": "ab Mittel"
+        },
+        {
+          "links": "Team-Seite",
+          "rechts": "nur in Groß"
+        },
+        {
+          "links": "Texte von mir für 4 Seiten",
+          "rechts": "Groß, Mittel hat 2 Seiten"
+        }
+      ],
+      "erklaerung": "Was ein Paket nicht enthält, kann als Baustein dazukommen. Nur die mitarbeitende Funktion gibt es ausschließlich in Groß."
+    },
+    {
+      "id": "q60",
+      "typ": "wahr-falsch",
+      "kapitel": "11-preisliste",
+      "aussage": "Zu einem Paket werden nur Bausteine dazugebucht, die im Paket nicht schon enthalten sind.",
+      "richtig": true,
+      "erklaerung": "Mittel bekommt keine Bildergalerie dazu, Groß keine Team-Seite, weil beides schon drin ist. Eine weitere Unterseite für 75 € geht dagegen bei jedem Paket."
     }
   ]
 }
