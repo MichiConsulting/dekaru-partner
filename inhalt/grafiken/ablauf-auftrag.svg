@@ -31,7 +31,7 @@
   <g transform="translate(20 112)">
     <rect class="v" x="0" y="0" width="360" height="72" rx="4"/>
     <text class="h" x="14" y="22" font-size="13">2  Erstgespräch, Sie allein</text>
-    <text class="m" x="14" y="42" font-size="12">Leistung, Zusatzleistungen, Preisrahmen "ab 500 €".</text>
+    <text class="m" x="14" y="42" font-size="12">Leistung, Zusatzleistungen, Preisrahmen "ab 600 €".</text>
     <text class="m" x="14" y="58" font-size="12">Zweittermin nur bei echtem Interesse, mit dem Entscheider.</text>
   </g>
   <path class="arrow" d="M380,148 L440,148" marker-end="url(#pf)"/>
@@ -50,7 +50,7 @@
     <rect class="v" x="0" y="0" width="360" height="88" rx="4"/>
     <text class="h" x="14" y="22" font-size="13">4  Zweittermin mit der Vorschau</text>
     <text class="m" x="14" y="42" font-size="12">Stufe 1: gemeinsam, Michael Henning nennt den Preis.</text>
-    <text class="m" x="14" y="58" font-size="12">Stufe 2: Sie allein, Preisrechner-Preis, kein Nachlass.</text>
+    <text class="m" x="14" y="58" font-size="12">Stufe 2: Sie allein, Paket und Bausteine, kein Nachlass.</text>
     <text class="m" x="14" y="74" font-size="12">Bei Ja: Briefing-Bogen gemeinsam ausfüllen.</text>
   </g>
   <path class="arrow" d="M380,254 L440,254" marker-end="url(#pf)"/>

@@ -78,7 +78,7 @@ So sprechen Sie es an:
 
 | | Preis | Ihre 35 % |
 |---|---|---|
-| Website allein | 1.500 € | 525 € |
-| Website plus Google-Profil (249 €) und Aufsteller (190 €) | 1.939 € | 678,65 € |
+| Paket Groß allein | 1.600 € | 560 € |
+| Paket Groß plus Google-Profil (249 €) und Aufsteller (190 €) | 2.039 € | 713,65 € |
 
 Rund 150 € mehr für zwei Fragen im selben Termin. Deshalb lohnt es sich, den Google-Eintrag immer anzusprechen, auch wenn der Betrieb nicht danach fragt.

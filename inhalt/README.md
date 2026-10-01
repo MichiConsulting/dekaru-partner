@@ -5,8 +5,8 @@ Quelle für das Informationsblatt (PDF unter `pdf/`) und für das Partner-Portal
 
 Stand der Inhalte: 01.10.2026 (Entscheidungen von Michi vom 01.10.2026 eingearbeitet). Fachliche Quellen sind die Blätter unter
 `~/dekaru/brain/projekte/vertrieb-partner/` (Blatt 13 für Hosting, 04 für
-Provision, 06 für Do und Don't), `dekaru-website/site/src/data/preise.ts`
-(Komponentenpreise und Größen-Schwellen), `hosting.ts` (Hosting-Tarife) und
+Provision, 06 für Do und Don't, 14 für die Website-Pakete),
+`dekaru-website/site/src/data/preise.ts` (Paket- und Bausteinpreise), `hosting.ts` (Hosting-Tarife) und
 `dekaru-rechnungen/vorlagen/betreuungsvertrag.md`. Ändert sich dort etwas,
 gehört es hier nachgezogen, nicht umgekehrt.
 
@@ -73,8 +73,7 @@ Grafiken einbindet, sollte beide Schriften laden, sonst greift der Fallback.
 
 | Datei | Zeigt |
 |---|---|
-| `groessen-schwellen.svg` | Preisstrahl mit den Grenzen S, M, L (1.000 und 1.700 €) |
-| `website-spanne.svg` | Die drei Voreinstellungen Klein, Mittel, Groß als Säulen mit Bausteinen |
+| `website-pakete.svg` | Die drei Pakete Klein, Mittel, Groß als Vergleichstabelle, Groß hervorgehoben |
 | `hosting-stufen.svg` | Start, Basis, Plus nebeneinander |
 | `aenderung-ablauf.svg` | Ablauf einer Änderung: Mail, Umsetzung, Zählung, 25 €, Monatsende |
 | `gratisquartal.svg` | Drei Gratismonate, sechs Pflichtmonate, danach kündbar |
@@ -89,7 +88,7 @@ Lernfragen für das Portal. Struktur:
 ```
 {
   "version": 1,
-  "stand": "2026-09-30",
+  "stand": "2026-10-01",
   "titel": "...",
   "typen": { ... Beschreibung je Typ ... },
   "fragen": [ ... ]

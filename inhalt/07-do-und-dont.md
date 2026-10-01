@@ -30,12 +30,14 @@ Zwei Bereiche: was rechtlich gilt, und was die Marke trägt. Der erste Teil ist 
 
 **dekaru wird kleingeschrieben.** Auch am Satzanfang, auch in Mails.
 
-**Preise.** Am Telefon ist "ab 500 €" die einzige Zahl. Nie verhandeln, nie eine zweite Zahl nennen. Im Zweittermin nennt in Stufe 1 Michael Henning den Preis, in Stufe 2 Sie, und zwar den aus dem Preisrechner. Nie zusagen:
+**Preise.** Am Telefon und im Erstgespräch ist "ab 600 €" die einzige Zahl. Nie verhandeln, nie eine zweite Zahl nennen. Im Zweittermin nennt in Stufe 1 Michael Henning den Preis, in Stufe 2 Sie, und zwar Paketpreis und Zusatzbausteine aus dem Preisrechner. Nie zusagen:
 
 - ein Festpreis am Telefon für einen konkreten Betrieb
 - ein Rabatt, ein Nachlass, ein Sonderpreis, ein Preis "nur diese Woche"
 - kostenlose Zusatzleistungen
 - ein Preis für etwas, das nicht im Preisrechner steht
+- die mitarbeitende Funktion zu Klein oder Mittel, oder ohne Hosting bei Michael Henning
+- ein Paket mit getauschten Inhalten oder zu einem anderen Preis
 
 Die eine Ausnahme ist das **Gratisquartal**: drei Monate Hosting frei, wenn der Betrieb mit der Website bucht, danach mindestens sechs bezahlte Monate. Genau so, keine andere Zahl, nie als Nachlass auf die Website. Es ist eine öffentliche Kondition von dekaru.de, die für alle gilt, kein Rabatt, den Sie vergeben.
 
@@ -57,8 +59,8 @@ Die eine Ausnahme ist das **Gratisquartal**: drei Monate Hosting frei, wenn der 
 |---|---|
 | Name und "für Michael Henning" im ersten Satz | im eigenen Namen als dekaru auftreten |
 | nur geschäftliche Nummern | Privatnummern, auch aus dem Impressum |
-| "ab 500 €" am Telefon | Festpreis oder Rabatt am Telefon |
-| Listenpreis aus dem Preisrechner (Stufe 2) | Nachlass, Sonderpreis, "nur diese Woche" |
+| "ab 600 €" am Telefon | Festpreis oder Rabatt am Telefon |
+| Paketpreis und Bausteine aus dem Preisrechner (Stufe 2) | Nachlass, Sonderpreis, "nur diese Woche" |
 | das Gratisquartal beim Hosting, genau drei Monate | andere Gratismonate, Rabatt auf die Website |
 | "Der Termin steht im Angebot" | eine Bauzeit in Tagen oder Wochen |
 | "Änderungen per Mail an Herrn Henning" | "das können Sie dann selbst ändern" |

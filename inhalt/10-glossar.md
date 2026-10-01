@@ -25,19 +25,19 @@ kurz: Die Begriffe aus diesem Blatt, kurz erklärt.
 | **Gestaltungsbeispiele** | Die vier erfundenen Beispielseiten auf dekaru.de: Trattoria, Tattoo-Studio, Metallbau, Kanzlei. Zeigen die Machart, sind keine Kunden. |
 | **Gratisquartal** | Genau drei Monate Hosting frei, nur zusammen mit einer neuen Website, danach mindestens sechs bezahlte Monate. Öffentliche Kondition auf dekaru.de, gilt für alle. Die einzige Zusage, die Sie machen dürfen. |
 | **Gebiet** | Ihre Liste aus Städten und Landkreisen. Dort spricht nur ein Vertriebler Betriebe an. Es regelt die Zuordnung, nicht die Entfernung zu mir. |
-| **Grundpreis** | 500 €. Startseite, Darstellung auf allen Geräten, Impressum, Datenschutz, Kontaktformular, HTTPS. Unter den geht kein Angebot. |
 | **Handelsvertreter** | Ihre rechtliche Rolle nach § 84 HGB: selbstständig, auf Provision, ohne Weisungen zu Zeiten und Quoten. |
 | **Hosting** | Betrieb und Pflege der Website durch mich: Server, Domain, HTTPS, Updates, gesicherter Quellstand, Änderungen. Drei Stufen: Start, Basis, Plus. |
 | **HTTPS** | Verschlüsselte Verbindung zwischen Besucher und Website. Immer dabei. |
 | **Kleinunternehmer** | Ich rechne nach § 19 UStG ohne Umsatzsteuer ab. Alle Preise sind Endpreise, Ihre Provision wird auf den Rechnungsbetrag gerechnet. |
 | **Kontingent** | Die Zahl der Änderungen, die im Monat in der Hosting-Stufe enthalten sind: 3, 5 oder 10. Verfällt am Monatsende. Gilt ab Abnahme. |
 | **Korrekturrunde** | Eine Runde Änderungen an der fertigen Website vor der Abnahme, im Werkvertrag enthalten. Hat mit dem Hosting-Kontingent nichts zu tun. |
-| **Mitarbeitende Funktion** | Ein Teil der Website, der dem Betrieb Arbeit abnimmt. In Plus enthalten. Heute: die Online-Terminanfrage. |
-| **Preisrechner** | Das Werkzeug auf dekaru.de, aus dem jeder Website-Preis entsteht: Grundpreis plus Bausteine. Was er ausgibt, ist der Preis. |
+| **Mitarbeitende Funktion** | Ein Teil der Website, der dem Betrieb Arbeit abnimmt. Heute: die Online-Terminanfrage. Nur im Paket Groß, nie als Baustein, und nur solange die Website bei mir gehostet wird, egal in welcher Stufe. |
+| **Paket** | Eine der drei festen Website-Größen: Klein 600 €, Mittel 1.300 €, Groß 1.600 €. Fester Inhalt, fester Preis. Groß ist empfohlen. |
+| **Preisrechner** | Das Werkzeug, aus dem jeder Website-Preis entsteht: Paket plus Zusatzbausteine. Was er ausgibt, ist der Preis. |
 | **Quellstand** | Der vollständige, versionierte Bauplan der Website, aus dem sie jederzeit neu bereitgestellt werden kann. Ersetzt das klassische Backup. |
 | **Redaktionssystem** | Ein System, mit dem der Kunde Inhalte selbst ändern könnte. Gibt es bei dekaru noch nicht, wird nicht versprochen. |
 | **Stichtag** | Der 25. eines Monats. Bei Start werden alle Änderungen, die bis dahin da sind, in den letzten Werktagen des Monats gesammelt umgesetzt. |
-| **Stufe 1 / Stufe 2** | Stufe 1: die ersten fünf Zweittermine gemeinsam mit mir, ich nenne den Preis. Stufe 2: Sie allein, Sie nennen den Listenpreis aus dem Preisrechner. |
+| **Stufe 1 / Stufe 2** | Stufe 1: die ersten fünf Zweittermine gemeinsam mit mir, ich nenne den Preis. Stufe 2: Sie allein, Sie nennen Paketpreis und Bausteine aus dem Preisrechner. |
 | **Umbau** | Bis zu drei Stunden Arbeit an der Website, etwa ein Bereich neu gestaltet. Bei Plus zwei im Jahr, mit Grenzen. Sonst ein eigener Auftrag. |
 | **UWG** | Gesetz gegen den unlauteren Wettbewerb. § 7 erlaubt Kaltakquise bei Gewerbetreibenden unter engen Bedingungen: geschäftliche Nummer, geschäftlicher Anlass, klare Absenderangabe. |
 | **Vorschau** | Die gebaute Website mit den echten Daten des Betriebs, die im Zweittermin gezeigt wird. Nie per Mail. |
@@ -45,5 +45,6 @@ kurz: Die Begriffe aus diesem Blatt, kurz erklärt.
 | **Werktag** | Montag bis Freitag ohne gesetzliche Feiertage in Baden-Württemberg. Bei angekündigtem Urlaub ruht die Zeit. |
 | **Werkvertrag** | Der Vertrag über den Bau der Website. Kommt von mir, der Kunde unterschreibt bei mir. |
 | **Wiedervorlage** | Ein Betrieb, der jetzt nicht will, aber nicht widersprochen hat. Wird zu einem späteren Zeitpunkt noch einmal angesprochen. |
+| **Zusatzbaustein** | Ein Teil der Website mit festem Preis, der zu jedem Paket dazugebucht werden kann, etwa Ratgeber-Bereich, Logo-Entwurf oder eine weitere Unterseite. Nur, was im Paket nicht schon steckt. Nicht zu verwechseln mit den Zusatzleistungen. |
 | **Zusatzleistungen** | Google-Unternehmensprofil (249 oder 490 €), Bewertungs-Aufsteller (190 €), Sichtbarkeits-Check (390 € im Jahr). Provision 35 % auf Google-Profil und Aufsteller, auf den Sichtbarkeits-Check nur im Erstauftrag. |
 | **Zweittermin** | Der Termin mit der Vorschau, vor Ort oder per Video. Hier fällt die Entscheidung, hier wird der Briefing-Bogen ausgefüllt. |

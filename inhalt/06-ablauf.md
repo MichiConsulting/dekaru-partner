@@ -14,7 +14,7 @@ Sie sind **Vertriebler**, kein Terminierer. Sie sprechen Betriebe an, erklären,
 
 **1. Anruf oder Cold Visit.** Nur Gewerbetreibende, nur unter der geschäftlichen Nummer, mit klarem Anlass (Kapitel 7). Cold Visits, also unangemeldete Besuche im Betrieb, sind in Ihrem ganzen Gebiet erlaubt. Ziel ist das Erstgespräch mit dem Inhaber.
 
-**2. Erstgespräch, Sie allein.** Sie erklären, was der Betrieb bekommt, welche Zusatzleistungen es gibt und welcher Preisrahmen gilt: "ab 500 €". Sie nehmen auf, was ihn an seiner jetzigen Lage stört. Ein Zweittermin wird nur vereinbart, wenn das Interesse echt ist, denn für jeden Zweittermin baue ich eine Vorschau. Echt heißt:
+**2. Erstgespräch, Sie allein.** Sie erklären, was der Betrieb bekommt, welche Zusatzleistungen es gibt und welcher Preisrahmen gilt: "ab 600 €". Sie nehmen auf, was ihn an seiner jetzigen Lage stört. Ein Zweittermin wird nur vereinbart, wenn das Interesse echt ist, denn für jeden Zweittermin baue ich eine Vorschau. Echt heißt:
 
 - Der Inhaber hat selbst gesagt, was ihn stört.
 - Er kennt den Preisrahmen und hat nicht abgewunken.
@@ -60,7 +60,7 @@ Für Sie heißt das: **keine Bauzeit zusagen, weder Tage noch Wochen.** Nicht "d
 
 **Stufe 1: die ersten fünf Zweittermine gemeinsam.** Ich bin per Video dabei oder nach Absprache vor Ort. Sie präsentieren die Vorschau, ich beantworte Technikfragen und nenne den Preis. So sehe ich, was Sie versprechen, und Sie lernen die Fragen kennen, die kommen.
 
-**Stufe 2: ab dem sechsten Zweittermin allein.** Sie präsentieren, nennen den Preis aus dem Preisrechner, gewinnen den Auftrag und füllen den Briefing-Bogen aus. Der Preis ist der Listenpreis, ohne Nachlass. Was nicht im Preisrechner steht, klären Sie mit mir, es kommt als Nachtrag ins Angebot.
+**Stufe 2: ab dem sechsten Zweittermin allein.** Sie präsentieren, stellen die drei Pakete vor, nennen Paketpreis und Zusatzbausteine aus dem Preisrechner, gewinnen den Auftrag und füllen den Briefing-Bogen aus. Der Preis ist der Listenpreis, ohne Nachlass. Was nicht im Preisrechner steht, klären Sie mit mir, es kommt als Nachtrag ins Angebot.
 
 Was in beiden Stufen bei mir bleibt: Angebot, Verträge, Unterschrift, Rückfragen während des Baus, Abnahme, Hosting.
 

@@ -18,7 +18,7 @@ Das Gewerbe heißt **Michael Henning Consulting**. Ich bin Kleinunternehmer nach
 
 ## Was verkauft wird
 
-Websites für Betriebe mit etwa einem bis dreißig Mitarbeitenden: Handwerk, Gastronomie, Dienstleister, Praxen, Kanzleien. Grundlage sind zehn Branchenvorlagen, aus denen die Seite für den jeweiligen Betrieb gebaut wird. Das ist kein Baukasten von der Stange, aber auch keine Neuentwicklung bei null. Es ist der Grund, warum eine Website ab 500 € möglich ist.
+Websites für Betriebe mit etwa einem bis dreißig Mitarbeitenden: Handwerk, Gastronomie, Dienstleister, Praxen, Kanzleien. Grundlage sind zehn Branchenvorlagen, aus denen die Seite für den jeweiligen Betrieb gebaut wird. Das ist kein Baukasten von der Stange, aber auch keine Neuentwicklung bei null. Es ist der Grund, warum eine Website ab 600 € möglich ist.
 
 Was jede Seite mitbringt:
 
@@ -32,7 +32,7 @@ Dazu kommen laufendes Hosting mit Pflege (Kapitel 3) und drei Zusatzleistungen r
 
 ## Die vier Argumente, die überall tragen
 
-**Festpreis vorher.** Der Betrieb weiß vor dem Start, was am Ende auf der Rechnung steht. Jede Website kostet ab 500 €, jeder Baustein darüber hat einen festen Preis.
+**Festpreis vorher.** Der Betrieb weiß vor dem Start, was am Ende auf der Rechnung steht. Jede Website kostet ab 600 €. Es gibt drei feste Pakete, und jeder Zusatzbaustein hat einen festen Preis.
 
 **Man sieht es vorher.** Vor der Entscheidung gibt es eine gebaute Vorschau mit den echten Daten des Betriebs. Keine Beschreibung, keine Skizze, eine Seite.
 
