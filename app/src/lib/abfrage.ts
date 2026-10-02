@@ -126,6 +126,26 @@ export async function weiter(db: Db, benutzerId: string, durchlauf: Durchlauf): 
   return { ...durchlauf, position, beendetAm: fertig ? new Date() : durchlauf.beendetAm };
 }
 
+/**
+ * Ueberspringt die offene Frage, etwa weil sie in quiz.json nicht mehr
+ * existiert. Sie zaehlt als nicht beantwortet, damit Position und
+ * Ergebnisliste zusammenpassen.
+ */
+export async function ueberspringe(db: Db, benutzerId: string, durchlauf: Durchlauf): Promise<Durchlauf> {
+  const z = zustand(durchlauf);
+  if (z.art !== 'frage') return durchlauf;
+  const ergebnisse = [
+    ...durchlauf.ergebnisse,
+    { frageId: durchlauf.fragen[z.index], richtig: false, antwort: { typ: 'wahr-falsch', wert: null } as Antwort },
+  ];
+  await db.query('UPDATE abfrage_durchlaeufe SET ergebnisse = $3::jsonb WHERE benutzer_id = $1 AND schluessel = $2', [
+    benutzerId,
+    durchlauf.schluessel,
+    JSON.stringify(ergebnisse),
+  ]);
+  return weiter(db, benutzerId, { ...durchlauf, ergebnisse });
+}
+
 export interface Auswertung {
   punkte: number;
   max: number;

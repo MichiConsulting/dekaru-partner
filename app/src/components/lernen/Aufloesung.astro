@@ -1,0 +1,99 @@
+---
+// Die Aufloesung einer beantworteten Frage: ob sie stimmt, was geantwortet
+// wurde, was richtig gewesen waere, und die Erklaerung aus quiz.json.
+// Wird nur gerendert, nachdem die Antwort auf dem Server bewertet wurde.
+import LernIcon from './LernIcon.astro';
+import { lueckenteile, type Antwort, type Bewertung, type Frage } from '../../lib/quiz.ts';
+
+interface Props {
+  frage: Frage;
+  antwort: Antwort;
+  bewertung: Bewertung;
+}
+
+const { frage, antwort, bewertung } = Astro.props;
+
+const frageText =
+  frage.typ === 'wahr-falsch' ? frage.aussage : frage.typ === 'lueckentext' ? 'Lückentext' : frage.frage;
+
+const mcGewaehlt = antwort.typ === 'multiple-choice' ? antwort.indizes : [];
+const wfWert = antwort.typ === 'wahr-falsch' ? antwort.wert : null;
+const zuordnung = antwort.typ === 'zuordnen' ? antwort.zuordnung : {};
+const eingaben = antwort.typ === 'lueckentext' ? antwort.eingaben : [];
+const teile = frage.typ === 'lueckentext' ? lueckenteile(frage) : [];
+---
+
+<section class:list={['lb-aufloesung', bewertung.richtig ? 'ist-richtig' : 'ist-falsch']} aria-labelledby="aufloesung-status">
+  <p class="lb-aufloesung__status" id="aufloesung-status" role="status">
+    <span class="lb-aufloesung__zeichen"><LernIcon name={bewertung.richtig ? 'haken' : 'kreuz'} groesse={20} /></span>
+    <strong>{bewertung.richtig ? 'Richtig.' : 'Noch nicht richtig.'}</strong>
+  </p>
+  <p class="lb-aufloesung__frage">{frageText}</p>
+
+  {frage.typ === 'multiple-choice' && (
+    <ul class="lb-aufloesung__optionen">
+      {frage.optionen.map((option, i) => {
+        const gewaehlt = mcGewaehlt.includes(i);
+        const richtig = frage.richtig.includes(i);
+        return (
+          <li class:list={[richtig && 'ist-loesung', gewaehlt && !richtig && 'ist-fehlgriff', gewaehlt && 'ist-gewaehlt']}>
+            <span class="lb-aufloesung__marke" aria-hidden="true">{richtig ? '✓' : gewaehlt ? '✗' : ''}</span>
+            <span>
+              {option}
+              {gewaehlt && <span class="meta"> (Ihre Antwort)</span>}
+              {richtig && !gewaehlt && <span class="meta"> (richtig)</span>}
+            </span>
+          </li>
+        );
+      })}
+    </ul>
+  )}
+
+  {frage.typ === 'wahr-falsch' && (
+    <p class="lb-aufloesung__zeile">
+      Ihre Antwort: <strong>{wfWert === null ? 'keine' : wfWert ? 'Wahr' : 'Falsch'}</strong>
+      {!bewertung.richtig && <span>, richtig ist: <strong>{frage.richtig ? 'Wahr' : 'Falsch'}</strong></span>}
+    </p>
+  )}
+
+  {frage.typ === 'zuordnen' && (
+    <ul class="lb-aufloesung__paare">
+      {frage.paare.map((p, i) => (
+        <li class:list={[bewertung.teile[i] ? 'ist-loesung' : 'ist-fehlgriff']}>
+          <span class="lb-aufloesung__marke" aria-hidden="true">{bewertung.teile[i] ? '✓' : '✗'}</span>
+          <span>
+            <strong>{p.links}</strong>: {p.rechts}
+            {!bewertung.teile[i] && <span class="meta"> (Ihre Antwort: {zuordnung[p.links] || 'keine'})</span>}
+          </span>
+        </li>
+      ))}
+    </ul>
+  )}
+
+  {frage.typ === 'lueckentext' && (
+    <p class="lb-aufloesung__luecken">
+      {teile.map((t) =>
+        t.art === 'text' ? (
+          <span>{t.text}</span>
+        ) : (
+          <span class:list={['lb-aufloesung__luecke', bewertung.teile[t.index] ? 'ist-loesung' : 'ist-fehlgriff']}>
+            {bewertung.teile[t.index] ? (
+              <strong>{eingaben[t.index]}</strong>
+            ) : (
+              <>
+                <s>{eingaben[t.index] || '…'}</s> <strong>{t.loesungen[0]}</strong>
+              </>
+            )}
+          </span>
+        ),
+      )}
+    </p>
+  )}
+
+  {frage.erklaerung && (
+    <p class="lb-aufloesung__erklaerung">
+      <span class="lb-aufloesung__label">Warum</span>
+      {frage.erklaerung}
+    </p>
+  )}
+</section>

@@ -1,0 +1,32 @@
+---
+// Ein Ring, der einen Anteil zeigt. Der Wert steht als Text in der Mitte,
+// der Ring selbst ist Dekoration. Farben ueber die Portal-Variablen.
+interface Props {
+  prozent: number;
+  groesse?: number;
+  strich?: number;
+  class?: string;
+}
+
+const { prozent, groesse = 120, strich = 10, class: klasse } = Astro.props;
+const wert = Math.max(0, Math.min(100, Math.round(prozent)));
+const radius = (groesse - strich) / 2;
+const umfang = 2 * Math.PI * radius;
+const sichtbar = (umfang * wert) / 100;
+---
+
+<div class:list={['ring', klasse]} style={`--ring-groesse:${groesse}px`}>
+  <svg width={groesse} height={groesse} viewBox={`0 0 ${groesse} ${groesse}`} aria-hidden="true" focusable="false">
+    <circle class="ring__spur" cx={groesse / 2} cy={groesse / 2} r={radius} stroke-width={strich} />
+    {wert > 0 && <circle
+      class="ring__wert"
+      cx={groesse / 2}
+      cy={groesse / 2}
+      r={radius}
+      stroke-width={strich}
+      stroke-dasharray={`${sichtbar.toFixed(2)} ${(umfang - sichtbar).toFixed(2)}`}
+      transform={`rotate(-90 ${groesse / 2} ${groesse / 2})`}
+    />}
+  </svg>
+  <div class="ring__mitte"><slot /></div>
+</div>
