@@ -46,6 +46,15 @@ Redirect nach dem Speichern, ein kleines Skript nur für das Verbinden von
 Paaren im Quiz. Schriften Space Grotesk und Inter liegen im Bundle, es gibt
 keinen Aufruf nach draußen, kein Tracking, ein einziges Sitzungs-Cookie.
 
+**Hell und dunkel.** Ein Knopf im Kopf schaltet um, die Wahl liegt in
+`localStorage` unter `dekaru-theme` (wie auf dekaru.de). Ohne Wahl gilt die
+Systemeinstellung, auch ohne JavaScript über `prefers-color-scheme`.
+`public/theme-init.js` setzt `data-theme` auf `<html>` schon im `<head>`,
+damit beim Laden nichts aufblitzt; eine eigene Datei, weil die CSP keine
+Inline-Skripte erlaubt. Die Farbvariablen stehen in `global.css` einmal für
+hell und zweimal gleich für dunkel (`[data-theme='dark']` und das Media
+Query), `tests/modus.test.ts` hält beide Blöcke gleich.
+
 **Sicherheit.** Passwörter mit scrypt (`src/lib/passwort.ts`). Sitzungen in
 der Tabelle `sitzungen`, im Cookie nur ein Zufallstoken, in der Datenbank
 dessen SHA-256; Cookie httpOnly, Secure, SameSite=Lax, 14 Tage. Jede Sitzung
@@ -121,11 +130,10 @@ ADAPTER=node npm run build && PGLITE_PFAD=./.pglite node dist/server/entry.mjs
                        # eigenständiger Server auf Port 4321, für Lighthouse
 ```
 
-Lighthouse (mobil, Chrome headless, angemeldet, Stand 30.09.2026): Login,
-Start, Kapitel, Kunden jeweils Performance 97 bis 99, Accessibility 100, Best
-Practices 100. Gesprächshilfe und Übungsmodus (Stand 02.10.2026): Performance
-98 bis 99, Accessibility 100, Best Practices 100. Desktop 100/100/100. SEO liegt bei 45 bis 50 und bleibt es: das
-Portal trägt `noindex` und hat keine öffentlichen Seiten.
+Lighthouse (mobil, Chrome headless, angemeldet, Stand 02.10.2026, hell und
+dunkel): Start, Lernen, Lernkarte, Abfrage, Gespräch, Kunden jeweils
+Performance 100, Accessibility 100, Best Practices 100. SEO liegt bei 45 bis 50
+und bleibt es: das Portal trägt `noindex` und hat keine öffentlichen Seiten.
 
 ## Einrichtung durch Michi, Schritt für Schritt
 
