@@ -378,7 +378,7 @@ const MODUS_LABEL: Record<Modus, string> = { luecken: 'Lückentext', reihenfolge
           const b = document.createElement('button');
           b.type = 'button';
           b.textContent = knoepfe[index]?.textContent ?? '';
-          b.setAttribute('aria-label', `Position ${pos + 1}: ${b.textContent}. Antippen entfernt den Teil.`);
+          b.setAttribute('aria-label', `Position ${pos + 1}: ${b.textContent} (antippen entfernt den Teil)`);
           b.addEventListener('click', () => {
             gewaehlt = gewaehlt.filter((g) => g !== index);
             zeichne();

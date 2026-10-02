@@ -1,18 +1,24 @@
 # dekaru Partner-Portal
 
 Website für die Vertriebspartner von dekaru, später unter `partner.dekaru.de`.
-Jeder Vertriebler hat einen eigenen Login und sieht drei Bereiche:
+Jeder Vertriebler hat einen eigenen Login und sieht vier Bereiche:
 
 1. **Lernen**: das Angebot Kapitel für Kapitel, mit Grafiken und Fragen
    (Auswahl, Wahr/Falsch, Zuordnen, Lückentext). Fortschritt und Punkte werden
    je Person gespeichert, falsche Fragen lassen sich wiederholen.
-2. **Meine Kunden**: eigene Betriebe eintragen, Status pflegen, filtern,
+2. **Gespräch**: die Gesprächshilfe fürs Handy. Was der Kunde fragt, was der
+   Vertriebler sagt, mit Suche und Themen-Chips. Sechs Pflichtsätze sind als
+   "wortgleich" markiert und lassen sich unter `/gespraech/ueben` Satz für Satz
+   üben (Lückentext und Satzteile ordnen im Wechsel, Lösung erst nach der
+   Antwort). Ein Satz sitzt, wenn der letzte Versuch stimmt.
+3. **Meine Kunden**: eigene Betriebe eintragen, Status pflegen, filtern,
    Termine und Abschlüsse des Monats sehen. Niemand sieht fremde Einträge.
-3. **Meine Provision**: die Monatsaufstellungen aus `dekaru-rechnungen`, mit
+4. **Meine Provision**: die Monatsaufstellungen aus `dekaru-rechnungen`, mit
    entstandener, ausgezahlter und aufgelaufener Provision und den Regeln.
 
 Dazu ein **Admin-Bereich** für Michi: Zugänge anlegen und deaktivieren
-(Einladung mit Einmal-Passwort), alle Kunden, Lernstand, Provision importieren.
+(Einladung mit Einmal-Passwort), alle Kunden, Lernstand mitsamt der
+Pflichtsätze, Provision importieren.
 
 ## Aufbau
 
@@ -56,6 +62,13 @@ werden übersprungen und dem Admin unter Lernen aufgelistet. Ein Kapitel gilt
 als erledigt, wenn alle Fragen einmal richtig beantwortet sind. Grafiken sind
 nur angemeldet erreichbar (`/grafiken/<datei>`).
 
+**Gesprächshilfe.** `../inhalt/gespraechshilfe.json` wird ebenfalls beim Build
+eingelesen (`src/lib/inhalt-gespraech.ts`), geprüft (`src/lib/gespraech.ts`)
+und ins Bundle geschrieben. Fehlerhafte Einträge sieht der Admin unter
+`/gespraech`. Der Übungsstand der Pflichtsätze liegt in `pflichtsatz_antworten`
+(Migration `002-pflichtsaetze.sql`, `src/lib/gespraech-fortschritt.ts`). Der
+Platzhalter `{{Ihr Name}}` wird mit dem Namen der angemeldeten Person gefüllt.
+
 **Provision.** `dekaru-rechnungen/provision.mjs` schreibt neben jeder
 Markdown-Aufstellung eine `<slug>.json` (`lib/provision-json.mjs`, Format 1).
 Das Portal prüft die Datei (`src/lib/provision.ts`, Summen müssen zu den Zeilen
@@ -93,7 +106,8 @@ ADAPTER=node npm run build && PGLITE_PFAD=./.pglite node dist/server/entry.mjs
 
 Lighthouse (mobil, Chrome headless, angemeldet, Stand 30.09.2026): Login,
 Start, Kapitel, Kunden jeweils Performance 97 bis 99, Accessibility 100, Best
-Practices 100. Desktop 100/100/100. SEO liegt bei 45 bis 50 und bleibt es: das
+Practices 100. Gesprächshilfe und Übungsmodus (Stand 02.10.2026): Performance
+98 bis 99, Accessibility 100, Best Practices 100. Desktop 100/100/100. SEO liegt bei 45 bis 50 und bleibt es: das
 Portal trägt `noindex` und hat keine öffentlichen Seiten.
 
 ## Einrichtung durch Michi, Schritt für Schritt
@@ -165,8 +179,24 @@ holt sich Michi so, dass sie nie in einer Datei landet:
    Das zweite Skript gibt das Einmal-Passwort aus. Es gilt für den ersten
    Login, danach verlangt das Portal ein eigenes.
 
-`db:migrate` ist wiederholbar und wendet nur an, was fehlt. Kommt später eine
-`002-…sql` dazu, denselben Befehl noch einmal.
+`db:migrate` ist wiederholbar und wendet nur an, was fehlt. Kommt eine neue
+`NNN-…sql` dazu, denselben Befehl noch einmal.
+
+**Offen seit der Gesprächshilfe:** `002-pflichtsaetze.sql` (Tabelle
+`pflichtsatz_antworten`) ist auf der Live-Datenbank noch nicht angewendet. Nach
+dem Merge einmalig vom Mac aus:
+
+```
+cd ~/dekaru/dekaru-partner/app
+export DATABASE_URL='postgres://…?sslmode=require'
+npm run db:migrate        # meldet "Angewendet: 2"
+unset DATABASE_URL
+```
+
+Bis dahin zeigen `/gespraech/ueben` und der Admin-Lernstand auf
+partner.dekaru.de einen Fehler, weil die Tabelle fehlt. Die Seite `/gespraech`
+selbst liest nur beim Übungsstand aus der Datenbank, braucht die Tabelle also
+ebenfalls.
 
 ### 6. Deployen und Region prüfen
 
