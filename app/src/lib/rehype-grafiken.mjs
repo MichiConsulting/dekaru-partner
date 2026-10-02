@@ -1,5 +1,5 @@
-// Bildpfade in den Kapiteln auf die Grafik-Route umbiegen, Tabellen in
-// einen schiebbaren Rahmen setzen.
+// Bildpfade in den Kapiteln auf die Grafik-Route umbiegen, Tabellen und
+// Grafiken in einen schiebbaren Rahmen setzen.
 //
 // Die Kapitel liegen in inhalt/kapitel/ und verweisen auf Grafiken mit
 // ![Text](grafiken/name.svg) oder ../grafiken/name.svg. Ausgeliefert werden
@@ -23,9 +23,21 @@ function rahmeTabellen(knoten) {
     if (kind?.type === 'element' && kind.tagName === 'table') {
       return { type: 'element', tagName: 'div', properties: { className: ['tabelle-wrap', 'schiebbar'] }, children: [kind] };
     }
+    // Ein Absatz, der nur aus einer Grafik besteht, wird zur figure mit
+    // demselben schiebbaren Rahmen: auf dem Handy behaelt die Grafik ihre
+    // Mindestbreite, damit die Schrift darin lesbar bleibt.
+    if (kind?.type === 'element' && kind.tagName === 'p' && istNurBild(kind)) {
+      const bild = kind.children.find((k) => k.type === 'element');
+      return { type: 'element', tagName: 'figure', properties: { className: ['grafik-wrap', 'schiebbar'] }, children: [bild] };
+    }
     rahmeTabellen(kind);
     return kind;
   });
+}
+
+function istNurBild(absatz) {
+  const kinder = (absatz.children ?? []).filter((k) => !(k.type === 'text' && !k.value.trim()));
+  return kinder.length === 1 && kinder[0].type === 'element' && kinder[0].tagName === 'img';
 }
 
 export function rehypeGrafiken() {

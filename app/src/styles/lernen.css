@@ -315,6 +315,11 @@
   width: 100%;
   height: auto;
   font-family: var(--font-body);
+  /* Die Lerngrafiken sind 320 Einheiten breit, damit ihre Schrift auf dem
+     Handy mindestens 11 px gross ist. Auf grossen Bildschirmen begrenzt,
+     sonst wuerde die Schrift riesig. */
+  max-width: 480px;
+  margin-inline: auto;
 }
 .lk-grafik--papier {
   --surface: var(--grafik-papier);
@@ -325,8 +330,14 @@
 .lk-grafik--papier img {
   display: block;
   width: 100%;
-  min-width: 560px;
   height: auto;
+}
+@media (max-width: 640px) {
+  /* 800 Einheiten breit, Schrift ab 11: erst ab 800 px ist die Schrift
+     mindestens 11 px gross. Die Karte schiebt, statt zu schrumpfen. */
+  .lk-grafik--papier img {
+    min-width: 800px;
+  }
 }
 
 .lk-tabelle {

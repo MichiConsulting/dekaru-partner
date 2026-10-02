@@ -720,14 +720,28 @@ tfoot td {
 .prosa h1 {
   margin-bottom: var(--space-l);
 }
-.prosa img {
+.prosa .grafik-wrap {
+  /* Die Kapitelgrafiken sind fuer hellen Grund gezeichnet, deshalb liegen
+     sie auch im dunklen Modus auf Papier. --surface fuer den Schiebe-Rand. */
+  --surface: var(--grafik-papier);
   display: block;
-  width: 100%;
   background: var(--grafik-papier);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: var(--space-m);
   margin: var(--space-l) 0;
+}
+.prosa .grafik-wrap img {
+  display: block;
+  width: 100%;
+}
+@media (max-width: 640px) {
+  /* Die Grafiken sind 800 Einheiten breit mit Schrift ab 11. Erst ab 800 px
+     Breite ist die Schrift auf dem Handy mindestens 11 px gross; dafuer
+     wird geschoben statt geschrumpft. */
+  .prosa .grafik-wrap img {
+    min-width: 800px;
+  }
 }
 .prosa table {
   font-size: var(--text-body);
