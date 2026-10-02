@@ -19,7 +19,7 @@ const csrf = Astro.locals.csrf ?? '';
 const slug = String(Astro.params.kapitel ?? '');
 
 const kontext = await ladeKontext(db, benutzer.id, slug);
-if (!kontext) return new Response('Kapitel nicht gefunden', { status: 404 });
+if (!kontext) return Astro.rewrite('/404');
 
 const hier = `/lernen/${slug}/abfrage`;
 const ergebnisSeite = `/lernen/${slug}/ergebnis`;

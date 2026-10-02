@@ -5,7 +5,7 @@ import { datumDe, euro, ladeAbrechnung, monatsname } from '../../lib/provision.t
 const benutzer = Astro.locals.benutzer!;
 const monat = String(Astro.params.monat ?? '');
 const a = benutzer.vertrieblerSlug ? await ladeAbrechnung(Astro.locals.db, benutzer.vertrieblerSlug, monat) : null;
-if (!a) return new Response('Nicht gefunden', { status: 404 });
+if (!a) return Astro.rewrite('/404');
 
 const kunden = [...new Set(a.zeilen.map((z) => z.slug))];
 const hinweise = a.hinweise.filter((h) => !h.monat || h.monat === a.monat);

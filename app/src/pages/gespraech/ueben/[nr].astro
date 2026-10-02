@@ -25,7 +25,7 @@ const csrf = Astro.locals.csrf ?? '';
 
 const nr = Number(Astro.params.nr);
 const eintrag = Number.isInteger(nr) && nr >= 1 && nr <= pflichtsatzListe.length ? pflichtsatzListe[nr - 1] : null;
-if (!eintrag || !eintrag.uebung) return new Response('Satz nicht gefunden', { status: 404 });
+if (!eintrag || !eintrag.uebung) return Astro.rewrite('/404');
 
 const satz = mitName(eintrag.antwort, benutzer.name);
 const uebung = { luecken: eintrag.uebung.luecken, teile: eintrag.uebung.teile.map((t) => mitName(t, benutzer.name)) };

@@ -10,7 +10,7 @@ const db = Astro.locals.db;
 const slug = String(Astro.params.kapitel ?? '');
 
 const kontext = await ladeKontext(db, benutzer.id, slug);
-if (!kontext?.eintrag) return new Response('Kapitel nicht gefunden', { status: 404 });
+if (!kontext?.eintrag) return Astro.rewrite('/404');
 const { Content } = await render(kontext.eintrag);
 ---
 

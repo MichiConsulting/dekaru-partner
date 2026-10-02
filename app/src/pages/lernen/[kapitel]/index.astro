@@ -17,7 +17,7 @@ const csrf = Astro.locals.csrf ?? '';
 const slug = String(Astro.params.kapitel ?? '');
 
 const kontext = await ladeKontext(db, benutzer.id, slug);
-if (!kontext || kontext.istWiederholen) return new Response('Kapitel nicht gefunden', { status: 404 });
+if (!kontext || kontext.istWiederholen) return Astro.rewrite('/404');
 
 const karten = lernkarten(slug) ?? ersatzKarten(kontext.titel, kontext.kurz);
 const stand = (await ladeKartenStand(db, benutzer.id)).get(slug);

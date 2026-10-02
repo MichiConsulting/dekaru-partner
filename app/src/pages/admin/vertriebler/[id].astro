@@ -16,7 +16,7 @@ const ich = Astro.locals.benutzer!;
 const csrf = Astro.locals.csrf ?? '';
 const id = String(Astro.params.id ?? '');
 const b = istUuid(id) ? await holeBenutzer(db, id) : null;
-if (!b) return new Response('Nicht gefunden', { status: 404 });
+if (!b) return Astro.rewrite('/404');
 
 let meldung: string | null = null;
 let einmal: string | null = null;

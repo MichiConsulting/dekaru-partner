@@ -15,7 +15,7 @@ const csrf = Astro.locals.csrf ?? '';
 const slug = String(Astro.params.kapitel ?? '');
 
 const kontext = await ladeKontext(db, benutzer.id, slug);
-if (!kontext) return new Response('Kapitel nicht gefunden', { status: 404 });
+if (!kontext) return Astro.rewrite('/404');
 
 const durchlauf = await ladeDurchlauf(db, benutzer.id, slug);
 if (!durchlauf || zustand(durchlauf).art !== 'fertig') return Astro.redirect(`/lernen/${slug}/abfrage`, 303);
