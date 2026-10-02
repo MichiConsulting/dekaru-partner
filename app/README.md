@@ -3,9 +3,12 @@
 Website für die Vertriebspartner von dekaru, später unter `partner.dekaru.de`.
 Jeder Vertriebler hat einen eigenen Login und sieht drei Bereiche:
 
-1. **Lernen**: das Angebot Kapitel für Kapitel, mit Grafiken und Fragen
-   (Auswahl, Wahr/Falsch, Zuordnen, Lückentext). Fortschritt und Punkte werden
-   je Person gespeichert, falsche Fragen lassen sich wiederholen.
+1. **Lernen**: jedes Kapitel als 4 bis 8 Lernkarten mit Grafiken, Kennzahlen
+   und Merksätzen, der lange Text bleibt unter "Ausführlich lesen". Danach die
+   Abfrage auf einer eigenen Seite, eine Frage je Seite (Auswahl, Wahr/Falsch,
+   Zuordnen, Lückentext), Auflösung erst nach der Antwort, am Ende eine
+   Ergebnisseite. Fortschritt und Punkte werden je Person gespeichert, falsche
+   Fragen lassen sich wiederholen.
 2. **Meine Kunden**: eigene Betriebe eintragen, Status pflegen, filtern,
    Termine und Abschlüsse des Monats sehen. Niemand sieht fremde Einträge.
 3. **Meine Provision**: die Monatsaufstellungen aus `dekaru-rechnungen`, mit
@@ -55,6 +58,19 @@ dort keine Kapitel liegen, gilt `app/inhalt-platzhalter/`. Fehlerhafte Fragen
 werden übersprungen und dem Admin unter Lernen aufgelistet. Ein Kapitel gilt
 als erledigt, wenn alle Fragen einmal richtig beantwortet sind. Grafiken sind
 nur angemeldet erreichbar (`/grafiken/<datei>`).
+
+**Lernbereich.** Die Lernkarten kommen aus `../inhalt/lernen/<kapitel>.json`
+(`lib/lernkarten.ts` prüft das Format, Fehler sieht der Admin unter Lernen),
+die Lerngrafiken aus `../inhalt/lernen/grafiken/` werden inline gesetzt und
+nehmen die Farbvariablen `--lk-*` aus `global.css`. Routen je Kapitel:
+`/lernen/<kapitel>` (Karten, mit JavaScript eine nach der anderen, ohne
+untereinander), `/lernen/<kapitel>/lesen` (ganzer Text),
+`/lernen/<kapitel>/abfrage` (eine Frage je Seite, Bewertung auf dem Server,
+die Frage-Seite enthält keine Lösung) und `/lernen/<kapitel>/ergebnis`.
+`/lernen/wiederholen/abfrage` nimmt alle zuletzt falschen Fragen. Der Stand
+liegt in `lernkarten_stand` (zuletzt gesehene Karte, gelesen) und
+`abfrage_durchlaeufe` (ein Durchlauf je Person und Kapitel), die Einzelantworten
+weiter in `quiz_antworten`. Styles nur in `styles/lernen.css`.
 
 **Provision.** `dekaru-rechnungen/provision.mjs` schreibt neben jeder
 Markdown-Aufstellung eine `<slug>.json` (`lib/provision-json.mjs`, Format 1).
@@ -165,8 +181,11 @@ holt sich Michi so, dass sie nie in einer Datei landet:
    Das zweite Skript gibt das Einmal-Passwort aus. Es gilt für den ersten
    Login, danach verlangt das Portal ein eigenes.
 
-`db:migrate` ist wiederholbar und wendet nur an, was fehlt. Kommt später eine
-`002-…sql` dazu, denselben Befehl noch einmal.
+`db:migrate` ist wiederholbar und wendet nur an, was fehlt. Kommt eine neue
+Datei unter `db/migrationen/` dazu, denselben Befehl noch einmal. Aktuell
+`002-lernen.sql` (Lernbereich): nach dem Merge einmal gegen die Live-Datenbank
+ausführen, sonst fehlen die Tabellen `lernkarten_stand` und
+`abfrage_durchlaeufe` und der Lernbereich bricht mit einem Fehler ab.
 
 ### 6. Deployen und Region prüfen
 

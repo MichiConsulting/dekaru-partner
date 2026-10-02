@@ -81,6 +81,70 @@ Grafiken einbindet, sollte beide Schriften laden, sonst greift der Fallback.
 | `ablauf-auftrag.svg` | Vom Anruf bis zur Rechnung in zwei Spuren |
 | `provision-zeitleiste.svg` | Wann welche Provision kommt, an einem Beispiel |
 
+## lernen/: Lernkarten für das Portal
+
+Je Kapitel eine Datei `lernen/<kapitel>.json`, zum Beispiel `lernen/03-hosting.json`.
+Das ist die kurze Lernversion des Kapitels, die das Portal Karte für Karte
+zeigt. Das PDF und die Seite "Ausführlich lesen" nehmen weiter die
+Markdown-Datei. Inhaltlich muss alles aus dem Kapitel stammen, nichts wird
+erfunden. Das Portal prüft das Format beim Build; ein Fehler macht die ganze
+Datei ungültig und wird dem Admin unter Lernen angezeigt.
+
+```
+{
+  "kapitel": "03-hosting",
+  "karten": [
+    {
+      "titel": "Die drei Stufen",
+      "icon": "treppe",
+      "saetze": ["Ein bis drei Kernsätze, zusammen höchstens 40 Wörter."],
+      "grafik": "hosting-treppe.svg",
+      "merke": "Ein Satz, der hängen bleiben soll."
+    }
+  ]
+}
+```
+
+- 4 bis 8 Karten je Kapitel, jede mit `titel`, `icon` und `saetze` (1 bis 3,
+  zusammen höchstens 40 Wörter).
+- Wahlweise, höchstens zwei je Karte: `grafik` (Dateiname aus
+  `lernen/grafiken/` oder `grafiken/`), `kennzahl` (`{ "wert", "label" }`),
+  `tabelle` (`{ "kopf": [...], "zeilen": [[...]] }`, bis 11 Zeilen),
+  `liste` (2 bis 6 Einträge) oder `zitat` (Formulierung fürs Gespräch, bis
+  80 Wörter).
+- `merke` ist optional, ein Satz.
+- Icons: sprechblase, person, paket, stern, telefon, warnung, liste, zahnrad,
+  plus, euro, google, dokument, server, treppe, haken, kreuz, uhr, kalender,
+  mail, weg, lupe, karte, schild, hand, buch, bildschirm.
+
+### lernen/grafiken/
+
+Grafiken nur für die Lernkarten, anders gebaut als die unter `grafiken/`:
+sie werden inline in die Seite gesetzt und übernehmen die Farben des Portals,
+damit sie hell und dunkel funktionieren. Deshalb keine festen Farben an den
+Elementen, sondern Klassen mit Variablen und Ersatzwert im `<style>`-Block
+(`.f1{fill:var(--lk-f1,#ece6da)}`), Text über `fill="currentColor"`. Jede
+Datei braucht `<title>`, `<desc>` und `viewBox`, mit eindeutigen IDs je Datei,
+weil mehrere Grafiken auf einer Seite liegen. Kompakt zeichnen (etwa 400
+Einheiten breit, Schrift 11 bis 13), damit sie auf dem Handy lesbar bleiben.
+
+| Datei | Zeigt |
+|---|---|
+| `vier-argumente.svg` | Die vier Argumente als Kacheln |
+| `pakete-vergleich.svg` | Klein, Mittel, Groß als drei Spalten mit Seitensymbolen |
+| `beispielrechnungen.svg` | Drei Beispielrechnungen als Kassenbons |
+| `google-zwei-dinge.svg` | Suchmaschinen-Grundlagen und Google-Profil nebeneinander |
+| `hosting-treppe.svg` | Start, Basis, Plus als Treppe |
+| `hosting-jahr.svg` | Zehn Monate bezahlt, zwölf erhalten |
+| `gratisquartal-kalender.svg` | Gratisquartal als Zwölf-Monats-Kalender |
+| `aenderung-zaehlen.svg` | Eine Mail mit drei Punkten sind drei Änderungen |
+| `zusatzleistungen-drei.svg` | Die drei Zusatzleistungen als Karten |
+| `ablauf-zeitstrahl.svg` | Acht Schritte vom Anruf bis zur Rechnung |
+| `stufen-1-2.svg` | Stufe 1 und Stufe 2 |
+| `do-dont-ampel.svg` | Immer, im Zweifel, nie als Ampel |
+| `provision-balken.svg` | Provision je Paket als Balken |
+| `anlauf-wochen.svg` | Sechs bis zehn Wochen bis zum ersten Geld |
+
 ## quiz.json
 
 Lernfragen für das Portal. Struktur:
