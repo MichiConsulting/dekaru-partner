@@ -20,7 +20,7 @@
         "kopf": ["", "Klein", "Mittel", "Groß"],
         "zeilen": [
           ["Preis", "600 €", "1.300 €", "1.600 €"],
-          ["Aufbau", "eine Seite", "Start + 4 Unterseiten", "Start + 5 Unterseiten"],
+          ["Aufbau", "eine Seite", "Startseite + 4 Unterseiten", "Startseite + 5 Unterseiten"],
           ["Impressum, Datenschutz, Kontakt, Handy, HTTPS, Anfahrt", "ja", "ja", "ja"],
           ["Galerie, Leistungskarte, Referenzen, Suchmaschinen-Grundlagen", "", "ja", "ja"],
           ["Texte von mir", "", "2 Seiten", "4 Seiten"],

@@ -45,7 +45,7 @@
         "Seit dem 29.09.2026: 35 % auf die ersten zwölf bezahlten Monate, gerechnet auf das, was der Kunde tatsächlich zahlt. Gratismonate zählen nicht mit. Die Provision verfällt nicht, auch wenn der Kunde später kündigt."
       ],
       "tabelle": {
-        "kopf": ["Tarif", "je bezahltem Monat", "höchstens (12 Monate)", "bei Jahreszahlung"],
+        "kopf": ["Stufe", "je bezahltem Monat", "höchstens (12 Monate)", "bei Jahreszahlung"],
         "zeilen": [
           ["Start, 19 €", "6,65 €", "79,80 €", "66,50 € auf einmal"],
           ["Basis, 39 €", "13,65 €", "163,80 €", "136,50 € auf einmal"],
@@ -85,7 +85,7 @@
       "saetze": [
         "Die Preise werden steigen, damit die Grundlage für Ihre 35 %. Wenn Michael Henning den Prozentsatz anpasst, sinkt der Betrag je Abschluss nicht."
       ],
-      "kennzahl": { "wert": "455 € bleiben 455 €", "label": "Beispiel: Mittel heute 1.300 € zu 35 %. Steigt der Preis auf 1.600 € und der Satz sinkt auf 30 %, sind das 480 €, nicht weniger" },
+      "kennzahl": { "wert": "nicht unter 455 €", "label": "Beispiel: Mittel heute 1.300 € zu 35 %. Steigt der Preis auf 1.600 € und sinkt der Satz auf 30 %, sind das 480 €, nicht weniger" },
       "merke": "Die genaue Regelung steht im Vertrag."
     },
     {

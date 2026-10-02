@@ -66,7 +66,7 @@ So sprechen Sie es an:
 
 **Am Telefon: nichts davon.** Am Telefon geht es um das Erstgespräch, sonst nichts. Wer dort Zusatzleistungen aufzählt, macht das Gespräch lang und den Termin unwahrscheinlicher.
 
-**Im Erstgespräch: erklären, was es gibt.** Google-Profil und Aufsteller gehören zum Bild, das der Betrieb von dekaru bekommt. Notieren Sie, was ihn interessiert. Preise nennen Sie in Stufe 1 nicht, in Stufe 2 den Listenpreis.
+**Im Erstgespräch: erklären, was es gibt.** Google-Profil und Aufsteller gehören zum Bild, das der Betrieb von dekaru bekommt. Notieren Sie, was ihn interessiert. Preise nennen Sie im Erstgespräch nicht. Im Zweittermin nennt in Stufe 1 Michael Henning den Listenpreis, in Stufe 2 Sie.
 
 **Im Zweittermin: nach der Website.** Erst ist klar, ob und was gebaut wird. Danach passt die Frage nach dem Google-Eintrag von selbst, weil ohnehin über Auffindbarkeit gesprochen wurde. Was der Kunde will, kommt auf den Briefing-Bogen.
 
