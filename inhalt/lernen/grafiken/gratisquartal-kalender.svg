@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 166" role="img" aria-labelledby="gq-t gq-d" fill="currentColor" font-family="Inter, system-ui, sans-serif" font-size="12">
+  <title id="gq-t">Das Gratisquartal im Kalender</title>
+  <desc id="gq-d">Zwölf Monatsfelder. Monate 1 bis 3 sind gratis, nur zusammen mit einer neuen Website. Monate 4 bis 9 sind mindestens zu bezahlen. Ab Monat 10 ist das Hosting monatlich kündbar.</desc>
+  <style>
+    .f1{fill:var(--lk-f1,#ece6da)}.f2{fill:var(--lk-f2,#e2e7ec)}.ink{fill:var(--lk-ink,#141414)}.on{fill:var(--lk-paper,#ffffff)}
+    .r{fill:none;stroke:var(--lk-line,#b8b8b8);stroke-width:1.5}.mu{fill:var(--lk-muted,#5f5f5f)}.h{font-weight:700}.s{font-size:11px}
+  </style>
+  <g>
+    <rect class="f1" x="6" y="40" width="28" height="34" rx="4"/><rect class="f1" x="38" y="40" width="28" height="34" rx="4"/><rect class="f1" x="70" y="40" width="28" height="34" rx="4"/>
+    <rect class="ink" x="102" y="40" width="28" height="34" rx="4"/><rect class="ink" x="134" y="40" width="28" height="34" rx="4"/><rect class="ink" x="166" y="40" width="28" height="34" rx="4"/><rect class="ink" x="198" y="40" width="28" height="34" rx="4"/><rect class="ink" x="230" y="40" width="28" height="34" rx="4"/><rect class="ink" x="262" y="40" width="28" height="34" rx="4"/>
+    <rect class="r" x="294" y="40" width="28" height="34" rx="4"/><rect class="r" x="326" y="40" width="28" height="34" rx="4"/><rect class="r" x="358" y="40" width="28" height="34" rx="4"/>
+  </g>
+  <g class="s" text-anchor="middle"><text x="20" y="61">1</text><text x="52" y="61">2</text><text x="84" y="61">3</text><text x="308" y="61">10</text><text x="340" y="61">11</text><text x="372" y="61">12</text></g>
+  <g class="s on" text-anchor="middle"><text x="116" y="61">4</text><text x="148" y="61">5</text><text x="180" y="61">6</text><text x="212" y="61">7</text><text x="244" y="61">8</text><text x="276" y="61">9</text></g>
+  <text class="h" x="6" y="26">3 Monate gratis</text>
+  <text class="h" x="196" y="26" text-anchor="middle">mindestens 6 bezahlte Monate</text>
+  <text class="h" x="340" y="26" text-anchor="middle">dann kündbar</text>
+  <text class="s mu" x="6" y="94">nur mit neuer Website</text>
+  <text class="s mu" x="196" y="94" text-anchor="middle">Kontingent von Basis, kein Umbau</text>
+  <text class="s mu" x="340" y="94" text-anchor="middle">monatlich</text>
+  <text class="s" x="200" y="122" text-anchor="middle">Öffentliche Kondition auf dekaru.de, gilt für alle.</text>
+  <text class="s" x="200" y="138" text-anchor="middle">Nie als Nachlass auf die Website.</text>
+  <text class="s mu" x="200" y="156" text-anchor="middle">Genau drei Monate. Nicht "bis zu", nicht zwei, nicht vier.</text>
+</svg>

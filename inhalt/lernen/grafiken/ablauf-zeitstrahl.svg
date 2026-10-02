@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 236" role="img" aria-labelledby="ab-t ab-d" fill="currentColor" font-family="Inter, system-ui, sans-serif" font-size="12">
+  <title id="ab-t">Vom Anruf bis zur Rechnung in acht Schritten</title>
+  <desc id="ab-d">Acht nummerierte Schritte in zwei Reihen. Helle Kreise sind Ihre Schritte, dunkle die von Michael Henning. 1 Anruf oder Cold Visit, Sie. 2 Erstgespräch, Sie. 3 Vorschau bauen, Michael Henning. 4 Zweittermin mit Vorschau, Sie. 5 Angebot, Werkvertrag, AVV, Michael Henning. 6 Anzahlung, die Hälfte, erste Provision. 7 Bau in der Warteschlange, Michael Henning. 8 Abnahme und Restzahlung, Michael Henning.</desc>
+  <style>
+    .f1{fill:var(--lk-f1,#ece6da)}.f2{fill:var(--lk-f2,#e2e7ec)}.ink{fill:var(--lk-ink,#141414)}.on{fill:var(--lk-paper,#ffffff)}
+    .ln{stroke:var(--lk-line,#b8b8b8);stroke-width:2;fill:none}.mu{fill:var(--lk-muted,#5f5f5f)}.h{font-weight:700}.s{font-size:11px}.n{font-weight:700;font-size:13px}
+  </style>
+  <!-- Linien -->
+  <path class="ln" d="M50 34H350"/><path class="ln" d="M350 34v14"/><path class="ln" d="M50 134H350"/><path class="ln" d="M50 48v86" style="stroke-dasharray:4 4"/>
+
+  <!-- Reihe 1 -->
+  <circle class="f1" cx="50" cy="34" r="16"/><text class="n" x="50" y="39" text-anchor="middle">1</text>
+  <text class="s h" x="50" y="66" text-anchor="middle">Anruf oder</text><text class="s h" x="50" y="80" text-anchor="middle">Cold Visit</text>
+  <text class="s mu" x="50" y="96" text-anchor="middle">Sie</text>
+
+  <circle class="f1" cx="150" cy="34" r="16"/><text class="n" x="150" y="39" text-anchor="middle">2</text>
+  <text class="s h" x="150" y="66" text-anchor="middle">Erstgespräch</text><text class="s" x="150" y="80" text-anchor="middle">"ab 600 €"</text>
+  <text class="s mu" x="150" y="96" text-anchor="middle">Sie allein</text>
+
+  <circle class="ink" cx="250" cy="34" r="16"/><text class="n on" x="250" y="39" text-anchor="middle">3</text>
+  <text class="s h" x="250" y="66" text-anchor="middle">Vorschau</text><text class="s" x="250" y="80" text-anchor="middle">aus Ihrer Notiz</text>
+  <text class="s mu" x="250" y="96" text-anchor="middle">Michael Henning</text>
+
+  <circle class="f1" cx="350" cy="34" r="16"/><text class="n" x="350" y="39" text-anchor="middle">4</text>
+  <text class="s h" x="350" y="66" text-anchor="middle">Zweittermin</text><text class="s" x="350" y="80" text-anchor="middle">mit Vorschau</text>
+  <text class="s mu" x="350" y="96" text-anchor="middle">Sie, Briefing-Bogen</text>
+
+  <!-- Reihe 2 -->
+  <circle class="ink" cx="50" cy="134" r="16"/><text class="n on" x="50" y="139" text-anchor="middle">5</text>
+  <text class="s h" x="50" y="166" text-anchor="middle">Angebot,</text><text class="s h" x="50" y="180" text-anchor="middle">Verträge</text>
+  <text class="s mu" x="50" y="196" text-anchor="middle">Michael Henning</text>
+
+  <circle class="f2" cx="150" cy="134" r="16"/><text class="n" x="150" y="139" text-anchor="middle">6</text>
+  <text class="s h" x="150" y="166" text-anchor="middle">Anzahlung</text><text class="s" x="150" y="180" text-anchor="middle">die Hälfte</text>
+  <text class="s mu" x="150" y="196" text-anchor="middle">Ihre erste Provision</text>
+
+  <circle class="ink" cx="250" cy="134" r="16"/><text class="n on" x="250" y="139" text-anchor="middle">7</text>
+  <text class="s h" x="250" y="166" text-anchor="middle">Bau</text><text class="s" x="250" y="180" text-anchor="middle">in der Warteschlange</text>
+  <text class="s mu" x="250" y="196" text-anchor="middle">Michael Henning</text>
+
+  <circle class="ink" cx="350" cy="134" r="16"/><text class="n on" x="350" y="139" text-anchor="middle">8</text>
+  <text class="s h" x="350" y="166" text-anchor="middle">Abnahme,</text><text class="s h" x="350" y="180" text-anchor="middle">Restzahlung</text>
+  <text class="s mu" x="350" y="196" text-anchor="middle">Hosting beginnt</text>
+
+  <!-- Legende -->
+  <circle class="f1" cx="110" cy="222" r="6"/><text class="s mu" x="122" y="226">Sie</text>
+  <circle class="ink" cx="170" cy="222" r="6"/><text class="s mu" x="182" y="226">Michael Henning</text>
+  <circle class="f2" cx="282" cy="222" r="6"/><text class="s mu" x="294" y="226">der Kunde zahlt</text>
+</svg>

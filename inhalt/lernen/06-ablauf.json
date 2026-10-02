@@ -1,0 +1,94 @@
+{
+  "kapitel": "06-ablauf",
+  "karten": [
+    {
+      "titel": "Ihre Rolle",
+      "icon": "person",
+      "saetze": [
+        "Sie sind Vertriebler, kein Terminierer: Sie sprechen Betriebe an, führen das Erstgespräch und später den Zweittermin mit der Vorschau. Rechtlich selbstständiger Handelsvertreter nach § 84 HGB, auf Provision, ohne Vorgaben zu Zeiten oder Quoten."
+      ],
+      "merke": "Andere Auftraggeber sind erlaubt, wenn Sie wollen."
+    },
+    {
+      "titel": "Vom Anruf bis zur Rechnung",
+      "icon": "weg",
+      "saetze": [
+        "Acht Schritte: Anruf oder Cold Visit, Erstgespräch, Vorschau, Zweittermin, Angebot und Verträge, Anzahlung, Bau in der Warteschlange, Abnahme und Restzahlung. Bis zur Unterschrift sind Sie dran, danach Michael Henning."
+      ],
+      "grafik": "ablauf-zeitstrahl.svg",
+      "merke": "Ab dem Auftrag laufen Rückfragen, Freigabe und Abnahme direkt zwischen ihm und dem Kunden. Sie bekommen den Ausgang gemeldet, Sie müssen nicht mehr vermitteln."
+    },
+    {
+      "titel": "Erstgespräch und echter Zweittermin",
+      "icon": "sprechblase",
+      "saetze": [
+        "Im Erstgespräch erklären Sie, was der Betrieb bekommt, welche Zusatzleistungen es gibt und den Rahmen \"ab 600 €\". Ein Zweittermin wird nur vereinbart, wenn das Interesse echt ist, denn für jeden baut Michael Henning eine Vorschau."
+      ],
+      "liste": [
+        "Der Inhaber hat selbst gesagt, was ihn stört",
+        "Er kennt den Preisrahmen und hat nicht abgewunken",
+        "Er weiß, welche Zusatzleistungen ihn interessieren",
+        "Der Entscheider sitzt beim Zweittermin mit am Tisch"
+      ],
+      "merke": "Fragen Sie direkt: \"Entscheiden Sie das selbst oder redet da noch jemand mit?\""
+    },
+    {
+      "titel": "Vorschau und Zweittermin",
+      "icon": "bildschirm",
+      "saetze": [
+        "Die Vorschau entsteht aus Ihrer Notiz mit den echten Daten des Betriebs. Geplatzte Termine sofort melden, die Notiz immer mitschicken. Im Zweittermin, vor Ort oder per Video, wird sie gemeinsam angeschaut, nie vorab verschickt."
+      ],
+      "merke": "Sagt der Inhaber Ja, füllen Sie mit ihm den Briefing-Bogen aus, etwa zwanzig Minuten. Was dort fehlt, fehlt auf der Seite."
+    },
+    {
+      "titel": "Warteschlange statt Bauzeit",
+      "icon": "uhr",
+      "saetze": [
+        "Es gibt keine feste Bauzeit und kein Limit an Abschlüssen. Aufträge werden in der Reihenfolge der Anzahlung begonnen, ein harter Anlass wie eine Eröffnung kann vorgezogen werden. Der Termin steht als Datum im Angebot."
+      ],
+      "zitat": "Das steht als Datum im Angebot, bevor Sie unterschreiben. Wenn Sie einen festen Anlass haben, eine Eröffnung oder eine Saison, sagen Sie es mir jetzt, dann richtet sich der Termin danach.",
+      "merke": "Keine Bauzeit zusagen, weder Tage noch Wochen. Nicht \"das geht schnell\", nicht \"so zwei, drei Wochen\"."
+    },
+    {
+      "titel": "Wer macht was",
+      "icon": "liste",
+      "saetze": [
+        "Angebot, Verträge, Unterschrift, Rückfragen während des Baus, Abnahme und Hosting bleiben in jeder Stufe bei Michael Henning."
+      ],
+      "tabelle": {
+        "kopf": ["Sie", "Michael Henning"],
+        "zeilen": [
+          ["Betriebe recherchieren, anrufen, besuchen", "Vorschau bauen"],
+          ["Erstgespräch führen, Bedarf und Entscheider klären", "Angebot, Werkvertrag, AVV"],
+          ["Zweittermin führen, Vorschau zeigen", "Preis nennen (Stufe 1)"],
+          ["Briefing-Bogen ausfüllen und übergeben", "Website bauen, Abnahme"],
+          ["Wochenbericht schreiben", "Hosting und Betreuung über Jahre"],
+          ["Zusatzleistungen ansprechen", "Rückmeldung zu jedem Ausgang"]
+        ]
+      },
+      "merke": "Sie unterschreiben nichts in seinem Namen und versprechen nichts, was nach Vertrag klingt."
+    },
+    {
+      "titel": "Stufe 1 und Stufe 2",
+      "icon": "treppe",
+      "saetze": [
+        "Stufe 1: die ersten fünf Zweittermine gemeinsam, Michael Henning per Video dabei oder vor Ort, er nennt den Preis. Stufe 2: ab dem sechsten allein. Sie stellen die drei Pakete vor und nennen Paketpreis und Bausteine aus dem Preisrechner."
+      ],
+      "grafik": "stufen-1-2.svg",
+      "merke": "Vor Ort oder per Video sind gleich viel wert. Einen Ortsbezug gibt es nicht: dekaru arbeitet für Betriebe in ganz Deutschland, abgestimmt wird per Video, Telefon und Mail."
+    },
+    {
+      "titel": "Gebiet, Wochenbericht, Briefing-Bogen",
+      "icon": "dokument",
+      "saetze": [
+        "Ihr Gebiet ist eine Liste aus Städten und Landkreisen und regelt nur, wer welche Betriebe anspricht. Der Wochenbericht geht freitags bis 18 Uhr formlos per Mail: Zahlen, offene Pipeline und \"Was aufgefallen ist\"."
+      ],
+      "liste": [
+        "Briefing-Bogen: nur ankreuzen, was auf der Preisliste steht. Alles andere als Sonderwunsch ohne Zusage und Preis",
+        "Keine Passwörter, keine Zugangsdaten auf den Bogen, nicht auf Papier, nicht per Mail",
+        "Was Sie versprochen haben, steht wörtlich auf dem Bogen. Übergabe nur auf dem vereinbarten Weg, danach keine Kopie behalten"
+      ],
+      "merke": "Michael Henning meldet jeden Ausgang innerhalb einer Woche zurück und rechnet monatlich zum Fünften ab. Bleibt die Rückmeldung aus, fragen Sie nach."
+    }
+  ]
+}

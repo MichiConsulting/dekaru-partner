@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 206" role="img" aria-labelledby="pb-t pb-d" fill="currentColor" font-family="Inter, system-ui, sans-serif" font-size="12">
+  <title id="pb-t">Ihre Provision je Paket als Balken</title>
+  <desc id="pb-d">Fünf Balken, 35 Prozent vom Rechnungsbetrag. Paket Klein 600 Euro: 210 Euro. Paket Mittel 1.300 Euro: 455 Euro. Paket Groß 1.600 Euro: 560 Euro. Groß mit Logo-Entwurf 1.850 Euro: 647,50 Euro. Groß mit Google-Profil und Aufsteller 2.039 Euro: 713,65 Euro.</desc>
+  <style>
+    .f1{fill:var(--lk-f1,#ece6da)}.f2{fill:var(--lk-f2,#e2e7ec)}.f3{fill:var(--lk-f3,#cfcfc9)}.ink{fill:var(--lk-ink,#141414)}
+    .mu{fill:var(--lk-muted,#5f5f5f)}.h{font-weight:700}.s{font-size:11px}
+  </style>
+  <!-- Massstab: 713,65 € = 236 px -->
+  <text class="s" x="4" y="22">Klein <tspan class="mu">600 €</tspan></text>
+  <rect class="f3" x="150" y="10" width="69" height="18" rx="3"/><text class="s h" x="226" y="24">210 €</text>
+
+  <text class="s" x="4" y="60">Mittel <tspan class="mu">1.300 €</tspan></text>
+  <rect class="f3" x="150" y="48" width="150" height="18" rx="3"/><text class="s h" x="306" y="62">455 €</text>
+
+  <text class="s" x="4" y="98">Groß <tspan class="mu">1.600 €</tspan></text>
+  <rect class="ink" x="150" y="86" width="185" height="18" rx="3"/><text class="s h" x="341" y="100">560 €</text>
+
+  <text class="s" x="4" y="130">Groß + Logo</text><text class="s mu" x="4" y="144">1.850 €</text>
+  <rect class="ink" x="150" y="124" width="214" height="18" rx="3"/><text class="s h" x="370" y="138" text-anchor="end" style="fill:var(--lk-paper,#ffffff)">647,50 €</text>
+
+  <text class="s" x="4" y="168">Groß + Google-Profil</text><text class="s" x="4" y="182">+ Aufsteller <tspan class="mu">2.039 €</tspan></text>
+  <rect class="ink" x="150" y="162" width="236" height="18" rx="3"/><text class="s h" x="382" y="176" text-anchor="end" style="fill:var(--lk-paper,#ffffff)">713,65 €</text>
+
+  <text class="s mu" x="150" y="200">35 % vom Rechnungsbetrag, ohne Umsatzsteuer</text>
+</svg>

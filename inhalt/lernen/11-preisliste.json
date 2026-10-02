@@ -1,0 +1,96 @@
+{
+  "kapitel": "11-preisliste",
+  "karten": [
+    {
+      "titel": "Eine Seite, alle Preise",
+      "icon": "dokument",
+      "saetze": [
+        "Stand 01.10.2026. Alle Preise sind Endpreise, es kommt keine Umsatzsteuer dazu. Quelle für die Website-Preise ist der Preisrechner. Was hier nicht steht, hat keinen Preis, den Sie nennen dürfen."
+      ],
+      "merke": "Ändert sich etwas, bekommen Sie eine neue Liste."
+    },
+    {
+      "titel": "Pakete",
+      "icon": "paket",
+      "saetze": [
+        "Klein 600 €, Mittel 1.300 €, Groß 1.600 € (empfohlen). Paket plus Bausteine ist der Preis. Zahlung: die Hälfte bei Auftrag, der Rest bei Übergabe."
+      ],
+      "grafik": "pakete-vergleich.svg",
+      "merke": "Die mitarbeitende Funktion, heute die Online-Terminanfrage, gibt es nur in Groß und nur mit Hosting bei Michael Henning. Nicht als Baustein."
+    },
+    {
+      "titel": "Zusatzbausteine",
+      "icon": "plus",
+      "saetze": [
+        "Zu jedem Paket, nur was im Paket nicht schon enthalten ist. Einen Baustein \"Terminanfrage\" gibt es nicht mehr."
+      ],
+      "tabelle": {
+        "kopf": ["Baustein", "Preis"],
+        "zeilen": [
+          ["Weitere Unterseite", "75 € je Seite"],
+          ["Bildergalerie, Leistungs- oder Speisekarte, Team-Seite, Referenzen", "je 100 €"],
+          ["Ratgeber-Bereich", "300 €"],
+          ["Newsletter-Anmeldung", "150 €"],
+          ["Besucherstatistik ohne Cookies", "90 €"],
+          ["Weitere Sprache", "200 € je Sprache"],
+          ["Texte von mir", "50 € je Seite"],
+          ["Bildaufbereitung", "125 €"],
+          ["Logo-Entwurf", "250 €"],
+          ["Suchmaschinen-Grundlagen", "200 €"],
+          ["Individuelles Feature", "auf Anfrage"]
+        ]
+      },
+      "merke": "Individuelles Feature: den Preis nennt nur Michael Henning, er kommt als Nachtrag ins Angebot."
+    },
+    {
+      "titel": "Hosting und Pflege",
+      "icon": "server",
+      "saetze": [
+        "Jede Änderung über das Kontingent hinaus kostet 25 €. Übergabe der Website als Paket bei Vertragsende: 99 € Pauschale. Gratisquartal: drei Monate frei mit neuer Website, danach mindestens sechs bezahlte Monate."
+      ],
+      "tabelle": {
+        "kopf": ["Stufe", "Monatlich", "Jährlich", "Änderungen", "Umsetzung"],
+        "zeilen": [
+          ["Start", "19 €", "190 €", "bis 3 im Monat", "gesammelt zum Monatsende, Stichtag der 25."],
+          ["Basis", "39 €", "390 €", "bis 5 im Monat", "innerhalb von 3 Werktagen"],
+          ["Plus", "nur jährlich", "590 €", "bis 10 im Monat", "innerhalb von 1 Werktag, dazu 2 Umbauten im Jahr"]
+        ]
+      },
+      "merke": "Jährlich: zehn Monate bezahlt, zwölf erhalten. In jeder Stufe: Hosting, Domain bis 15 € im Jahr, HTTPS, Updates, gesicherter Quellstand."
+    },
+    {
+      "titel": "Zusatzleistungen",
+      "icon": "google",
+      "saetze": [
+        "Alle drei kommen im Zweittermin nach der Website zur Sprache. Den Sichtbarkeits-Check sprechen Sie beim Erstauftrag nicht aktiv an."
+      ],
+      "tabelle": {
+        "kopf": ["Leistung", "Preis", "Voraussetzung"],
+        "zeilen": [
+          ["Google-Unternehmensprofil einrichten", "249 €", "keine"],
+          ["Google-Unternehmensprofil einrichten und ausbauen", "490 €", "keine"],
+          ["Bewertungs-Aufsteller mit QR-Code", "190 €", "Google-Unternehmensprofil"],
+          ["Sichtbarkeits-Check", "390 € je Jahr", "Website, erst im zweiten Jahr sinnvoll"]
+        ]
+      },
+      "merke": "Aufsteller: Druckkosten von etwa 15 bis 30 € zahlt der Betrieb direkt an die Druckerei, Lieferzeit als Rahmen zwei Wochen. Provision auf den Sichtbarkeits-Check nur im Erstauftrag."
+    },
+    {
+      "titel": "Was Sie nennen dürfen",
+      "icon": "sprechblase",
+      "saetze": [
+        "Vier Situationen, vier Antworten. Ohne Nachlass, in jeder Situation."
+      ],
+      "tabelle": {
+        "kopf": ["Situation", "Was Sie sagen"],
+        "zeilen": [
+          ["Telefon", "\"ab 600 €\", sonst keine Zahl"],
+          ["Erstgespräch", "\"ab 600 €\", Hosting \"ab 19 € im Monat\", das Gratisquartal"],
+          ["Zweittermin, Stufe 1", "Michael Henning nennt die Zahl"],
+          ["Zweittermin, Stufe 2", "die drei Pakete mit Preis, die Zusatzbausteine, die Summe aus dem Preisrechner, die Hosting-Stufe, die Zusatzleistungen"]
+        ]
+      },
+      "merke": "Was nicht auf dieser Liste steht, hat keinen Preis, den Sie nennen dürfen."
+    }
+  ]
+}

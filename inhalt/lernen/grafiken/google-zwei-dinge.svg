@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 176" role="img" aria-labelledby="gz-t gz-d" fill="currentColor" font-family="Inter, system-ui, sans-serif" font-size="12">
+  <title id="gz-t">Suchmaschinen-Grundlagen und Google-Unternehmensprofil sind zwei verschiedene Dinge</title>
+  <desc id="gz-d">Links eine Website: Suchmaschinen-Grundlagen sind Arbeit an der Website, in Mittel und Groß enthalten, zu Klein für 200 Euro. Rechts eine Karte mit Ortsmarke: das Google-Unternehmensprofil ist Arbeit am Eintrag bei Google Maps, 249 oder 490 Euro. Das eine macht die Website auffindbar, das andere den Betrieb auf der Karte sichtbar.</desc>
+  <style>
+    .f1{fill:var(--lk-f1,#ece6da)}.f2{fill:var(--lk-f2,#e2e7ec)}.f3{fill:var(--lk-f3,#cfcfc9)}.ink{fill:var(--lk-ink,#141414)}.p{fill:var(--lk-paper,#ffffff)}
+    .ln{stroke:var(--lk-ink,#141414);stroke-width:1.5;fill:none;stroke-linecap:round}.mu{fill:var(--lk-muted,#5f5f5f)}.h{font-weight:700}.s{font-size:11px}
+  </style>
+  <rect class="f2" x="4" y="4" width="190" height="168" rx="8"/>
+  <rect class="f1" x="206" y="4" width="190" height="168" rx="8"/>
+
+  <!-- Website -->
+  <rect class="p" x="20" y="18" width="70" height="52" rx="4"/><rect class="f3" x="20" y="18" width="70" height="10" rx="4"/>
+  <rect class="f3" x="26" y="34" width="40" height="5"/><rect class="f3" x="26" y="43" width="56" height="3"/><rect class="f3" x="26" y="50" width="48" height="3"/><rect class="f3" x="26" y="57" width="30" height="3"/>
+  <circle class="ln" cx="104" cy="56" r="8"/><path class="ln" d="M110 62l8 8"/>
+  <text class="h" x="20" y="96">Suchmaschinen-Grundlagen</text>
+  <text class="s" x="20" y="114">Arbeit an der Website:</text>
+  <text class="s mu" x="20" y="129">Titel, Beschreibungen, Technik</text>
+  <text class="s" x="20" y="152">Mittel und Groß, Klein +200 €</text>
+
+  <!-- Karte -->
+  <rect class="p" x="222" y="18" width="70" height="52" rx="4"/>
+  <path class="f3" d="M222 40l20-8 16 10 18-12 16 6v34h-70z"/>
+  <path class="ink" d="M257 24c-7 0-12 5-12 12 0 9 12 22 12 22s12-13 12-22c0-7-5-12-12-12z"/><circle class="p" cx="257" cy="36" r="4.5"/>
+  <text class="h" x="222" y="96">Google-Profil (Maps)</text>
+  <text class="s" x="222" y="114">Arbeit am Google-Eintrag:</text>
+  <text class="s mu" x="222" y="129">Zeiten, Kategorien, Fotos</text>
+  <text class="s" x="222" y="152">249 € oder 490 €, ohne Website</text>
+</svg>

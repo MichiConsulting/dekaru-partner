@@ -1,0 +1,114 @@
+{
+  "kapitel": "10-glossar",
+  "karten": [
+    {
+      "titel": "Vierzig Begriffe in fünf Gruppen",
+      "icon": "buch",
+      "saetze": [
+        "Die Begriffe aus dem Informationsblatt, hier nach Themen sortiert und auf einen Satz gekürzt. Die vollständigen Erklärungen stehen im ausführlichen Kapitel."
+      ],
+      "merke": "Wer die Begriffe kennt, versteht jede Frage im Zweittermin beim ersten Hören."
+    },
+    {
+      "titel": "Rund um den Auftrag",
+      "icon": "dokument",
+      "saetze": [
+        "Vom Ja des Kunden bis zur fertigen Website."
+      ],
+      "tabelle": {
+        "kopf": ["Begriff", "Bedeutung"],
+        "zeilen": [
+          ["Briefing-Bogen", "Das Formular aus dem Zweittermin, nachdem der Kunde Ja gesagt hat. Daraus entstehen Angebot, Verträge und Website"],
+          ["Werkvertrag", "Der Vertrag über den Bau der Website. Kommt von Michael Henning, der Kunde unterschreibt bei ihm"],
+          ["AVV", "Auftragsverarbeitungsvertrag nach Art. 28 DSGVO, nötig sobald die Website Besucherdaten verarbeitet. Gehört zum Betreuungsvertrag"],
+          ["Anzahlung", "Die Hälfte des Website-Preises bei Auftrag. Der Rest bei Übergabe"],
+          ["Fertigstellungstermin", "Das Datum im Angebot, im Werkvertrag verbindlich. Ersetzt jede pauschale Bauzeit"],
+          ["Warteschlange", "Aufträge werden in der Reihenfolge der Anzahlung begonnen. Ein harter Anlass kann vorgezogen werden"],
+          ["Korrekturrunde", "Eine Runde Änderungen an der fertigen Website vor der Abnahme, im Werkvertrag enthalten"],
+          ["Abnahme", "Der Kunde erklärt die fertige Website für in Ordnung. Danach Restzahlung, und das Hosting-Kontingent beginnt"]
+        ]
+      }
+    },
+    {
+      "titel": "Rund um das Hosting",
+      "icon": "server",
+      "saetze": [
+        "Was nach der Abnahme über Jahre läuft."
+      ],
+      "tabelle": {
+        "kopf": ["Begriff", "Bedeutung"],
+        "zeilen": [
+          ["Hosting", "Betrieb und Pflege der Website: Server, Domain, HTTPS, Updates, gesicherter Quellstand, Änderungen. Stufen Start, Basis, Plus"],
+          ["Betreuungsvertrag", "Der Vertrag über Hosting und Pflege: Stufe, Änderungen, Laufzeit, Kündigung, Übergabe"],
+          ["Änderung", "Ein Anliegen an einer Stelle der Website, bis etwa 15 Minuten. Gezählt nach Anliegen, erst nach Umsetzung"],
+          ["Kontingent", "Die Änderungen im Monat je Stufe: 3, 5 oder 10. Verfällt am Monatsende, gilt ab Abnahme"],
+          ["Stichtag", "Der 25. eines Monats. Bei Start wird alles bis dahin gesammelt in den letzten Werktagen umgesetzt"],
+          ["Umbau", "Bis zu drei Stunden Arbeit, etwa ein Bereich neu gestaltet. Bei Plus zwei im Jahr, sonst eigener Auftrag"],
+          ["Quellstand", "Der vollständige, versionierte Bauplan der Website. Ersetzt das klassische Backup"],
+          ["Werktag", "Montag bis Freitag ohne Feiertage in Baden-Württemberg. Bei angekündigtem Urlaub ruht die Zeit"],
+          ["Domain", "Die Adresse der Website. Auf den Namen des Kunden registriert, gehört ihm"],
+          ["AuthCode", "Der Code für den Umzug einer Domain. Der Kunde bekommt ihn auf Anfrage kostenlos"]
+        ]
+      }
+    },
+    {
+      "titel": "Rund um die Website",
+      "icon": "paket",
+      "saetze": [
+        "Was verkauft wird, und was nicht."
+      ],
+      "tabelle": {
+        "kopf": ["Begriff", "Bedeutung"],
+        "zeilen": [
+          ["Paket", "Eine der drei festen Website-Größen: Klein 600 €, Mittel 1.300 €, Groß 1.600 €. Groß ist empfohlen"],
+          ["Zusatzbaustein", "Ein Teil der Website mit festem Preis, zu jedem Paket buchbar, nur was nicht schon drinsteckt"],
+          ["Zusatzleistungen", "Google-Unternehmensprofil (249 oder 490 €), Bewertungs-Aufsteller (190 €), Sichtbarkeits-Check (390 € im Jahr)"],
+          ["Mitarbeitende Funktion", "Heute die Online-Terminanfrage. Nur in Groß, nie als Baustein, nur solange bei Michael Henning gehostet wird"],
+          ["Preisrechner", "Das Werkzeug, aus dem jeder Website-Preis entsteht: Paket plus Bausteine"],
+          ["Redaktionssystem", "Ein System zum Selbst-Ändern. Gibt es bei dekaru noch nicht, wird nicht versprochen"],
+          ["Gestaltungsbeispiele", "Die vier erfundenen Beispielseiten auf dekaru.de. Zeigen die Machart, sind keine Kunden"]
+        ]
+      }
+    },
+    {
+      "titel": "Rund um das Gespräch",
+      "icon": "sprechblase",
+      "saetze": [
+        "Die Begriffe Ihrer eigenen Arbeit."
+      ],
+      "tabelle": {
+        "kopf": ["Begriff", "Bedeutung"],
+        "zeilen": [
+          ["Erstgespräch", "Ihr erstes Gespräch mit dem Inhaber: was dekaru macht, Zusatzleistungen, Preisrahmen, was ihn stört"],
+          ["Zweittermin", "Der Termin mit der Vorschau, vor Ort oder per Video. Hier fällt die Entscheidung"],
+          ["Vorschau", "Die gebaute Website mit den echten Daten des Betriebs. Nie per Mail"],
+          ["Entscheider", "Wer über das Geld entscheidet. Muss beim Zweittermin dabei sein"],
+          ["Cold Visit", "Unangemeldeter Besuch im Betrieb. Im ganzen Gebiet erlaubt, nur bei Gewerbetreibenden, nicht zur Stoßzeit"],
+          ["Wiedervorlage", "Ein Betrieb, der jetzt nicht will, aber nicht widersprochen hat. Wird später noch einmal angesprochen"],
+          ["Gebiet", "Ihre Liste aus Städten und Landkreisen. Regelt die Zuordnung, nicht die Entfernung"],
+          ["Stufe 1 / Stufe 2", "Die ersten fünf Zweittermine gemeinsam, Michael Henning nennt den Preis. Danach allein mit dem Preisrechner"]
+        ]
+      }
+    },
+    {
+      "titel": "Recht und Rahmen",
+      "icon": "schild",
+      "saetze": [
+        "Gesetze und Konditionen, die Sie beim Namen kennen sollten."
+      ],
+      "tabelle": {
+        "kopf": ["Begriff", "Bedeutung"],
+        "zeilen": [
+          ["UWG", "Gesetz gegen den unlauteren Wettbewerb. § 7 erlaubt Kaltakquise bei Gewerbetreibenden unter engen Bedingungen"],
+          ["DSGVO", "Datenschutz-Grundverordnung: keine Google-Schriften, keine Karte ohne Zustimmung, kein Tracking ohne Einwilligung"],
+          ["BFSG", "Barrierefreiheitsstärkungsgesetz, gilt seit Juni 2025. Viele Baukasten-Seiten erfüllen es nicht"],
+          ["HTTPS", "Verschlüsselte Verbindung zwischen Besucher und Website. Immer dabei"],
+          ["Handelsvertreter", "Ihre Rolle nach § 84 HGB: selbstständig, auf Provision, ohne Weisungen zu Zeiten und Quoten"],
+          ["Kleinunternehmer", "Michael Henning rechnet nach § 19 UStG ohne Umsatzsteuer ab. Alle Preise sind Endpreise"],
+          ["Gratisquartal", "Genau drei Monate Hosting frei, nur mit neuer Website, danach mindestens sechs bezahlte Monate. Gilt für alle"]
+        ]
+      },
+      "merke": "Das Gratisquartal ist die einzige Zusage, die Sie machen dürfen."
+    }
+  ]
+}

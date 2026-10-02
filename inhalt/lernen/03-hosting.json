@@ -1,0 +1,105 @@
+{
+  "kapitel": "03-hosting",
+  "karten": [
+    {
+      "titel": "Was Hosting heißt und was immer dabei ist",
+      "icon": "server",
+      "saetze": [
+        "Hosting heißt: Michael Henning betreibt die Website für den Betrieb und pflegt sie. Getrennt vom einmaligen Website-Preis und optional. Egal welche Stufe, sechs Dinge sind immer dabei."
+      ],
+      "liste": [
+        "Hosting bei einem Anbieter, weltweit schnell ausgeliefert",
+        "Domain auf den Namen des Kunden, laufende Kosten bis 15 € im Jahr enthalten",
+        "Verschlüsselte Auslieferung über HTTPS",
+        "Technische Aktualisierung der Bausteine",
+        "Gesicherter Quellstand: jede Version lässt sich jederzeit vollständig neu bereitstellen",
+        "Änderungen im Umfang der Stufe (Kapitel 4)"
+      ],
+      "merke": "Sagen Sie nicht \"Backups\". Die Website speichert keine Daten auf dem Server. Der gesicherte Quellstand ist gleichwertig, und so steht es im Vertrag."
+    },
+    {
+      "titel": "Die drei Stufen",
+      "icon": "treppe",
+      "saetze": [
+        "Start: 19 € im Monat, bis 3 Änderungen, gesammelt zum Monatsende. Basis: 39 € im Monat, bis 5 Änderungen in 3 Werktagen. Plus: nur jährlich 590 €, bis 10 Änderungen in 1 Werktag, 2 Umbauten im Jahr."
+      ],
+      "grafik": "hosting-treppe.svg",
+      "merke": "Basis trägt das \"Beliebt\"-Zeichen. Eine Terminanfrage steckt in keiner Hosting-Stufe, sie gehört zum Paket Groß."
+    },
+    {
+      "titel": "Was das teurere Hosting teurer macht",
+      "icon": "uhr",
+      "saetze": [
+        "Der Preisunterschied ist keine Marge, sondern Arbeitszeit. Drei, fünf oder zehn Änderungen im Monat zu je 15 bis 20 Minuten. Reaktionszeit: einmal im Monat, drei Werktage oder ein Werktag. Umbauten nur bei Plus."
+      ],
+      "liste": [
+        "Umbau: bis zu drei Stunden Arbeit, zum Beispiel ein Bereich neu gestaltet",
+        "Der erste frühestens nach sechs bezahlten Monaten, danach einer je Halbjahr",
+        "Nicht genutzte Umbauten verfallen"
+      ],
+      "merke": "Diese Grenzen sind nicht verhandelbar, weil die Rechnung bei 590 € sonst nicht aufgeht."
+    },
+    {
+      "titel": "Hosting und die mitarbeitende Funktion",
+      "icon": "zahnrad",
+      "saetze": [
+        "Die Funktion gehört zum Paket Groß, nicht zum Hosting. Sie hängt trotzdem daran: der Dienst, der die Anfragen verarbeitet, läuft bei Michael Henning."
+      ],
+      "liste": [
+        "Groß mit Hosting, egal ob Start, Basis oder Plus: die Funktion läuft",
+        "Groß ohne Hosting bei Michael Henning: die Funktion gibt es nicht",
+        "Endet das Hosting später, entfällt die Funktion"
+      ],
+      "merke": "Groß bringt fast immer Hosting mit, und Hosting bringt Ihnen Provision (Kapitel 8). Wer Groß verkauft, sagt die Bindung offen dazu."
+    },
+    {
+      "titel": "Was es noch nicht gibt",
+      "icon": "warnung",
+      "saetze": [
+        "Ein Redaktionssystem zum Selbst-Ändern gibt es noch nicht. Der Kunde schreibt eine Mail, Michael Henning ändert. Das System ist das nächste Produkt und wird bis dahin nicht versprochen, auch nicht als \"kommt bald\"."
+      ],
+      "zitat": "Im Moment schicken Sie ihm die Änderung per Mail, und er setzt sie um, das ist in jeder Stufe drin. Ein System, in dem Sie selbst ändern, ist in Arbeit. Wann es kommt, kann ich Ihnen nicht zusagen.",
+      "merke": "Alle Zeiten sind Werktage: Montag bis Freitag ohne die Feiertage in Baden-Württemberg. Urlaub wird vorher angekündigt, dann ruht die Zeit."
+    },
+    {
+      "titel": "Jahreszahlung: zehn bezahlt, zwölf erhalten",
+      "icon": "euro",
+      "saetze": [
+        "Wer zwölf Monate im Voraus zahlt, zahlt zehn Monatsbeträge: 190 € Start, 390 € Basis, 590 € Plus. Laufzeit zwölf Monate, verlängert sich um zwölf, wenn nicht einen Monat vor Ablauf gekündigt wird."
+      ],
+      "grafik": "hosting-jahr.svg",
+      "merke": "Monatliche Zahlung: keine Mindestlaufzeit, Kündigungsfrist ein Monat zum Monatsende. Plus gibt es nur als Jahresvertrag."
+    },
+    {
+      "titel": "Das Gratisquartal",
+      "icon": "kalender",
+      "saetze": [
+        "Genau drei Monate Hosting gratis, nur zusammen mit einer neuen Website, danach mindestens sechs bezahlte Monate. Eine öffentliche Kondition von dekaru.de, die für alle gilt. Kein Rabatt, den Sie vergeben."
+      ],
+      "grafik": "gratisquartal-kalender.svg",
+      "liste": [
+        "Im Gratiszeitraum gilt das Kontingent von Basis, auch bei Plus, und es gibt keinen Umbau",
+        "Nie als Nachlass auf die Website. Der Website-Preis bleibt Paket plus Bausteine",
+        "Höchstens ein Vorteil je Kunde zusätzlich zur Jahreszahlung"
+      ],
+      "merke": "Die einzige Zusage, die Sie im Termin machen dürfen. Sie nennen sie, Sie vergeben und verhandeln sie nicht."
+    },
+    {
+      "titel": "Was der Kunde sonst noch fragt",
+      "icon": "sprechblase",
+      "saetze": [
+        "Vier Fragen, die fast immer kommen, mit den festen Antworten aus dem Betreuungsvertrag."
+      ],
+      "tabelle": {
+        "kopf": ["Frage", "Antwort"],
+        "zeilen": [
+          ["Wenn er kündigt", "Die Domain gehört ihm, den Umzugscode gibt es kostenlos, die Website als lauffähiges Paket für 99 €. Daten werden 30 Tage nach Vertragsende gelöscht"],
+          ["Wenn er nicht zahlt", "Nach 14 Tagen Erinnerung, nach 28 Tagen Mahnung, nach 42 Tagen ist die Seite offline. Am Tag des Zahlungseingangs wieder da"],
+          ["Wenn die Preise steigen", "Höchstens einmal im Jahr, drei Monate vorher angekündigt, mit Sonderkündigungsrecht. Ein laufender Jahresvertrag bleibt beim alten Preis"],
+          ["Ab wann das Kontingent gilt", "Ab der Abnahme der Website. Vorher läuft die eine Korrekturrunde aus dem Werkvertrag"]
+        ]
+      },
+      "merke": "Hat der Kunde Groß, fällt die mitarbeitende Funktion bei der Kündigung weg. Das sagen Sie ihm vorher."
+    }
+  ]
+}

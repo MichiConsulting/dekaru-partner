@@ -1,0 +1,79 @@
+{
+  "kapitel": "04-aenderung",
+  "karten": [
+    {
+      "titel": "Was eine Änderung ist",
+      "icon": "mail",
+      "saetze": [
+        "Eine Änderung ist ein Anliegen an einer Stelle der Website, mit einem Aufwand von bis zu etwa 15 Minuten. Zum Beispiel neue Öffnungszeiten, ein geänderter Preis, ein neuer Absatz, ein getauschtes Bild, eine neue Telefonnummer, ein Hinweis auf Betriebsferien."
+      ],
+      "kennzahl": { "wert": "15 Min.", "label": "etwa so viel Aufwand hat eine Änderung höchstens" },
+      "merke": "Das ist die Frage, die Kunden am häufigsten stellen, sobald sie Hosting buchen: \"Und wenn ich was geändert haben will?\""
+    },
+    {
+      "titel": "Was keine Änderung ist",
+      "icon": "kreuz",
+      "saetze": [
+        "Alles hier ist ein eigener Auftrag mit Festpreis vorher, kein Teil des Kontingents."
+      ],
+      "liste": [
+        "Eine neue Unterseite",
+        "Eine neue Funktion, zum Beispiel ein Newsletter",
+        "Ein Umbau, etwa ein Bereich neu gestaltet (bei Plus zweimal im Jahr enthalten)",
+        "Alles, was länger als etwa 15 Minuten dauert"
+      ],
+      "merke": "Etwas Größeres wie eine neue Seite ist ein eigener kleiner Auftrag mit Festpreis vorher."
+    },
+    {
+      "titel": "Drei Regeln zur Zählung",
+      "icon": "liste",
+      "saetze": [
+        "Gezählt wird nach Anliegen, nicht nach Mails: eine Mail mit zehn Punkten sind zehn Änderungen. Gezählt wird erst, wenn die Änderung umgesetzt ist. Fehler, die Michael Henning selbst verursacht hat, zählen nie."
+      ],
+      "grafik": "aenderung-zaehlen.svg",
+      "merke": "Was in der Warteschlange steht, zählt noch nicht. Eigene Fehler sind keine Änderung, sondern Nacharbeit."
+    },
+    {
+      "titel": "Der Ablauf",
+      "icon": "weg",
+      "saetze": [
+        "Der Kunde schreibt eine Mail an Michael Henning, in Textform, kein Anruf. Er setzt um, im Rhythmus der Stufe. Nach der Umsetzung wird gezählt. Innerhalb des Kontingents ist sie enthalten, jede weitere kostet 25 €."
+      ],
+      "grafik": "aenderung-ablauf.svg",
+      "merke": "Am Monatsende verfallen nicht genutzte Änderungen. Wer im März nur eine von fünf braucht, hat im April wieder fünf, nicht neun."
+    },
+    {
+      "titel": "Der Rhythmus je Stufe",
+      "icon": "uhr",
+      "saetze": [
+        "Der Sammeltermin ist der Grund, warum Start so günstig ist: einmal im Monat an die Seite statt bei jeder Mail."
+      ],
+      "tabelle": {
+        "kopf": ["Stufe", "Umsetzung"],
+        "zeilen": [
+          ["Start", "Gesammelt. Was bis zum 25. des Monats da ist, kommt in den letzten Werktagen des Monats. Was später kommt, wandert in den nächsten Monat"],
+          ["Basis", "Jede Änderung innerhalb von 3 Werktagen ab Eingang"],
+          ["Plus", "Jede Änderung innerhalb von 1 Werktag ab Eingang"]
+        ]
+      },
+      "merke": "Jede Änderung über das Kontingent hinaus kostet 25 €, in jeder Stufe gleich. Wie sie abgerechnet wird, klärt Michael Henning. Sie sagen nur: \"25 € je weitere Änderung\"."
+    },
+    {
+      "titel": "Umbau bei Plus und Beginn des Kontingents",
+      "icon": "kalender",
+      "saetze": [
+        "Ein Umbau ist bis zu drei Stunden Arbeit, etwa ein Bereich neu gestaltet. Bei Plus zwei im Jahr: der erste frühestens nach sechs bezahlten Monaten, danach einer je Halbjahr. Nicht genutzte verfallen, im Gratisquartal gibt es keinen."
+      ],
+      "merke": "Das Kontingent gilt ab der Abnahme der Website. Vorher läuft die eine Korrekturrunde aus dem Werkvertrag, die mit dem Hosting nichts zu tun hat."
+    },
+    {
+      "titel": "Was Sie dem Kunden sagen",
+      "icon": "sprechblase",
+      "saetze": [
+        "Ein Absatz, der die Frage nach Änderungen vollständig beantwortet. Mehr braucht es nicht."
+      ],
+      "zitat": "Sie schreiben Herrn Henning eine Mail, was sich ändern soll. Bei Basis ist das innerhalb von drei Werktagen online, bei Start gesammelt zum Monatsende. Drei, fünf oder zehn solcher Änderungen im Monat sind im Preis drin, jede weitere kostet 25 €. Eine Änderung ist ein Anliegen an einer Stelle, also die Öffnungszeiten, ein Preis, ein Bild. Etwas Größeres wie eine neue Seite ist ein eigener kleiner Auftrag mit Festpreis vorher.",
+      "merke": "Nie sagen: dass er selbst ändern kann, dass es \"unbegrenzt\" ist, oder eine Uhrzeit oder einen Tag für die Umsetzung."
+    }
+  ]
+}

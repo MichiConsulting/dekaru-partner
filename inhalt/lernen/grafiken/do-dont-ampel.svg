@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 190" role="img" aria-labelledby="dd-t dd-d" fill="currentColor" font-family="Inter, system-ui, sans-serif" font-size="12">
+  <title id="dd-t">Was Sie sagen dürfen und was nie, als Ampel</title>
+  <desc id="dd-d">Eine Ampel mit drei Lampen. Grün, immer: Name und "für Michael Henning" im ersten Satz, "ab 600 Euro", der Termin steht im Angebot, Vorschau nur im Termin. Gelb, im Zweifel: ehrlich sagen, was man nicht weiß, und mit Michael Henning klären. Rot, nie: Privatnummern, Rabatt oder Festpreis am Telefon, eine Bauzeit, Vorschau per Mail, Backups, Kundenprojekte behaupten.</desc>
+  <style>
+    .ink{fill:var(--lk-ink,#141414)}.f2{fill:var(--lk-f2,#e2e7ec)}.ok{fill:var(--ok,#1f5c2e)}.warn{fill:var(--lk-warn,#8a5a00)}.no{fill:var(--fehler,#8a1c1c)}
+    .mu{fill:var(--lk-muted,#5f5f5f)}.h{font-weight:700}.s{font-size:11px}
+  </style>
+  <rect class="ink" x="14" y="8" width="60" height="174" rx="12"/>
+  <circle class="ok" cx="44" cy="38" r="20"/>
+  <circle class="warn" cx="44" cy="95" r="20"/>
+  <circle class="no" cx="44" cy="152" r="20"/>
+
+  <text class="h" x="92" y="22">Immer</text>
+  <text class="s" x="92" y="37">Name und "für Michael Henning" im ersten Satz,</text>
+  <text class="s" x="92" y="51">"ab 600 €" am Telefon, Vorschau nur im Termin,</text>
+  <text class="s" x="92" y="65">"Der Termin steht im Angebot".</text>
+
+  <text class="h" x="92" y="86">Im Zweifel</text>
+  <text class="s" x="92" y="101">Ehrlich sagen, was Sie nicht wissen:</text>
+  <text class="s" x="92" y="115">"Das klären wir mit Herrn Henning."</text>
+
+  <text class="h" x="92" y="138">Nie</text>
+  <text class="s" x="92" y="153">Privatnummern, Rabatt oder Festpreis am Telefon,</text>
+  <text class="s" x="92" y="167">eine Bauzeit, Vorschau per Mail, "Backups",</text>
+  <text class="s" x="92" y="181">Kundenprojekte behaupten.</text>
+</svg>

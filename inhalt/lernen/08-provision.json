@@ -1,0 +1,101 @@
+{
+  "kapitel": "08-provision",
+  "karten": [
+    {
+      "titel": "35 % vom Projektumsatz",
+      "icon": "euro",
+      "saetze": [
+        "Kein Fixum, keine Terminpauschale. Bezahlt wird, wenn der Kunde bezahlt hat, nicht wenn er unterschrieben hat. Michael Henning weist keine Umsatzsteuer aus: Rechnungsbetrag und Umsatz sind dieselbe Zahl."
+      ],
+      "kennzahl": { "wert": "35 %", "label": "auf alles Einmalige auf der Rechnung" },
+      "merke": "Steht auf der Rechnung 1.300 €, sind das 455 € für Sie. Es gibt keine Grundlage für Streit darüber, worauf gerechnet wird."
+    },
+    {
+      "titel": "Die Regeln auf einen Blick",
+      "icon": "liste",
+      "saetze": [
+        "Gerechnet wird auf das Website-Paket, die Zusatzbausteine und die Zusatzleistungen Google-Profil und Aufsteller. Der Sichtbarkeits-Check zählt nur, wenn er im Erstauftrag mitverkauft wird."
+      ],
+      "tabelle": {
+        "kopf": ["", ""],
+        "zeilen": [
+          ["Provision", "35 % auf alles Einmalige auf der Rechnung"],
+          ["Fällig", "nach Zahlungseingang beim Kunden"],
+          ["Abrechnung", "monatlich zum Fünften für den Vormonat, mit Aufstellung je Abschluss"],
+          ["Teilzahlungen", "anteilig, in derselben Aufteilung"],
+          ["Hosting", "35 % auf die ersten zwölf bezahlten Monate, vierteljährlich ausgezahlt"],
+          ["Zuordnung", "ein Abschluss zählt zu dem, der das Erstgespräch geführt hat, auch Monate später"]
+        ]
+      },
+      "merke": "Später gebuchter Sichtbarkeits-Check ist Folgegeschäft ohne Provision."
+    },
+    {
+      "titel": "Was die Pakete bringen",
+      "icon": "paket",
+      "saetze": [
+        "Klein 600 € bringt 210 €, Mittel 1.300 € bringt 455 €, Groß 1.600 € bringt 560 €. Mit Logo-Entwurf sind es 647,50 €, mit Google-Profil und Aufsteller 713,65 €."
+      ],
+      "grafik": "provision-balken.svg",
+      "merke": "Der Schritt von Mittel zu Groß sind für den Betrieb 300 €, für Sie 105 € mehr. Dazu kommt bei Groß fast immer Hosting mit eigener Provision."
+    },
+    {
+      "titel": "Provision auf Hosting",
+      "icon": "server",
+      "saetze": [
+        "Seit dem 29.09.2026: 35 % auf die ersten zwölf bezahlten Monate, gerechnet auf das, was der Kunde tatsächlich zahlt. Gratismonate zählen nicht mit. Die Provision verfällt nicht, auch wenn der Kunde später kündigt."
+      ],
+      "tabelle": {
+        "kopf": ["Tarif", "je bezahltem Monat", "höchstens (12 Monate)", "bei Jahreszahlung"],
+        "zeilen": [
+          ["Start, 19 €", "6,65 €", "79,80 €", "66,50 € auf einmal"],
+          ["Basis, 39 €", "13,65 €", "163,80 €", "136,50 € auf einmal"],
+          ["Plus, nur jährlich 590 €", "entfällt", "entfällt", "206,50 € auf einmal"]
+        ]
+      },
+      "merke": "Ausgezahlt vierteljährlich mit der Abrechnung zum Fünften nach Quartalsende: Januar, April, Juli, Oktober. Mit Gratisquartal entsteht die erste Hosting-Provision im vierten Monat nach Abnahme."
+    },
+    {
+      "titel": "Wann das Geld kommt",
+      "icon": "kalender",
+      "saetze": [
+        "Bei Teilzahlungen anteilig: die erste Hälfte mit der Abrechnung des Monats, in dem die Anzahlung eingegangen ist, der Rest nach der Übergabe. Zahlt ein Kunde nicht, gibt es auf den offenen Teil keine Provision."
+      ],
+      "grafik": "provision-zeitleiste.svg",
+      "merke": "Zurückgefordert wird nur, wenn eine bereits bezahlte Rechnung storniert und das Geld zurückerstattet wird. Dann wird mit der nächsten Abrechnung verrechnet."
+    },
+    {
+      "titel": "Drei Rechenbeispiele",
+      "icon": "euro",
+      "saetze": [
+        "Was der Kunde bezahlt hat, bleibt bei Ihnen. Im guten Monat kommt später noch Hosting-Provision dazu: je Betrieb und bezahltem Monat 13,65 €, über zwölf Monate zusammen bis zu 491,40 €."
+      ],
+      "tabelle": {
+        "kopf": ["Beispiel", "Zahlung des Kunden", "Ihre Provision"],
+        "zeilen": [
+          ["Erster Abschluss: Klein für 600 €, Hälfte bei Auftrag, Hälfte bei Übergabe", "300 € + 300 €", "105 € + 105 € = 210 €"],
+          ["Guter Monat: Klein, Mittel und Groß mit Logo-Entwurf, alle bezahlt", "3.750 €", "1.312,50 €"],
+          ["Schiefgegangen: Mittel für 1.300 €, nur die Anzahlung bezahlt, Schlussrechnung storniert", "650 €", "227,50 €, keine Rückforderung"]
+        ]
+      },
+      "merke": "Auf den offenen Teil gibt es nichts, auf den bezahlten alles."
+    },
+    {
+      "titel": "Wenn die Preise steigen",
+      "icon": "stern",
+      "saetze": [
+        "Die Preise werden steigen, damit die Grundlage für Ihre 35 %. Wenn Michael Henning den Prozentsatz anpasst, sinkt der Betrag je Abschluss nicht."
+      ],
+      "kennzahl": { "wert": "455 € bleiben 455 €", "label": "Beispiel: Mittel heute 1.300 € zu 35 %. Steigt der Preis auf 1.600 € und der Satz sinkt auf 30 %, sind das 480 €, nicht weniger" },
+      "merke": "Die genaue Regelung steht im Vertrag."
+    },
+    {
+      "titel": "Ehrlich zum Anlauf",
+      "icon": "uhr",
+      "saetze": [
+        "Ohne Pauschale verdienen Sie nichts, bis der erste Kunde bezahlt hat. Realistisch liegen sechs bis zehn Wochen zwischen erstem Anruf und erstem Geld. Bei Mittel und einer Quote von einem Drittel bringt jeder Zweittermin im Schnitt rund 150 €."
+      ],
+      "grafik": "anlauf-wochen.svg",
+      "merke": "Zwölf Zweittermine im Monat sind etwa 1.800 €, aber zeitversetzt. Rechnen Sie mit dem Anlauf, dann trägt das Modell."
+    }
+  ]
+}
