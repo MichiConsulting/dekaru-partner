@@ -298,7 +298,7 @@ const MODUS_LABEL: Record<Modus, string> = { luecken: 'Lückentext', reihenfolge
     border: 1px dashed var(--border-strong);
     border-radius: var(--radius);
   }
-  .ue-satz button,
+  .ue-satz :global(button),
   .ue-teile button {
     min-height: 44px;
     padding: var(--space-s) var(--space-m);
@@ -310,7 +310,7 @@ const MODUS_LABEL: Record<Modus, string> = { luecken: 'Lückentext', reihenfolge
     text-align: left;
     cursor: pointer;
   }
-  .ue-satz button {
+  .ue-satz :global(button) {
     background: var(--surface-2);
     border-color: var(--text);
   }

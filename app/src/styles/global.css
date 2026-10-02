@@ -153,6 +153,39 @@ body {
   display: flex;
   flex-direction: column;
   background: var(--bg);
+  /* Lange deutsche Woerter brechen mit Trennstrich statt ueber den Rand,
+     aber nur ab acht Buchstaben und mit mindestens vier auf jeder Seite,
+     damit aus "dekaru" kein "deka-ru" wird. */
+  hyphens: auto;
+  hyphenate-limit-chars: 8 4 4;
+  -webkit-hyphenate-limit-before: 4;
+  -webkit-hyphenate-limit-after: 4;
+  overflow-wrap: break-word;
+}
+h1,
+h2,
+h3,
+h4,
+th,
+td,
+button,
+input,
+select,
+textarea,
+code,
+label,
+legend,
+summary,
+.btn,
+.badge,
+.nav a,
+.meta {
+  hyphens: manual;
+}
+h1,
+h2,
+h3 {
+  overflow-wrap: anywhere;
 }
 
 h1,
@@ -302,9 +335,8 @@ code {
   margin: 0 auto;
   padding: 0 16px;
   display: flex;
-  gap: var(--space-xs);
-  overflow-x: auto;
-  scrollbar-width: none;
+  flex-wrap: wrap;
+  gap: 0 var(--space-xs);
 }
 .nav a {
   color: var(--text-muted);
@@ -560,8 +592,23 @@ input[type='checkbox'] {
   overflow-x: auto;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  background: var(--surface);
   margin-bottom: var(--space-l);
+}
+/* Schiebbare Bloecke: ein Schatten am Rand zeigt, dass es weitergeht.
+   Die hellen Verlaeufe scrollen mit dem Inhalt und decken den Schatten ab,
+   sobald der Rand erreicht ist. */
+.schiebbar {
+  overflow-x: auto;
+  background:
+    linear-gradient(90deg, var(--surface) 40%, transparent) left center / 40px 100% no-repeat local,
+    linear-gradient(270deg, var(--surface) 40%, transparent) right center / 40px 100% no-repeat local,
+    linear-gradient(90deg, var(--schatten), transparent) left center / 14px 100% no-repeat scroll,
+    linear-gradient(270deg, var(--schatten), transparent) right center / 14px 100% no-repeat scroll,
+    var(--surface);
+}
+.tabelle-wrap td:not(.zahl),
+.tabelle-wrap th:not(.zahl) {
+  min-width: 8em;
 }
 table {
   width: 100%;
@@ -592,6 +639,9 @@ th.zahl {
 tfoot td {
   font-weight: 500;
   border-top: 1px solid var(--border-strong);
+}
+.tabelle-wrap table {
+  background: transparent;
 }
 .badge {
   display: inline-block;
@@ -678,7 +728,12 @@ tfoot td {
 }
 .prosa table {
   font-size: var(--text-body);
-  margin-bottom: var(--space-l);
+  margin-bottom: 0;
+}
+.prosa .tabelle-wrap td,
+.prosa .tabelle-wrap th {
+  min-width: 0;
+  hyphens: auto;
 }
 .prosa blockquote {
   margin: 0 0 var(--space-m);
@@ -711,12 +766,18 @@ tfoot td {
 }
 .frage__kopf {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  gap: var(--space-m);
+  gap: var(--space-xs) var(--space-m);
   align-items: baseline;
   margin-bottom: var(--space-m);
 }
+.frage__kopf .frage__text {
+  flex: 1 1 240px;
+  min-width: 0;
+}
 .frage__typ {
+  white-space: nowrap;
   font-size: 12px;
   color: var(--text-muted);
   text-transform: uppercase;
@@ -815,6 +876,8 @@ tfoot td {
 }
 .verbinden button {
   width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
   min-height: 44px;
   padding: var(--space-s) var(--space-m);
   border: 1px solid var(--border-strong);
@@ -855,6 +918,58 @@ tfoot td {
   font-family: var(--font-display);
   font-size: 22px;
   font-weight: 700;
+}
+
+/* Listen, die auf dem Handy zu Karten werden: jede Zeile ein Block, jede
+   Zelle mit ihrer Spaltenueberschrift davor (data-label). Die ARIA-Rollen im
+   Markup halten die Tabellensemantik, auch wenn display wechselt. */
+@media (max-width: 640px) {
+  .tabelle--karten,
+  .tabelle--karten tbody,
+  .tabelle--karten tr {
+    display: block;
+  }
+  .tabelle--karten thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  .tabelle--karten tr {
+    padding: var(--space-s) 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .tabelle--karten tr:last-child {
+    border-bottom: 0;
+  }
+  .tabelle--karten td {
+    display: grid;
+    grid-template-columns: 7.5em minmax(0, 1fr);
+    gap: var(--space-s);
+    padding: 3px var(--space-m);
+    border: 0;
+    min-width: 0;
+    font-size: var(--text-body);
+  }
+  .tabelle--karten td::before {
+    content: attr(data-label);
+    color: var(--text-muted);
+    font-size: var(--text-small);
+    padding-top: 2px;
+  }
+  .tabelle--karten td.zelle--titel {
+    display: block;
+    font-weight: 500;
+    padding-bottom: var(--space-xs);
+  }
+  .tabelle--karten td.zelle--titel::before {
+    content: none;
+  }
+  .tabelle--karten td.zelle--nebensache,
+  .tabelle--karten td:empty {
+    display: none;
+  }
 }
 
 @media (max-width: 480px) {

@@ -317,11 +317,10 @@
   font-family: var(--font-body);
 }
 .lk-grafik--papier {
-  background: var(--grafik-papier);
+  --surface: var(--grafik-papier);
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: var(--space-m);
-  overflow-x: auto;
 }
 .lk-grafik--papier img {
   display: block;
@@ -331,9 +330,11 @@
 }
 
 .lk-tabelle {
-  overflow-x: auto;
   border: 1px solid var(--border);
   border-radius: 10px;
+}
+.lk-tabelle table {
+  background: transparent;
 }
 .lk-tabelle table {
   font-size: var(--text-small);
@@ -342,6 +343,9 @@
 .lk-tabelle td {
   padding: var(--space-s) var(--space-m);
   white-space: normal;
+  /* Kleine Tabellen sollen auf dem Handy in die Karte passen, lieber
+     trennen als schieben. */
+  hyphens: auto;
 }
 .lk-tabelle thead th {
   background: var(--surface-2);
@@ -731,6 +735,13 @@
 }
 .lb-ergebnis__liste li.ist-falsch .lb-aufloesung__marke {
   color: var(--fehler);
+}
+.lb-ergebnis__liste li > span {
+  min-width: 0;
+}
+.lb-ergebnis__liste .meta {
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 @media (max-width: 560px) {

@@ -101,7 +101,7 @@ const uebung = await ladeUebungsstand(db, benutzer.id);
   </form>
 
   <h2>Lernfortschritt</h2>
-  <div class="tabelle-wrap">
+  <div class="tabelle-wrap schiebbar">
     <table>
       <thead><tr><th>Kapitel</th><th>Stand</th><th class="zahl">Fragen richtig</th></tr></thead>
       <tbody>
@@ -114,7 +114,7 @@ const uebung = await ladeUebungsstand(db, benutzer.id);
   </div>
 
   <h2>Pflichtsätze ({pflichtsatzListe.filter((e) => uebung.get(e.id)?.sitzt).length} von {pflichtsatzListe.length} sitzen)</h2>
-  <div class="tabelle-wrap">
+  <div class="tabelle-wrap schiebbar">
     <table>
       <thead><tr><th>Satz</th><th>Stand</th><th class="zahl">Versuche</th><th>Zuletzt</th></tr></thead>
       <tbody>
@@ -127,7 +127,7 @@ const uebung = await ladeUebungsstand(db, benutzer.id);
   </div>
 
   <h2>Kunden ({kunden.length})</h2>
-  <div class="tabelle-wrap">
+  <div class="tabelle-wrap schiebbar">
     <table>
       <thead><tr><th>Betrieb</th><th>Ort</th><th>Status</th><th>Termin</th><th>Geändert</th></tr></thead>
       <tbody>
