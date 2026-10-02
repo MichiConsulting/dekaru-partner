@@ -1,6 +1,8 @@
-import { defineConfig } from 'vitest/config';
+import { getViteConfig } from 'astro/config';
 
-export default defineConfig({
+// Ueber Astros Vite-Konfiguration, damit Tests auch .astro-Komponenten
+// rendern koennen (Container-API). Die Datenbank-Tests laufen unveraendert.
+export default getViteConfig({
   test: {
     include: ['tests/**/*.test.ts'],
     // Jede Testdatei bekommt ihre eigene PGlite-Instanz im Speicher.
