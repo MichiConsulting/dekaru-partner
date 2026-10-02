@@ -4,7 +4,7 @@
 import Layout from '../../layouts/Layout.astro';
 import { THEMEN, filtereEintraege, mitName, suchtext } from '../../lib/gespraech.ts';
 import { gespraechsEinleitung, gespraechsEintraege, gespraechsFehler, pflichtsatzListe } from '../../lib/inhalt-gespraech.ts';
-import { anzahlSitzt, ladeUebungsstand } from '../../lib/gespraech-fortschritt.ts';
+import { anzahlSitzt, ladeUebungsstand, type PflichtsatzStand } from '../../lib/gespraech-fortschritt.ts';
 
 const benutzer = Astro.locals.benutzer!;
 const db = Astro.locals.db;
@@ -16,7 +16,15 @@ const thema = (THEMEN as readonly string[]).includes(themaRoh) ? themaRoh : '';
 const sichtbar = filtereEintraege(gespraechsEintraege, { suche, thema });
 const sichtbareIds = new Set(sichtbar.map((e) => e.id));
 
-const stand = await ladeUebungsstand(db, benutzer.id);
+// Fehlt die Migration 002 auf der Datenbank, bleibt die Gespraechshilfe
+// trotzdem nutzbar, nur der Uebungsstand fehlt.
+let stand = new Map<string, PflichtsatzStand>();
+let standFehlt = false;
+try {
+  stand = await ladeUebungsstand(db, benutzer.id);
+} catch {
+  standFehlt = true;
+}
 const sitzen = anzahlSitzt(stand, pflichtsatzListe.map((e) => e.id));
 
 function chipHref(t: string): string {
@@ -37,6 +45,11 @@ function chipHref(t: string): string {
     <a class="btn btn--klein" href="/gespraech/ueben">{sitzen === pflichtsatzListe.length ? 'Noch einmal üben' : 'Pflichtsätze üben'}</a>
   </div>
 
+  {standFehlt && benutzer.rolle === 'admin' && (
+    <div class="meldung meldung--fehler">
+      <p><strong>Nur für den Admin sichtbar:</strong> Der Übungsstand lässt sich nicht lesen. Vermutlich fehlt die Migration 002 auf der Datenbank: <code>npm run db:migrate</code> mit gesetzter <code>DATABASE_URL</code>.</p>
+    </div>
+  )}
   {benutzer.rolle === 'admin' && gespraechsFehler.length > 0 && (
     <div class="meldung meldung--fehler">
       <p><strong>Nur für den Admin sichtbar:</strong> {gespraechsFehler.length} Einträge in gespraechshilfe.json wurden wegen Formatfehlern übersprungen.</p>
