@@ -24,7 +24,8 @@ if (istPost(Astro.request)) {
       secure: import.meta.env.PROD,
       sameSite: 'lax',
       path: '/',
-      expires: ergebnis.sitzung.laeuftAb,
+      // Ohne Ablaufdatum: das Cookie endet mit dem Browser. Die eigentliche
+      // Frist (60 Minuten ohne Aktivitaet) prueft der Server.
     });
     return Astro.redirect(ergebnis.benutzer.passwortWechselNoetig ? '/passwort' : weiter, 303);
   }

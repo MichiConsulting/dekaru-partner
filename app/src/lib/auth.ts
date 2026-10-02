@@ -9,8 +9,12 @@ import type { Db } from './db.ts';
 import { hashPasswort, pruefePasswort } from './passwort.ts';
 
 export const COOKIE_NAME = 'dp_sitzung';
-export const SITZUNG_TAGE = 14;
-export const SITZUNG_VERLAENGERN_NACH_MS = 6 * 60 * 60 * 1000;
+// Abmeldung nach 60 Minuten ohne Aktivitaet. Jede Anfrage schiebt die Frist
+// nach hinten, geschrieben wird hoechstens einmal pro Minute, damit nicht jede
+// Anfrage die Datenbank beschreibt.
+export const SITZUNG_INAKTIV_MINUTEN = 60;
+export const SITZUNG_VERLAENGERN_NACH_MS = 60 * 1000;
+const SITZUNG_MS = SITZUNG_INAKTIV_MINUTEN * 60 * 1000;
 
 export const RATE_FENSTER_MINUTEN = 15;
 export const RATE_MAX_FEHLVERSUCHE = 5;
@@ -124,7 +128,7 @@ export interface NeueSitzung {
 export async function erstelleSitzung(db: Db, benutzerId: string, jetzt = new Date()): Promise<NeueSitzung> {
   const token = randomBytes(32).toString('base64url');
   const csrf = randomBytes(24).toString('base64url');
-  const laeuftAb = new Date(jetzt.getTime() + SITZUNG_TAGE * 24 * 60 * 60 * 1000);
+  const laeuftAb = new Date(jetzt.getTime() + SITZUNG_MS);
   await db.query(
     'INSERT INTO sitzungen (token_hash, benutzer_id, csrf_token, laeuft_ab, zuletzt_aktiv) VALUES ($1, $2, $3, $4, $5)',
     [tokenHash(token), benutzerId, csrf, laeuftAb, jetzt],
@@ -138,7 +142,7 @@ export interface Sitzung {
   csrf: string;
 }
 
-/** Sucht die Sitzung zum Cookie-Token. Verlaengert sie, wenn sie laenger nicht benutzt wurde. */
+/** Sucht die Sitzung zum Cookie-Token. Abgelaufen nach 60 Minuten ohne Anfrage, sonst wird die Frist verlaengert. */
 export async function ladeSitzung(db: Db, token: string, jetzt = new Date()): Promise<Sitzung | null> {
   if (!token || token.length > 200) return null;
   const zeilen = await db.query<
@@ -157,7 +161,7 @@ export async function ladeSitzung(db: Db, token: string, jetzt = new Date()): Pr
     return null;
   }
   if (jetzt.getTime() - new Date(z.zuletzt_aktiv).getTime() > SITZUNG_VERLAENGERN_NACH_MS) {
-    const laeuftAb = new Date(jetzt.getTime() + SITZUNG_TAGE * 24 * 60 * 60 * 1000);
+    const laeuftAb = new Date(jetzt.getTime() + SITZUNG_MS);
     await db.query('UPDATE sitzungen SET zuletzt_aktiv = $2, laeuft_ab = $3 WHERE id = $1', [z.sitzung_id, jetzt, laeuftAb]);
   }
   return { id: z.sitzung_id, benutzer: zuBenutzer(z), csrf: z.csrf_token };

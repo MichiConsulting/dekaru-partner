@@ -84,6 +84,20 @@ describe('Login', () => {
     expect(f.ok).toBe(true);
   });
 
+  it('meldet nach 60 Minuten ohne Aktivitaet ab, Aktivitaet verlaengert', async () => {
+    await erstelleBenutzer(db, { email: 'ida@example.test', name: 'Ida', rolle: 'vertriebler', passwort: 'ida-passwort-1' });
+    const start = new Date();
+    const e = await login(db, { email: 'ida@example.test', passwort: 'ida-passwort-1', ip: '10.0.0.9' });
+    if (!e.ok) throw new Error('Login fehlgeschlagen');
+    const min = (n: number) => new Date(start.getTime() + n * 60 * 1000);
+    // Aktiv nach 50 Minuten: gilt noch und wird verlaengert.
+    expect(await ladeSitzung(db, e.sitzung.token, min(50))).not.toBeNull();
+    // 100 Minuten nach dem Start, aber nur 50 nach der letzten Aktivitaet: gilt.
+    expect(await ladeSitzung(db, e.sitzung.token, min(100))).not.toBeNull();
+    // 61 Minuten Pause seit der letzten Aktivitaet: abgemeldet.
+    expect(await ladeSitzung(db, e.sitzung.token, min(161))).toBeNull();
+  });
+
   it('abgelaufene Sitzungen und deaktivierte Zugaenge gelten nicht', async () => {
     const b = await erstelleBenutzer(db, { email: 'bert@example.test', name: 'Bert', rolle: 'vertriebler', passwort: 'bert-passwort-1' });
     const e = await login(db, { email: 'bert@example.test', passwort: 'bert-passwort-1', ip: '10.0.0.4' });
