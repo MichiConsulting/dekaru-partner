@@ -3,9 +3,12 @@
 Website für die Vertriebspartner von dekaru, später unter `partner.dekaru.de`.
 Jeder Vertriebler hat einen eigenen Login und sieht vier Bereiche:
 
-1. **Lernen**: das Angebot Kapitel für Kapitel, mit Grafiken und Fragen
-   (Auswahl, Wahr/Falsch, Zuordnen, Lückentext). Fortschritt und Punkte werden
-   je Person gespeichert, falsche Fragen lassen sich wiederholen.
+1. **Lernen**: jedes Kapitel als 4 bis 8 Lernkarten mit Grafiken, Kennzahlen
+   und Merksätzen, der lange Text bleibt unter "Ausführlich lesen". Danach die
+   Abfrage auf einer eigenen Seite, eine Frage je Seite (Auswahl, Wahr/Falsch,
+   Zuordnen, Lückentext), Auflösung erst nach der Antwort, am Ende eine
+   Ergebnisseite. Fortschritt und Punkte werden je Person gespeichert, falsche
+   Fragen lassen sich wiederholen.
 2. **Gespräch**: die Gesprächshilfe fürs Handy. Was der Kunde fragt, was der
    Vertriebler sagt, mit Suche und Themen-Chips. Sechs Pflichtsätze sind als
    "wortgleich" markiert und lassen sich unter `/gespraech/ueben` Satz für Satz
@@ -61,6 +64,20 @@ dort keine Kapitel liegen, gilt `app/inhalt-platzhalter/`. Fehlerhafte Fragen
 werden übersprungen und dem Admin unter Lernen aufgelistet. Ein Kapitel gilt
 als erledigt, wenn alle Fragen einmal richtig beantwortet sind. Grafiken sind
 nur angemeldet erreichbar (`/grafiken/<datei>`).
+
+**Lernbereich.** Die Lernkarten kommen aus `../inhalt/lernen/<kapitel>.json`
+(`lib/lernkarten.ts` prüft das Format, Fehler sieht der Admin unter Lernen),
+die Lerngrafiken aus `../inhalt/lernen/grafiken/` werden inline gesetzt und
+nehmen die Farbvariablen `--lk-*` aus `global.css`. Routen je Kapitel:
+`/lernen/<kapitel>` (Karten, mit JavaScript eine nach der anderen, ohne
+untereinander), `/lernen/<kapitel>/lesen` (ganzer Text),
+`/lernen/<kapitel>/abfrage` (eine Frage je Seite, Bewertung auf dem Server,
+die Frage-Seite enthält keine Lösung) und `/lernen/<kapitel>/ergebnis`.
+`/lernen/wiederholen/abfrage` nimmt alle zuletzt falschen Fragen. Der Stand
+liegt in `lernkarten_stand` (zuletzt gesehene Karte, gelesen) und
+`abfrage_durchlaeufe` (ein Durchlauf je Person und Kapitel), die Einzelantworten
+weiter in `quiz_antworten` (Migration `003-lernen.sql`). Styles nur in
+`styles/lernen.css`.
 
 **Gesprächshilfe.** `../inhalt/gespraechshilfe.json` wird ebenfalls beim Build
 eingelesen (`src/lib/inhalt-gespraech.ts`), geprüft (`src/lib/gespraech.ts`)
@@ -182,21 +199,20 @@ holt sich Michi so, dass sie nie in einer Datei landet:
 `db:migrate` ist wiederholbar und wendet nur an, was fehlt. Kommt eine neue
 `NNN-…sql` dazu, denselben Befehl noch einmal.
 
-**Offen seit der Gesprächshilfe:** `002-pflichtsaetze.sql` (Tabelle
-`pflichtsatz_antworten`) ist auf der Live-Datenbank noch nicht angewendet. Nach
-dem Merge einmalig vom Mac aus:
+**Offen seit Gesprächshilfe und neuem Lernbereich:** `002-pflichtsaetze.sql`
+(Tabelle `pflichtsatz_antworten`) und `003-lernen.sql` (Tabellen
+`lernkarten_stand` und `abfrage_durchlaeufe`) sind auf der Live-Datenbank noch
+nicht angewendet. Vor dem Merge nach `main` einmalig vom Mac aus:
 
 ```
 cd ~/dekaru/dekaru-partner/app
 export DATABASE_URL='postgres://…?sslmode=require'
-npm run db:migrate        # meldet "Angewendet: 2"
+npm run db:migrate        # meldet "Angewendet: 2, 3"
 unset DATABASE_URL
 ```
 
-Bis dahin zeigen `/gespraech/ueben` und der Admin-Lernstand auf
-partner.dekaru.de einen Fehler, weil die Tabelle fehlt. Die Seite `/gespraech`
-selbst liest nur beim Übungsstand aus der Datenbank, braucht die Tabelle also
-ebenfalls.
+Bis dahin zeigen `/gespraech`, `/gespraech/ueben`, der Admin-Lernstand und der
+Lernbereich auf partner.dekaru.de einen Fehler, weil die Tabellen fehlen.
 
 ### 6. Deployen und Region prüfen
 

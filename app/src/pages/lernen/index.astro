@@ -1,59 +1,111 @@
 ---
+// Kapiteluebersicht des Lernbereichs: Ring mit dem Gesamtstand, dann eine
+// Kachel je Kapitel mit Lesestand und Abfragestand.
 import Layout from '../../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
-import { fragenJeKapitel, inhaltsQuelle, quizFehler } from '../../lib/inhalt.ts';
-import { falscheFragen, fortschritt } from '../../lib/lernen.ts';
+import LernIcon from '../../components/lernen/LernIcon.astro';
+import Fortschrittsring from '../../components/lernen/Fortschrittsring.astro';
+import '../../styles/lernen.css';
+import { fragenJeKapitel, inhaltsQuelle, lernkarten, lernkartenFehler, quizFehler } from '../../lib/inhalt.ts';
+import { falscheFragen, fortschritt, ladeKartenStand } from '../../lib/lernen.ts';
+import { alleKapitel } from '../../lib/lernkontext.ts';
+import type { Icon } from '../../lib/lernkarten.ts';
 
 const benutzer = Astro.locals.benutzer!;
 const db = Astro.locals.db;
 
-const kapitel = (await getCollection('kapitel')).sort((a, b) => a.data.nummer - b.data.nummer);
+const kapitel = await alleKapitel();
 const stand = await fortschritt(db, benutzer.id, fragenJeKapitel(kapitel.map((k) => k.id)));
 const standJe = new Map(stand.map((s) => [s.kapitel, s]));
+const karten = await ladeKartenStand(db, benutzer.id);
 const erledigt = stand.filter((s) => s.erledigt).length;
+const prozent = kapitel.length ? Math.round((erledigt / kapitel.length) * 100) : 0;
 const richtig = stand.reduce((s, k) => s + k.richtig, 0);
 const fragenGesamt = stand.reduce((s, k) => s + k.fragen, 0);
 const offen = (await falscheFragen(db, benutzer.id)).length;
+const naechstes = kapitel.find((k) => !standJe.get(k.id)?.erledigt);
+
+function kachelIcon(slug: string): Icon {
+  return lernkarten(slug)?.[0]?.icon ?? 'buch';
+}
+
+interface Kachelstand {
+  text: string;
+  prozent: number;
+  fertig: boolean;
+}
+
+function kachelstand(slug: string): Kachelstand {
+  const s = standJe.get(slug);
+  const k = karten.get(slug);
+  const anzahlKarten = lernkarten(slug)?.length ?? 1;
+  if (s?.erledigt) return { text: 'Abgeschlossen', prozent: 100, fertig: true };
+  if (s && s.fragen > 0 && s.beantwortet > 0) {
+    return { text: `${s.richtig} von ${s.fragen} Fragen richtig`, prozent: 50 + Math.round((s.richtig / s.fragen) * 50), fertig: false };
+  }
+  if (k?.gelesen) return { text: 'Gelesen, Abfrage offen', prozent: 50, fertig: false };
+  if (k && k.letzteKarte > 0) {
+    return { text: `Karte ${k.letzteKarte} von ${anzahlKarten}`, prozent: Math.round((k.letzteKarte / anzahlKarten) * 50), fertig: false };
+  }
+  return { text: 'Offen', prozent: 0, fertig: false };
+}
 ---
 
 <Layout titel="Lernen" aktiv="lernen">
-  <h1>Lernen</h1>
-  <p>Das Angebot von dekaru, Kapitel für Kapitel. Am Ende jedes Kapitels ein paar Fragen. Ein Kapitel gilt als erledigt, wenn alle Fragen einmal richtig beantwortet sind.</p>
+  <section class="lb-hero" aria-labelledby="lernen-titel">
+    <Fortschrittsring prozent={prozent} groesse={132} strich={11}>
+      <span class="gross">{erledigt}<span class="klein">von {kapitel.length} Kapiteln</span></span>
+    </Fortschrittsring>
+    <div class="lb-hero__text">
+      <h1 id="lernen-titel">Lernen</h1>
+      <p>Das Angebot von dekaru in {kapitel.length} Kapiteln, jedes in wenigen Karten zusammengefasst. Danach eine kurze Abfrage. Ein Kapitel gilt als abgeschlossen, wenn alle Fragen einmal richtig beantwortet sind.</p>
+      <div class="lb-hero__zahlen">
+        <span><strong>{richtig}</strong>von {fragenGesamt} Fragen richtig</span>
+        <span><strong>{offen}</strong>zum Wiederholen</span>
+      </div>
+      <div class="aktionen" style="margin-top:0">
+        {naechstes ? (
+          <a class="btn" href={`/lernen/${naechstes.id}`}>
+            {standJe.get(naechstes.id)?.beantwortet || karten.get(naechstes.id)?.letzteKarte ? 'Weiterlernen' : 'Loslegen'}: Kapitel {naechstes.data.nummer}
+          </a>
+        ) : (
+          <span class="meta">Alle Kapitel sind abgeschlossen.</span>
+        )}
+        {offen > 0 && <a class="btn btn--zweit" href="/lernen/wiederholen">Falsche Fragen wiederholen</a>}
+      </div>
+    </div>
+  </section>
 
-  <div class="raster">
-    <div class="kennzahl"><div class="kennzahl__wert">{erledigt} / {kapitel.length}</div><div class="kennzahl__label">Kapitel erledigt</div></div>
-    <div class="kennzahl"><div class="kennzahl__wert">{richtig} / {fragenGesamt}</div><div class="kennzahl__label">Fragen zuletzt richtig</div></div>
-    <div class="kennzahl"><div class="kennzahl__wert">{offen}</div><div class="kennzahl__label">Fragen zum Wiederholen</div></div>
-  </div>
-
-  {offen > 0 && <p style="margin-top:var(--space-l)"><a class="btn btn--zweit" href="/lernen/wiederholen">Falsche Fragen wiederholen</a></p>}
-
-  {benutzer.rolle === 'admin' && quizFehler.length > 0 && (
-    <div class="meldung meldung--fehler" style="margin-top:var(--space-l)">
-      <p><strong>Nur für den Admin sichtbar:</strong> {quizFehler.length} Fragen in quiz.json wurden wegen Formatfehlern übersprungen.</p>
-      <ul>{quizFehler.map((f) => <li>{f}</li>)}</ul>
+  {benutzer.rolle === 'admin' && (quizFehler.length > 0 || lernkartenFehler.length > 0) && (
+    <div class="meldung meldung--fehler">
+      <p><strong>Nur für den Admin sichtbar:</strong> Formatfehler in den Inhalten.</p>
+      <ul>
+        {quizFehler.map((f) => <li>quiz.json: {f}</li>)}
+        {lernkartenFehler.map((f) => <li>{f}</li>)}
+      </ul>
     </div>
   )}
 
-  <h2>Kapitel</h2>
-  <ol class="kapitel-liste">
-    {kapitel.map((k) => {
-      const s = standJe.get(k.id);
+  <h2 class="sr-only">Kapitel</h2>
+  <ol class="lb-kacheln">
+    {kapitel.map((k, i) => {
+      const ks = kachelstand(k.id);
       return (
         <li>
-          <a href={`/lernen/${k.id}`}>
-            <span class="nummer" aria-hidden="true">{k.data.nummer}</span>
-            <span class="titel">
-              <span class="sr-only">Kapitel {k.data.nummer}: </span>{k.data.titel}
-              {k.data.kurz && <span class="kurz">{k.data.kurz}</span>}
+          <a class:list={['lb-kachel', ks.fertig && 'ist-fertig']} href={`/lernen/${k.id}`}>
+            <span class:list={['lb-kachel__icon', i % 2 === 0 ? 'ton-1' : 'ton-2']}>
+              <LernIcon name={ks.fertig ? 'haken' : kachelIcon(k.id)} groesse={24} />
             </span>
-            <span class:list={['badge', s?.erledigt && 'badge--voll']}>
-              {s?.erledigt ? 'Erledigt' : s && s.fragen > 0 ? `${s.richtig} / ${s.fragen}` : 'Offen'}
+            <p class="lb-kachel__nummer">Kapitel {k.data.nummer}</p>
+            <p class="lb-kachel__titel">{k.data.titel}</p>
+            {k.data.kurz && <p class="lb-kachel__kurz">{k.data.kurz}</p>}
+            <span class="lb-kachel__stand">
+              <span class="lb-kachel__balken" aria-hidden="true"><span style={`width:${ks.prozent}%`}></span></span>
+              <span class="lb-status"><span class="sr-only">Stand: </span>{ks.text}</span>
             </span>
           </a>
         </li>
       );
     })}
   </ol>
-  {benutzer.rolle === 'admin' && <p class="meta">Inhalte aus {inhaltsQuelle}</p>}
+  {benutzer.rolle === 'admin' && <p class="meta" style="margin-top:var(--space-l)">Inhalte aus {inhaltsQuelle}</p>}
 </Layout>

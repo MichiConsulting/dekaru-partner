@@ -1,0 +1,107 @@
+{
+  "kapitel": "07-do-und-dont",
+  "karten": [
+    {
+      "titel": "Zwei Bereiche: Recht und Marke",
+      "icon": "schild",
+      "saetze": [
+        "Was rechtlich gilt, ist nicht verhandelbar. Was die Marke trägt, entscheidet über die Wirkung. Beides steht am Ende auf einen Blick: Immer links, Nie rechts."
+      ],
+      "grafik": "do-dont-ampel.svg",
+      "merke": "Im Zweifel gilt der Zweifel."
+    },
+    {
+      "titel": "Recht: nur Gewerbe, klar gesagt, wer anruft",
+      "icon": "telefon",
+      "saetze": [
+        "Angerufen und besucht werden nur Gewerbetreibende, unter geschäftlicher Nummer, zu geschäftlichem Anlass (§ 7 UWG). Nie Privatnummern, auch nicht aus dem Impressum. In den ersten Sätzen: Ihr Name, dass Sie für Michael Henning anrufen, worum es geht."
+      ],
+      "merke": "Nicht \"wir von dekaru\" und nie so tun, als wären Sie Michael Henning. Richtig ist: \"Ich rufe für Michael Henning an.\""
+    },
+    {
+      "titel": "Recht: Widerspruch, Mail, Vorschau, Daten",
+      "icon": "kreuz",
+      "saetze": [
+        "Fünf Regeln, die ohne Ausnahme gelten."
+      ],
+      "liste": [
+        "Widerspruch sofort umsetzen: als gesperrt vermerken, melden, nie wieder anrufen. Nicht in drei Monaten, nicht mit anderem Anlass",
+        "Keine Werbemail ohne Einwilligung. Nur die Terminbestätigung, wenn der Betrieb ausdrücklich darum gebeten hat",
+        "Keine Vorschau per Mail, nie. Bittet jemand darum: Wiedervorlage in vier Wochen statt Versand",
+        "Herkunft der Nummer ehrlich nennen: öffentliches Verzeichnis, Website des Betriebs, Branchenbuch",
+        "Kundendaten: keine Passwörter, Übergabe nur auf dem vereinbarten Weg, danach keine Kopie behalten"
+      ],
+      "merke": "\"Melden Sie sich nicht mehr\" beendet das Gespräch, endgültig."
+    },
+    {
+      "titel": "Marke: Ton und Preise",
+      "icon": "sprechblase",
+      "saetze": [
+        "Trocken und ehrlich, nicht schleimig, keine Ausrufezeichen in der Stimme. Am Telefon und im Erstgespräch ist \"ab 600 €\" die einzige Zahl, nie verhandeln. Im Zweittermin nennt in Stufe 1 Michael Henning den Preis, in Stufe 2 Sie."
+      ],
+      "liste": [
+        "Nie zusagen: ein Festpreis am Telefon für einen konkreten Betrieb",
+        "Nie: Rabatt, Nachlass, Sonderpreis, ein Preis \"nur diese Woche\"",
+        "Nie: kostenlose Zusatzleistungen oder ein Preis für etwas außerhalb des Preisrechners",
+        "Nie: die mitarbeitende Funktion zu Klein oder Mittel, oder ohne Hosting bei Michael Henning",
+        "Nie: ein Paket mit getauschten Inhalten oder zu einem anderen Preis"
+      ],
+      "merke": "Die eine Ausnahme ist das Gratisquartal: genau drei Monate, danach mindestens sechs bezahlte, nie als Nachlass auf die Website."
+    },
+    {
+      "titel": "Marke: keine erfundene Nähe, keine Bauzeit",
+      "icon": "karte",
+      "saetze": [
+        "Nirgends so tun, als säße jemand um die Ecke. Nicht \"aus Ihrer Region\", nicht \"hier aus der Gegend\", nicht \"wir sind auch bei Ihnen vertreten\". Und keine Bauzeit, weder Tage noch Wochen, auch nicht ungefähr."
+      ],
+      "zitat": "Er arbeitet für Betriebe in ganz Deutschland, abgestimmt wird per Video, Telefon und Mail.",
+      "merke": "Der Termin steht im Angebot. Eine erfundene Nähe merkt der Betrieb spätestens im Termin, und dann ist die erste Frage nicht mehr die Website."
+    },
+    {
+      "titel": "Marke: nichts versprechen, was es nicht gibt",
+      "icon": "warnung",
+      "saetze": [
+        "Kein Vertrag durch Sie: Angebot, Werkvertrag und AVV kommen von Michael Henning, der Kunde unterschreibt bei ihm. Sie sagen nicht zu, dass etwas enthalten ist, bis wann es fertig ist oder ob er noch aussteigen kann."
+      ],
+      "liste": [
+        "Kein Redaktionssystem zum Selbst-Ändern",
+        "Keine Tischreservierung, keine Terminbuchung mit Kalender",
+        "Keine \"Backups\", sondern ein gesicherter Quellstand",
+        "Keine Referenzkunden, keine Muster vom Aufsteller",
+        "Keine Filterung, dass nur zufriedene Kunden bei Google landen"
+      ],
+      "zitat": "Umso besser, dann geht der Zweittermin schnell. Sie sehen Ihre Seite, und dann machen wir es fest.",
+      "merke": "Das ist die Antwort, wenn ein Betrieb sagt: \"Eigentlich können wir das gleich machen.\""
+    },
+    {
+      "titel": "Marke: nicht lästern, nicht drängen",
+      "icon": "hand",
+      "saetze": [
+        "Über die bestehende Website wird nicht gelästert, über andere Agenturen gar nicht gesprochen. Ein Nein ist ein Nein, nach genau einem Soft-Versuch: \"Liegt's gerade nur am Zeitpunkt?\" Dann bedanken, Wiedervorlage, kein zweiter Anruf am selben Tag."
+      ],
+      "zitat": "Wie zufrieden sind Sie damit, wenn Sie sie auf dem Handy aufmachen?",
+      "merke": "So wird es sein Befund statt Ihr Vorwurf. Ein verärgerter Betrieb ist teurer als zehn nicht erreichte."
+    },
+    {
+      "titel": "Auf einen Blick",
+      "icon": "liste",
+      "saetze": [
+        "Die Tabelle aus dem Kapitel, gekürzt auf die acht häufigsten Fälle. Die vollständige Liste steht im ausführlichen Kapitel."
+      ],
+      "tabelle": {
+        "kopf": ["Immer", "Nie"],
+        "zeilen": [
+          ["Name und \"für Michael Henning\" im ersten Satz", "im eigenen Namen als dekaru auftreten"],
+          ["nur geschäftliche Nummern", "Privatnummern, auch aus dem Impressum"],
+          ["\"ab 600 €\" am Telefon", "Festpreis oder Rabatt am Telefon"],
+          ["das Gratisquartal, genau drei Monate", "andere Gratismonate, Rabatt auf die Website"],
+          ["\"Der Termin steht im Angebot\"", "eine Bauzeit in Tagen oder Wochen"],
+          ["\"gesicherter Quellstand\"", "\"Backups\""],
+          ["Vorschau nur im Termin", "Vorschau per Mail"],
+          ["ehrlich sagen, was man nicht weiß", "Vermutungen als Auskunft"]
+        ]
+      },
+      "merke": "Widerspruch sofort umsetzen, Gestaltungsbeispiele als erfunden benennen, ein Soft-Versuch nach dem Nein."
+    }
+  ]
+}

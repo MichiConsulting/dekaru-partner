@@ -1,0 +1,113 @@
+{
+  "kapitel": "02-website",
+  "karten": [
+    {
+      "titel": "Drei feste Pakete",
+      "icon": "paket",
+      "saetze": [
+        "Seit dem 01.10.2026 gibt es drei feste Pakete: Klein, Mittel und Groß. Jedes hat einen festen Preis und einen festen Inhalt. Was darüber hinaus gebraucht wird, kommt als Zusatzbaustein dazu. Paket plus Bausteine ist der Preis."
+      ],
+      "grafik": "pakete-vergleich.svg",
+      "merke": "Am Telefon und im Erstgespräch heißt es nur \"ab 600 €\". Die Pakete kommen erst im Zweittermin auf den Tisch."
+    },
+    {
+      "titel": "Was in welchem Paket steckt",
+      "icon": "liste",
+      "saetze": [
+        "Klein ist für den Betrieb, der gefunden werden und erreichbar sein will. Mittel für den, der zeigen will, was er kann. Groß für den, dem die Website auch Arbeit abnehmen soll."
+      ],
+      "tabelle": {
+        "kopf": ["", "Klein", "Mittel", "Groß"],
+        "zeilen": [
+          ["Preis", "600 €", "1.300 €", "1.600 €"],
+          ["Aufbau", "eine Seite", "Start + 4 Unterseiten", "Start + 5 Unterseiten"],
+          ["Impressum, Datenschutz, Kontakt, Handy, HTTPS, Anfahrt", "ja", "ja", "ja"],
+          ["Galerie, Leistungskarte, Referenzen, Suchmaschinen-Grundlagen", "", "ja", "ja"],
+          ["Texte von mir", "", "2 Seiten", "4 Seiten"],
+          ["Team-Seite, Bildaufbereitung bis 20 Bilder", "", "", "ja"],
+          ["Mitarbeitende Funktion", "", "", "nur hier"]
+        ]
+      },
+      "merke": "Die Machart wird nicht teurer: Klein ist genauso auf dem Handy gebaut, barrierefrei und DSGVO-fest wie Groß. Groß trägt auf dekaru.de das Zeichen \"Empfohlen\"."
+    },
+    {
+      "titel": "Die mitarbeitende Funktion, nur in Groß",
+      "icon": "zahnrad",
+      "saetze": [
+        "Heute ist das die Online-Terminanfrage: ein Formular mit Wunschtermin, die Anfrage kommt per Mail beim Betrieb an. Reservierung, Terminbuchung und Anfrage mit Foto-Upload sind geplant. Geplant heißt: nicht versprochen."
+      ],
+      "liste": [
+        "Nur in Groß. Nicht als Baustein zu Klein oder Mittel dazukaufbar",
+        "Nur mit Hosting bei Michael Henning, egal in welcher Stufe",
+        "Endet das Hosting, entfällt die Funktion. Die Website bleibt, das Formular nicht"
+      ],
+      "merke": "Verkauft wird, was es heute gibt. Die Bindung ans Hosting sagen Sie dem Betrieb vorher, nicht hinterher."
+    },
+    {
+      "titel": "Warum Groß meist die beste Wahl ist",
+      "icon": "stern",
+      "saetze": [
+        "Mittel ist der Vergleichspunkt: einzeln gerechnet rund 1.500 €, als Paket 1.300 €. Groß kostet nur 300 € mehr und bringt die Funktion, die Team-Seite, die Bildaufbereitung, eine Seite und zwei Texte mehr. Einzeln rund 700 € wert."
+      ],
+      "kennzahl": { "wert": "300 €", "label": "Abstand von Mittel zu Groß" },
+      "zitat": "Für 300 € mehr arbeitet die Seite mit. Sie nimmt Ihnen Terminanfragen ab, auch abends und am Wochenende, wenn bei Ihnen keiner ans Telefon geht.",
+      "merke": "Niemand wird in Groß geredet. Wer nur eine Visitenkarte im Netz braucht, bekommt Klein, und Sie sagen das auch. Ein überredeter Kunde kündigt das Hosting im ersten Jahr."
+    },
+    {
+      "titel": "Zusatzbausteine, zu jedem Paket",
+      "icon": "plus",
+      "saetze": [
+        "Was ein Paket nicht enthält, lässt sich dazubuchen. Ein Baustein, der im Paket schon steckt, wird nicht noch einmal verkauft. Die Karte mit Anfahrt ist überall enthalten und deshalb kein Baustein."
+      ],
+      "tabelle": {
+        "kopf": ["Baustein", "Preis"],
+        "zeilen": [
+          ["Weitere Unterseite", "75 € je Seite"],
+          ["Bildergalerie, Leistungs- oder Speisekarte, Team-Seite, Referenzen", "je 100 €"],
+          ["Ratgeber-Bereich", "300 €"],
+          ["Newsletter-Anmeldung", "150 €"],
+          ["Besucherstatistik ohne Cookies", "90 €"],
+          ["Weitere Sprache", "200 € je Sprache"],
+          ["Texte von mir", "50 € je Seite"],
+          ["Bildaufbereitung", "125 €"],
+          ["Logo-Entwurf", "250 €"],
+          ["Suchmaschinen-Grundlagen", "200 €"],
+          ["Individuelles Feature", "auf Anfrage, Preis nennt nur Michael Henning"]
+        ]
+      },
+      "merke": "Die mitarbeitende Funktion ist nicht als Baustein buchbar. Den früheren Baustein \"Terminanfrage\" für 125 € gibt es nicht mehr."
+    },
+    {
+      "titel": "Drei Beispielrechnungen",
+      "icon": "euro",
+      "saetze": [
+        "Ein Café nimmt Klein mit Speisekarte und Bildergalerie: 800 €. Eine Steuerberatung nimmt Mittel mit Team-Seite: 1.400 €. Ein Friseursalon nimmt Groß mit Logo-Entwurf: 1.850 €."
+      ],
+      "grafik": "beispielrechnungen.svg",
+      "merke": "Beim Friseursalon läuft die Terminanfrage, solange er bei Michael Henning hostet."
+    },
+    {
+      "titel": "Suchmaschinen-Grundlagen und Google-Profil",
+      "icon": "google",
+      "saetze": [
+        "Suchmaschinen-Grundlagen sind Arbeit an der Website: Seitentitel, Beschreibungen, technische Auszeichnung für Google. In Mittel und Groß enthalten, zu Klein für 200 €. Das Google-Unternehmensprofil für 249 oder 490 € ist Arbeit am Eintrag bei Google Maps."
+      ],
+      "grafik": "google-zwei-dinge.svg",
+      "merke": "Das eine macht die Website auffindbar, das andere den Betrieb auf der Karte sichtbar. Niemand zahlt doppelt."
+    },
+    {
+      "titel": "Was dazugehört, aber nicht im Preis steckt",
+      "icon": "dokument",
+      "saetze": [
+        "Vier Dinge gehören zu jeder Website, stehen aber nicht im Paketpreis."
+      ],
+      "liste": [
+        "Hosting: getrennt und optional, Kapitel 3. Bei Groß die Voraussetzung dafür, dass die Funktion läuft",
+        "Domain: auf den Namen des Kunden registriert, laufende Kosten bis 15 € im Jahr im Hosting enthalten",
+        "Zahlung: die Hälfte bei Auftrag, der Rest bei Übergabe. Davon wird nicht abgewichen",
+        "Eine Korrekturrunde nach der Vorstellung der fertigen Seite gehört zum Werkvertrag"
+      ],
+      "merke": "Was nach der Korrekturrunde kommt, läuft über das Hosting-Kontingent."
+    }
+  ]
+}

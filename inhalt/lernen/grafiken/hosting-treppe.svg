@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220" role="img" aria-labelledby="ht-t ht-d" fill="currentColor" font-family="Inter, system-ui, sans-serif" font-size="12">
+  <title id="ht-t">Die drei Hosting-Stufen als Treppe</title>
+  <desc id="ht-d">Drei Stufen von links nach rechts aufsteigend. Start: 19 Euro im Monat, bis 3 Änderungen, gesammelt zum Monatsende. Basis, beliebt: 39 Euro im Monat, bis 5 Änderungen, innerhalb von 3 Werktagen. Plus: nur jährlich 590 Euro, bis 10 Änderungen, innerhalb von 1 Werktag, dazu 2 Umbauten im Jahr.</desc>
+  <style>
+    .f1{fill:var(--lk-f1,#ece6da)}.f2{fill:var(--lk-f2,#e2e7ec)}.ink{fill:var(--lk-ink,#141414)}.p{fill:var(--lk-paper,#ffffff)}.on{fill:var(--lk-paper,#ffffff)}
+    .mu{fill:var(--lk-muted,#5f5f5f)}.h{font-weight:700}.s{font-size:11px}.xl{font-size:18px;font-weight:700}
+  </style>
+  <!-- Stufe 1 -->
+  <rect class="f2" x="4" y="120" width="126" height="96" rx="6"/>
+  <text class="h" x="16" y="142">Start</text>
+  <text class="xl" x="16" y="166">19 €</text><text class="s mu" x="62" y="166">im Monat</text>
+  <text class="s" x="16" y="186">bis 3 Änderungen</text>
+  <text class="s mu" x="16" y="202">Stichtag der 25.</text>
+
+  <!-- Stufe 2 -->
+  <rect class="f1" x="137" y="72" width="126" height="144" rx="6"/>
+  <rect class="ink" x="206" y="80" width="50" height="16" rx="8"/><text class="s h on" x="231" y="92" text-anchor="middle">Beliebt</text>
+  <text class="h" x="149" y="94">Basis</text>
+  <text class="xl" x="149" y="118">39 €</text><text class="s mu" x="195" y="118">im Monat</text>
+  <text class="s" x="149" y="138">bis 5 Änderungen</text>
+  <text class="s mu" x="149" y="154">in 3 Werktagen</text>
+  <text class="s mu" x="149" y="186">monatlich kündbar</text>
+  <text class="s mu" x="149" y="202">oder 390 € im Jahr</text>
+
+  <!-- Stufe 3 -->
+  <rect class="ink" x="270" y="24" width="126" height="192" rx="6"/>
+  <text class="h on" x="282" y="46">Plus</text>
+  <text class="xl on" x="282" y="70">590 €</text><text class="s on" x="340" y="70" opacity="0.8">im Jahr</text>
+  <text class="s on" x="282" y="90">bis 10 Änderungen</text>
+  <text class="s on" x="282" y="106" opacity="0.8">in 1 Werktag</text>
+  <text class="s on" x="282" y="130">2 Umbauten im Jahr</text>
+  <text class="s on" x="282" y="162" opacity="0.8">nur als Jahresvertrag</text>
+  <text class="s on" x="282" y="178" opacity="0.8">zehn Monate zu 59 €</text>
+  <text class="s on" x="282" y="202" opacity="0.8">keine Funktion extra</text>
+</svg>

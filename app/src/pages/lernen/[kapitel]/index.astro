@@ -1,0 +1,178 @@
+---
+// Ein Kapitel als Lernkarten. Ohne JavaScript stehen alle Karten
+// untereinander, mit JavaScript eine nach der anderen (Weiter, Zurueck,
+// Pfeiltasten). Die Abfrage ist eine eigene Seite.
+import Layout from '../../../layouts/Layout.astro';
+import Lernkarte from '../../../components/lernen/Lernkarte.astro';
+import '../../../styles/lernen.css';
+import { lernkarten } from '../../../lib/inhalt.ts';
+import { ersatzKarten } from '../../../lib/lernkarten.ts';
+import { ladeKartenStand } from '../../../lib/lernen.ts';
+import { ladeDurchlauf, zustand } from '../../../lib/abfrage.ts';
+import { ladeKontext } from '../../../lib/lernkontext.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const db = Astro.locals.db;
+const csrf = Astro.locals.csrf ?? '';
+const slug = String(Astro.params.kapitel ?? '');
+
+const kontext = await ladeKontext(db, benutzer.id, slug);
+if (!kontext || kontext.istWiederholen) return new Response('Kapitel nicht gefunden', { status: 404 });
+
+const karten = lernkarten(slug) ?? ersatzKarten(kontext.titel, kontext.kurz);
+const stand = (await ladeKartenStand(db, benutzer.id)).get(slug);
+const start = Math.min(Math.max(stand?.letzteKarte ?? 1, 1), karten.length);
+const durchlauf = await ladeDurchlauf(db, benutzer.id, slug);
+const abfrage = zustand(durchlauf);
+const hatFragen = kontext.fragen.length > 0;
+---
+
+<Layout titel={kontext.titel} aktiv="lernen">
+  <header class="lb-kapitelkopf">
+    <div class="lb-kopfzeile">
+      <p class="meta"><a href="/lernen">Lernen</a> / Kapitel {kontext.nummer}</p>
+      <a class="meta" href={`/lernen/${slug}/lesen`}>Ausführlich lesen</a>
+    </div>
+    <h1>{kontext.titel}</h1>
+    {kontext.kurz && <p class="lb-kurz">{kontext.kurz}</p>}
+    <div class="lb-schritte" data-schritte aria-hidden="true">
+      {karten.map((_, i) => <span class:list={[i + 1 < start && 'ist-fertig', i + 1 === start && 'ist-aktiv']}></span>)}
+    </div>
+  </header>
+
+  <div class="lernkarten" data-lernkarten data-kapitel={slug} data-start={start} data-csrf={csrf} data-anzahl={karten.length}>
+    {karten.map((karte, i) => <Lernkarte karte={karte} nummer={i + 1} gesamt={karten.length} aktiv={i + 1 === start} />)}
+  </div>
+
+  <nav class="lb-nav lb-nav--js" aria-label="Karten" data-nav>
+    <button class="btn btn--zweit" type="button" data-zurueck>Zurück</button>
+    <div class="lb-nav__punkte" data-punkte>
+      {karten.map((k, i) => (
+        <button type="button" data-springe={i + 1} aria-label={`Karte ${i + 1}: ${k.titel}`} aria-current={i + 1 === start ? 'true' : undefined}></button>
+      ))}
+    </div>
+    <button class="btn" type="button" data-weiter>Weiter</button>
+  </nav>
+
+  <section class:list={['lb-abschluss', start === karten.length && 'ist-aktiv']} data-abschluss aria-labelledby="abschluss-titel">
+    <h2 id="abschluss-titel">{hatFragen ? 'Jetzt die Abfrage' : 'Kapitel gelesen'}</h2>
+    {hatFragen ? (
+      <>
+        <p>
+          {kontext.fragen.length} {kontext.fragen.length === 1 ? 'Frage' : 'Fragen'}, eine nach der anderen. Die Auflösung kommt jeweils nach Ihrer Antwort.
+          {abfrage.art === 'frage' || abfrage.art === 'aufloesung' ? ` Sie haben eine Abfrage begonnen und stehen bei Frage ${abfrage.index + 1}.` : ''}
+        </p>
+        <div class="aktionen">
+          {abfrage.art === 'fertig' ? (
+            <>
+              <form method="post" action={`/lernen/${slug}/abfrage`}>
+                <input type="hidden" name="_csrf" value={csrf} />
+                <input type="hidden" name="aktion" value="neu" />
+                <button class="btn" type="submit">Abfrage noch einmal</button>
+              </form>
+              <a class="btn btn--zweit" href={`/lernen/${slug}/ergebnis`}>Letztes Ergebnis</a>
+            </>
+          ) : (
+            <a class="btn" href={`/lernen/${slug}/abfrage`}>
+              {abfrage.art === 'leer' ? 'Zur Abfrage' : 'Abfrage fortsetzen'}
+            </a>
+          )}
+          {kontext.nachher && <a class="btn btn--zweit" href={`/lernen/${kontext.nachher.id}`}>Nächstes Kapitel</a>}
+        </div>
+      </>
+    ) : (
+      <>
+        <p>Zu diesem Kapitel gibt es keine Fragen. Es gilt als abgeschlossen, sobald Sie es gelesen haben.</p>
+        <form method="post" action={`/lernen/${slug}/abfrage`}>
+          <input type="hidden" name="_csrf" value={csrf} />
+          <input type="hidden" name="aktion" value="gelesen" />
+          <div class="aktionen">
+            <button class="btn" type="submit">Als gelesen markieren</button>
+            {kontext.nachher && <a class="btn btn--zweit" href={`/lernen/${kontext.nachher.id}`}>Nächstes Kapitel</a>}
+          </div>
+        </form>
+      </>
+    )}
+  </section>
+
+  <nav class="kapitel-nav" aria-label="Kapitelnavigation">
+    {kontext.vorher ? <a href={`/lernen/${kontext.vorher.id}`}>← {kontext.vorher.data.titel}</a> : <a href="/lernen">← Zur Übersicht</a>}
+    {kontext.nachher ? <a href={`/lernen/${kontext.nachher.id}`}>{kontext.nachher.data.titel} →</a> : <a href="/lernen">Zur Übersicht →</a>}
+  </nav>
+</Layout>
+
+<script>
+  // Karten nacheinander zeigen. Der Stand wird je Karte an den Server
+  // gemeldet, damit die Uebersicht weiss, wo jemand steht.
+  document.documentElement.classList.add('js');
+
+  const wurzel = document.querySelector<HTMLElement>('[data-lernkarten]');
+  if (wurzel) {
+    const karten = Array.from(wurzel.querySelectorAll<HTMLElement>('.lernkarte'));
+    const abschluss = document.querySelector<HTMLElement>('[data-abschluss]');
+    const schritte = Array.from(document.querySelectorAll<HTMLElement>('[data-schritte] span'));
+    const punkte = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-springe]'));
+    const zurueck = document.querySelector<HTMLButtonElement>('[data-zurueck]');
+    const weiter = document.querySelector<HTMLButtonElement>('[data-weiter]');
+    const anzahl = karten.length;
+    const kapitel = wurzel.dataset.kapitel ?? '';
+    const csrf = wurzel.dataset.csrf ?? '';
+    let aktuelle = Math.min(Math.max(Number(wurzel.dataset.start) || 1, 1), anzahl);
+    let gemeldet = 0;
+    const ausUrl = Number(new URLSearchParams(location.search).get('karte'));
+    if (ausUrl >= 1 && ausUrl <= anzahl) aktuelle = ausUrl;
+
+    const melde = (nummer: number) => {
+      if (nummer <= gemeldet) return;
+      gemeldet = nummer;
+      const daten = new URLSearchParams({ _csrf: csrf, karte: String(nummer) });
+      fetch(`/lernen/${kapitel}/karte`, { method: 'POST', body: daten, credentials: 'same-origin', keepalive: true }).catch(() => {});
+    };
+
+    const zeige = (nummer: number, fokus = false) => {
+      aktuelle = Math.min(Math.max(nummer, 1), anzahl);
+      karten.forEach((k, i) => k.classList.toggle('ist-aktiv', i + 1 === aktuelle));
+      schritte.forEach((s, i) => {
+        s.classList.toggle('ist-fertig', i + 1 < aktuelle);
+        s.classList.toggle('ist-aktiv', i + 1 === aktuelle);
+      });
+      punkte.forEach((p, i) => {
+        if (i + 1 === aktuelle) p.setAttribute('aria-current', 'true');
+        else p.removeAttribute('aria-current');
+        p.classList.toggle('ist-gesehen', i + 1 < aktuelle);
+      });
+      if (zurueck) zurueck.disabled = aktuelle === 1;
+      if (weiter) weiter.textContent = aktuelle === anzahl ? 'Zur Abfrage' : 'Weiter';
+      abschluss?.classList.toggle('ist-aktiv', aktuelle === anzahl);
+      const url = new URL(location.href);
+      url.searchParams.set('karte', String(aktuelle));
+      history.replaceState(null, '', url);
+      melde(aktuelle);
+      if (fokus) {
+        const titel = karten[aktuelle - 1]?.querySelector<HTMLElement>('.lernkarte__titel');
+        titel?.setAttribute('tabindex', '-1');
+        titel?.focus({ preventScroll: true });
+        karten[aktuelle - 1]?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      }
+    };
+
+    zurueck?.addEventListener('click', () => zeige(aktuelle - 1, true));
+    weiter?.addEventListener('click', () => {
+      if (aktuelle === anzahl) {
+        const ziel = abschluss?.querySelector<HTMLAnchorElement | HTMLButtonElement>('a.btn, button.btn');
+        ziel?.click();
+        return;
+      }
+      zeige(aktuelle + 1, true);
+    });
+    punkte.forEach((p) => p.addEventListener('click', () => zeige(Number(p.dataset.springe), true)));
+    document.addEventListener('keydown', (e) => {
+      const ziel = e.target as HTMLElement | null;
+      if (ziel && /^(INPUT|TEXTAREA|SELECT)$/.test(ziel.tagName)) return;
+      if (e.key === 'ArrowRight' && aktuelle < anzahl) zeige(aktuelle + 1, true);
+      if (e.key === 'ArrowLeft' && aktuelle > 1) zeige(aktuelle - 1, true);
+    });
+
+    zeige(aktuelle);
+  }
+</script>

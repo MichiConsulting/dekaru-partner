@@ -1,54 +1,70 @@
 ---
+// Einstieg in die Wiederholung aller falschen Fragen. Die Abfrage selbst
+// laeuft unter /lernen/wiederholen/abfrage, eine Frage je Seite.
 import Layout from '../../layouts/Layout.astro';
-import QuizFrage from '../../components/QuizFrage.astro';
+import Fortschrittsring from '../../components/lernen/Fortschrittsring.astro';
+import '../../styles/lernen.css';
 import { frageNachId } from '../../lib/inhalt.ts';
-import { falscheFragen, ladeAntworten } from '../../lib/lernen.ts';
-import { ergebnisseAusAntworten, verarbeiteQuiz } from '../../lib/quiz-durchlauf.ts';
-import { istPost } from '../../lib/http.ts';
+import { falscheFragen } from '../../lib/lernen.ts';
+import { WIEDERHOLEN, ladeDurchlauf, zustand } from '../../lib/abfrage.ts';
+import { alleKapitel } from '../../lib/lernkontext.ts';
 import type { Frage } from '../../lib/quiz.ts';
 
 const benutzer = Astro.locals.benutzer!;
 const db = Astro.locals.db;
 const csrf = Astro.locals.csrf ?? '';
 
-if (istPost(Astro.request)) {
-  const form = await Astro.request.formData();
-  const ids = String(form.get('fragen') ?? '').split(',').filter(Boolean);
-  const fragen = ids.map(frageNachId).filter((f): f is Frage => Boolean(f));
-  const ergebnisse = await verarbeiteQuiz(db, benutzer.id, fragen, form);
-  const richtig = ergebnisse.filter((e) => e.bewertung.richtig).length;
-  return Astro.redirect(`/lernen/wiederholen?richtig=${richtig}&von=${ergebnisse.length}`, 303);
-}
-
 const ids = await falscheFragen(db, benutzer.id);
 const fragen = ids.map(frageNachId).filter((f): f is Frage => Boolean(f));
-const antworten = await ladeAntworten(db, benutzer.id);
-const ergebnisse = ergebnisseAusAntworten(fragen, antworten);
-const richtig = Astro.url.searchParams.get('richtig');
-const von = Astro.url.searchParams.get('von');
+const kapitel = await alleKapitel();
+const titelJe = new Map(kapitel.map((k) => [k.id, `Kapitel ${k.data.nummer}: ${k.data.titel}`]));
+const jeKapitel = new Map<string, number>();
+for (const f of fragen) jeKapitel.set(f.kapitel, (jeKapitel.get(f.kapitel) ?? 0) + 1);
+const laufend = zustand(await ladeDurchlauf(db, benutzer.id, WIEDERHOLEN));
 ---
 
 <Layout titel="Wiederholen" aktiv="lernen">
-  <p class="meta"><a href="/lernen">Lernen</a> / Wiederholen</p>
-  <h1>Falsche Fragen wiederholen</h1>
-  {richtig !== null && (
-    <div class:list={['meldung', fragen.length === 0 ? 'meldung--ok' : 'meldung--fehler']} role="status">
-      <p><strong>{richtig} von {von} richtig.</strong> {fragen.length === 0 ? 'Nichts mehr offen.' : 'Was noch falsch war, steht unten mit Lösung.'}</p>
-    </div>
-  )}
-  {fragen.length === 0 ? (
-    <p>Es gibt keine offenen Fragen. <a href="/lernen">Zurück zur Übersicht</a></p>
-  ) : (
-    <form method="post">
-      <input type="hidden" name="_csrf" value={csrf} />
-      <input type="hidden" name="fragen" value={fragen.map((f) => f.id).join(',')} />
-      {fragen.map((f, i) => {
-        const e = ergebnisse.get(f.id);
-        return <QuizFrage frage={f} nummer={i + 1} antwort={null} bewertung={richtig !== null ? e?.bewertung : null} />;
-      })}
-      <div class="aktionen">
-        <button class="btn" type="submit">Antworten prüfen</button>
+  <div class="lb-ergebnis">
+    <p class="meta"><a href="/lernen">Lernen</a> / Wiederholen</p>
+    <section class="lb-ergebnis__kopf" aria-labelledby="wh-titel">
+      <Fortschrittsring prozent={fragen.length === 0 ? 100 : 0} groesse={132} strich={11}>
+        <span class="gross">{fragen.length}<span class="klein">{fragen.length === 1 ? 'Frage offen' : 'Fragen offen'}</span></span>
+      </Fortschrittsring>
+      <div>
+        <h1 id="wh-titel">Falsche Fragen wiederholen</h1>
+        {fragen.length === 0 ? (
+          <p>Es gibt keine offenen Fragen. Alles, was Sie zuletzt beantwortet haben, war richtig.</p>
+        ) : (
+          <p>Alle Fragen, die beim letzten Versuch nicht gestimmt haben, aus allen Kapiteln. Eine nach der anderen, mit Auflösung nach jeder Antwort.</p>
+        )}
+        <div class="aktionen" style="margin-top:var(--space-m)">
+          {fragen.length > 0 && (
+            <form method="post" action="/lernen/wiederholen/abfrage">
+              <input type="hidden" name="_csrf" value={csrf} />
+              <input type="hidden" name="aktion" value="neu" />
+              <button class="btn" type="submit">{laufend.art === 'frage' || laufend.art === 'aufloesung' ? 'Von vorn beginnen' : 'Wiederholung starten'}</button>
+            </form>
+          )}
+          {(laufend.art === 'frage' || laufend.art === 'aufloesung') && (
+            <a class="btn btn--zweit" href="/lernen/wiederholen/abfrage">Fortsetzen bei Frage {laufend.index + 1}</a>
+          )}
+          <a class="btn btn--zweit" href="/lernen">Zur Übersicht</a>
+        </div>
       </div>
-    </form>
-  )}
+    </section>
+
+    {jeKapitel.size > 0 && (
+      <>
+        <h2>Woher die Fragen kommen</h2>
+        <ul class="lb-ergebnis__liste">
+          {[...jeKapitel.entries()].map(([slug, anzahl]) => (
+            <li>
+              <span>{titelJe.get(slug) ?? slug}</span>
+              <span class="meta" style="margin-left:auto">{anzahl} {anzahl === 1 ? 'Frage' : 'Fragen'}</span>
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+  </div>
 </Layout>

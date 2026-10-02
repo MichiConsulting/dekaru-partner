@@ -1,0 +1,87 @@
+{
+  "kapitel": "05-zusatzleistungen",
+  "karten": [
+    {
+      "titel": "Drei Leistungen neben der Website",
+      "icon": "plus",
+      "saetze": [
+        "Google-Unternehmensprofil, Bewertungs-Aufsteller und Sichtbarkeits-Check kommen zur Website dazu, ersetzen sie aber nicht. Ihr Wert für Sie: sie erhöhen den Auftrag im selben Termin."
+      ],
+      "grafik": "zusatzleistungen-drei.svg",
+      "merke": "Ihre 35 % gelten auf Google-Profil und Aufsteller. Beim Sichtbarkeits-Check nur, wenn er im Erstauftrag mitverkauft wird."
+    },
+    {
+      "titel": "Google-Unternehmensprofil",
+      "icon": "google",
+      "saetze": [
+        "Der Eintrag rechts bei Google und der Punkt auf der Karte, mit Öffnungszeiten, Leistungen, Fotos und Bewertungen. Für Laufkundschaft und \"in meiner Nähe\"-Suchen bringt er oft mehr als die Website. Braucht keine Website."
+      ],
+      "tabelle": {
+        "kopf": ["Stufe", "Preis", "Was drin ist"],
+        "zeilen": [
+          ["Einrichten", "249 €", "Eintrag anlegen oder übernehmen, Kategorien, Öffnungszeiten, Leistungen, Fotos"],
+          ["Einrichten und ausbauen", "490 €", "wie oben, dazu Feinarbeit an Kategorien und Beschreibung und vier fertig vorbereitete Beiträge"]
+        ]
+      },
+      "zitat": "Haben Sie Ihren Google-Eintrag schon mal selbst angeschaut? Bei vielen Betrieben stehen da noch die Öffnungszeiten von vor drei Jahren, oder der Eintrag gehört noch dem Vorbesitzer. Das lässt sich in Ordnung bringen, und für Laufkundschaft bringt das oft mehr als die Website.",
+      "merke": "Lässt sich auch an Betriebe verkaufen, die gerade keine Website wollen."
+    },
+    {
+      "titel": "Bewertungs-Aufsteller mit QR-Code",
+      "icon": "stern",
+      "saetze": [
+        "Ein Aufsteller für den Tresen, dazu Aufkleber und ein Beileger für Rechnungen, alle mit einem Code zum Bewertungsformular. Mehr Bewertungen heißt weiter oben bei Google. Braucht keine Website, aber ein Google-Unternehmensprofil."
+      ],
+      "kennzahl": { "wert": "190 €", "label": "plus Druckkosten von etwa 15 bis 30 €, die der Betrieb direkt an die Druckerei zahlt" },
+      "zitat": "Wie viele Bewertungen haben Sie bei Google? Und wie viele zufriedene Kunden hatten Sie letzten Monat? Der Unterschied liegt fast nie an der Zufriedenheit, sondern daran, dass es keiner macht, wenn man ihn nicht dran erinnert.",
+      "merke": "Beides zusammen zu verkaufen ergibt Sinn: erst das Profil, dann der Aufsteller."
+    },
+    {
+      "titel": "Zwei Dinge, die beim Aufsteller nie gesagt werden",
+      "icon": "warnung",
+      "saetze": [
+        "Der Code zeigt für alle auf dasselbe Ziel. Und: keine Muster zeigen, der Aufsteller wird erst gebaut, wenn ihn jemand bestellt. Sprechen Sie über die Wirkung, nicht über das Aussehen."
+      ],
+      "liste": [
+        "Kein Liefertermin unter zwei Wochen. Zwei Wochen als Rahmen nennen, geliefert wird meist früher. Die einzige Lieferzeit, die Sie überhaupt nennen dürfen",
+        "Nie versprechen, dass nur zufriedene Kunden bei Google landen. Das verstößt gegen Googles Richtlinien und kann den Betrieb sein ganzes Profil kosten"
+      ],
+      "zitat": "Das machen manche, und es ist gegen die Regeln von Google. Wenn das auffällt, ist der Eintrag weg. Wir machen das nicht.",
+      "merke": "Zwei Wochen als Rahmen, kein Filter für Bewertungen, keine Muster."
+    },
+    {
+      "titel": "Sichtbarkeits-Check",
+      "icon": "lupe",
+      "saetze": [
+        "Einmal im Jahr prüft Michael Henning Auffindbarkeit, Ladezeit, tote Links und den Google-Eintrag, setzt das Wichtigste um und schreibt einen Bericht auf zwei Seiten ohne Fachbegriffe. Nicht beim Erstauftrag aktiv ansprechen."
+      ],
+      "kennzahl": { "wert": "390 €", "label": "je Jahr, setzt als einzige der drei Leistungen eine Website voraus" },
+      "merke": "Provision nur, wenn er im Erstauftrag mitverkauft wird. Später gebucht ist er Folgegeschäft ohne Provision. Rechnen Sie nicht damit."
+    },
+    {
+      "titel": "Wann Sie was ansprechen",
+      "icon": "weg",
+      "saetze": [
+        "Am Telefon: nichts davon. Im Erstgespräch: erklären, was es gibt, und notieren, was den Betrieb interessiert, Preise erst in Stufe 2. Im Zweittermin: nach der Website, dann passt die Frage nach dem Google-Eintrag von selbst."
+      ],
+      "grafik": "zusatzleistungen-wann.svg",
+      "zitat": "Das weiß ich nicht sicher, und ich will Ihnen nichts Falsches sagen. Das klären wir mit Herrn Henning.",
+      "merke": "Was Sie nicht kennen, sagen Sie nicht zu. Was der Kunde will, kommt auf den Briefing-Bogen."
+    },
+    {
+      "titel": "Was das für Ihre Provision bedeutet",
+      "icon": "euro",
+      "saetze": [
+        "Rund 150 € mehr für zwei Fragen im selben Termin."
+      ],
+      "tabelle": {
+        "kopf": ["", "Preis", "Ihre 35 %"],
+        "zeilen": [
+          ["Paket Groß allein", "1.600 €", "560 €"],
+          ["Paket Groß plus Google-Profil (249 €) und Aufsteller (190 €)", "2.039 €", "713,65 €"]
+        ]
+      },
+      "merke": "Deshalb lohnt es sich, den Google-Eintrag immer anzusprechen, auch wenn der Betrieb nicht danach fragt."
+    }
+  ]
+}

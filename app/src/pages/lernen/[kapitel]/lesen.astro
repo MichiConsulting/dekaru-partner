@@ -1,0 +1,33 @@
+---
+// Das ausfuehrliche Kapitel, derselbe Text wie im PDF-Informationsblatt.
+import Layout from '../../../layouts/Layout.astro';
+import { render } from 'astro:content';
+import '../../../styles/lernen.css';
+import { ladeKontext } from '../../../lib/lernkontext.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const db = Astro.locals.db;
+const slug = String(Astro.params.kapitel ?? '');
+
+const kontext = await ladeKontext(db, benutzer.id, slug);
+if (!kontext?.eintrag) return new Response('Kapitel nicht gefunden', { status: 404 });
+const { Content } = await render(kontext.eintrag);
+---
+
+<Layout titel={`${kontext.titel}, ausführlich`} aktiv="lernen">
+  <div class="lb-kopfzeile" style="max-width:var(--measure)">
+    <p class="meta"><a href="/lernen">Lernen</a> / <a href={`/lernen/${slug}`}>Kapitel {kontext.nummer}</a> / Ausführlich</p>
+    <a class="meta" href={`/lernen/${slug}`}>Zu den Lernkarten</a>
+  </div>
+  <article class="prosa">
+    <Content />
+  </article>
+  <div class="aktionen">
+    <a class="btn btn--zweit" href={`/lernen/${slug}`}>Zu den Lernkarten</a>
+    {kontext.fragen.length > 0 && <a class="btn" href={`/lernen/${slug}/abfrage`}>Zur Abfrage</a>}
+  </div>
+  <nav class="kapitel-nav" aria-label="Kapitelnavigation">
+    {kontext.vorher ? <a href={`/lernen/${kontext.vorher.id}/lesen`}>← {kontext.vorher.data.titel}</a> : <a href="/lernen">← Zur Übersicht</a>}
+    {kontext.nachher ? <a href={`/lernen/${kontext.nachher.id}/lesen`}>{kontext.nachher.data.titel} →</a> : <a href="/lernen">Zur Übersicht →</a>}
+  </nav>
+</Layout>

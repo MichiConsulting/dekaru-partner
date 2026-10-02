@@ -1,0 +1,75 @@
+{
+  "kapitel": "01-dekaru",
+  "karten": [
+    {
+      "titel": "dekaru in einem Satz",
+      "icon": "sprechblase",
+      "saetze": [
+        "dekaru baut Websites für kleine Betriebe, zu einem Festpreis, den der Betrieb vorher kennt, und zeigt ihm die Seite fertig gebaut, bevor er sich entscheidet."
+      ],
+      "kennzahl": { "wert": "ab 600 €", "label": "kostet jede Website" },
+      "merke": "Festpreis vorher, Vorschau vorher. Das ist der Kern von allem, was Sie erzählen."
+    },
+    {
+      "titel": "Wer dahintersteht",
+      "icon": "person",
+      "saetze": [
+        "dekaru ist der Markenname. Dahinter steht ein Mensch: Michael Henning, Webdesigner, für Betriebe in ganz Deutschland. Kein Team, keine Agentur. Wer den Auftrag bespricht, baut die Website auch."
+      ],
+      "tabelle": {
+        "kopf": ["", ""],
+        "zeilen": [
+          ["Marke", "dekaru, immer kleingeschrieben"],
+          ["Gewerbe", "Michael Henning Consulting"],
+          ["Steuer", "Kleinunternehmer nach § 19 UStG, keine Umsatzsteuer"]
+        ]
+      },
+      "merke": "Alle Preise sind Endpreise. Ihre Provision wird auf genau die Zahl gerechnet, die auf der Rechnung steht."
+    },
+    {
+      "titel": "Was verkauft wird",
+      "icon": "paket",
+      "saetze": [
+        "Websites für Betriebe mit etwa einem bis dreißig Mitarbeitenden: Handwerk, Gastronomie, Dienstleister, Praxen, Kanzleien. Grundlage sind zehn Branchenvorlagen. Kein Baukasten von der Stange, aber auch keine Neuentwicklung bei null."
+      ],
+      "liste": [
+        "Auf dem Handy gebaut, nicht nur verkleinert",
+        "Barrierefrei nach BFSG, das Gesetz gilt seit Juni 2025",
+        "Schriften auf dem eigenen Server, kein Aufruf bei Google Fonts",
+        "Kein Tracking ohne Einwilligung",
+        "Verschlüsselung, Impressum und Datenschutzerklärung immer dabei"
+      ],
+      "merke": "Dazu kommen Hosting mit Pflege (Kapitel 3) und drei Zusatzleistungen rund um Google (Kapitel 5)."
+    },
+    {
+      "titel": "Die vier Argumente, die überall tragen",
+      "icon": "stern",
+      "saetze": [
+        "Festpreis vorher: der Betrieb weiß vor dem Start, was auf der Rechnung steht. Man sieht es vorher: eine gebaute Vorschau mit echten Daten. Ein Termin, der gilt. Ab dem Auftrag ein Ansprechpartner."
+      ],
+      "grafik": "vier-argumente.svg",
+      "merke": "Eine pauschale Bauzeit gibt es nicht. Der Fertigstellungstermin steht als Datum im Angebot und ist im Werkvertrag verbindlich."
+    },
+    {
+      "titel": "Ein Ansprechpartner",
+      "icon": "telefon",
+      "saetze": [
+        "Bis zur Unterschrift sind Sie das Gesicht. Ab dem Auftrag läuft alles direkt mit Michael Henning: Rückfragen, Freigabe, Abnahme, später das Hosting. Eine Nummer, eine Mailadresse, dieselbe Person."
+      ],
+      "merke": "Nach dem Auftrag vermitteln Sie nicht mehr. Sie bekommen den Ausgang gemeldet."
+    },
+    {
+      "titel": "Was ehrlich gesagt wird",
+      "icon": "warnung",
+      "saetze": [
+        "Stand 01.10.2026 hat dekaru noch kein bezahltes Kundenprojekt. Das wird nicht umschifft und nicht angedeutet. Wer von \"zufriedenen Kunden\" spricht, sagt etwas Falsches, und zwar in Michael Hennings Namen."
+      ],
+      "liste": [
+        "Zeigen dürfen Sie dekaru.de selbst: die stärkste Arbeitsprobe, die es ohne Kundenprojekt gibt",
+        "Und die vier Gestaltungsbeispiele: Trattoria, Tattoo-Studio, Metallbauer, Kanzlei. Erfunden, mit sichtbarem Hinweis, sie zeigen die Machart"
+      ],
+      "zitat": "Er fängt gerade an, das sage ich Ihnen offen. Was Sie davon haben: mehr Aufmerksamkeit als bei jemandem mit vollem Auftragsbuch. Und glauben müssen Sie nichts, Sie sehen Ihre eigene Seite fertig gebaut, bevor Sie sich entscheiden.",
+      "merke": "Eine Referenz beweist, dass jemand anderes zufrieden war. Die Vorschau beweist, was der Betrieb selbst bekommt. Das ist mehr wert, und es ist wahr."
+    }
+  ]
+}
