@@ -44,6 +44,20 @@
   --fehler: #8a1c1c;
   --fehler-bg: #f8e5e5;
   --focus: #141414;
+
+  /* Lernbereich: ruhige Flaechen fuer Karten und Grafiken, kein Akzent.
+     Jede Variable hat ein Gegenstueck im dunklen Modus. */
+  --lk-paper: #ffffff;
+  --lk-f1: #ece6da;
+  --lk-f2: #e3e8ec;
+  --lk-f3: #cfcfc9;
+  --lk-ink: #141414;
+  --lk-muted: #5f5f5f;
+  --lk-line: #b8b8b8;
+  --lk-warn: #8a5a00;
+  /* Die Kapitelgrafiken aus inhalt/grafiken sind fuer hellen Grund gezeichnet
+     und liegen in beiden Modi auf Papier. */
+  --grafik-papier: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -64,6 +78,16 @@
     --fehler: #f0a5a5;
     --fehler-bg: #3a1717;
     --focus: #f2f2f2;
+
+    --lk-paper: #1f1f1f;
+    --lk-f1: #2d2823;
+    --lk-f2: #222a31;
+    --lk-f3: #454545;
+    --lk-ink: #f2f2f2;
+    --lk-muted: #a8a8a8;
+    --lk-line: #4a4a4a;
+    --lk-warn: #e0b24a;
+    --grafik-papier: #ffffff;
   }
 }
 
