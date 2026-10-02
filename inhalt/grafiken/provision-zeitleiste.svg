@@ -28,10 +28,10 @@
   <g font-size="11">
     <rect x="46" y="116" width="48" height="22" fill="#141414"/>
     <text x="70" y="131" text-anchor="middle" fill="#FFFFFF">800 €</text>
-    <text class="m" x="70" y="152" text-anchor="middle" font-size="10">Anzahlung</text>
+    <text class="m" x="70" y="152" text-anchor="middle" font-size="11">Anzahlung</text>
     <rect x="106" y="116" width="48" height="22" fill="#141414"/>
     <text x="130" y="131" text-anchor="middle" fill="#FFFFFF">800 €</text>
-    <text class="m" x="130" y="152" text-anchor="middle" font-size="10">Abnahme</text>
+    <text class="m" x="130" y="152" text-anchor="middle" font-size="11">Abnahme</text>
     <rect x="166" y="116" width="168" height="22" fill="#EEEEEB" stroke="#C9C9C5"/>
     <text x="250" y="131" text-anchor="middle">Hosting gratis</text>
     <rect x="346" y="116" width="414" height="22" fill="#D9D9D5" stroke="#C9C9C5"/>
@@ -44,17 +44,17 @@
     <!-- Einmalig: monatlich zum 5. -->
     <line x1="130" y1="200" x2="130" y2="226" stroke="#7B1E2B" stroke-width="2"/>
     <text class="h acc" x="124" y="242" text-anchor="end" font-size="13">280 €</text>
-    <text class="m" x="124" y="258" text-anchor="end" font-size="10">5. Nov.</text>
+    <text class="m" x="124" y="258" text-anchor="end" font-size="11">5. Nov.</text>
     <line x1="190" y1="200" x2="190" y2="226" stroke="#7B1E2B" stroke-width="2"/>
     <text class="h acc" x="196" y="242" font-size="13">280 €</text>
-    <text class="m" x="196" y="258" font-size="10">5. Dez.</text>
+    <text class="m" x="196" y="258" font-size="11">5. Dez.</text>
     <!-- Hosting: vierteljährlich -->
     <line x1="430" y1="200" x2="430" y2="226" stroke="#141414" stroke-width="2"/>
     <text class="h" x="430" y="242" text-anchor="middle" font-size="13">13,65 €</text>
-    <text class="m" x="430" y="258" text-anchor="middle" font-size="10">5. Apr., für März</text>
+    <text class="m" x="430" y="258" text-anchor="middle" font-size="11">5. Apr., für März</text>
     <line x1="610" y1="200" x2="610" y2="226" stroke="#141414" stroke-width="2"/>
     <text class="h" x="610" y="242" text-anchor="middle" font-size="13">40,95 €</text>
-    <text class="m" x="610" y="258" text-anchor="middle" font-size="10">5. Juli, für Apr. bis Juni</text>
+    <text class="m" x="610" y="258" text-anchor="middle" font-size="11">5. Juli, für Apr. bis Juni</text>
     <text class="m" x="760" y="242" text-anchor="end" font-size="11">weiter je Quartal ...</text>
   </g>
 
