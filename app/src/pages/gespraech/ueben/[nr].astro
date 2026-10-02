@@ -1,0 +1,414 @@
+---
+// Ein Pflichtsatz je Schritt. Die Loesung steht erst nach dem Absenden auf
+// der Seite, vorher nur die Kundenfrage und die Aufgabe. Ohne JavaScript
+// laeuft alles ueber Textfelder und Auswahllisten.
+import Layout from '../../../layouts/Layout.astro';
+import { pflichtsatzListe } from '../../../lib/inhalt-gespraech.ts';
+import {
+  MODI,
+  bewerteUebung,
+  feldname,
+  lueckenAufgabe,
+  mitName,
+  modusFuerVersuch,
+  reihenfolgeAufgabe,
+  uebungsAntwortAusFormular,
+  type Modus,
+  type UebungsAntwort,
+} from '../../../lib/gespraech.ts';
+import { ladeUebungsstand, speichereUebung } from '../../../lib/gespraech-fortschritt.ts';
+import { istPost } from '../../../lib/http.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const db = Astro.locals.db;
+const csrf = Astro.locals.csrf ?? '';
+
+const nr = Number(Astro.params.nr);
+const eintrag = Number.isInteger(nr) && nr >= 1 && nr <= pflichtsatzListe.length ? pflichtsatzListe[nr - 1] : null;
+if (!eintrag || !eintrag.uebung) return new Response('Satz nicht gefunden', { status: 404 });
+
+const satz = mitName(eintrag.antwort, benutzer.name);
+const uebung = { luecken: eintrag.uebung.luecken, teile: eintrag.uebung.teile.map((t) => mitName(t, benutzer.name)) };
+const anzahl = (modus: Modus) => (modus === 'luecken' ? uebung.luecken.length : uebung.teile.length);
+
+if (istPost(Astro.request)) {
+  const form = await Astro.request.formData();
+  const modusRoh = String(form.get('modus') ?? '');
+  const modus: Modus = (MODI as string[]).includes(modusRoh) ? (modusRoh as Modus) : 'luecken';
+  const seedRoh = String(form.get('seed') ?? '');
+  const seed = /^[a-z0-9-]{1,40}$/.test(seedRoh) ? seedRoh : `${eintrag.id}-0`;
+  const gemischt = modus === 'reihenfolge' ? reihenfolgeAufgabe(uebung.teile, seed) : [];
+  let antwort: UebungsAntwort = uebungsAntwortAusFormular(modus, anzahl(modus), form);
+  if (antwort.typ === 'reihenfolge') antwort = { ...antwort, gemischt };
+  const bewertung = bewerteUebung(modus, satz, uebung, gemischt, antwort);
+  await speichereUebung(db, benutzer.id, eintrag.id, modus, bewertung.richtig, antwort);
+  return Astro.redirect(`/gespraech/ueben/${nr}?ergebnis=1`, 303);
+}
+
+const stand = (await ladeUebungsstand(db, benutzer.id)).get(eintrag.id);
+const zeigeErgebnis = Astro.url.searchParams.get('ergebnis') === '1' && Boolean(stand?.antwort);
+
+const versuche = stand?.versuche ?? 0;
+const modus: Modus = zeigeErgebnis && stand ? stand.modus : modusFuerVersuch(versuche);
+const seed = `${eintrag.id}-${versuche}`;
+const gemischt =
+  modus !== 'reihenfolge' ? [] : zeigeErgebnis && stand?.antwort?.typ === 'reihenfolge' && stand.antwort.gemischt ? stand.antwort.gemischt : reihenfolgeAufgabe(uebung.teile, seed);
+const antwort = zeigeErgebnis ? stand!.antwort! : null;
+const bewertung = antwort ? bewerteUebung(modus, satz, uebung, gemischt, antwort) : null;
+
+const teile = lueckenAufgabe(satz, uebung.luecken);
+const lueckenTeile = teile.filter((t): t is Extract<typeof t, { art: 'luecke' }> => t.art === 'luecke');
+const eingaben = antwort?.typ === 'luecken' ? antwort.eingaben : [];
+const reihenfolge = antwort?.typ === 'reihenfolge' ? antwort.reihenfolge : [];
+
+const weiter = nr < pflichtsatzListe.length ? `/gespraech/ueben/${nr + 1}` : '/gespraech/ueben';
+const MODUS_LABEL: Record<Modus, string> = { luecken: 'Lückentext', reihenfolge: 'Satzteile ordnen' };
+---
+
+<Layout titel={`Satz ${nr} von ${pflichtsatzListe.length}`} aktiv="gespraech" schmal>
+  <p class="meta"><a href="/gespraech/ueben">Üben</a> / Satz {nr} von {pflichtsatzListe.length}</p>
+  <div class="ue-fortschritt" aria-hidden="true">
+    {pflichtsatzListe.map((_, i) => <span class:list={[i + 1 <= nr && 'ist-aktiv']}></span>)}
+  </div>
+
+  <p class="ue-label">Der Kunde sagt</p>
+  <h1 class="ue-frage">{eintrag.frage}</h1>
+
+  {bewertung && antwort ? (
+    <section class="ue-karte" aria-labelledby="ergebnis">
+      <div class:list={['meldung', bewertung.richtig ? 'meldung--ok' : 'meldung--fehler']} role="status">
+        <p id="ergebnis"><strong>{bewertung.richtig ? 'Sitzt.' : 'Noch nicht.'}</strong> {bewertung.richtig ? 'Der Satz stimmt wortgleich.' : 'Unten steht der ganze Satz. Noch einmal üben, dann in der anderen Form.'}</p>
+      </div>
+      <p class="ue-label">Der Satz, wortgleich</p>
+      <p class="ue-loesung">{satz}</p>
+      {antwort.typ === 'luecken' && (
+        <ul class="ue-vergleich">
+          {lueckenTeile.map((t) => (
+            <li class:list={[bewertung.teile[t.index] ? 'ist-richtig' : 'ist-falsch']}>
+              <span class="ue-vergleich__status">{bewertung.teile[t.index] ? 'Richtig' : 'Falsch'}</span>
+              <span>Lücke {t.index + 1}: {eingaben[t.index]?.trim() ? `„${eingaben[t.index]}“` : 'leer'}{!bewertung.teile[t.index] && <>, richtig: <strong>{t.loesung}</strong></>}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+      {antwort.typ === 'reihenfolge' && (
+        <>
+          <p class="ue-label">Ihre Reihenfolge</p>
+          <ol class="ue-vergleich">
+            {uebung.teile.map((_, p) => {
+              const index = reihenfolge[p];
+              const text = index !== undefined && index >= 0 ? gemischt[index] : null;
+              return (
+                <li class:list={[bewertung.teile[p] ? 'ist-richtig' : 'ist-falsch']}>
+                  <span class="ue-vergleich__status">{bewertung.teile[p] ? 'Richtig' : 'Falsch'}</span>
+                  <span>{text ?? 'leer'}</span>
+                </li>
+              );
+            })}
+          </ol>
+        </>
+      )}
+      <div class="aktionen">
+        {bewertung.richtig ? (
+          <>
+            <a class="btn" href={weiter}>{nr < pflichtsatzListe.length ? 'Weiter zum nächsten Satz' : 'Zur Übersicht'}</a>
+            <a class="btn btn--zweit" href={`/gespraech/ueben/${nr}`}>Noch einmal</a>
+          </>
+        ) : (
+          <>
+            <a class="btn" href={`/gespraech/ueben/${nr}`}>Noch einmal üben</a>
+            <a class="btn btn--zweit" href={weiter}>Erst mal weiter</a>
+          </>
+        )}
+      </div>
+    </section>
+  ) : (
+    <form method="post" class="ue-karte" data-uebung={modus}>
+      <input type="hidden" name="_csrf" value={csrf} />
+      <input type="hidden" name="modus" value={modus} />
+      <input type="hidden" name="seed" value={seed} />
+      <p class="ue-label">{MODUS_LABEL[modus]}</p>
+
+      {modus === 'luecken' && (
+        <fieldset>
+          <legend class="sr-only">Füllen Sie die Lücken aus</legend>
+          <p class="ue-luecken">
+            {teile.map((t) =>
+              t.art === 'text' ? (
+                <span>{t.text}</span>
+              ) : (
+                <input
+                  type="text"
+                  name={feldname('luecken', t.index)}
+                  aria-label={`Lücke ${t.index + 1}`}
+                  autocomplete="off"
+                  autocapitalize="off"
+                  spellcheck="false"
+                  size={Math.max(4, Math.min(t.loesung.length + 2, 24))}
+                  required
+                />
+              ),
+            )}
+          </p>
+          <p class="meta">Groß- und Kleinschreibung spielt keine Rolle.</p>
+        </fieldset>
+      )}
+
+      {modus === 'reihenfolge' && (
+        <fieldset>
+          <legend class="sr-only">Bringen Sie die Satzteile in die richtige Reihenfolge</legend>
+          <div class="ue-auswahl" data-auswahl>
+            {gemischt.map((t, i) => (
+              <div class="ue-auswahl__zeile">
+                <label for={`${feldname('reihenfolge', i)}-sel`}>{t}</label>
+                <select id={`${feldname('reihenfolge', i)}-sel`} name={feldname('reihenfolge', i)} required>
+                  <option value="">Position</option>
+                  {gemischt.map((_, p) => <option value={p + 1}>{p + 1}</option>)}
+                </select>
+              </div>
+            ))}
+          </div>
+          <div class="ue-tippen js-nur" data-tippen>
+            <p class="meta">Tippen Sie die Teile in der richtigen Reihenfolge an. Ein Teil im Satz lässt sich durch Antippen wieder herausnehmen.</p>
+            <p class="ue-label">Ihr Satz</p>
+            <div class="ue-satz" data-satz aria-live="polite"></div>
+            <p class="ue-fehlt" role="alert" data-fehlt hidden></p>
+            <p class="ue-label">Teile</p>
+            <div class="ue-teile" data-teile>
+              {gemischt.map((t, i) => (
+                <button type="button" data-index={i}>{t}</button>
+              ))}
+            </div>
+          </div>
+        </fieldset>
+      )}
+
+      <div class="aktionen">
+        <button class="btn" type="submit">Antwort prüfen</button>
+        <a class="btn btn--zweit" href="/gespraech/ueben">Abbrechen</a>
+      </div>
+    </form>
+  )}
+</Layout>
+
+<style>
+  .ue-fortschritt {
+    display: flex;
+    gap: 4px;
+    margin: var(--space-s) 0 var(--space-l);
+  }
+  .ue-fortschritt span {
+    flex: 1;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--surface-2);
+  }
+  .ue-fortschritt span.ist-aktiv {
+    background: var(--text);
+  }
+  .ue-label {
+    margin: 0 0 var(--space-xs);
+    color: var(--text-muted);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .ue-frage {
+    margin-bottom: var(--space-l);
+  }
+  .ue-karte {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-l);
+  }
+  .ue-karte .meldung {
+    margin-top: 0;
+  }
+  .ue-loesung {
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: var(--space-l);
+  }
+  .ue-luecken {
+    font-size: 17px;
+    line-height: 2.4;
+  }
+  .ue-luecken input {
+    display: inline-block;
+    min-height: 40px;
+    padding: 2px var(--space-s);
+    margin: 0 2px;
+    border: 0;
+    border-bottom: 2px solid var(--border-strong);
+    background: var(--surface-2);
+    border-radius: 3px 3px 0 0;
+    font: 400 16px var(--font-body);
+    color: var(--text);
+  }
+  .ue-luecken input:focus {
+    border-bottom-color: var(--text);
+    outline: none;
+  }
+  .ue-auswahl {
+    display: grid;
+    gap: var(--space-s);
+  }
+  .ue-auswahl__zeile {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-s);
+    align-items: center;
+    padding: var(--space-s) var(--space-m);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .ue-auswahl__zeile label {
+    font-weight: 500;
+  }
+  .ue-auswahl__zeile select {
+    min-height: 40px;
+    min-width: 96px;
+    padding: var(--space-s);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    font: 400 var(--text-small) var(--font-body);
+  }
+  .js-nur {
+    display: none;
+  }
+  :global(.js) .js-nur {
+    display: block;
+  }
+  :global(.js) .ue-auswahl {
+    display: none;
+  }
+  .ue-satz,
+  .ue-teile {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    margin-bottom: var(--space-l);
+  }
+  .ue-satz {
+    min-height: 56px;
+    padding: var(--space-s);
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius);
+  }
+  .ue-satz button,
+  .ue-teile button {
+    min-height: 44px;
+    padding: var(--space-s) var(--space-m);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    font: 400 var(--text-body) var(--font-body);
+    text-align: left;
+    cursor: pointer;
+  }
+  .ue-satz button {
+    background: var(--surface-2);
+    border-color: var(--text);
+  }
+  .ue-teile button[hidden] {
+    display: none;
+  }
+  .ue-fehlt {
+    color: var(--fehler);
+    font-size: var(--text-small);
+    font-weight: 500;
+    margin: calc(-1 * var(--space-m)) 0 var(--space-m);
+  }
+  .ue-fehlt[hidden] {
+    display: none;
+  }
+  .ue-vergleich {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-m);
+    display: grid;
+    gap: var(--space-xs);
+  }
+  .ue-vergleich li {
+    display: flex;
+    gap: var(--space-m);
+    align-items: baseline;
+    margin: 0;
+    font-size: var(--text-small);
+  }
+  .ue-vergleich__status {
+    flex-shrink: 0;
+    min-width: 5.5ch;
+    font-weight: 500;
+  }
+  .ue-vergleich .ist-richtig .ue-vergleich__status {
+    color: var(--ok);
+  }
+  .ue-vergleich .ist-falsch .ue-vergleich__status {
+    color: var(--fehler);
+  }
+</style>
+
+<script>
+  // Satzteile antippen statt Positionen auswaehlen. Schreibt in die
+  // versteckten Auswahllisten, damit der Server nur ein Format kennt.
+  document.documentElement.classList.add('js');
+
+  const block = document.querySelector<HTMLElement>('[data-tippen]');
+  const form = block?.closest('form');
+  if (block && form) {
+    const selects = Array.from(form.querySelectorAll<HTMLSelectElement>('[data-auswahl] select'));
+    const pool = block.querySelector<HTMLElement>('[data-teile]')!;
+    const satz = block.querySelector<HTMLElement>('[data-satz]')!;
+    const knoepfe = Array.from(pool.querySelectorAll<HTMLButtonElement>('button'));
+    const fehlt = block.querySelector<HTMLElement>('[data-fehlt]')!;
+    let gewaehlt: number[] = [];
+    // Die Auswahllisten sind jetzt versteckt, die Pflicht prueft das Skript selbst.
+    for (const s of selects) s.required = false;
+
+    const zeichne = () => {
+      fehlt.hidden = true;
+      for (const k of knoepfe) k.hidden = gewaehlt.includes(Number(k.dataset.index));
+      satz.replaceChildren(
+        ...gewaehlt.map((index, pos) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.textContent = knoepfe[index]?.textContent ?? '';
+          b.setAttribute('aria-label', `Position ${pos + 1}: ${b.textContent} (antippen entfernt den Teil)`);
+          b.addEventListener('click', () => {
+            gewaehlt = gewaehlt.filter((g) => g !== index);
+            zeichne();
+          });
+          return b;
+        }),
+      );
+      selects.forEach((s, index) => {
+        const pos = gewaehlt.indexOf(index);
+        s.value = pos >= 0 ? String(pos + 1) : '';
+      });
+    };
+
+    for (const k of knoepfe) {
+      k.addEventListener('click', () => {
+        const index = Number(k.dataset.index);
+        if (!gewaehlt.includes(index)) gewaehlt.push(index);
+        zeichne();
+      });
+    }
+
+    form.addEventListener('submit', (ev) => {
+      const rest = knoepfe.length - gewaehlt.length;
+      if (rest > 0) {
+        ev.preventDefault();
+        fehlt.textContent = rest === 1 ? 'Ein Teil fehlt noch.' : `Es fehlen noch ${rest} Teile.`;
+        fehlt.hidden = false;
+      }
+    });
+
+    zeichne();
+  }
+</script>

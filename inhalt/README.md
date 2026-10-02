@@ -136,3 +136,63 @@ Vergleich ohne Beachtung von Groß- und Kleinschreibung und ohne Leerzeichen
 am Rand. Mehrere Schreibweisen (`1500` und `1.500`) stehen als Alternativen.
 
 Fragen prüfen: `node -e 'JSON.parse(require("fs").readFileSync("inhalt/quiz.json","utf8"))'`.
+
+## gespraechshilfe.json
+
+Die Gesprächshilfe im Portal (`/gespraech`): was Betriebe fragen und was der
+Vertriebler darauf sagt. Quellen sind die Blätter 01, 02, 03, 06, 10, 13 und
+14 unter `~/dekaru/brain/projekte/vertrieb-partner/`, Kapitel 09 hier und die
+Telefon-Übung. Nichts darf den Kapiteln widersprechen; ändert sich dort etwas,
+gehört es hier nachgezogen.
+
+```
+{
+  "version": 1,
+  "stand": "2026-10-02",
+  "titel": "...",
+  "einleitung": "Sechs Sätze lernen Sie wortgleich, alles andere sagen Sie in eigenen Worten.",
+  "themen": ["Preis", "Ablauf", "Hosting", "Vertrauen", "Kein Interesse", "Recht und Datenschutz"],
+  "eintraege": [ ... ]
+}
+```
+
+Jeder Eintrag:
+
+| Feld | Pflicht | Inhalt |
+|---|---|---|
+| `id` | ja | eindeutig, `g01` ... |
+| `thema` | ja | genau eines der sechs Themen oben, wortgleich |
+| `frage` | ja | so, wie der Kunde fragt |
+| `antwort` | ja | kurz, gesprochen, Sie-Form, ein bis drei Sätze. Der Vertriebler spricht von "Herrn Henning" oder "er" |
+| `pflicht` | ja | `true` bei den sechs Sätzen, die wortgleich gelernt werden. Alles andere `false` |
+| `hinweis` | nein | warum die Antwort so lautet, was dazu nie gesagt wird. Wird aufklappbar gezeigt |
+| `uebung` | bei `pflicht: true` | Übungsdaten, siehe unten |
+
+Der Platzhalter `{{Ihr Name}}` in `antwort` und `uebung.teile` wird im Portal
+durch den Namen der angemeldeten Person ersetzt. Er darf keine Lücke sein.
+
+**`uebung`** nur bei Pflichtsätzen, beide Felder nötig:
+
+```
+"uebung": {
+  "luecken": ["600 €", "Angebot", "Festpreis"],
+  "teile": ["Jede Website", "beginnt bei 600 €.", "Was Ihre kostet,", "steht im Angebot,", "als Festpreis."]
+}
+```
+
+- `luecken`: Wörter oder Wortgruppen, die im Lückentext fehlen. Jede muss als
+  ganzes Wort genau so im Satz vorkommen, Lücken dürfen sich nicht
+  überschneiden. Verglichen wird ohne Groß- und Kleinschreibung, ohne
+  Satzzeichen am Ende und ohne "€".
+- `teile`: der Satz in mindestens drei Stücken, in der richtigen Reihenfolge.
+  Mit Leerzeichen verbunden müssen sie genau die `antwort` ergeben. Das Portal
+  mischt sie, der Vertriebler bringt sie in die richtige Reihenfolge.
+
+Die Pflichtsätze sind inhaltlich festgelegt: Einstieg, Preis "ab 600 €",
+Referenzen (ehrlich, er fängt gerade an), Dauer (Termin steht im Angebot),
+Vorschau nur im Termin, Gratisquartal. Es bleiben genau sechs.
+
+Was in keiner Antwort steht: ein Ortsbezug, eine Bauzeit in Tagen oder Wochen,
+Preise außer "ab 600 €" und den Hosting-Zahlen, Referenzkunden, Floskeln,
+lange Gedankenstriche. Fehlerhafte Einträge überspringt das Portal und listet
+sie dem Admin unter `/gespraech` auf. Prüfen: `cd app && npm test`.

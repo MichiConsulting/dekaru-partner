@@ -8,6 +8,8 @@ import { fragenJeKapitel } from '../../../lib/inhalt.ts';
 import { alleKunden, istUuid, statusLabel } from '../../../lib/kunden.ts';
 import { datumDe } from '../../../lib/provision.ts';
 import { formular, istPost } from '../../../lib/http.ts';
+import { ladeUebungsstand } from '../../../lib/gespraech-fortschritt.ts';
+import { pflichtsatzListe } from '../../../lib/inhalt-gespraech.ts';
 
 const db = Astro.locals.db;
 const ich = Astro.locals.benutzer!;
@@ -58,6 +60,7 @@ const kapitel = (await getCollection('kapitel')).sort((a, c) => a.data.nummer - 
 const stand = await fortschritt(db, benutzer.id, fragenJeKapitel(kapitel.map((k) => k.id)));
 const standJe = new Map(stand.map((s) => [s.kapitel, s]));
 const kunden = await alleKunden(db, { benutzerId: benutzer.id });
+const uebung = await ladeUebungsstand(db, benutzer.id);
 ---
 
 <Layout titel={benutzer.name} aktiv="admin">
@@ -105,6 +108,19 @@ const kunden = await alleKunden(db, { benutzerId: benutzer.id });
         {kapitel.map((k) => {
           const s = standJe.get(k.id);
           return <tr><td>{k.data.nummer}. {k.data.titel}</td><td>{s?.erledigt ? 'Erledigt' : s?.beantwortet ? 'Begonnen' : 'Offen'}</td><td class="zahl">{s ? `${s.richtig} / ${s.fragen}` : ''}</td></tr>;
+        })}
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Pflichtsätze ({pflichtsatzListe.filter((e) => uebung.get(e.id)?.sitzt).length} von {pflichtsatzListe.length} sitzen)</h2>
+  <div class="tabelle-wrap">
+    <table>
+      <thead><tr><th>Satz</th><th>Stand</th><th class="zahl">Versuche</th><th>Zuletzt</th></tr></thead>
+      <tbody>
+        {pflichtsatzListe.map((e, i) => {
+          const s = uebung.get(e.id);
+          return <tr><td>{i + 1}. {e.frage}</td><td>{s?.sitzt ? 'Sitzt' : s ? 'Noch nicht' : 'Offen'}</td><td class="zahl">{s?.versuche ?? 0}</td><td>{s ? s.zuletzt.toLocaleDateString('de-DE') : ''}</td></tr>;
         })}
       </tbody>
     </table>
