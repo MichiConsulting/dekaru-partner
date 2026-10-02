@@ -58,10 +58,19 @@
   /* Die Kapitelgrafiken aus inhalt/grafiken sind fuer hellen Grund gezeichnet
      und liegen in beiden Modi auf Papier. */
   --grafik-papier: #ffffff;
+  /* Schatten am Rand schiebbarer Tabellen, zeigt: hier geht es weiter. */
+  --schatten: rgba(0, 0, 0, 0.16);
+  color-scheme: light;
 }
 
+/*
+ * Dunkler Modus. Zwei Wege zum selben Block: ohne gespeicherte Wahl folgt die
+ * Seite der Systemeinstellung (auch ohne JavaScript), mit Wahl gilt
+ * data-theme auf <html>, gesetzt von public/theme-init.js und dem
+ * Umschalter im Kopf. Beide Bloecke muessen gleich bleiben, ein Test prueft das.
+ */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme='light']) {
     --bg: #121212;
     --surface: #1a1a1a;
     --surface-2: #232323;
@@ -88,7 +97,39 @@
     --lk-line: #4a4a4a;
     --lk-warn: #e0b24a;
     --grafik-papier: #ffffff;
+    --schatten: rgba(0, 0, 0, 0.6);
+    color-scheme: dark;
   }
+}
+:root[data-theme='dark'] {
+  --bg: #121212;
+  --surface: #1a1a1a;
+  --surface-2: #232323;
+  --text: #f2f2f2;
+  --text-muted: #a3a3a3;
+  --border: #2e2e2e;
+  --border-strong: #4a4a4a;
+  --accent: #cc7079;
+  --accent-hover: #d98890;
+  --accent-active: #b85b65;
+  --on-accent: #141414;
+  --ok: #9fd6ac;
+  --ok-bg: #16301c;
+  --fehler: #f0a5a5;
+  --fehler-bg: #3a1717;
+  --focus: #f2f2f2;
+
+  --lk-paper: #1f1f1f;
+  --lk-f1: #2d2823;
+  --lk-f2: #222a31;
+  --lk-f3: #454545;
+  --lk-ink: #f2f2f2;
+  --lk-muted: #a8a8a8;
+  --lk-line: #4a4a4a;
+  --lk-warn: #e0b24a;
+  --grafik-papier: #ffffff;
+  --schatten: rgba(0, 0, 0, 0.6);
+  color-scheme: dark;
 }
 
 *,
@@ -218,6 +259,43 @@ code {
   display: flex;
   align-items: center;
   gap: var(--space-m);
+  flex-shrink: 0;
+}
+.kopf__person .name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 24ch;
+}
+
+/* Umschalter hell/dunkel. Erst sichtbar, wenn theme-init.js gelaufen ist,
+   ohne JavaScript gaebe es nichts zu schalten. aria-pressed sagt, ob der
+   dunkle Modus an ist, das Icon zeigt, wohin der naechste Klick fuehrt. */
+.modus {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.modus-bereit .modus {
+  display: inline-flex;
+}
+.modus:hover {
+  border-color: var(--text);
+  background: var(--surface-2);
+}
+.modus[aria-pressed='true'] .modus__mond,
+.modus[aria-pressed='false'] .modus__sonne {
+  display: none;
 }
 .nav {
   max-width: 1080px;
@@ -592,7 +670,7 @@ tfoot td {
 .prosa img {
   display: block;
   width: 100%;
-  background: #ffffff;
+  background: var(--grafik-papier);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: var(--space-m);

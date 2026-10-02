@@ -32,24 +32,35 @@ const punkte = benutzer
     <meta name="color-scheme" content="light dark" />
     <title>{titel} | dekaru Partner-Portal</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <!-- Gespeicherten Modus setzen, bevor etwas gezeichnet wird. Eigene Datei wegen der CSP. -->
+    <script is:inline src="/theme-init.js"></script>
   </head>
   <body>
     <header class="kopf">
       <div class="kopf__zeile">
         <a class="marke" href="/">dekaru <span>Partner-Portal</span></a>
-        {
-          benutzer && (
-            <div class="kopf__person">
-              <span class="name">{benutzer.name}</span>
+        <div class="kopf__person">
+          {benutzer && <span class="name">{benutzer.name}</span>}
+          <button type="button" class="modus" data-modus aria-pressed="false" aria-label="Dunkler Modus" title="Hell oder dunkel">
+            <svg class="modus__sonne" aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+            </svg>
+            <svg class="modus__mond" aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+          {
+            benutzer && (
               <form method="post" action="/logout" class="inline">
                 <input type="hidden" name="_csrf" value={csrf} />
                 <button type="submit" class="btn btn--zweit btn--klein">
                   Abmelden
                 </button>
               </form>
-            </div>
-          )
-        }
+            )
+          }
+        </div>
       </div>
       {
         punkte.length > 0 && (
@@ -72,5 +83,8 @@ const punkte = benutzer
         <a href="/datenschutz">Datenschutz</a>
       </div>
     </footer>
+    <script>
+      import '../scripts/modus.ts';
+    </script>
   </body>
 </html>
