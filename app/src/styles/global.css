@@ -599,6 +599,9 @@ input[type='checkbox'] {
    sobald der Rand erreicht ist. */
 .schiebbar {
   overflow-x: auto;
+  /* Absolut positionierte Kinder (sr-only-Labels in Tabellen) bleiben im
+     Rahmen, sonst verbreitern sie die ganze Seite. */
+  position: relative;
   background:
     linear-gradient(90deg, var(--surface) 40%, transparent) left center / 40px 100% no-repeat local,
     linear-gradient(270deg, var(--surface) 40%, transparent) right center / 40px 100% no-repeat local,

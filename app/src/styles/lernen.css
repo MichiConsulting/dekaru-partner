@@ -454,24 +454,34 @@
 }
 .lb-nav__punkte {
   display: flex;
-  gap: 6px;
+  gap: 0;
   flex-wrap: wrap;
   justify-content: center;
 }
+/* Der Punkt ist 12px gross, die Flaeche zum Antippen 24px (WCAG 2.5.8). */
 .lb-nav__punkte button {
-  width: 12px;
-  height: 12px;
+  width: 24px;
+  height: 24px;
   padding: 0;
-  border-radius: 50%;
-  border: 2px solid var(--text-muted);
+  border: 0;
   background: transparent;
   cursor: pointer;
+  display: grid;
+  place-items: center;
 }
-.lb-nav__punkte button[aria-current='true'] {
+.lb-nav__punkte button::before {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--text-muted);
+  box-sizing: border-box;
+}
+.lb-nav__punkte button[aria-current='true']::before {
   background: var(--text);
   border-color: var(--text);
 }
-.lb-nav__punkte button.ist-gesehen {
+.lb-nav__punkte button.ist-gesehen::before {
   border-color: var(--text);
 }
 .lb-abschluss {
