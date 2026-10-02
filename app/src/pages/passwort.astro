@@ -62,11 +62,11 @@ if (istPost(Astro.request)) {
 </Layout>
 
 <style>
-  .regeln { list-style: none; margin: var(--space-s, 8px) 0 0; padding: 0; display: grid; gap: 4px; }
-  .regeln li { color: var(--color-text-muted, #4a4a4a); }
-  .regeln li.ist-erfuellt { color: var(--color-text, #141414); }
+  .regeln { list-style: none; margin: var(--space-s) 0 0; padding: 0; display: grid; gap: var(--space-xs); font-size: var(--text-small); }
+  .regeln li { color: var(--text-muted); }
+  .regeln li.ist-erfuellt { color: var(--text); }
+  .regeln li.ist-erfuellt .regeln__zeichen { color: var(--ok); }
   .regeln__zeichen { display: inline-block; width: 1.2em; }
-  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 </style>
 
 <script>
