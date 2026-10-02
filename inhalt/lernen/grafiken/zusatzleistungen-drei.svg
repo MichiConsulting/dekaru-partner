@@ -1,35 +1,35 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" role="img" aria-labelledby="zd-t zd-d" fill="currentColor" font-family="Inter, system-ui, sans-serif" font-size="12">
+<svg xmlns="http://www.w3.org/2000/svg" id="g-zd" viewBox="0 0 320 284" role="img" aria-labelledby="zd-t zd-d" fill="currentColor" font-family="Inter, system-ui, sans-serif" font-size="12">
   <title id="zd-t">Die drei Zusatzleistungen</title>
   <desc id="zd-d">Google-Unternehmensprofil für 249 oder 490 Euro, braucht keine Website, 35 Prozent Provision. Bewertungs-Aufsteller mit QR-Code für 190 Euro, braucht ein Google-Profil, 35 Prozent Provision. Sichtbarkeits-Check für 390 Euro je Jahr, braucht eine Website, Provision nur im Erstauftrag.</desc>
   <style>
-    .f1{fill:var(--lk-f1,#ece6da)}.f2{fill:var(--lk-f2,#e2e7ec)}.ink{fill:var(--lk-ink,#141414)}.p{fill:var(--lk-paper,#ffffff)}
-    .ln{stroke:var(--lk-ink,#141414);stroke-width:1.5;fill:none;stroke-linecap:round}.mu{fill:var(--lk-muted,#5f5f5f)}.h{font-weight:700}.s{font-size:11px}.xl{font-size:15px;font-weight:700}
+    #g-zd .f1{fill:var(--lk-f1,#ece6da)}#g-zd .f2{fill:var(--lk-f2,#e2e7ec)}#g-zd .ink{fill:var(--lk-ink,#141414)}#g-zd .p{fill:var(--lk-paper,#ffffff)}
+    #g-zd .ln{stroke:var(--lk-ink,#141414);stroke-width:3;fill:none;stroke-linecap:round}#g-zd .mu{fill:var(--lk-muted,#5f5f5f)}#g-zd .h{font-weight:700}#g-zd .t{font-size:13px;font-weight:700}#g-zd .xl{font-size:16px;font-weight:700}
   </style>
   <!-- Google-Profil -->
-  <rect class="f1" x="2" y="4" width="128" height="192" rx="8"/>
-  <path class="ink" d="M66 18c-9 0-16 7-16 16 0 12 16 30 16 30s16-18 16-30c0-9-7-16-16-16z"/><circle class="p" cx="66" cy="34" r="6"/>
-  <text class="h" x="66" y="86" text-anchor="middle">Google-Profil</text>
-  <text class="xl" x="66" y="108" text-anchor="middle">249 € / 490 €</text>
-  <text class="s mu" x="66" y="130" text-anchor="middle">einrichten / ausbauen</text>
-  <text class="s" x="66" y="156" text-anchor="middle">braucht keine Website</text>
-  <text class="s h" x="66" y="180" text-anchor="middle">35 % Provision</text>
+  <rect class="f1" x="4" y="4" width="312" height="88" rx="8"/>
+  <path class="ink" d="M36 18c-9 0-16 7-16 16 0 12 16 30 16 30s16-18 16-30c0-9-7-16-16-16z"/><circle class="p" cx="36" cy="34" r="6"/>
+  <text class="t" x="66" y="26">Google-Profil</text>
+  <text class="xl" x="66" y="54">249 € / 490 €</text>
+  <text class="mu" x="180" y="48">einrichten / ausbauen</text>
+  <text x="180" y="64">braucht keine Website</text>
+  <text class="h" x="180" y="80">35 % Provision</text>
 
   <!-- Aufsteller -->
-  <rect class="f2" x="136" y="4" width="128" height="192" rx="8"/>
-  <rect class="p" x="180" y="18" width="40" height="46" rx="3"/>
-  <g class="ink"><rect x="186" y="24" width="10" height="10"/><rect x="204" y="24" width="10" height="10"/><rect x="186" y="42" width="10" height="10"/><rect x="204" y="44" width="4" height="4"/><rect x="210" y="48" width="4" height="4"/><rect x="204" y="52" width="4" height="4"/></g>
-  <text class="h" x="200" y="86" text-anchor="middle">Aufsteller</text>
-  <text class="xl" x="200" y="108" text-anchor="middle">190 €</text>
-  <text class="s mu" x="200" y="130" text-anchor="middle">+ Druck 15 bis 30 €</text>
-  <text class="s" x="200" y="156" text-anchor="middle">braucht Google-Profil</text>
-  <text class="s h" x="200" y="180" text-anchor="middle">35 % Provision</text>
+  <rect class="f2" x="4" y="98" width="312" height="88" rx="8"/>
+  <rect class="p" x="16" y="112" width="40" height="46" rx="3"/>
+  <g class="ink"><rect x="22" y="118" width="10" height="10"/><rect x="40" y="118" width="10" height="10"/><rect x="22" y="136" width="10" height="10"/><rect x="40" y="138" width="4" height="4"/><rect x="46" y="142" width="4" height="4"/><rect x="40" y="146" width="4" height="4"/></g>
+  <text class="t" x="66" y="120">Aufsteller</text>
+  <text class="xl" x="66" y="148">190 €</text>
+  <text class="mu" x="180" y="142">+ Druck 15 bis 30 €</text>
+  <text x="180" y="158">braucht Google-Profil</text>
+  <text class="h" x="180" y="174">35 % Provision</text>
 
   <!-- Sichtbarkeits-Check -->
-  <rect class="f1" x="270" y="4" width="128" height="192" rx="8"/>
-  <circle class="ln" cx="330" cy="36" r="14" style="stroke-width:3"/><path class="ln" d="M341 47l12 12" style="stroke-width:3"/>
-  <text class="h s" x="334" y="86" text-anchor="middle">Sichtbarkeits-Check</text>
-  <text class="xl" x="334" y="108" text-anchor="middle">390 € / Jahr</text>
-  <text class="s mu" x="334" y="130" text-anchor="middle">fürs zweite Jahr</text>
-  <text class="s" x="334" y="156" text-anchor="middle">braucht eine Website</text>
-  <text class="s h" x="334" y="180" text-anchor="middle">nur im Erstauftrag</text>
+  <rect class="f1" x="4" y="192" width="312" height="88" rx="8"/>
+  <circle class="ln" cx="32" cy="226" r="14"/><path class="ln" d="M43 237l12 12"/>
+  <text class="t" x="66" y="214">Sichtbarkeits-Check</text>
+  <text class="xl" x="66" y="242">390 € / Jahr</text>
+  <text class="mu" x="180" y="236">fürs zweite Jahr</text>
+  <text x="180" y="252">braucht eine Website</text>
+  <text class="h" x="180" y="268">nur im Erstauftrag</text>
 </svg>
