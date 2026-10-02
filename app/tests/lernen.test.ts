@@ -101,6 +101,15 @@ describe('Lernkarten-Format', () => {
     }
   });
 
+  it('der Admin sieht unter Lernen keine Formatfehler (dieselbe Pruefung wie im Portal)', async () => {
+    // inhalt.ts liest die echten Dateien ueber import.meta.glob ein, genau
+    // wie der Build. Was hier leer ist, zeigt auch /lernen nicht an.
+    const inhalt = await import('../src/lib/inhalt.ts');
+    expect(inhalt.inhaltsQuelle).toBe('inhalt/');
+    expect(inhalt.lernkartenFehler).toEqual([]);
+    expect(inhalt.quizFehler).toEqual([]);
+  });
+
   it('jede Lerngrafik hat title, desc und viewBox und benutzt keine festen Textfarben', () => {
     const ordner = `${INHALT}lernen/grafiken/`;
     if (!existsSync(ordner)) return;
