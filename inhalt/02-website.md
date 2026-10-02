@@ -55,7 +55,7 @@ Das ist der Teil, den Sie im Zweittermin brauchen. In einfachen Worten:
 
 **Mittel ist der Vergleichspunkt.** Wer sich Mittel ansieht, hat entschieden, dass er mehr will als eine einzelne Seite. Einzeln gerechnet stecken in Mittel rund 1.500 €, das Paket kostet 1.300 €.
 
-**Groß kostet nur 300 € mehr.** Dafür kommt sichtbar viel dazu: die Funktion, die Team-Seite, die Bildaufbereitung, eine Seite und zwei Texte mehr. Einzeln wäre das rund 700 € wert, und die Funktion gibt es einzeln gar nicht. Der Satz dazu:
+**Groß kostet nur 300 € mehr.** Dafür kommt sichtbar viel dazu: die Funktion, die Team-Seite, die Bildaufbereitung, eine Seite und zwei Texte mehr. Die Bausteine allein wären rund 400 € wert, dazu kommt die Funktion, die es einzeln gar nicht gibt. Der Satz dazu:
 
 > "Für 300 € mehr arbeitet die Seite mit. Sie nimmt Ihnen Terminanfragen ab, auch abends und am Wochenende, wenn bei Ihnen keiner ans Telefon geht."
 
