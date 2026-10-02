@@ -22,7 +22,9 @@ const P = 1;
 const LAENGE = 64;
 const MAXMEM = 128 * N * R * 2;
 
-export const MINDESTLAENGE = 10;
+import { erfuellteRegeln, MINDESTLAENGE, PASSWORT_REGELN } from './passwort-regeln.ts';
+
+export { erfuellteRegeln, MINDESTLAENGE, PASSWORT_REGELN };
 
 export async function hashPasswort(passwort: string): Promise<string> {
   const salt = randomBytes(16);
@@ -48,13 +50,56 @@ export async function pruefePasswort(passwort: string, gespeichert: string): Pro
   return hash.length === erwartet.length && timingSafeEqual(hash, erwartet);
 }
 
-/** Prueft ein neues Passwort. Gibt eine Fehlermeldung zurueck oder null. */
-export function pruefeNeuesPasswort(passwort: string): string | null {
-  if (typeof passwort !== 'string' || passwort.length < MINDESTLAENGE) {
-    return `Das Passwort braucht mindestens ${MINDESTLAENGE} Zeichen.`;
+// Teile, die in keinem Passwort vorkommen duerfen. Kleingeschrieben verglichen.
+const VERBOTENE_TEILE = [
+  'passwort', 'password', 'kennwort', 'dekaru', 'qwertz', 'qwerty', 'asdf', 'yxcv',
+  'hallo', 'admin', 'login', 'willkommen', 'welcome', 'geheim', 'sommer', 'winter',
+];
+
+const REIHEN = ['abcdefghijklmnopqrstuvwxyz', '0123456789', 'qwertzuiopü', 'asdfghjklöä', 'yxcvbnm'];
+
+/** Vier oder mehr Zeichen in Folge, vorwaerts oder rueckwaerts, z.B. 1234, dcba, qwer. */
+function hatFolge(kleingeschrieben: string): boolean {
+  for (const reihe of REIHEN) {
+    const beide = [reihe, [...reihe].reverse().join('')];
+    for (const r of beide) {
+      for (let i = 0; i + 4 <= r.length; i++) {
+        if (kleingeschrieben.includes(r.slice(i, i + 4))) return true;
+      }
+    }
   }
+  return false;
+}
+
+/**
+ * Prueft ein neues Passwort. Gibt eine Fehlermeldung zurueck oder null.
+ * Mit `person` werden E-Mail-Name und Namensteile gesperrt.
+ */
+export function pruefeNeuesPasswort(
+  passwort: string,
+  person: { email?: string; name?: string } = {},
+): string | null {
+  if (typeof passwort !== 'string' || passwort.length === 0) return 'Bitte ein Passwort eingeben.';
   if (passwort.length > 200) return 'Das Passwort ist zu lang.';
-  if (/^(.)\1+$/.test(passwort)) return 'Das Passwort darf nicht aus einem einzigen Zeichen bestehen.';
+
+  const regeln = erfuellteRegeln(passwort);
+  const fehlend = PASSWORT_REGELN.filter((r) => !regeln[r.schluessel]).map((r) => r.text);
+  if (fehlend.length > 0) return `Dem Passwort fehlt noch: ${fehlend.join(', ')}.`;
+
+  const klein = passwort.toLowerCase();
+  if (/(.)\1{3,}/u.test(passwort)) return 'Das Passwort darf kein Zeichen viermal hintereinander enthalten.';
+  if (hatFolge(klein)) return 'Das Passwort darf keine Folge wie 1234, abcd oder qwer enthalten.';
+  if (VERBOTENE_TEILE.some((teil) => klein.includes(teil))) {
+    return 'Das Passwort enthält ein zu häufiges Wort wie "Passwort", "Hallo" oder "dekaru".';
+  }
+
+  const eigene = [
+    ...String(person.email ?? '').toLowerCase().split('@')[0].split(/[^\p{L}\p{Nd}]+/u),
+    ...String(person.name ?? '').toLowerCase().split(/[^\p{L}\p{Nd}]+/u),
+  ].filter((teil) => teil.length >= 4);
+  if (eigene.some((teil) => klein.includes(teil))) {
+    return 'Das Passwort darf nicht Ihren Namen oder Ihre E-Mail-Adresse enthalten.';
+  }
   return null;
 }
 

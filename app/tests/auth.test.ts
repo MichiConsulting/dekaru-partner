@@ -27,9 +27,18 @@ describe('Passwort', () => {
     expect(await pruefePasswort('x', 'kaputt')).toBe(false);
   });
   it('prueft neue Passwoerter', () => {
-    expect(pruefeNeuesPasswort('kurz')).toMatch(/mindestens/);
-    expect(pruefeNeuesPasswort('aaaaaaaaaaaa')).toMatch(/einzigen/);
-    expect(pruefeNeuesPasswort('ein guter satz hier')).toBeNull();
+    expect(pruefeNeuesPasswort('kurz')).toMatch(/mindestens 12 Zeichen/);
+    expect(pruefeNeuesPasswort('1234567890')).toMatch(/Kleinbuchstabe/);
+    expect(pruefeNeuesPasswort('ein guter satz hier')).toMatch(/Großbuchstabe/);
+    expect(pruefeNeuesPasswort('Ein guter Satz hier')).toMatch(/Zahl/);
+    expect(pruefeNeuesPasswort('Ein guter Satz 7 hier')).toMatch(/Sonderzeichen/);
+    expect(pruefeNeuesPasswort('Gaaaaa7!Wolke')).toMatch(/viermal/);
+    expect(pruefeNeuesPasswort('Wolke!1234Haus')).toMatch(/Folge/);
+    expect(pruefeNeuesPasswort('Wolke!qwerHaus7')).toMatch(/Folge/);
+    expect(pruefeNeuesPasswort('MeinPasswort!7x')).toMatch(/häufiges Wort/);
+    expect(pruefeNeuesPasswort('Henning!Rot73', { email: 'm.henning@example.de', name: 'Michael Henning' })).toMatch(/Namen/);
+    expect(pruefeNeuesPasswort('Grüne Tasse! 7 Uhr')).toBeNull();
+    expect(pruefeNeuesPasswort('Rote#Bank-39-Ost')).toBeNull();
   });
   it('erzeugt Einmal-Passwoerter in drei Bloecken', () => {
     const p = erzeugeEinmalPasswort();

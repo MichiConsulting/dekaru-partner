@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { beendeAlleSitzungen, setzePasswort } from '../lib/auth.ts';
-import { pruefePasswort, pruefeNeuesPasswort } from '../lib/passwort.ts';
+import { pruefePasswort, pruefeNeuesPasswort, MINDESTLAENGE, PASSWORT_REGELN } from '../lib/passwort.ts';
 import { formular, istPost } from '../lib/http.ts';
 
 const benutzer = Astro.locals.benutzer!;
@@ -18,7 +18,7 @@ if (istPost(Astro.request)) {
   const altStimmt = await pruefePasswort(daten.alt ?? '', zeilen[0]?.passwort_hash ?? '');
   if (!altStimmt) fehler = 'Das bisherige Passwort stimmt nicht.';
   else if (daten.neu !== daten.neu2) fehler = 'Die beiden neuen Passwörter sind nicht gleich.';
-  else fehler = pruefeNeuesPasswort(daten.neu ?? '');
+  else fehler = pruefeNeuesPasswort(daten.neu ?? '', { email: benutzer.email, name: benutzer.name });
   if (!fehler && daten.neu === daten.alt) fehler = 'Das neue Passwort muss sich vom bisherigen unterscheiden.';
 
   if (!fehler) {
@@ -42,15 +42,52 @@ if (istPost(Astro.request)) {
     </div>
     <div class="feld">
       <label for="neu">Neues Passwort</label>
-      <input id="neu" name="neu" type="password" autocomplete="new-password" required minlength="10" />
-      <p class="feld__hilfe">Mindestens zehn Zeichen. Am besten ein Satz, den Sie sich merken können.</p>
+      <input id="neu" name="neu" type="password" autocomplete="new-password" required minlength={MINDESTLAENGE} aria-describedby="regeln regeln-hinweis" />
+      <p class="feld__hilfe" id="regeln-hinweis">Im Portal liegen Kontaktdaten von Betrieben, deshalb gelten strenge Regeln. Gut merkbar ist ein kurzer Satz mit Zahl und Satzzeichen, zum Beispiel „Grüne Tasse! 7 Uhr“, nur eben Ihr eigener.</p>
+      <ul class="regeln" id="regeln" data-passwort-regeln>
+        {PASSWORT_REGELN.map((r) => (
+          <li data-regel={r.schluessel}><span class="regeln__zeichen" aria-hidden="true">○</span> {r.text}<span class="sr-only" data-status> (noch offen)</span></li>
+        ))}
+      </ul>
+      <p class="feld__hilfe">Nicht erlaubt: Folgen wie 1234 oder qwer, ein Zeichen viermal hintereinander, häufige Wörter wie „Passwort“ und Ihr Name.</p>
     </div>
     <div class="feld">
       <label for="neu2">Neues Passwort wiederholen</label>
-      <input id="neu2" name="neu2" type="password" autocomplete="new-password" required minlength="10" />
+      <input id="neu2" name="neu2" type="password" autocomplete="new-password" required minlength={MINDESTLAENGE} />
     </div>
     <div class="aktionen">
       <button type="submit" class="btn">Passwort speichern</button>
     </div>
   </form>
 </Layout>
+
+<style>
+  .regeln { list-style: none; margin: var(--space-s, 8px) 0 0; padding: 0; display: grid; gap: 4px; }
+  .regeln li { color: var(--color-text-muted, #4a4a4a); }
+  .regeln li.ist-erfuellt { color: var(--color-text, #141414); }
+  .regeln__zeichen { display: inline-block; width: 1.2em; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+
+<script>
+  // Hakt die Regeln beim Tippen ab. Die eigentliche Pruefung macht der Server,
+  // das hier ist nur Rueckmeldung. Ohne JavaScript bleibt die Liste stehen.
+  import { erfuellteRegeln } from '../lib/passwort-regeln.ts';
+  const feld = document.getElementById('neu') as HTMLInputElement | null;
+  const liste = document.querySelector('[data-passwort-regeln]');
+  if (feld && liste) {
+    const aktualisieren = () => {
+      const stand = erfuellteRegeln(feld.value) as Record<string, boolean>;
+      liste.querySelectorAll<HTMLElement>('[data-regel]').forEach((li) => {
+        const ok = Boolean(stand[li.dataset.regel ?? '']);
+        li.classList.toggle('ist-erfuellt', ok);
+        const zeichen = li.querySelector('.regeln__zeichen');
+        if (zeichen) zeichen.textContent = ok ? '✓' : '○';
+        const status = li.querySelector('[data-status]');
+        if (status) status.textContent = ok ? ' (erfüllt)' : ' (noch offen)';
+      });
+    };
+    feld.addEventListener('input', aktualisieren);
+    aktualisieren();
+  }
+</script>
