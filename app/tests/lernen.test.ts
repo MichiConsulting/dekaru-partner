@@ -66,7 +66,7 @@ describe('Lernkarten-Format', () => {
       new Set(),
     );
     expect(r.kapitel).toBeNull();
-    expect(r.fehler.join(' ')).toMatch(/41 Woerter/);
+    expect(r.fehler.join(' ')).toMatch(/41 Wörter/);
     expect(r.fehler.join(' ')).toMatch(/einhorn/);
     expect(r.fehler.join(' ')).toMatch(/fehlt\.svg/);
     expect(r.fehler.join(' ')).toMatch(/2 Zellen/);

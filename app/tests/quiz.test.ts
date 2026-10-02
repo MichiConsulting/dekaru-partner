@@ -47,7 +47,7 @@ describe('Quizformat', () => {
     expect(fehler.join(' ')).toMatch(/zwei Optionen/);
     expect(fehler.join(' ')).toMatch(/doppelt/);
     expect(fehler.join(' ')).toMatch(/unbekannt/);
-    expect(fehler.join(' ')).toMatch(/Luecke 1 fehlt/);
+    expect(fehler.join(' ')).toMatch(/Lücke 1 fehlt/);
   });
   it('liest die echte quiz.json ohne Fehler, wenn sie vorhanden ist', () => {
     let roh: unknown;

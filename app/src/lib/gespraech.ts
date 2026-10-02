@@ -79,8 +79,8 @@ export function pruefeGespraechsDaten(daten: unknown): { daten: Gespraechsdaten;
       if (normalisiereLeerraum(teile.join(' ')) !== normalisiereLeerraum(antwort)) {
         return fehler.push(`${wo}: uebung.teile ergeben zusammen nicht die antwort.`);
       }
-      if (!lueckenPositionen(antwort, luecken)) return fehler.push(`${wo}: eine Luecke kommt im Satz nicht vor oder ueberschneidet sich.`);
-      if (luecken.some((l) => l.includes(PLATZHALTER_NAME))) return fehler.push(`${wo}: der Platzhalter ${PLATZHALTER_NAME} darf keine Luecke sein.`);
+      if (!lueckenPositionen(antwort, luecken)) return fehler.push(`${wo}: eine Lücke kommt im Satz nicht vor oder überschneidet sich.`);
+      if (luecken.some((l) => l.includes(PLATZHALTER_NAME))) return fehler.push(`${wo}: der Platzhalter ${PLATZHALTER_NAME} darf keine Lücke sein.`);
       uebung = { luecken, teile };
     }
 

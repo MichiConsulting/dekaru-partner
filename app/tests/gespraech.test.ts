@@ -57,7 +57,7 @@ describe('Gespraechshilfe: Format', () => {
     expect(fehler.join(' ')).toMatch(/id doppelt/);
     expect(fehler.join(' ')).toMatch(/ohne uebung.luecken/);
     expect(fehler.join(' ')).toMatch(/ergeben zusammen nicht die antwort/);
-    expect(fehler.join(' ')).toMatch(/Luecke kommt im Satz nicht vor/);
+    expect(fehler.join(' ')).toMatch(/Lücke kommt im Satz nicht vor/);
     expect(fehler.join(' ')).toMatch(/antwort fehlt/);
   });
   it('verlangt eine Liste', () => {

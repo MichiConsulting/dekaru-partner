@@ -119,12 +119,12 @@ export function pruefeLernkarten(
     if (!(ICONS as readonly string[]).includes(icon)) fehler.push(`${wo}: icon "${icon}" unbekannt.`);
 
     const saetze = Array.isArray(k.saetze) ? k.saetze.filter(istText) : [];
-    if (saetze.length < 1 || saetze.length > 3) fehler.push(`${wo}: 1 bis 3 Kernsaetze, nicht ${saetze.length}.`);
+    if (saetze.length < 1 || saetze.length > 3) fehler.push(`${wo}: 1 bis 3 Kernsätze, nicht ${saetze.length}.`);
     const woerter = saetze.reduce((summe, s) => summe + zaehleWoerter(s), 0);
-    if (woerter > MAX_WOERTER_SAETZE) fehler.push(`${wo}: ${woerter} Woerter in den Kernsaetzen, erlaubt sind ${MAX_WOERTER_SAETZE}.`);
+    if (woerter > MAX_WOERTER_SAETZE) fehler.push(`${wo}: ${woerter} Wörter in den Kernsätzen, erlaubt sind ${MAX_WOERTER_SAETZE}.`);
 
     const visuelle = ['grafik', 'kennzahl', 'tabelle', 'liste', 'zitat'].filter((feld) => k[feld] !== undefined && k[feld] !== null);
-    if (visuelle.length > 2) fehler.push(`${wo}: hoechstens zwei von grafik, kennzahl, tabelle, liste, zitat.`);
+    if (visuelle.length > 2) fehler.push(`${wo}: höchstens zwei von grafik, kennzahl, tabelle, liste, zitat.`);
 
     const karte: Lernkarte = { titel: String(k.titel ?? '').trim(), icon: icon as Icon, saetze };
 
@@ -151,12 +151,12 @@ export function pruefeLernkarten(
     }
     if (k.liste !== undefined) {
       const eintraege = Array.isArray(k.liste) ? k.liste.filter(istText) : [];
-      if (eintraege.length < 2 || eintraege.length > MAX_LISTE) fehler.push(`${wo}: liste braucht 2 bis ${MAX_LISTE} Eintraege.`);
+      if (eintraege.length < 2 || eintraege.length > MAX_LISTE) fehler.push(`${wo}: liste braucht 2 bis ${MAX_LISTE} Einträge.`);
       karte.liste = eintraege.map((e) => e.trim());
     }
     if (k.zitat !== undefined) {
       if (!istText(k.zitat)) fehler.push(`${wo}: zitat ist leer.`);
-      else if (zaehleWoerter(k.zitat) > MAX_WOERTER_ZITAT) fehler.push(`${wo}: zitat hat ${zaehleWoerter(k.zitat)} Woerter, erlaubt sind ${MAX_WOERTER_ZITAT}.`);
+      else if (zaehleWoerter(k.zitat) > MAX_WOERTER_ZITAT) fehler.push(`${wo}: zitat hat ${zaehleWoerter(k.zitat)} Wörter, erlaubt sind ${MAX_WOERTER_ZITAT}.`);
       karte.zitat = String(k.zitat).trim();
     }
     if (k.merke !== undefined) {
