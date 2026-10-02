@@ -1,0 +1,298 @@
+---
+// Gespraechshilfe: was der Kunde fragt, was der Vertriebler sagt. Suche und
+// Themen filtern ohne JavaScript ueber die Adresse, mit JavaScript live.
+import Layout from '../../layouts/Layout.astro';
+import { THEMEN, filtereEintraege, mitName, suchtext } from '../../lib/gespraech.ts';
+import { gespraechsEinleitung, gespraechsEintraege, gespraechsFehler, pflichtsatzListe } from '../../lib/inhalt-gespraech.ts';
+import { anzahlSitzt, ladeUebungsstand } from '../../lib/gespraech-fortschritt.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const db = Astro.locals.db;
+
+const suche = (Astro.url.searchParams.get('q') ?? '').slice(0, 100);
+const themaRoh = Astro.url.searchParams.get('thema') ?? '';
+const thema = (THEMEN as readonly string[]).includes(themaRoh) ? themaRoh : '';
+
+const sichtbar = filtereEintraege(gespraechsEintraege, { suche, thema });
+const sichtbareIds = new Set(sichtbar.map((e) => e.id));
+
+const stand = await ladeUebungsstand(db, benutzer.id);
+const sitzen = anzahlSitzt(stand, pflichtsatzListe.map((e) => e.id));
+
+function chipHref(t: string): string {
+  const p = new URLSearchParams();
+  if (suche) p.set('q', suche);
+  if (t) p.set('thema', t);
+  const s = p.toString();
+  return `/gespraech${s ? `?${s}` : ''}`;
+}
+---
+
+<Layout titel="Gespräch" aktiv="gespraech">
+  <h1>Gespräch</h1>
+  <p class="gh-einleitung">{gespraechsEinleitung}</p>
+
+  <div class="gh-ueben">
+    <span>{sitzen} von {pflichtsatzListe.length} Pflichtsätzen sitzen.</span>
+    <a class="btn btn--klein" href="/gespraech/ueben">{sitzen === pflichtsatzListe.length ? 'Noch einmal üben' : 'Pflichtsätze üben'}</a>
+  </div>
+
+  {benutzer.rolle === 'admin' && gespraechsFehler.length > 0 && (
+    <div class="meldung meldung--fehler">
+      <p><strong>Nur für den Admin sichtbar:</strong> {gespraechsFehler.length} Einträge in gespraechshilfe.json wurden wegen Formatfehlern übersprungen.</p>
+      <ul>{gespraechsFehler.map((f) => <li>{f}</li>)}</ul>
+    </div>
+  )}
+
+  <form class="gh-suche" method="get" action="/gespraech" role="search" data-suche-form>
+    <label for="q">Suchen</label>
+    <div class="gh-suche__zeile">
+      <input id="q" name="q" type="search" value={suche} placeholder="Was fragt der Kunde?" autocomplete="off" enterkeyhint="search" />
+      {thema && <input type="hidden" name="thema" value={thema} />}
+      <button class="btn btn--zweit js-aus" type="submit">Suchen</button>
+    </div>
+  </form>
+
+  <nav class="gh-chips" aria-label="Themen">
+    <a href={chipHref('')} class="gh-chip" aria-current={thema === '' ? 'true' : undefined} data-thema="">Alle</a>
+    {THEMEN.map((t) => (
+      <a href={chipHref(t)} class="gh-chip" aria-current={thema === t ? 'true' : undefined} data-thema={t}>{t}</a>
+    ))}
+  </nav>
+
+  <p class="gh-stand" role="status" data-stand>
+    <span data-stand-text>{sichtbar.length === gespraechsEintraege.length ? `${gespraechsEintraege.length} Einträge` : `${sichtbar.length} von ${gespraechsEintraege.length} Einträgen`}</span>
+  </p>
+
+  <div class="gh-liste" data-liste>
+    {gespraechsEintraege.map((e) => (
+      <article class="gh-karte" data-id={e.id} data-thema={e.thema} data-suche={suchtext(e)} hidden={!sichtbareIds.has(e.id)}>
+        <p class="gh-karte__kopf">
+          <span class="gh-thema">{e.thema}</span>
+          {e.pflicht && <span class="gh-wortgleich">wortgleich</span>}
+        </p>
+        <h2 class="gh-frage"><span class="sr-only">Frage des Kunden: </span>{e.frage}</h2>
+        <p class="gh-label">Mögliche Antwort</p>
+        <p class="gh-antwort">{mitName(e.antwort, benutzer.name)}</p>
+        {e.hinweis && (
+          <details class="gh-hinweis">
+            <summary>Warum so</summary>
+            <p>{e.hinweis}</p>
+          </details>
+        )}
+      </article>
+    ))}
+    <p class="gh-leer" data-leer hidden={sichtbar.length > 0}>Kein Eintrag passt. Andere Wörter probieren oder das Thema auf Alle stellen.</p>
+  </div>
+</Layout>
+
+<style>
+  .gh-einleitung {
+    font-size: 17px;
+    font-weight: 500;
+  }
+  .gh-ueben {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-s) var(--space-m);
+    margin-bottom: var(--space-xl);
+    color: var(--text-muted);
+    font-size: var(--text-small);
+  }
+  .gh-suche label {
+    display: block;
+    font-weight: 500;
+    font-size: var(--text-small);
+    margin-bottom: var(--space-xs);
+  }
+  .gh-suche__zeile {
+    display: flex;
+    gap: var(--space-s);
+  }
+  .gh-suche input {
+    flex: 1;
+    min-width: 0;
+    min-height: 44px;
+    padding: var(--space-s) var(--space-m);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    font: 400 16px var(--font-body);
+  }
+  .gh-suche input::placeholder {
+    color: var(--text-muted);
+  }
+  .gh-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    margin: var(--space-m) 0 var(--space-s);
+  }
+  .gh-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 0 var(--space-m);
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+    font-size: var(--text-small);
+    font-weight: 500;
+  }
+  .gh-chip:hover {
+    border-color: var(--text);
+    color: var(--text);
+  }
+  .gh-chip[aria-current='true'] {
+    background: var(--text);
+    border-color: var(--text);
+    color: var(--bg);
+  }
+  .gh-stand {
+    color: var(--text-muted);
+    font-size: var(--text-small);
+    margin-bottom: var(--space-m);
+  }
+  .gh-liste {
+    display: grid;
+    gap: var(--space-m);
+  }
+  .gh-karte {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-l);
+  }
+  .gh-karte[hidden] {
+    display: none;
+  }
+  .gh-karte__kopf {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-s);
+    margin: 0 0 var(--space-s);
+    font-size: 12px;
+  }
+  .gh-thema {
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .gh-wortgleich {
+    display: inline-block;
+    font-weight: 500;
+    padding: 1px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .gh-frage {
+    font-size: clamp(19px, 1.2vw + 14px, 23px);
+    font-weight: 700;
+    margin: 0 0 var(--space-m);
+    max-width: var(--measure);
+  }
+  .gh-label {
+    margin: 0 0 var(--space-xs);
+    color: var(--text-muted);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .gh-antwort {
+    font-size: 16px;
+    margin: 0;
+    max-width: var(--measure);
+  }
+  .gh-hinweis {
+    margin-top: var(--space-m);
+    border-top: 1px solid var(--border);
+    padding-top: var(--space-s);
+    font-size: var(--text-small);
+    color: var(--text-muted);
+  }
+  .gh-hinweis summary {
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--text);
+    padding: var(--space-xs) 0;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+  }
+  .gh-hinweis p {
+    margin: var(--space-xs) 0 0;
+  }
+  .gh-leer {
+    color: var(--text-muted);
+  }
+  .gh-leer[hidden] {
+    display: none;
+  }
+  :global(.js) .js-aus {
+    display: none;
+  }
+</style>
+
+<script>
+  // Suche und Themen live, ohne Neuladen. Ohne JavaScript macht der Server dasselbe.
+  document.documentElement.classList.add('js');
+
+  const form = document.querySelector<HTMLFormElement>('[data-suche-form]');
+  const eingabe = document.querySelector<HTMLInputElement>('#q');
+  const chips = Array.from(document.querySelectorAll<HTMLAnchorElement>('.gh-chip'));
+  const karten = Array.from(document.querySelectorAll<HTMLElement>('.gh-karte'));
+  const leer = document.querySelector<HTMLElement>('[data-leer]');
+  const standText = document.querySelector<HTMLElement>('[data-stand-text]');
+
+  let thema = chips.find((c) => c.getAttribute('aria-current') === 'true')?.dataset.thema ?? '';
+
+  const suchbar = (s: string) =>
+    s.toLowerCase().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss');
+
+  const filtere = () => {
+    const woerter = suchbar(eingabe?.value ?? '').split(/\s+/).filter(Boolean);
+    let sichtbar = 0;
+    for (const k of karten) {
+      const passtThema = !thema || k.dataset.thema === thema;
+      const heu = k.dataset.suche ?? '';
+      const passtSuche = woerter.every((w) => heu.includes(w));
+      const zeigen = passtThema && passtSuche;
+      k.hidden = !zeigen;
+      if (zeigen) sichtbar += 1;
+    }
+    if (leer) leer.hidden = sichtbar > 0;
+    if (standText) {
+      standText.textContent = sichtbar === karten.length ? `${karten.length} Einträge` : `${sichtbar} von ${karten.length} Einträgen`;
+    }
+    const p = new URLSearchParams();
+    if (eingabe?.value) p.set('q', eingabe.value);
+    if (thema) p.set('thema', thema);
+    const s = p.toString();
+    history.replaceState(null, '', `/gespraech${s ? `?${s}` : ''}`);
+  };
+
+  form?.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    filtere();
+  });
+  eingabe?.addEventListener('input', filtere);
+
+  for (const chip of chips) {
+    chip.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      thema = chip.dataset.thema ?? '';
+      for (const c of chips) {
+        if (c === chip) c.setAttribute('aria-current', 'true');
+        else c.removeAttribute('aria-current');
+      }
+      filtere();
+    });
+  }
+</script>

@@ -198,7 +198,8 @@ export function reihenfolgeAufgabe(teile: string[], schluessel: string): string[
 
 export type UebungsAntwort =
   | { typ: 'luecken'; eingaben: string[] }
-  | { typ: 'reihenfolge'; reihenfolge: number[] };
+  /** gemischt: die Teile, wie sie beim Versuch angezeigt wurden, damit sich das Ergebnis spaeter nachzeichnen laesst. */
+  | { typ: 'reihenfolge'; reihenfolge: number[]; gemischt?: string[] };
 
 export interface UebungsBewertung {
   richtig: boolean;
