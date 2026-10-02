@@ -88,6 +88,17 @@ liegt in `lernkarten_stand` (zuletzt gesehene Karte, gelesen) und
 weiter in `quiz_antworten` (Migration `003-lernen.sql`). Styles nur in
 `styles/lernen.css`.
 
+**Grafiken prüfen.** Text in SVG bricht nicht um, eine zu lange Zeile ragt
+einfach aus ihrem Kasten. `tests/grafiken.test.ts` schätzt deshalb für jede
+Grafik unter `../inhalt/grafiken/` und `../inhalt/lernen/grafiken/` die Breite
+jeder Textzeile (`src/lib/grafik-pruefung.ts`, Zeichenklassen mal
+Schriftgröße, gegen Inter kalibriert) und prüft Rand zur viewBox, Abstand zum
+umgebenden Kasten, Überlappungen und die Schriftgröße in Bildschirmpixeln bei
+375 px Breite (mindestens 11 px). `npm run pruefe-grafiken` misst dasselbe
+exakt im Browser (Playwright mit Chromium, lokal, global oder über
+`PLAYWRIGHT_DIR`, wie beim PDF-Build) und ist der Maßstab, wenn die Näherung
+zweifelt. Beide erwarten 0 Befunde.
+
 **Gesprächshilfe.** `../inhalt/gespraechshilfe.json` wird ebenfalls beim Build
 eingelesen (`src/lib/inhalt-gespraech.ts`), geprüft (`src/lib/gespraech.ts`)
 und ins Bundle geschrieben. Fehlerhafte Einträge sieht der Admin unter

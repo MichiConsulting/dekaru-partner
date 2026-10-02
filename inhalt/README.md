@@ -70,6 +70,10 @@ für Screenreader und mit `viewBox`, damit sie skalieren. Farben: Text
 höchstens eine Hervorhebung je Grafik. Schriften `Space Grotesk` für
 Überschriften und `Inter` für Text, mit Fallback auf `system-ui`. Wer die
 Grafiken einbindet, sollte beide Schriften laden, sonst greift der Fallback.
+Maße: 800 Einheiten breit, Schrift mindestens 11. Das Portal zeigt sie auf
+dem Handy mit 800 px Mindestbreite zum Schieben, damit die Schrift lesbar
+bleibt. Text bricht in SVG nicht um, deshalb muss jede Zeile in ihren Kasten
+passen; `npm test` und `npm run pruefe-grafiken` in `app/` prüfen das.
 
 | Datei | Zeigt |
 |---|---|
@@ -123,10 +127,18 @@ Grafiken nur für die Lernkarten, anders gebaut als die unter `grafiken/`:
 sie werden inline in die Seite gesetzt und übernehmen die Farben des Portals,
 damit sie hell und dunkel funktionieren. Deshalb keine festen Farben an den
 Elementen, sondern Klassen mit Variablen und Ersatzwert im `<style>`-Block
-(`.f1{fill:var(--lk-f1,#ece6da)}`), Text über `fill="currentColor"`. Jede
+(`#g-xx .f1{fill:var(--lk-f1,#ece6da)}`), Text über `fill="currentColor"`. Jede
 Datei braucht `<title>`, `<desc>` und `viewBox`, mit eindeutigen IDs je Datei,
-weil mehrere Grafiken auf einer Seite liegen. Kompakt zeichnen (etwa 400
-Einheiten breit, Schrift 11 bis 13), damit sie auf dem Handy lesbar bleiben.
+weil mehrere Grafiken auf einer Seite liegen. Aus demselben Grund trägt das
+`<svg>` eine eigene `id` (`g-xx`) und jede Regel im `<style>` beginnt mit
+dieser ID, sonst überschreiben sich gleichnamige Klassen zweier Grafiken.
+
+Maße: **320 Einheiten breit**, hochkant statt breit, Schrift **mindestens 12**
+(Überschriften 13, Zahlen bis 20). Auf dem Handy ist die Grafik 299 px breit,
+dann sind 12 Einheiten noch 11 px. SVG-Text bricht nicht um: jede Zeile ist
+ein eigenes `<text>`, und jede Zeile muss mit mindestens 4 Einheiten Rand in
+die viewBox und mit 3 Einheiten in ihren Kasten passen. `npm test` in `app/`
+prüft das näherungsweise, `npm run pruefe-grafiken` misst es im Browser.
 
 | Datei | Zeigt |
 |---|---|
