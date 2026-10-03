@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { entscheideZugriff, istAdmin, sichererWeiterPfad } from '../src/lib/zugriff.ts';
+import { entscheideZugriff, istAdmin, istIsrAnfrage, sichererWeiterPfad } from '../src/lib/zugriff.ts';
 import type { Benutzer } from '../src/lib/auth.ts';
 
 const vertriebler: Benutzer = {
@@ -45,5 +45,11 @@ describe('Zugriff', () => {
     expect(istAdmin(admin)).toBe(true);
     expect(istAdmin(vertriebler)).toBe(false);
     expect(istAdmin(null)).toBe(false);
+  });
+  it('erkennt die ISR-Kopfzeile, die dieses Portal nie legitim bekommt', () => {
+    const mit = { headers: new Headers({ 'x-vercel-isr': '1' }) };
+    const ohne = { headers: new Headers() };
+    expect(istIsrAnfrage(mit)).toBe(true);
+    expect(istIsrAnfrage(ohne)).toBe(false);
   });
 });

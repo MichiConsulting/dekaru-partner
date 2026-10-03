@@ -41,6 +41,21 @@ export function istAdmin(benutzer: Benutzer | null): boolean {
 }
 
 /**
+ * @astrojs/vercel liest bei "x-vercel-isr: 1" den tatsaechlichen Pfad aus
+ * einem Query-Parameter, ohne den Absender zu pruefen (GHSA-x27w-589x-frm2).
+ * Lokal gegen den gebauten Vercel-Adapter getestet: die eigene Middleware
+ * entscheidet in diesem Portal ueber den schon ersetzten Pfad, ein Bypass
+ * der Anmeldung oder der Admin-Rolle liess sich dabei nicht ausloesen. Das
+ * Portal hat keine Seite mit ISR, darum gibt es fuer diesen Header hier
+ * ohnehin keinen gueltigen Grund. Eine solche Anfrage ganz abzulehnen ist
+ * billiger, als sich auf das Verhalten einer fremden Bibliothek zu
+ * verlassen.
+ */
+export function istIsrAnfrage(request: Pick<Request, 'headers'>): boolean {
+  return request.headers.get('x-vercel-isr') === '1';
+}
+
+/**
  * Nur relative Pfade ohne Protokoll, damit "weiter" nie nach aussen fuehrt.
  *
  * Browser entfernen Steuerzeichen wie Tab beim Parsen einer URL. Aus

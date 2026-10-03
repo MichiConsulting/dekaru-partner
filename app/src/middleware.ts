@@ -4,7 +4,7 @@
 import { defineMiddleware } from 'astro:middleware';
 import { getDb } from './lib/db.ts';
 import { COOKIE_NAME, ladeSitzung } from './lib/auth.ts';
-import { entscheideZugriff } from './lib/zugriff.ts';
+import { entscheideZugriff, istIsrAnfrage } from './lib/zugriff.ts';
 
 const CSP = [
   "default-src 'self'",
@@ -40,6 +40,14 @@ function sicherheitsHeader(antwort: Response, pathname: string): Response {
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const { pathname } = context.url;
+
+  // Siehe istIsrAnfrage: dieses Portal hat keine ISR-Seite, so eine Anfrage
+  // ist hier immer unerwartet. Abgewiesen, bevor ueberhaupt die Datenbank
+  // angefasst wird.
+  if (istIsrAnfrage(context.request)) {
+    return sicherheitsHeader(new Response('Ungueltige Anfrage.', { status: 400 }), pathname);
+  }
+
   const db = await getDb();
   context.locals.db = db;
 
