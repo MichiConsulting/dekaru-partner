@@ -2,12 +2,14 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import type { Db } from '../src/lib/db.ts';
 import { neueDb } from './helfer.ts';
 import {
+  EINMAL_PASSWORT_GUELTIG_STUNDEN,
   RATE_MAX_FEHLVERSUCHE,
   beendeSitzung,
   erstelleBenutzer,
   ladeSitzung,
   login,
   setzeAktiv,
+  setzePasswort,
 } from '../src/lib/auth.ts';
 import { erzeugeEinmalPasswort, hashPasswort, pruefeNeuesPasswort, pruefePasswort } from '../src/lib/passwort.ts';
 
@@ -111,5 +113,40 @@ describe('Login', () => {
     expect(await ladeSitzung(db, e2.sitzung.token)).toBeNull();
     const e3 = await login(db, { email: 'bert@example.test', passwort: 'bert-passwort-1', ip: '10.0.0.4' });
     expect(e3.ok).toBe(false);
+  });
+
+  it('zaehlt Versuche atomar, auch wenn viele gleichzeitig eintreffen', async () => {
+    await erstelleBenutzer(db, { email: 'carla@example.test', name: 'Carla', rolle: 'vertriebler', passwort: 'carla-passwort-1' });
+    const ergebnisse = await Promise.all(
+      Array.from({ length: 20 }, () => login(db, { email: 'carla@example.test', passwort: 'falsch', ip: '10.0.0.20' })),
+    );
+    const gesperrt = ergebnisse.filter((e) => !e.ok && e.grund === 'gesperrt').length;
+    // Ohne den atomaren Upsert sehen alle 20 parallelen Anfragen den Stand vor
+    // der Sperre und keine wird abgewiesen. Mit dem Fix muss die grosse
+    // Mehrheit der Versuche jenseits von RATE_MAX_FEHLVERSUCHE gesperrt sein.
+    expect(gesperrt).toBeGreaterThan(20 - RATE_MAX_FEHLVERSUCHE - 2);
+  });
+
+  it('lehnt ein abgelaufenes Einmal-Passwort ab, auch wenn es stimmt', async () => {
+    const b = await erstelleBenutzer(db, { email: 'doro@example.test', name: 'Doro', rolle: 'vertriebler', passwort: 'irrelevant' });
+    await setzePasswort(db, b.id, 'einmal-passwort-xyz', true);
+
+    const jetzt = new Date();
+    const nochGueltig = new Date(jetzt.getTime() + (EINMAL_PASSWORT_GUELTIG_STUNDEN - 1) * 60 * 60 * 1000);
+    const abgelaufen = new Date(jetzt.getTime() + (EINMAL_PASSWORT_GUELTIG_STUNDEN + 1) * 60 * 60 * 1000);
+
+    const nochOk = await login(db, { email: 'doro@example.test', passwort: 'einmal-passwort-xyz', ip: '10.0.0.30' }, nochGueltig);
+    expect(nochOk.ok).toBe(true);
+
+    const danach = await login(db, { email: 'doro@example.test', passwort: 'einmal-passwort-xyz', ip: '10.0.0.31' }, abgelaufen);
+    expect(danach).toEqual({ ok: false, grund: 'falsch' });
+  });
+
+  it('ein selbst gesetztes Passwort hat keine Ablauffrist', async () => {
+    const b = await erstelleBenutzer(db, { email: 'emil@example.test', name: 'Emil', rolle: 'vertriebler', passwort: 'irrelevant' });
+    await setzePasswort(db, b.id, 'eigenes-passwort-xyz', false);
+    const inZehnJahren = new Date(Date.now() + 10 * 365 * 24 * 60 * 60 * 1000);
+    const e = await login(db, { email: 'emil@example.test', passwort: 'eigenes-passwort-xyz', ip: '10.0.0.32' }, inZehnJahren);
+    expect(e.ok).toBe(true);
   });
 });
