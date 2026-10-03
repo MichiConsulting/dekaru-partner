@@ -105,10 +105,19 @@ export function pruefeNeuesPasswort(
 
 // Ohne 0, O, 1, l, I, damit sich das Passwort am Telefon durchsagen laesst.
 const ALPHABET = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789';
+// 256 ist kein Vielfaches von ALPHABET.length (54): ohne diese Grenze waeren
+// die ersten 40 Zeichen des Alphabets geringfuegig wahrscheinlicher als die
+// uebrigen. Bytes ab der Grenze werden verworfen (Rejection-Sampling).
+const BYTE_GRENZE = Math.floor(256 / ALPHABET.length) * ALPHABET.length;
 
 /** Einmal-Passwort fuer die Einladung, drei Bloecke zu vier Zeichen. */
 export function erzeugeEinmalPasswort(): string {
-  const bytes = randomBytes(12);
-  const zeichen = Array.from(bytes, (b) => ALPHABET[b % ALPHABET.length]);
+  const zeichen: string[] = [];
+  while (zeichen.length < 12) {
+    for (const b of randomBytes(16)) {
+      if (zeichen.length >= 12) break;
+      if (b < BYTE_GRENZE) zeichen.push(ALPHABET[b % ALPHABET.length]);
+    }
+  }
   return `${zeichen.slice(0, 4).join('')}-${zeichen.slice(4, 8).join('')}-${zeichen.slice(8, 12).join('')}`;
 }
