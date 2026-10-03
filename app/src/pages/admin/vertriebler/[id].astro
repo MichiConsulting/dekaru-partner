@@ -10,6 +10,9 @@ import { datumDe } from '../../../lib/provision.ts';
 import { formular, istPost } from '../../../lib/http.ts';
 import { ladeUebungsstand } from '../../../lib/gespraech-fortschritt.ts';
 import { pflichtsatzListe } from '../../../lib/inhalt-gespraech.ts';
+import { istAdmin } from '../../../lib/zugriff.ts';
+
+if (!istAdmin(Astro.locals.benutzer)) return Astro.redirect('/verboten', 303);
 
 const db = Astro.locals.db;
 const ich = Astro.locals.benutzer!;
