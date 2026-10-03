@@ -109,7 +109,7 @@ export async function registriereVersuch(db: Db, schluessel: string, jetzt = new
        END,
        gesperrt_bis = CASE
          WHEN login_versuche.gesperrt_bis IS NOT NULL AND login_versuche.gesperrt_bis > $2 THEN login_versuche.gesperrt_bis
-         WHEN (CASE WHEN login_versuche.fenster_start < $3 THEN 1 ELSE login_versuche.fehlversuche + 1 END) >= $4 THEN $5
+         WHEN (CASE WHEN login_versuche.fenster_start < $3 THEN 1 ELSE login_versuche.fehlversuche + 1 END) > $4 THEN $5
          ELSE NULL
        END
      RETURNING fehlversuche, gesperrt_bis`,

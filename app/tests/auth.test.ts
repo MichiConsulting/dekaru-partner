@@ -86,6 +86,20 @@ describe('Login', () => {
     expect(f.ok).toBe(true);
   });
 
+  it('erlaubt genau RATE_MAX_FEHLVERSUCHE Versuche, nicht einen weniger', async () => {
+    await erstelleBenutzer(db, { email: 'finn@example.test', name: 'Finn', rolle: 'vertriebler', passwort: 'finn-passwort-1' });
+    // Das Vorzaehlen darf den letzten erlaubten Versuch nicht selbst schon
+    // sperren: sonst kaeme jemand mit dem richtigen Passwort im fuenften
+    // Versuch nicht mehr hinein, obwohl die Regel "fuenf Fehlversuche, dann
+    // Sperre" lautet.
+    for (let i = 0; i < RATE_MAX_FEHLVERSUCHE - 1; i += 1) {
+      const e = await login(db, { email: 'finn@example.test', passwort: 'falsch', ip: '10.0.0.40' });
+      expect(e).toEqual({ ok: false, grund: 'falsch' });
+    }
+    const letzterErlaubter = await login(db, { email: 'finn@example.test', passwort: 'finn-passwort-1', ip: '10.0.0.40' });
+    expect(letzterErlaubter.ok).toBe(true);
+  });
+
   it('meldet nach 60 Minuten ohne Aktivitaet ab, Aktivitaet verlaengert', async () => {
     await erstelleBenutzer(db, { email: 'ida@example.test', name: 'Ida', rolle: 'vertriebler', passwort: 'ida-passwort-1' });
     const start = new Date();
