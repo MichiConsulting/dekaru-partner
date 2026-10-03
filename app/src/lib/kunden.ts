@@ -102,11 +102,11 @@ export function pruefeKunde(eingabe: Record<string, unknown>): { wert: KundeEing
     fehler.push('Das Termin-Datum muss im Format JJJJ-MM-TT vorliegen.');
     terminDatum = null;
   } else if (terminDatum && Number.isNaN(new Date(`${terminDatum}T12:00:00Z`).getTime())) {
-    fehler.push('Das Termin-Datum ist kein gueltiges Datum.');
+    fehler.push('Das Termin-Datum ist kein gültiges Datum.');
     terminDatum = null;
   }
   if ((status === 'termin' || status === 'zweittermin') && !terminDatum) {
-    fehler.push('Zu einem Termin gehoert ein Datum.');
+    fehler.push('Zu einem Termin gehört ein Datum.');
   }
 
   return {

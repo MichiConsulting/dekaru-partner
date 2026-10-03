@@ -60,7 +60,8 @@
     <rect class="card" x="0" y="0" width="200" height="430" rx="4"/>
     <text class="h" x="16" y="34" font-size="20">Plus</text>
     <text class="m" x="16" y="56">für Betriebe mit vielen</text>
-    <text class="m" x="16" y="72">Änderungen, schnellste Umsetzung</text>
+    <text class="m" x="16" y="72">Änderungen,</text>
+    <text class="m" x="16" y="88">schnellste Umsetzung</text>
     <text class="h" x="16" y="120" font-size="16">590 € im Jahr</text>
     <text class="m" x="16" y="140">nur als Jahresvertrag,</text>
     <text class="m" x="16" y="156">zehn Monate zu je 59 €</text>

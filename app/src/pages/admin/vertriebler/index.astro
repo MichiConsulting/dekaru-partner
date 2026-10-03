@@ -47,7 +47,7 @@ const liste = await alleBenutzer(db);
   )}
   {fehler && <div class="meldung meldung--fehler" role="alert"><p>{fehler}</p></div>}
 
-  <div class="tabelle-wrap">
+  <div class="tabelle-wrap schiebbar">
     <table>
       <thead><tr><th>Name</th><th>E-Mail</th><th>Rolle</th><th>Slug</th><th>Letzter Login</th><th>Status</th><th></th></tr></thead>
       <tbody>

@@ -27,7 +27,7 @@ describe('Kunden pruefen', () => {
   it('verlangt Name, gueltigen Status und Datum bei Terminen', () => {
     expect(pruefeKunde({ name: '', status: 'angerufen' }).fehler).toContain('Der Name des Betriebs fehlt.');
     expect(pruefeKunde({ name: 'X', status: 'irgendwas' }).fehler.some((f) => /Status/.test(f))).toBe(true);
-    expect(pruefeKunde({ name: 'X', status: 'termin' }).fehler).toContain('Zu einem Termin gehoert ein Datum.');
+    expect(pruefeKunde({ name: 'X', status: 'termin' }).fehler).toContain('Zu einem Termin gehört ein Datum.');
     expect(pruefeKunde({ name: 'X', status: 'termin', terminDatum: '2026-13-40' }).fehler.length).toBeGreaterThan(0);
     const ok = pruefeKunde({ name: '  Bäckerei Muster ', ort: 'Horb', status: 'termin', terminDatum: '2026-10-05', telefon: '07451 1' });
     expect(ok.fehler).toEqual([]);

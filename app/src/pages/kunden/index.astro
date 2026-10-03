@@ -46,20 +46,20 @@ const gespeichert = Astro.url.searchParams.get('ok');
   {kunden.length === 0 ? (
     <p>Noch kein Eintrag{status || suche ? ' zu diesem Filter' : ''}.</p>
   ) : (
-    <div class="tabelle-wrap">
-      <table>
-        <thead>
-          <tr><th>Betrieb</th><th>Ort</th><th>Ansprechpartner</th><th>Status</th><th>Termin</th><th></th></tr>
+    <div class="tabelle-wrap schiebbar">
+      <table class="tabelle--karten" role="table">
+        <thead role="rowgroup">
+          <tr role="row"><th role="columnheader">Betrieb</th><th role="columnheader">Ort</th><th role="columnheader">Ansprechpartner</th><th role="columnheader">Status</th><th role="columnheader">Termin</th><th role="columnheader"><span class="sr-only">Bearbeiten</span></th></tr>
         </thead>
-        <tbody>
+        <tbody role="rowgroup">
           {kunden.map((k) => (
-            <tr>
-              <td><a href={`/kunden/${k.id}`}>{k.name}</a></td>
-              <td>{k.ort}</td>
-              <td>{k.ansprechpartner}{k.telefon && <span class="meta"><br />{k.telefon}</span>}</td>
-              <td><span class:list={['badge', k.status === 'abschluss' && 'badge--voll']}>{statusLabel(k.status)}</span></td>
-              <td>{datumDe(k.terminDatum)}</td>
-              <td><a href={`/kunden/${k.id}`}>Bearbeiten</a></td>
+            <tr role="row">
+              <td role="cell" class="zelle--titel"><a href={`/kunden/${k.id}`}>{k.name}</a></td>
+              <td role="cell" data-label="Ort">{k.ort}</td>
+              <td role="cell" data-label="Ansprechpartner"><span>{k.ansprechpartner}{k.telefon && <span class="meta"><br />{k.telefon}</span>}</span></td>
+              <td role="cell" data-label="Status"><span class:list={['badge', k.status === 'abschluss' && 'badge--voll']}>{statusLabel(k.status)}</span></td>
+              <td role="cell" data-label="Termin">{datumDe(k.terminDatum)}</td>
+              <td role="cell" class="zelle--nebensache"><a href={`/kunden/${k.id}`}>Bearbeiten</a></td>
             </tr>
           ))}
         </tbody>

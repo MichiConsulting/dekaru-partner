@@ -121,6 +121,56 @@ export async function fortschritt(db: Db, benutzerId: string, kapitelFragen: Map
   return stand;
 }
 
+// ---------------------------------------------------------------------------
+// Lernkarten: wie weit jemand in einem Kapitel geblaettert hat.
+
+export interface KartenStand {
+  letzteKarte: number;
+  gelesen: boolean;
+}
+
+/**
+ * Merkt sich die zuletzt gesehene Karte (1-basiert). Die letzte Karte eines
+ * Kapitels setzt "gelesen". Rueckwaerts blaettern nimmt nichts zurueck.
+ */
+export async function speichereKartenStand(
+  db: Db,
+  benutzerId: string,
+  kapitel: string,
+  karte: number,
+  gesamt: number,
+): Promise<void> {
+  const nummer = Math.max(0, Math.min(Math.floor(karte), gesamt));
+  const gelesen = gesamt > 0 && nummer >= gesamt;
+  await db.query(
+    `INSERT INTO lernkarten_stand (benutzer_id, kapitel, letzte_karte, gelesen, aktualisiert_am)
+     VALUES ($1, $2, $3, $4, now())
+     ON CONFLICT (benutzer_id, kapitel) DO UPDATE
+       SET letzte_karte = GREATEST(lernkarten_stand.letzte_karte, EXCLUDED.letzte_karte),
+           gelesen = lernkarten_stand.gelesen OR EXCLUDED.gelesen,
+           aktualisiert_am = now()`,
+    [benutzerId, kapitel, nummer, gelesen],
+  );
+}
+
+/** Wer die Abfrage startet, hat das Kapitel gelesen. */
+export async function markiereGelesen(db: Db, benutzerId: string, kapitel: string): Promise<void> {
+  await db.query(
+    `INSERT INTO lernkarten_stand (benutzer_id, kapitel, letzte_karte, gelesen, aktualisiert_am)
+     VALUES ($1, $2, 0, true, now())
+     ON CONFLICT (benutzer_id, kapitel) DO UPDATE SET gelesen = true, aktualisiert_am = now()`,
+    [benutzerId, kapitel],
+  );
+}
+
+export async function ladeKartenStand(db: Db, benutzerId: string): Promise<Map<string, KartenStand>> {
+  const zeilen = await db.query<{ kapitel: string; letzte_karte: number; gelesen: boolean }>(
+    'SELECT kapitel, letzte_karte, gelesen FROM lernkarten_stand WHERE benutzer_id = $1',
+    [benutzerId],
+  );
+  return new Map(zeilen.map((z) => [z.kapitel, { letzteKarte: Number(z.letzte_karte), gelesen: z.gelesen }]));
+}
+
 export interface FortschrittUebersicht {
   benutzerId: string;
   name: string;

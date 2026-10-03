@@ -1,0 +1,97 @@
+{
+  "kapitel": "09-einwaende",
+  "karten": [
+    {
+      "titel": "Gerüst, kein Text zum Ablesen",
+      "icon": "sprechblase",
+      "saetze": [
+        "Die Antworten sind ein Gerüst. Wer sie vorliest, klingt vorgelesen. Die Grenzen sind verbindlich, die Formulierung darf Ihre sein."
+      ],
+      "merke": "Nie etwas versprechen, das es nicht gibt. Das gilt für jede Antwort in diesem Kapitel."
+    },
+    {
+      "titel": "Am Telefon: Mail und Preis",
+      "icon": "telefon",
+      "saetze": [
+        "\"Schicken Sie mir was per Mail\": die Vorschau wird gemeinsam gezeigt. Bleibt es bei der Mail: Wiedervorlage in vier Wochen, nichts verschicken. \"Was kostet das?\": ab 600 €, Festpreis, die Zahl kommt vorher. Nie eine zweite Zahl."
+      ],
+      "zitat": "Kann ich machen, bringt Ihnen aber wenig. Das Interessante ist die gebaute Vorschau mit Ihren Daten, und die zeige ich Ihnen lieber gemeinsam, damit Sie gleich sagen können, was Ihnen nicht passt. Wann hätten Sie zwanzig Minuten?",
+      "merke": "Nichts verschicken, nie verhandeln."
+    },
+    {
+      "titel": "Am Telefon: Website, Nummer, kein Bedarf",
+      "icon": "telefon",
+      "saetze": [
+        "Drei Einwände, drei kurze Antworten, dann entscheidet der Betrieb."
+      ],
+      "liste": [
+        "\"Wir haben schon eine Website\": fragen, wie zufrieden er damit auf dem Handy ist. Dann ist es sein Befund, nicht Ihr Vorwurf",
+        "\"Wo haben Sie meine Nummer her?\": aus dem öffentlichen Branchenverzeichnis. Auf Wunsch sofort raus, und das dann auch tun",
+        "\"Keine Zeit, kein Bedarf\": \"Liegt's gerade nur am Zeitpunkt?\" Genau ein Soft-Versuch"
+      ],
+      "merke": "Kommt wieder Nein: bedanken, Wiedervorlage, auflegen."
+    },
+    {
+      "titel": "Im Gespräch: Referenzen und Ein-Mann-Betrieb",
+      "icon": "person",
+      "saetze": [
+        "Referenzen: offen sagen, dass er anfängt, dafür mehr Aufmerksamkeit, und die eigene Seite wird vorher gezeigt. Ein-Mann-Betrieb: der Kunde redet immer mit dem, der baut. Domain gehört ihm, Website jederzeit als Paket übergebbar."
+      ],
+      "zitat": "Dass er allein ist, hat er nicht versteckt, und es hat eine Kehrseite: Sie reden immer mit dem, der es auch baut. Für den Fall der Fälle gehört Ihnen die Domain, und die Website bekommen Sie jederzeit als komplettes Paket übergeben, das jeder andere Webentwickler weiterführen kann. Zeiten für Änderungen sind in Werktagen zugesagt, Urlaub wird vorher angekündigt.",
+      "merke": "Nie Kunden erfinden. Nie die Gestaltungsbeispiele als Kunden ausgeben."
+    },
+    {
+      "titel": "Im Gespräch: Baukasten, Dauer, Ändern, Backups",
+      "icon": "liste",
+      "saetze": [
+        "Vier Fragen, die in fast jedem Gespräch kommen."
+      ],
+      "liste": [
+        "\"Ein Baukasten ist billiger\": stimmt, in der ersten Rechnung. Es fehlen Barrierefreiheit nach dem Gesetz von 2025, Schriften ohne Google-Aufruf und jemand, den man anrufen kann",
+        "\"Wie lange dauert das?\": das steht als Datum im Angebot. Keine Bauzeit nennen, weder Tage noch Wochen",
+        "\"Kann ich selbst ändern?\": per Mail an Herrn Henning, drei, fünf oder zehn im Monat. Ein System dafür ist in Arbeit, ohne Datum",
+        "\"Macht ihr Backups?\": jede Version ist gesichert und lässt sich komplett neu aufsetzen. Das Wort \"Backup\" nicht selbst verwenden"
+      ],
+      "merke": "Nicht über andere Anbieter lästern. Beim Sachlichen bleiben."
+    },
+    {
+      "titel": "Im Gespräch: Hosting und Kündigung",
+      "icon": "server",
+      "saetze": [
+        "Bei Kündigung: die Domain gehört ihm, den Umzugscode gibt es kostenlos, die Website als komplettes Paket für 99 €. Was wegfällt: die Betreuung, und bei Groß die Terminanfrage, weil sie über das Hosting läuft."
+      ],
+      "zitat": "Weil die Seite nicht nur irgendwo liegen soll. Domain, Verschlüsselung, Updates und Ihre Änderungen sind drin. Bei Start sind das 19 € im Monat, und Sie können monatlich kündigen. Wenn Sie zusammen mit der Website buchen, sind die ersten drei Monate frei.",
+      "merke": "Gratisquartal nur zusammen mit der Website, danach mindestens sechs bezahlte Monate. Das mit der Funktion sagen Sie im Zweittermin, nicht erst bei der Kündigung."
+    },
+    {
+      "titel": "Im Zweittermin: zu den Paketen",
+      "icon": "paket",
+      "saetze": [
+        "Gilt ab Stufe 2, wenn Sie die Pakete selbst vorstellen. In Stufe 1 nennt Michael Henning die Preise."
+      ],
+      "liste": [
+        "\"Warum nicht einfach Klein?\": wenn eine Seite reicht, ist Klein richtig. Wer zeigen will, was er macht, landet mit Bausteinen schnell bei Mittel",
+        "\"Mittel reicht mir doch\": für 300 € mehr arbeitet die Seite mit. Dazu Team-Seite, Fotobearbeitung, eine Seite und zwei Texte mehr",
+        "\"Terminanfrage zu Mittel dazukaufen?\": nein, die gibt es nur in Groß, der Unterschied sind 300 €",
+        "\"Was, wenn ich selbst hoste?\": dann gibt es die Funktion nicht. Wer sicher selbst hostet, ist mit Mittel besser bedient",
+        "\"Brauche ich dafür Hosting Plus?\": nein, sie läuft in jeder Stufe, schon ab Start",
+        "\"Paket kleiner und billiger?\": nein, die Pakete sind fest. Was nicht gebraucht wird, bleibt leer, der Preis bleibt"
+      ],
+      "merke": "Kein Nachlass, kein Tauschen von Inhalten zwischen den Paketen, kein Baustein \"Terminanfrage\"."
+    },
+    {
+      "titel": "Festmachen, Vorschau, Wissenslücke",
+      "icon": "haken",
+      "saetze": [
+        "Kein Abschluss ohne Vorschau, kein Vertrag durch Sie. Ein Betrieb, der am Telefon halb überzeugt wurde, kommt mit einer Erwartung in den Termin, die die Vorschau nicht erfüllen kann."
+      ],
+      "liste": [
+        "\"Zahle ich bei Google doppelt?\": nein. Die Grundlagen sind Arbeit an der Website, das Profil ist der Eintrag auf der Karte",
+        "\"Können wir das gleich festmachen?\": umso besser, dann geht der Zweittermin schnell. Sie sehen Ihre Seite, dann machen wir es fest",
+        "\"Und wenn mir die Vorschau nicht gefällt?\": dann haben Sie zwanzig Minuten verloren, und wir gehen auseinander"
+      ],
+      "zitat": "Das weiß ich nicht sicher, und ich will Ihnen nichts Falsches sagen. Das klären wir mit Herrn Henning.",
+      "merke": "Eine ehrliche Wissenslücke ist keine Schwäche. Wer etwas zusagt, was nicht geht, kostet den Termin und das Vertrauen."
+    }
+  ]
+}

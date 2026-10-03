@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="g-st" viewBox="0 0 320 262" role="img" aria-labelledby="st-t st-d" fill="currentColor" font-family="Inter, system-ui, sans-serif" font-size="12">
+  <title id="st-t">Stufe 1 und Stufe 2 im Zweittermin</title>
+  <desc id="st-d">Stufe 1: die ersten fünf Zweittermine gemeinsam, zwei Personen, Michael Henning nennt den Preis. Stufe 2: ab dem sechsten Zweittermin allein, eine Person, Sie nennen den Paketpreis aus dem Preisrechner.</desc>
+  <style>
+    #g-st .f1{fill:var(--lk-f1,#ece6da)}#g-st .f2{fill:var(--lk-f2,#e2e7ec)}#g-st .ink{fill:var(--lk-ink,#141414)}
+    #g-st .ln{stroke:var(--lk-ink,#141414);stroke-width:2;fill:none;stroke-linecap:round}#g-st .mu{fill:var(--lk-muted,#5f5f5f)}#g-st .h{font-weight:700}#g-st .t{font-size:13px;font-weight:700}
+  </style>
+  <rect class="f1" x="4" y="4" width="312" height="124" rx="8"/>
+  <rect class="f2" x="4" y="134" width="312" height="124" rx="8"/>
+
+  <!-- Stufe 1: zwei Personen -->
+  <circle class="ln" cx="34" cy="26" r="7"/><path class="ln" d="M20 52c2-9 8-13 14-13s12 4 14 13"/>
+  <circle class="ink" cx="60" cy="26" r="7"/><path class="ink" d="M46 52c2-9 8-13 14-13s12 4 14 13z"/>
+  <text class="t" x="92" y="30">Stufe 1</text>
+  <text x="92" y="48">Termine 1 bis 5</text>
+  <text x="16" y="74">Gemeinsam, Video oder vor Ort.</text>
+  <text x="16" y="90">Sie präsentieren die Vorschau,</text>
+  <text class="h" x="16" y="106">er nennt den Preis</text>
+  <text class="mu" x="16" y="122">und beantwortet Technikfragen.</text>
+
+  <!-- Stufe 2: eine Person -->
+  <circle class="ln" cx="34" cy="156" r="7"/><path class="ln" d="M20 182c2-9 8-13 14-13s12 4 14 13"/>
+  <text class="t" x="92" y="160">Stufe 2</text>
+  <text x="92" y="178">ab dem 6. Zweittermin</text>
+  <text x="16" y="204">Allein. Sie zeigen die Pakete,</text>
+  <text class="h" x="16" y="220">Sie nennen den Paketpreis</text>
+  <text x="16" y="236">und Bausteine, ohne Nachlass.</text>
+  <text class="mu" x="16" y="252">Verträge: Michael Henning.</text>
+</svg>

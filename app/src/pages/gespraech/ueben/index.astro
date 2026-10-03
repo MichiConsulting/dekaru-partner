@@ -1,0 +1,98 @@
+---
+// Uebersicht des Uebungsmodus: welche Pflichtsaetze sitzen, wo es weitergeht.
+import Layout from '../../../layouts/Layout.astro';
+import { pflichtsatzListe } from '../../../lib/inhalt-gespraech.ts';
+import { anzahlSitzt, ladeUebungsstand } from '../../../lib/gespraech-fortschritt.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const db = Astro.locals.db;
+
+const stand = await ladeUebungsstand(db, benutzer.id);
+const sitzen = anzahlSitzt(stand, pflichtsatzListe.map((e) => e.id));
+const alle = pflichtsatzListe.length > 0 && sitzen === pflichtsatzListe.length;
+const naechster = pflichtsatzListe.findIndex((e) => !stand.get(e.id)?.sitzt);
+const startNr = naechster >= 0 ? naechster + 1 : 1;
+---
+
+<Layout titel="Pflichtsätze üben" aktiv="gespraech" schmal>
+  <p class="meta"><a href="/gespraech">Gespräch</a> / Üben</p>
+  <h1>Pflichtsätze üben</h1>
+  <p>Diese {pflichtsatzListe.length} Sätze sagen Sie wortgleich. Je Satz ein Schritt: einmal Lückentext, einmal Satzteile ordnen, im Wechsel. Die Lösung sehen Sie erst nach Ihrer Antwort. Ein Satz sitzt, wenn der letzte Versuch stimmt.</p>
+
+  <div class="ue-stand" role="status">
+    <span class="ue-stand__zahl">{sitzen} / {pflichtsatzListe.length}</span>
+    <span class="ue-stand__text">{alle ? 'Alle Sätze sitzen.' : 'Sätze sitzen.'}</span>
+  </div>
+
+  <ol class="ue-liste">
+    {pflichtsatzListe.map((e, i) => {
+      const s = stand.get(e.id);
+      return (
+        <li>
+          <a href={`/gespraech/ueben/${i + 1}`}>
+            <span class="ue-nr" aria-hidden="true">{i + 1}</span>
+            <span class="ue-frage"><span class="sr-only">Satz {i + 1}: </span>{e.frage}</span>
+            <span class:list={['badge', s?.sitzt && 'badge--voll']}>{s?.sitzt ? 'Sitzt' : s ? 'Noch nicht' : 'Offen'}</span>
+          </a>
+        </li>
+      );
+    })}
+  </ol>
+
+  <div class="aktionen">
+    <a class="btn" href={`/gespraech/ueben/${startNr}`}>{alle ? 'Noch einmal von vorn' : sitzen > 0 ? `Weiter mit Satz ${startNr}` : 'Üben starten'}</a>
+    <a class="btn btn--zweit" href="/gespraech">Zur Gesprächshilfe</a>
+  </div>
+</Layout>
+
+<style>
+  .ue-stand {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-m);
+    margin: var(--space-l) 0;
+  }
+  .ue-stand__zahl {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+  }
+  .ue-stand__text {
+    color: var(--text-muted);
+  }
+  .ue-liste {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-l);
+    max-width: none;
+  }
+  .ue-liste li {
+    margin: 0 0 var(--space-s);
+  }
+  .ue-liste a {
+    display: flex;
+    gap: var(--space-m);
+    align-items: center;
+    min-height: 44px;
+    padding: var(--space-m) var(--space-l);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    text-decoration: none;
+  }
+  .ue-liste a:hover {
+    border-color: var(--text);
+    color: var(--text);
+  }
+  .ue-nr {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--text-muted);
+    min-width: 2ch;
+  }
+  .ue-frage {
+    flex: 1;
+    font-weight: 500;
+  }
+</style>

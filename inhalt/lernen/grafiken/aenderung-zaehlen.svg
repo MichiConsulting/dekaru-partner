@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="g-az" viewBox="0 0 320 204" role="img" aria-labelledby="az-t az-d" fill="currentColor" font-family="Inter, system-ui, sans-serif" font-size="12">
+  <title id="az-t">Gezählt wird nach Anliegen, nicht nach Mails</title>
+  <desc id="az-d">Eine Mail mit drei Punkten ergibt drei Änderungen. Darunter die Kontingente: Start 3, Basis 5, Plus 10 im Monat, jede weitere 25 Euro. Gezählt wird erst nach der Umsetzung, eigene Fehler von Michael Henning zählen nie.</desc>
+  <style>
+    #g-az .f2{fill:var(--lk-f2,#e2e7ec)}#g-az .f3{fill:var(--lk-f3,#cfcfc9)}#g-az .ink{fill:var(--lk-ink,#141414)}#g-az .p{fill:var(--lk-paper,#ffffff)}
+    #g-az .ln{stroke:var(--lk-ink,#141414);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}#g-az .hk{stroke:var(--lk-paper,#ffffff);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}#g-az .mu{fill:var(--lk-muted,#5f5f5f)}#g-az .h{font-weight:700}
+  </style>
+  <!-- Mail -->
+  <rect class="p" x="16" y="18" width="100" height="78" rx="5"/>
+  <path class="ln" d="M16 23l50 36 50-36"/>
+  <rect class="f3" x="28" y="60" width="8" height="8" rx="1"/><rect class="f3" x="42" y="62" width="56" height="4"/>
+  <rect class="f3" x="28" y="72" width="8" height="8" rx="1"/><rect class="f3" x="42" y="74" width="44" height="4"/>
+  <rect class="f3" x="28" y="84" width="8" height="8" rx="1"/><rect class="f3" x="42" y="86" width="50" height="4"/>
+  <text class="mu" x="68" y="116" text-anchor="middle">eine Mail, drei Punkte</text>
+
+  <!-- Pfeil -->
+  <path class="ln" d="M126 57h20m-7-7l7 7-7 7"/>
+
+  <!-- drei Haken -->
+  <g><circle class="ink" cx="170" cy="57" r="14"/><path class="hk" d="M163 57l5 5 9-10"/></g>
+  <g><circle class="ink" cx="206" cy="57" r="14"/><path class="hk" d="M199 57l5 5 9-10"/></g>
+  <g><circle class="ink" cx="242" cy="57" r="14"/><path class="hk" d="M235 57l5 5 9-10"/></g>
+  <text class="h" x="206" y="116" text-anchor="middle">= 3 Änderungen</text>
+  <text class="mu" x="206" y="134" text-anchor="middle">gezählt erst nach der Umsetzung</text>
+
+  <!-- Kontingente -->
+  <rect class="f2" x="10" y="150" width="300" height="50" rx="6"/>
+  <text x="22" y="170">Im Monat drin: <tspan class="h">Start 3</tspan> · <tspan class="h">Basis 5</tspan> · <tspan class="h">Plus 10</tspan></text>
+  <text x="22" y="188">jede weitere Änderung <tspan class="h">25 €</tspan></text>
+</svg>

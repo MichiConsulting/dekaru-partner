@@ -111,9 +111,9 @@ export function pruefeQuizDaten(daten: unknown): { fragen: Frage[]; fehler: stri
       const text = String(f.text ?? '');
       const teile = zerlegeLueckentext(text, lueckenListe(f.luecken));
       const alle = teile.filter((t): t is Extract<Textteil, { art: 'luecke' }> => t.art === 'luecke');
-      if (alle.length === 0) return fehler.push(`${wo}: der Text hat keine Luecke {{...}}.`);
+      if (alle.length === 0) return fehler.push(`${wo}: der Text hat keine Lücke {{...}}.`);
       const ohne = alle.find((l) => l.loesungen.length === 0);
-      if (ohne) return fehler.push(`${wo}: fuer Luecke ${ohne.index + 1} fehlt die Loesung in "luecken".`);
+      if (ohne) return fehler.push(`${wo}: für Lücke ${ohne.index + 1} fehlt die Lösung in "luecken".`);
       fragen.push({ ...basis, typ: 'lueckentext', text, luecken: alle.map((l) => l.loesungen) });
     }
   });

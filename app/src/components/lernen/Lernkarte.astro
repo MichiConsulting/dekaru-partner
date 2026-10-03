@@ -1,0 +1,82 @@
+---
+// Eine Lernkarte: Titel, Kernsaetze, wahlweise Grafik, Kennzahl, Tabelle,
+// Liste oder Zitat, und ein Merksatz. Lerngrafiken werden inline gesetzt,
+// die Kapitelgrafiken aus inhalt/grafiken als Bild auf Papier.
+import LernIcon from './LernIcon.astro';
+import { grafikTitel, lernGrafik } from '../../lib/inhalt.ts';
+import type { Lernkarte } from '../../lib/lernkarten.ts';
+
+interface Props {
+  karte: Lernkarte;
+  nummer: number;
+  gesamt: number;
+  aktiv?: boolean;
+}
+
+const { karte, nummer, gesamt, aktiv = false } = Astro.props;
+const inlineSvg = karte.grafik ? lernGrafik(karte.grafik) : null;
+const bildAlt = karte.grafik && !inlineSvg ? grafikTitel(karte.grafik) : '';
+const tonart = nummer % 2 === 0 ? 'ton-2' : 'ton-1';
+---
+
+<article class:list={['lernkarte', aktiv && 'ist-aktiv']} data-karte={nummer} aria-labelledby={`karte-${nummer}-titel`}>
+  <header class="lernkarte__kopf">
+    <span class:list={['lernkarte__icon', tonart]}><LernIcon name={karte.icon} groesse={22} /></span>
+    <p class="lernkarte__zaehler">Karte {nummer} von {gesamt}</p>
+  </header>
+  <h2 class="lernkarte__titel" id={`karte-${nummer}-titel`}>{karte.titel}</h2>
+  <div class="lernkarte__text">
+    {karte.saetze.map((satz) => <p>{satz}</p>)}
+  </div>
+
+  {karte.kennzahl && (
+    <div class="lk-kennzahl">
+      <span class="lk-kennzahl__wert">{karte.kennzahl.wert}</span>
+      <span class="lk-kennzahl__label">{karte.kennzahl.label}</span>
+    </div>
+  )}
+
+  {inlineSvg && <figure class="lk-grafik" set:html={inlineSvg} />}
+  {karte.grafik && !inlineSvg && (
+    <figure class="lk-grafik lk-grafik--papier schiebbar">
+      <img src={`/grafiken/${karte.grafik}`} alt={bildAlt} loading="lazy" width="800" height="540" />
+    </figure>
+  )}
+
+  {karte.tabelle && (
+    <div class="lk-tabelle schiebbar">
+      <table>
+        {karte.tabelle.kopf.some((k) => k.trim()) && (
+          <thead>
+            <tr>{karte.tabelle.kopf.map((k) => <th scope="col">{k}</th>)}</tr>
+          </thead>
+        )}
+        <tbody>
+          {karte.tabelle.zeilen.map((zeile) => (
+            <tr>{zeile.map((zelle, i) => (i === 0 ? <th scope="row">{zelle}</th> : <td>{zelle}</td>))}</tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )}
+
+  {karte.liste && (
+    <ul class="lk-liste">
+      {karte.liste.map((eintrag) => <li>{eintrag}</li>)}
+    </ul>
+  )}
+
+  {karte.zitat && (
+    <blockquote class="lk-zitat">
+      <p class="lk-zitat__label">So können Sie es sagen</p>
+      <p>{karte.zitat}</p>
+    </blockquote>
+  )}
+
+  {karte.merke && (
+    <aside class="lk-merke" aria-label="Merksatz">
+      <span class="lk-merke__label">Merke</span>
+      <p>{karte.merke}</p>
+    </aside>
+  )}
+</article>

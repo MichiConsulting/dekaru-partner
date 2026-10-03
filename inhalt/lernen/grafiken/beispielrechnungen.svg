@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="g-br" viewBox="0 0 320 280" role="img" aria-labelledby="br-t br-d" fill="currentColor" font-family="Inter, system-ui, sans-serif" font-size="12">
+  <title id="br-t">Drei Beispielrechnungen</title>
+  <desc id="br-d">Café mit Paket Klein 600 Euro, Speisekarte 100 Euro, Bildergalerie 100 Euro, Summe 800 Euro. Steuerberatung mit Paket Mittel 1.300 Euro und Team-Seite 100 Euro, Summe 1.400 Euro. Friseursalon mit Paket Groß 1.600 Euro und Logo-Entwurf 250 Euro, Summe 1.850 Euro.</desc>
+  <style>
+    #g-br .p{fill:var(--lk-paper,#ffffff)}#g-br .f1{fill:var(--lk-f1,#ece6da)}#g-br .f2{fill:var(--lk-f2,#e2e7ec)}#g-br .ink{fill:var(--lk-ink,#141414)}
+    #g-br .ln{stroke:var(--lk-line,#b8b8b8);stroke-width:1;fill:none;stroke-dasharray:3 3}#g-br .mu{fill:var(--lk-muted,#5f5f5f)}#g-br .h{font-weight:700}#g-br .t{font-size:13px;font-weight:700}#g-br .r{text-anchor:end}
+  </style>
+  <!-- Bon 1 -->
+  <rect class="f2" x="4" y="4" width="312" height="92" rx="6"/>
+  <text class="t" x="16" y="26">Café</text><text class="mu" x="16" y="44">Paket Klein</text>
+  <text x="140" y="26">Klein</text><text class="r" x="304" y="26">600 €</text>
+  <text x="140" y="42">Speisekarte</text><text class="r" x="304" y="42">100 €</text>
+  <text x="140" y="58">Bildergalerie</text><text class="r" x="304" y="58">100 €</text>
+  <path class="ln" d="M140 68h164"/>
+  <text class="h" x="140" y="84">Summe</text><text class="h r" x="304" y="84">800 €</text>
+
+  <!-- Bon 2 -->
+  <rect class="f1" x="4" y="102" width="312" height="76" rx="6"/>
+  <text class="t" x="16" y="124">Steuerberatung</text><text class="mu" x="16" y="142">Paket Mittel</text>
+  <text x="140" y="124">Mittel</text><text class="r" x="304" y="124">1.300 €</text>
+  <text x="140" y="140">Team-Seite</text><text class="r" x="304" y="140">100 €</text>
+  <path class="ln" d="M140 150h164"/>
+  <text class="h" x="140" y="166">Summe</text><text class="h r" x="304" y="166">1.400 €</text>
+
+  <!-- Bon 3 -->
+  <rect class="f2" x="4" y="184" width="312" height="92" rx="6"/>
+  <text class="t" x="16" y="206">Friseursalon</text><text class="mu" x="16" y="224">Paket Groß</text>
+  <text class="mu" x="16" y="248">mit Terminanfrage,</text>
+  <text class="mu" x="16" y="264">solange gehostet</text>
+  <text x="140" y="206">Groß</text><text class="r" x="304" y="206">1.600 €</text>
+  <text x="140" y="222">Logo-Entwurf</text><text class="r" x="304" y="222">250 €</text>
+  <path class="ln" d="M140 232h164"/>
+  <text class="h" x="140" y="248">Summe</text><text class="h r" x="304" y="248">1.850 €</text>
+</svg>

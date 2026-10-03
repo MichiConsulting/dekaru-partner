@@ -5,7 +5,7 @@ import { datumDe, euro, ladeAbrechnung, monatsname } from '../../lib/provision.t
 const benutzer = Astro.locals.benutzer!;
 const monat = String(Astro.params.monat ?? '');
 const a = benutzer.vertrieblerSlug ? await ladeAbrechnung(Astro.locals.db, benutzer.vertrieblerSlug, monat) : null;
-if (!a) return new Response('Nicht gefunden', { status: 404 });
+if (!a) return Astro.rewrite('/404');
 
 const kunden = [...new Set(a.zeilen.map((z) => z.slug))];
 const hinweise = a.hinweise.filter((h) => !h.monat || h.monat === a.monat);
@@ -29,7 +29,7 @@ const hinweise = a.hinweise.filter((h) => !h.monat || h.monat === a.monat);
       return (
         <>
           <h2>{eigene[0].kunde || slug}</h2>
-          <div class="tabelle-wrap">
+          <div class="tabelle-wrap schiebbar">
             <table>
               <thead><tr><th>Rechnung</th><th>Vorgang</th><th>Zahlungseingang</th><th class="zahl">Grundlage</th><th class="zahl">Provision</th></tr></thead>
               <tbody>
@@ -46,7 +46,7 @@ const hinweise = a.hinweise.filter((h) => !h.monat || h.monat === a.monat);
   )}
 
   <h2>Summe</h2>
-  <div class="tabelle-wrap">
+  <div class="tabelle-wrap schiebbar">
     <table>
       <tbody>
         <tr><td>Provision {monatsname(a.monat)}</td><td class="zahl">{euro(a.summeCent)}</td></tr>
@@ -61,7 +61,7 @@ const hinweise = a.hinweise.filter((h) => !h.monat || h.monat === a.monat);
     <>
       <h2>Aufgelaufene Hosting-Provision</h2>
       <p>Entstanden, aber noch nicht ausgezahlt. Hosting-Provision wird gesammelt und mit der Abrechnung zum Fünften nach Quartalsende ausgezahlt.</p>
-      <div class="tabelle-wrap">
+      <div class="tabelle-wrap schiebbar">
         <table>
           <thead><tr><th>Kunde</th><th>Rechnung</th><th>Vorgang</th><th>Zahlungseingang</th><th class="zahl">Provision</th><th>Ausgezahlt mit</th></tr></thead>
           <tbody>

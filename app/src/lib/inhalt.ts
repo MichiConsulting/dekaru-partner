@@ -3,6 +3,7 @@
 // reines TypeScript.
 
 import { pruefeQuizDaten, type Frage } from './quiz.ts';
+import { pruefeLernkarten, type Lernkapitel, type Lernkarte } from './lernkarten.ts';
 
 // Die Globs werden beim Build aufgeloest und die Inhalte in das Bundle
 // geschrieben. Zur Laufzeit liest nichts mehr vom Dateisystem, deshalb darf
@@ -16,6 +17,11 @@ const grafikenPlatzhalter = import.meta.glob('../../inhalt-platzhalter/grafiken/
   query: '?raw',
   import: 'default',
 });
+// Lernkarten und die Grafiken des Lernbereichs. Die Lerngrafiken werden
+// inline in die Seite geschrieben, damit sie die Farbvariablen des Portals
+// uebernehmen und in hell wie dunkel funktionieren.
+const lernkartenEcht = import.meta.glob('../../../inhalt/lernen/*.json', { eager: true, import: 'default' });
+const lernGrafikenEcht = import.meta.glob('../../../inhalt/lernen/grafiken/*.svg', { eager: true, query: '?raw', import: 'default' });
 const echt = Object.keys(quizEcht).length > 0 || Object.keys(grafikenEcht).length > 0;
 
 const quizRoh = Object.values(echt ? quizEcht : quizPlatzhalter)[0] ?? { fragen: [] };
@@ -51,3 +57,42 @@ export function grafik(datei: string): string | null {
 }
 
 export const inhaltsQuelle = echt ? 'inhalt/' : 'app/inhalt-platzhalter/';
+
+// ---------------------------------------------------------------------------
+// Lernbereich
+
+const lernGrafiken = new Map<string, string>();
+for (const [pfad, inhalt] of Object.entries(lernGrafikenEcht)) {
+  lernGrafiken.set(pfad.split('/').pop()!, String(inhalt));
+}
+
+/** SVG-Quelltext einer Lerngrafik zum Inline-Einbetten, oder null. */
+export function lernGrafik(datei: string): string | null {
+  return lernGrafiken.get(datei) ?? null;
+}
+
+/** Der <title> einer Kapitelgrafik als Alternativtext fuer <img>. */
+export function grafikTitel(datei: string): string {
+  const svg = grafik(datei) ?? '';
+  const treffer = /<title[^>]*>([\s\S]*?)<\/title>/i.exec(svg);
+  return treffer ? treffer[1].replace(/\s+/g, ' ').trim() : '';
+}
+
+const alleGrafikNamen = new Set<string>([...grafiken.keys(), ...lernGrafiken.keys()]);
+
+const lernkartenJeKapitel = new Map<string, Lernkapitel>();
+const lernkartenFehlerListe: string[] = [];
+for (const [pfad, roh] of Object.entries(lernkartenEcht)) {
+  const slug = pfad.split('/').pop()!.replace(/\.json$/, '');
+  const { kapitel, fehler } = pruefeLernkarten(roh, slug, alleGrafikNamen);
+  if (kapitel) lernkartenJeKapitel.set(slug, kapitel);
+  for (const f of fehler) lernkartenFehlerListe.push(`${slug}.json: ${f}`);
+}
+
+/** Lernkarten eines Kapitels, oder null, wenn es keine gueltige Datei gibt. */
+export function lernkarten(slug: string): Lernkarte[] | null {
+  return lernkartenJeKapitel.get(slug)?.karten ?? null;
+}
+
+/** Formatfehler in inhalt/lernen, fuer den Admin. */
+export const lernkartenFehler: string[] = lernkartenFehlerListe;

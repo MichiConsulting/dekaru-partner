@@ -1,0 +1,354 @@
+{
+  "version": 1,
+  "stand": "2026-10-02",
+  "titel": "Gesprächshilfe für Vertriebler",
+  "einleitung": "Sechs Sätze lernen Sie wortgleich, alles andere sagen Sie in eigenen Worten.",
+  "themen": ["Preis", "Ablauf", "Hosting", "Vertrauen", "Kein Interesse", "Recht und Datenschutz"],
+  "eintraege": [
+    {
+      "id": "g01",
+      "thema": "Ablauf",
+      "frage": "Ja, hallo? Wer ist denn da?",
+      "antwort": "Guten Tag, mein Name ist {{Ihr Name}}, ich rufe für Michael Henning an, er baut Websites für kleine Betriebe. Haben Sie kurz einen Moment?",
+      "pflicht": true,
+      "hinweis": "Der erste Satz muss drei Dinge klären: wer anruft, für wen und worum es geht. So verlangt es § 7 UWG. Nie im eigenen Namen auftreten, nie \"wir von dekaru\". Kein Ort, keine Nähe.",
+      "uebung": {
+        "luecken": ["Michael Henning", "Betriebe", "Moment"],
+        "teile": [
+          "Guten Tag,",
+          "mein Name ist {{Ihr Name}},",
+          "ich rufe für Michael Henning an,",
+          "er baut Websites für kleine Betriebe.",
+          "Haben Sie kurz einen Moment?"
+        ]
+      }
+    },
+    {
+      "id": "g02",
+      "thema": "Preis",
+      "frage": "Was kostet das denn?",
+      "antwort": "Jede Website beginnt bei 600 €. Was Ihre kostet, steht im Angebot, als Festpreis.",
+      "pflicht": true,
+      "hinweis": "Am Telefon und im Erstgespräch ist \"ab 600 €\" die einzige Zahl. Nie verhandeln, nie eine zweite Zahl nennen. Die Pakete kommen erst im Zweittermin auf den Tisch.",
+      "uebung": {
+        "luecken": ["600 €", "Angebot", "Festpreis"],
+        "teile": ["Jede Website", "beginnt bei 600 €.", "Was Ihre kostet,", "steht im Angebot,", "als Festpreis."]
+      }
+    },
+    {
+      "id": "g03",
+      "thema": "Vertrauen",
+      "frage": "Haben Sie Referenzen? Wer ist denn schon Kunde?",
+      "antwort": "Er fängt gerade an, das sage ich Ihnen offen. Was Sie davon haben: mehr Aufmerksamkeit als bei jemandem mit vollem Auftragsbuch. Und glauben müssen Sie nichts, Sie sehen Ihre eigene Seite fertig gebaut, bevor Sie sich entscheiden.",
+      "pflicht": true,
+      "hinweis": "Es gibt noch keine abgeschlossenen Kundenprojekte. Das wird nicht umschifft. Nie Kunden erfinden, nie die vier Gestaltungsbeispiele auf dekaru.de als Kunden ausgeben.",
+      "uebung": {
+        "luecken": ["offen", "Aufmerksamkeit", "fertig gebaut"],
+        "teile": [
+          "Er fängt gerade an,",
+          "das sage ich Ihnen offen.",
+          "Was Sie davon haben:",
+          "mehr Aufmerksamkeit als bei jemandem mit vollem Auftragsbuch.",
+          "Und glauben müssen Sie nichts,",
+          "Sie sehen Ihre eigene Seite fertig gebaut,",
+          "bevor Sie sich entscheiden."
+        ]
+      }
+    },
+    {
+      "id": "g04",
+      "thema": "Ablauf",
+      "frage": "Wie lange dauert das, bis die Seite fertig ist?",
+      "antwort": "Den Fertigstellungstermin bekommen Sie im Angebot, und der gilt.",
+      "pflicht": true,
+      "hinweis": "Keine Bauzeit nennen, weder Tage noch Wochen, auch nicht ungefähr. Hat der Betrieb einen festen Anlass, etwa eine Eröffnung, fragen Sie danach und notieren ihn. Der Termin richtet sich danach.",
+      "uebung": {
+        "luecken": ["Fertigstellungstermin", "Angebot", "gilt"],
+        "teile": ["Den Fertigstellungstermin", "bekommen Sie", "im Angebot,", "und der gilt."]
+      }
+    },
+    {
+      "id": "g05",
+      "thema": "Kein Interesse",
+      "frage": "Schicken Sie mir einfach was per Mail.",
+      "antwort": "Die Vorschau zeigen wir Ihnen gern im Termin, per Mail verschicken wir sie nicht.",
+      "pflicht": true,
+      "hinweis": "Wer die Vorschau vorab bekommt, sieht sie ohne Erklärung und sagt ab. Bleibt es bei der Mail: Wiedervorlage in vier Wochen, nichts verschicken. Werbemails brauchen ohnehin eine Einwilligung.",
+      "uebung": {
+        "luecken": ["Vorschau", "Termin", "nicht"],
+        "teile": ["Die Vorschau", "zeigen wir Ihnen gern", "im Termin,", "per Mail", "verschicken wir sie nicht."]
+      }
+    },
+    {
+      "id": "g06",
+      "thema": "Hosting",
+      "frage": "Und was kostet mich das Hosting? Bin ich da gebunden?",
+      "antwort": "Buchen Sie das Hosting mit der Website, sind die ersten drei Monate frei, danach läuft es mindestens sechs Monate.",
+      "pflicht": true,
+      "hinweis": "Das Gratisquartal ist die einzige Zusage, die Sie machen dürfen. Genau drei Monate, nicht \"bis zu\", nur zusammen mit einer neuen Website, nie als Nachlass auf die Website. Es steht so auf dekaru.de und gilt für alle.",
+      "uebung": {
+        "luecken": ["drei", "frei", "sechs"],
+        "teile": [
+          "Buchen Sie das Hosting",
+          "mit der Website,",
+          "sind die ersten drei Monate frei,",
+          "danach läuft es",
+          "mindestens sechs Monate."
+        ]
+      }
+    },
+    {
+      "id": "g07",
+      "thema": "Preis",
+      "frage": "Geht da preislich noch was? Gibt es einen Rabatt?",
+      "antwort": "Nein, die Preise sind fest und für jeden Betrieb gleich. Dafür wissen Sie vorher genau, was auf der Rechnung steht, und es kommt nichts dazu.",
+      "pflicht": false,
+      "hinweis": "Nie zusagen: Rabatt, Nachlass, Sonderpreis, ein Preis \"nur diese Woche\", kostenlose Zusatzleistungen. Die eine Ausnahme ist das Gratisquartal beim Hosting."
+    },
+    {
+      "id": "g08",
+      "thema": "Preis",
+      "frage": "Und was kostet eine Seite wie meine jetzt konkret?",
+      "antwort": "Das hängt davon ab, was Sie brauchen, und das klären wir im Gespräch. Die Zahl bekommen Sie vor dem Auftrag im Angebot, nicht hinterher auf der Rechnung.",
+      "pflicht": false,
+      "hinweis": "In Stufe 1 nennt Michael Henning den Preis im Zweittermin. Ab Stufe 2, nach fünf gemeinsamen Zweitterminen, nennen Sie Paketpreis und Zusatzbausteine aus dem Preisrechner, ohne Nachlass. Drängt jemand: \"Die Zahl bekommen Sie im Zweittermin, und die gilt dann auch.\""
+    },
+    {
+      "id": "g09",
+      "thema": "Preis",
+      "frage": "Ein Baukasten ist doch viel billiger.",
+      "antwort": "Stimmt, in der ersten Rechnung. Was der Baukasten nicht mitbringt: die Barrierefreiheit nach dem Gesetz von 2025, Schriften ohne Google-Aufruf, und jemanden, den Sie anrufen können. Ob es das wert ist, sehen Sie an der Vorschau, die kostet Sie nichts.",
+      "pflicht": false,
+      "hinweis": "Nicht über andere Anbieter lästern. Beim Sachlichen bleiben."
+    },
+    {
+      "id": "g10",
+      "thema": "Preis",
+      "frage": "Wie läuft die Zahlung?",
+      "antwort": "Die Hälfte bei Auftrag, der Rest bei Übergabe. Davon wird nicht abgewichen.",
+      "pflicht": false
+    },
+    {
+      "id": "g11",
+      "thema": "Preis",
+      "frage": "Kann ich ein Paket kleiner machen und dafür billiger haben?",
+      "antwort": "Nein, die Pakete sind fest. Was Sie nicht brauchen, lassen Sie leer, aber der Preis bleibt. Was Sie zusätzlich brauchen, kommt als Baustein dazu.",
+      "pflicht": false,
+      "hinweis": "Erst ab Stufe 2, wenn Sie die Pakete selbst vorstellen. Kein Tauschen von Inhalten zwischen den Paketen, kein Nachlass."
+    },
+    {
+      "id": "g12",
+      "thema": "Preis",
+      "frage": "Mittel reicht mir doch. Wozu Groß?",
+      "antwort": "Für 300 € mehr arbeitet die Seite mit. Sie nimmt Terminanfragen an, auch abends und am Wochenende. Dazu kommen die Team-Seite, die Bearbeitung Ihrer Fotos, eine Seite und zwei Texte mehr.",
+      "pflicht": false,
+      "hinweis": "Nur im Zweittermin, ab Stufe 2. Im selben Atemzug dazusagen: die Terminanfrage läuft nur, solange Herr Henning die Seite hostet. Niemand wird in Groß geredet, wer nur eine Visitenkarte braucht, bekommt Klein."
+    },
+    {
+      "id": "g13",
+      "thema": "Preis",
+      "frage": "Kann ich die Terminanfrage zu Mittel dazukaufen?",
+      "antwort": "Nein, die gibt es nur in Groß. Das ist kein Zusatzteil, sondern der Kern von Groß, und der Unterschied zu Mittel sind 300 €.",
+      "pflicht": false,
+      "hinweis": "Einen Baustein \"Terminanfrage\" gibt es seit dem 01.10.2026 nicht mehr. Die Funktion braucht kein bestimmtes Hosting, sie läuft in jeder Stufe, schon ab Start, aber nur mit Hosting bei Michael Henning."
+    },
+    {
+      "id": "g14",
+      "thema": "Ablauf",
+      "frage": "Und wie geht es dann weiter?",
+      "antwort": "Wir sprechen kurz darüber, was Sie brauchen. Passt es, baut Herr Henning eine Vorschau mit Ihren echten Daten, und die schauen wir uns zusammen an. Danach entscheiden Sie.",
+      "pflicht": false,
+      "hinweis": "Einen Zweittermin gibt es nur bei echtem Interesse: der Inhaber hat selbst gesagt, was ihn stört, kennt \"ab 600 €\", weiß, welche Zusatzleistungen ihn interessieren, und der Entscheider sitzt mit am Tisch. Für jeden Zweittermin baut Michael Henning eine Vorschau."
+    },
+    {
+      "id": "g15",
+      "thema": "Ablauf",
+      "frage": "Und wenn mir die Vorschau nicht gefällt?",
+      "antwort": "Dann haben Sie zwanzig Minuten verloren und wir gehen auseinander. Sie entscheiden nach der Vorschau, nicht vorher.",
+      "pflicht": false
+    },
+    {
+      "id": "g16",
+      "thema": "Ablauf",
+      "frage": "Können wir das nicht gleich festmachen?",
+      "antwort": "Umso besser, dann geht der Zweittermin schnell. Sie sehen Ihre Seite, und dann machen wir es fest. Das Angebot kommt von Herrn Henning, mit Preis und Fertigstellungstermin, und das unterschreiben Sie bei ihm.",
+      "pflicht": false,
+      "hinweis": "Kein Abschluss ohne Vorschau, kein Vertrag durch Sie. Sie vermitteln den Auftrag, Sie unterschreiben nichts in seinem Namen."
+    },
+    {
+      "id": "g17",
+      "thema": "Ablauf",
+      "frage": "Wer ist denn später mein Ansprechpartner?",
+      "antwort": "Ab dem Auftrag Herr Henning selbst, der die Seite auch baut. Eine Nummer, eine Mailadresse, dieselbe Person, bis nach dem Livegang und später beim Hosting.",
+      "pflicht": false
+    },
+    {
+      "id": "g18",
+      "thema": "Ablauf",
+      "frage": "Das muss ich erst mit meiner Frau besprechen.",
+      "antwort": "Verständlich. Dann legen wir den Termin so, dass Sie beide dabei sind, dann müssen Sie es nicht weitererzählen. Wann passt es Ihnen beiden?",
+      "pflicht": false,
+      "hinweis": "Wer über das Geld entscheidet, muss beim Zweittermin dabei sein. Fragen Sie direkt: \"Entscheiden Sie das selbst oder redet da noch jemand mit?\""
+    },
+    {
+      "id": "g19",
+      "thema": "Ablauf",
+      "frage": "Bin ich dann irgendwie gebunden?",
+      "antwort": "Nein. Die Vorschau ist unverbindlich, da unterschreiben Sie nichts. Entscheiden Sie sich für die Website, kommt das Angebot von Herrn Henning, und erst das unterschreiben Sie.",
+      "pflicht": false,
+      "hinweis": "Nichts dazu sagen, ob ein Kunde nach dem Auftrag noch aussteigen kann. Das regelt der Werkvertrag von Michael Henning."
+    },
+    {
+      "id": "g20",
+      "thema": "Hosting",
+      "frage": "Was ist Hosting überhaupt, brauche ich das?",
+      "antwort": "Hosting heißt, Herr Henning betreibt und pflegt die Seite: Domain, Verschlüsselung, Updates und Ihre Änderungen. Es ist getrennt vom Website-Preis und optional, ab 19 € im Monat.",
+      "pflicht": false,
+      "hinweis": "Im Erstgespräch reicht \"ab 19 € im Monat\" plus Gratisquartal. Die Stufen Start, Basis und Plus gehören in den Zweittermin. Bei Groß ist Hosting die Voraussetzung für die Terminanfrage."
+    },
+    {
+      "id": "g21",
+      "thema": "Hosting",
+      "frage": "Kann ich die Seite dann selbst ändern?",
+      "antwort": "Im Moment schicken Sie Herrn Henning eine Mail, und er ändert es. Je nach Stufe sind drei, fünf oder zehn Änderungen im Monat drin. Ein System zum Selbst-Ändern ist in Arbeit, wann es kommt, kann ich Ihnen nicht zusagen.",
+      "pflicht": false,
+      "hinweis": "Ein Redaktionssystem gibt es noch nicht und wird nicht versprochen, auch nicht als \"kommt bald\"."
+    },
+    {
+      "id": "g22",
+      "thema": "Hosting",
+      "frage": "Was zählt als Änderung? Und wenn ich mehr brauche?",
+      "antwort": "Ein Anliegen an einer Stelle: die Öffnungszeiten, ein Preis, ein Bild. Jede Änderung über das Kontingent hinaus kostet 25 €. Etwas Größeres wie eine neue Seite ist ein eigener kleiner Auftrag mit Festpreis vorher.",
+      "pflicht": false,
+      "hinweis": "Umsetzung: Start gesammelt zum Monatsende, Basis innerhalb von drei Werktagen, Plus innerhalb von einem Werktag. Keine Uhrzeit und keinen Tag zusagen. Keine Stufe ist unbegrenzt."
+    },
+    {
+      "id": "g23",
+      "thema": "Hosting",
+      "frage": "Was kostet das Hosting genau?",
+      "antwort": "Start 19 € im Monat mit drei Änderungen, Basis 39 € mit fünf. Plus gibt es nur als Jahresvertrag für 590 €, mit zehn Änderungen und zwei Umbauten im Jahr. Bei Jahreszahlung zahlen Sie zehn Monate und bekommen zwölf.",
+      "pflicht": false,
+      "hinweis": "Die Stufen gehören in den Zweittermin. Monatlich kündbar bei Start und Basis, Ausnahme ist das Gratisquartal mit sechs bezahlten Monaten danach."
+    },
+    {
+      "id": "g24",
+      "thema": "Hosting",
+      "frage": "Macht ihr Backups?",
+      "antwort": "Jede Version der Website ist gesichert und lässt sich jederzeit komplett neu aufsetzen. Die Seite speichert selbst keine Daten auf dem Server, deshalb braucht es keine laufende Serversicherung. So steht es im Vertrag.",
+      "pflicht": false,
+      "hinweis": "Das Wort \"Backup\" nicht selbst verwenden. Im Vertrag heißt es gesicherter Quellstand."
+    },
+    {
+      "id": "g25",
+      "thema": "Hosting",
+      "frage": "Was ist, wenn ich kündige? Gehört mir die Seite dann?",
+      "antwort": "Die Domain gehört Ihnen, den Code für den Umzug bekommen Sie kostenlos. Die Website bekommen Sie als komplettes Paket übergeben, dafür gibt es eine Pauschale von 99 €. Bei Groß fällt dann die Terminanfrage weg, weil sie über das Hosting von Herrn Henning läuft.",
+      "pflicht": false,
+      "hinweis": "Das mit der Terminanfrage sagen Sie im Zweittermin, bevor der Betrieb Groß nimmt, nicht erst bei der Kündigung. Wer sicher selbst hosten will, ist mit Mittel besser bedient."
+    },
+    {
+      "id": "g26",
+      "thema": "Vertrauen",
+      "frage": "Wo sitzt Herr Henning eigentlich? Ist er aus der Gegend?",
+      "antwort": "Er arbeitet für Betriebe in ganz Deutschland, abgestimmt wird per Video, Telefon und Mail. Ich selbst bin hier für ihn unterwegs.",
+      "pflicht": false,
+      "hinweis": "Keine Nähe behaupten, die es nicht gibt. Nicht \"aus Ihrer Region\", nicht \"hier aus der Gegend\". Der Betrieb merkt es spätestens im Termin."
+    },
+    {
+      "id": "g27",
+      "thema": "Vertrauen",
+      "frage": "Ein Ein-Mann-Betrieb? Was ist, wenn er krank ist oder aufhört?",
+      "antwort": "Dass er allein ist, hat er nicht versteckt, und es hat eine Kehrseite: Sie reden immer mit dem, der es auch baut. Für den Fall der Fälle gehört Ihnen die Domain, und die Website bekommen Sie jederzeit als komplettes Paket, das jeder andere Webentwickler weiterführen kann.",
+      "pflicht": false,
+      "hinweis": "Zeiten für Änderungen sind in Werktagen zugesagt, Urlaub wird vorher angekündigt."
+    },
+    {
+      "id": "g28",
+      "thema": "Vertrauen",
+      "frage": "Kann ich mir irgendwo anschauen, was er macht?",
+      "antwort": "Ja, dekaru.de hat er selbst gebaut, daran können Sie ihn messen. Dort stehen auch vier Gestaltungsbeispiele. Die sind erfunden und so gekennzeichnet, sie zeigen die Machart.",
+      "pflicht": false,
+      "hinweis": "Die vier Beispiele (Gastronomie, Tattoo-Studio, Metallbau, Kanzlei) nie als Kundenprojekte ausgeben. Ihre eigene Vorschau bekommt der Betrieb im Zweittermin."
+    },
+    {
+      "id": "g29",
+      "thema": "Vertrauen",
+      "frage": "Eine Frage, auf die Sie keine Antwort wissen.",
+      "antwort": "Das weiß ich nicht sicher, und ich will Ihnen nichts Falsches sagen. Das klären wir mit Herrn Henning.",
+      "pflicht": false,
+      "hinweis": "Das ist keine Schwäche. Wer etwas zusagt, was nicht geht, kostet den Termin und das Vertrauen."
+    },
+    {
+      "id": "g30",
+      "thema": "Kein Interesse",
+      "frage": "Ich habe gerade keine Zeit.",
+      "antwort": "Kein Problem. Wann passt es besser, morgen früh oder eher nachmittags?",
+      "pflicht": false,
+      "hinweis": "Zwei Vorschläge machen, nicht offen fragen. Termin notieren, auflegen."
+    },
+    {
+      "id": "g31",
+      "thema": "Kein Interesse",
+      "frage": "Kein Interesse.",
+      "antwort": "Alles klar. Liegt es gerade nur am Zeitpunkt?",
+      "pflicht": false,
+      "hinweis": "Genau ein Soft-Versuch. Kommt wieder Nein: bedanken, Wiedervorlage in der Wochenliste, auflegen. Kein zweiter Anlauf im selben Gespräch, keine Mail hinterher, kein Vorbeifahren."
+    },
+    {
+      "id": "g32",
+      "thema": "Kein Interesse",
+      "frage": "Wir haben schon eine Website.",
+      "antwort": "Das ist ja gut. Die Frage ist eher, ob sie auf dem Handy noch mitkommt und ob sie die Barrierefreiheitsvorgaben erfüllt, die seit 2025 gelten. Wie zufrieden sind Sie, wenn Sie sie auf dem Handy aufmachen?",
+      "pflicht": false,
+      "hinweis": "Die Antwort kommt vom Betrieb. Dann ist es sein Befund, nicht Ihr Vorwurf. Nie \"Ihre Seite ist veraltet\"."
+    },
+    {
+      "id": "g33",
+      "thema": "Kein Interesse",
+      "frage": "Wir haben da schon jemanden für. Mein Neffe macht sowas.",
+      "antwort": "Das ist gut, wenn sich jemand kümmert. Sehen Sie es als Vergleich: Sie schauen sich die Vorschau an, und wenn Sie danach sagen, wir bleiben, wo wir sind, ist das auch gut.",
+      "pflicht": false,
+      "hinweis": "Nicht über den anderen reden, nichts schlechtmachen. Über andere Agenturen wird gar nicht gesprochen."
+    },
+    {
+      "id": "g34",
+      "thema": "Recht und Datenschutz",
+      "frage": "Melden Sie sich nicht mehr.",
+      "antwort": "In Ordnung, dann störe ich nicht weiter. Ich nehme Sie sofort raus, Sie hören nichts mehr von uns.",
+      "pflicht": false,
+      "hinweis": "Das Gespräch ist vorbei. Betrieb als gesperrt vermerken, an Michael Henning melden, nie wieder anrufen. Nicht in drei Monaten, nicht mit anderem Anlass."
+    },
+    {
+      "id": "g35",
+      "thema": "Recht und Datenschutz",
+      "frage": "Wo haben Sie meine Nummer her?",
+      "antwort": "Aus dem öffentlichen Branchenverzeichnis. Wenn Sie nicht möchten, dass wir uns wieder melden, nehme ich Sie sofort raus, dann hören Sie nichts mehr von uns.",
+      "pflicht": false,
+      "hinweis": "Ehrlich antworten: Branchenbuch, Website des Betriebs, öffentliches Verzeichnis. Nie eine Quelle erfinden. Den Wunsch sofort umsetzen, ohne Nachfrage."
+    },
+    {
+      "id": "g36",
+      "thema": "Recht und Datenschutz",
+      "frage": "Was passiert mit meinen Daten?",
+      "antwort": "Für die Vorschau nimmt Herr Henning nur, was Sie mir erzählen und was öffentlich über Ihren Betrieb zu finden ist. Was Sie ihm später geben, bleibt bei ihm. Sobald die Website Daten von Besuchern verarbeitet, etwa über ein Formular, gibt es dazu einen Auftragsverarbeitungsvertrag.",
+      "pflicht": false,
+      "hinweis": "Keine Passwörter und keine Zugangsdaten auf den Briefing-Bogen, nicht per Mail, nicht per Messenger. Die klärt Michael Henning direkt mit dem Kunden."
+    },
+    {
+      "id": "g37",
+      "thema": "Recht und Datenschutz",
+      "frage": "Ist die Seite DSGVO-konform? Ich will keine Abmahnung.",
+      "antwort": "Die Schriften liegen auf dem eigenen Server, kein Aufruf bei Google Fonts, kein Tracking ohne Einwilligung, die Karte erst nach Zustimmung. Impressum, Datenschutzerklärung und Verschlüsselung sind immer dabei.",
+      "pflicht": false,
+      "hinweis": "Schriften von Google-Servern sind einer der häufigsten Abmahngründe. Rechtsberatung für den Einzelfall gibt es nicht, weder von Ihnen noch von Michael Henning."
+    },
+    {
+      "id": "g38",
+      "thema": "Recht und Datenschutz",
+      "frage": "Was ist mit dieser Barrierefreiheitspflicht?",
+      "antwort": "Das Gesetz heißt BFSG und gilt seit Juni 2025, viele Baukasten-Seiten erfüllen es nicht. Jede Seite von Herrn Henning ist barrierefrei gebaut. Was es im Einzelnen für Ihren Betrieb bedeutet, klärt er mit Ihnen.",
+      "pflicht": false,
+      "hinweis": "Nicht raten, welche Pflichten den Betrieb genau treffen. Das klärt Michael Henning."
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+---
+// Eigene Seite fuer alles, was es nicht gibt, statt der nackten Antwort von
+// Astro. Astro rendert sie auch, wenn eine Route selbst 404 zurueckgibt.
+import Layout from '../layouts/Layout.astro';
+Astro.response.status = 404;
+---
+
+<Layout titel="Seite nicht gefunden" schmal>
+  <h1>Seite nicht gefunden</h1>
+  <p>Unter dieser Adresse gibt es nichts. Vielleicht ist der Eintrag gelöscht oder der Link unvollständig.</p>
+  <p><a href="/">Zur Startseite</a></p>
+</Layout>

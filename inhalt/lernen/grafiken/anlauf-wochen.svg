@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="g-aw" viewBox="0 0 320 172" role="img" aria-labelledby="aw-t aw-d" fill="currentColor" font-family="Inter, system-ui, sans-serif" font-size="12">
+  <title id="aw-t">Vom ersten Anruf bis zum ersten Geld: sechs bis zehn Wochen</title>
+  <desc id="aw-d">Eine Zeitleiste über zehn Wochen mit den Stationen Anruf, Erstgespräch, Vorschau, Zweittermin, Anzahlung und Abrechnung zum Fünften. Eine Klammer markiert sechs bis zehn Wochen bis zum ersten Geld.</desc>
+  <style>
+    #g-aw .f1{fill:var(--lk-f1,#ece6da)}#g-aw .f2{fill:var(--lk-f2,#e2e7ec)}#g-aw .ink{fill:var(--lk-ink,#141414)}
+    #g-aw .kl{stroke:var(--lk-ink,#141414);stroke-width:1.5;fill:none}#g-aw .mu{fill:var(--lk-muted,#5f5f5f)}#g-aw .h{font-weight:700}#g-aw .t{font-size:13px;font-weight:700}
+  </style>
+  <rect class="f2" x="12" y="52" width="296" height="10" rx="5"/>
+  <rect class="f1" x="236" y="52" width="72" height="10" rx="5"/>
+
+  <circle class="ink" cx="20" cy="57" r="6"/><text class="h" x="28" y="38" text-anchor="middle">Anruf</text>
+  <circle class="ink" cx="76" cy="57" r="6"/><text x="76" y="84" text-anchor="middle">Erstgespräch</text>
+  <circle class="ink" cx="132" cy="57" r="6"/><text x="132" y="38" text-anchor="middle">Vorschau</text>
+  <circle class="ink" cx="188" cy="57" r="6"/><text x="188" y="84" text-anchor="middle">Zweittermin</text>
+  <circle class="ink" cx="244" cy="57" r="6"/><text x="244" y="38" text-anchor="middle">Anzahlung</text>
+  <circle class="ink" cx="300" cy="57" r="6"/><text class="h" x="308" y="84" text-anchor="end">Geld, zum 5.</text>
+
+  <path class="kl" d="M20 100v8h280v-8"/>
+  <text class="t" x="160" y="128" text-anchor="middle">6 bis 10 Wochen bis zum ersten Geld</text>
+  <text class="mu" x="160" y="148" text-anchor="middle">über Erstgespräch, Vorschau, Zweittermin,</text>
+  <text class="mu" x="160" y="164" text-anchor="middle">Anzahlung und Abrechnung</text>
+</svg>

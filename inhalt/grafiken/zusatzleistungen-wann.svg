@@ -12,7 +12,7 @@
   <polygon points="770,34 782,40 770,46" fill="#141414"/>
 
   <g transform="translate(20 60)">
-    <rect class="col" x="0" y="0" width="175" height="220" rx="4"/>
+    <rect class="col" x="0" y="0" width="182" height="220" rx="4"/>
     <text class="h" x="14" y="26" font-size="14">Telefon</text>
     <text class="m" x="14" y="46" font-size="12">Ziel: das Erstgespräch</text>
     <text x="14" y="84" font-weight="600">Keine Zusatzleistungen.</text>
@@ -21,8 +21,8 @@
     <text class="m" x="14" y="136" font-size="12">Termin unwahrscheinlicher.</text>
   </g>
 
-  <g transform="translate(212 60)">
-    <rect class="col" x="0" y="0" width="175" height="220" rx="4"/>
+  <g transform="translate(208 60)">
+    <rect class="col" x="0" y="0" width="182" height="220" rx="4"/>
     <text class="h" x="14" y="26" font-size="14">Erstgespräch</text>
     <text class="m" x="14" y="46" font-size="12">Bedarf und Interesse</text>
     <text x="14" y="84" font-weight="600">Erklären, was es gibt.</text>
@@ -33,8 +33,8 @@
     <text class="m" x="14" y="180" font-size="12">Henning im Termin."</text>
   </g>
 
-  <g transform="translate(404 60)">
-    <rect class="col" x="0" y="0" width="175" height="220" rx="4" stroke="#141414" stroke-width="2"/>
+  <g transform="translate(396 60)">
+    <rect class="col" x="0" y="0" width="182" height="220" rx="4" stroke="#141414" stroke-width="2"/>
     <text class="h" x="14" y="26" font-size="14">Zweittermin</text>
     <text class="m" x="14" y="46" font-size="12">nach dem Ja zur Website</text>
     <text x="14" y="84" font-weight="600">Jetzt konkret anbieten.</text>
@@ -46,15 +46,16 @@
     <text x="14" y="196" font-size="12" font-weight="600" fill="#6E1A26">einen dritten Termin.</text>
   </g>
 
-  <g transform="translate(596 60)">
-    <rect class="col" x="0" y="0" width="184" height="220" rx="4"/>
+  <g transform="translate(584 60)">
+    <rect class="col" x="0" y="0" width="186" height="220" rx="4"/>
     <text class="h" x="14" y="26" font-size="14">Zweites Jahr</text>
     <text class="m" x="14" y="46" font-size="12">bestehender Kunde</text>
-    <text x="14" y="84" font-weight="600">Sichtbarkeits-Check, 390 €.</text>
-    <text class="m" x="14" y="104" font-size="12">Setzt eine Website voraus.</text>
-    <text class="m" x="14" y="120" font-size="12">Nicht beim Erstauftrag</text>
-    <text class="m" x="14" y="136" font-size="12">aktiv anbieten.</text>
-    <text class="m" x="14" y="164" font-size="12">Provision nur, wenn er im</text>
-    <text class="m" x="14" y="180" font-size="12">Erstauftrag mitverkauft wird.</text>
+    <text x="14" y="84" font-weight="600">Sichtbarkeits-Check,</text>
+    <text x="14" y="100" font-weight="600">390 € im Jahr.</text>
+    <text class="m" x="14" y="118" font-size="12">Setzt eine Website voraus.</text>
+    <text class="m" x="14" y="134" font-size="12">Nicht beim Erstauftrag</text>
+    <text class="m" x="14" y="150" font-size="12">aktiv anbieten.</text>
+    <text class="m" x="14" y="172" font-size="12">Provision nur, wenn er im</text>
+    <text class="m" x="14" y="188" font-size="12">Erstauftrag mitverkauft wird.</text>
   </g>
 </svg>

@@ -1,0 +1,783 @@
+/*
+ * Lernbereich des Partner-Portals. Eigene Styles, damit Layout und
+ * global.css unangetastet bleiben. Farben ausschliesslich ueber die
+ * Variablen aus global.css (hell und dunkel), der Akzent nur auf
+ * Buttons und Links.
+ */
+
+/* ── Bausteine ── */
+.lb-kopfzeile {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-s) var(--space-l);
+  margin-bottom: var(--space-m);
+}
+.lb-kopfzeile .meta {
+  margin: 0;
+}
+.lb-kapitelnummer {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: var(--text-small);
+}
+
+/* Ring */
+.ring {
+  position: relative;
+  width: var(--ring-groesse);
+  height: var(--ring-groesse);
+  flex-shrink: 0;
+}
+.ring svg {
+  display: block;
+}
+.ring__spur {
+  fill: none;
+  stroke: var(--lk-f3);
+}
+.ring__wert {
+  fill: none;
+  stroke: var(--text);
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.6s ease;
+}
+.ring__mitte {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.05;
+}
+.ring__mitte .gross {
+  font-size: 30px;
+}
+.ring__mitte .klein {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--text-small);
+  color: var(--text-muted);
+}
+
+/* Schritte, ein Segment je Karte oder Frage */
+.lb-schritte {
+  display: flex;
+  gap: 4px;
+  margin: var(--space-m) 0 var(--space-l);
+}
+.lb-schritte span {
+  flex: 1;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--lk-f3);
+}
+.lb-schritte span.ist-fertig {
+  background: var(--text);
+}
+.lb-schritte span.ist-aktiv {
+  background: var(--text-muted);
+}
+
+/* ── Uebersicht ── */
+.lb-hero {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-l) var(--space-xl);
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: var(--space-l);
+  margin-bottom: var(--space-xl);
+}
+.lb-hero h1 {
+  margin-bottom: var(--space-s);
+}
+.lb-hero__text p {
+  margin-bottom: var(--space-m);
+}
+.lb-hero__zahlen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-s) var(--space-l);
+  color: var(--text-muted);
+  font-size: var(--text-small);
+  margin-bottom: var(--space-m);
+}
+.lb-hero__zahlen strong {
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 18px;
+  margin-right: 4px;
+}
+.lb-kacheln {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-width: none;
+  display: grid;
+  gap: var(--space-m);
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+.lb-kacheln li {
+  margin: 0;
+}
+.lb-kachel {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: var(--space-s) var(--space-m);
+  height: 100%;
+  padding: var(--space-l);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.lb-kachel:hover {
+  border-color: var(--text);
+  color: var(--text);
+}
+.lb-kachel:hover .lb-kachel__icon {
+  transform: translateY(-2px);
+}
+.lb-kachel__icon {
+  grid-row: 1 / span 3;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  transition: transform 0.15s;
+}
+.ton-1 {
+  background: var(--lk-f1);
+}
+.ton-2 {
+  background: var(--lk-f2);
+}
+.lb-kachel.ist-fertig .lb-kachel__icon {
+  background: var(--text);
+  color: var(--bg);
+}
+.lb-kachel__nummer {
+  font-size: var(--text-small);
+  color: var(--text-muted);
+  margin: 0;
+}
+.lb-kachel__titel {
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.25;
+}
+.lb-kachel__kurz {
+  margin: 0;
+  font-size: var(--text-small);
+  color: var(--text-muted);
+}
+.lb-kachel__stand {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-m);
+  margin-top: var(--space-xs);
+  font-size: var(--text-small);
+  color: var(--text-muted);
+}
+.lb-kachel__balken {
+  flex: 1;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--lk-f3);
+  overflow: hidden;
+}
+.lb-kachel__balken span {
+  display: block;
+  height: 100%;
+  background: var(--text);
+}
+.lb-status {
+  white-space: nowrap;
+  font-weight: 500;
+  color: var(--text);
+}
+
+/* ── Lernkarten ── */
+.lb-kapitelkopf {
+  max-width: 720px;
+  margin: 0 auto;
+}
+.lb-kapitelkopf h1 {
+  margin-bottom: var(--space-xs);
+}
+.lb-kapitelkopf .lb-kurz {
+  color: var(--text-muted);
+  margin-bottom: var(--space-m);
+}
+.lernkarten {
+  max-width: 720px;
+  margin: 0 auto;
+  position: relative;
+}
+.lernkarte {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: var(--space-l);
+  margin-bottom: var(--space-l);
+}
+@media (min-width: 640px) {
+  .lernkarte {
+    padding: var(--space-xl);
+  }
+}
+.lernkarte__kopf {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-m);
+  margin-bottom: var(--space-m);
+}
+.lernkarte__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+}
+.lernkarte__zaehler {
+  margin: 0;
+  font-size: var(--text-small);
+  color: var(--text-muted);
+}
+.lernkarte__titel {
+  margin: 0 0 var(--space-m);
+  font-size: var(--text-h2);
+  font-weight: 700;
+}
+.lernkarte__text p {
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: none;
+}
+.lernkarte__text p:last-child {
+  margin-bottom: 0;
+}
+.lernkarte > .lk-kennzahl,
+.lernkarte > .lk-grafik,
+.lernkarte > .lk-tabelle,
+.lernkarte > .lk-liste,
+.lernkarte > .lk-zitat,
+.lernkarte > .lk-merke {
+  margin-top: var(--space-l);
+}
+
+.lk-kennzahl {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-xs) var(--space-m);
+  padding: var(--space-m) var(--space-l);
+  border-radius: 12px;
+  background: var(--lk-f2);
+}
+.lk-kennzahl__wert {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(28px, 4vw + 8px, 40px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.lk-kennzahl__label {
+  color: var(--text-muted);
+  font-size: var(--text-small);
+  flex: 1 1 160px;
+}
+
+.lk-grafik {
+  margin: 0;
+  padding: var(--space-s) 0 0;
+}
+.lk-grafik svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  font-family: var(--font-body);
+  /* Die Lerngrafiken sind 320 Einheiten breit, damit ihre Schrift auf dem
+     Handy mindestens 11 px gross ist. Auf grossen Bildschirmen begrenzt,
+     sonst wuerde die Schrift riesig. */
+  max-width: 480px;
+  margin-inline: auto;
+}
+.lk-grafik--papier {
+  --surface: var(--grafik-papier);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: var(--space-m);
+}
+.lk-grafik--papier img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+@media (max-width: 640px) {
+  /* 800 Einheiten breit, Schrift ab 11: erst ab 800 px ist die Schrift
+     mindestens 11 px gross. Die Karte schiebt, statt zu schrumpfen. */
+  .lk-grafik--papier img {
+    min-width: 800px;
+  }
+}
+
+.lk-tabelle {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.lk-tabelle table {
+  background: transparent;
+}
+.lk-tabelle table {
+  font-size: var(--text-small);
+}
+.lk-tabelle th,
+.lk-tabelle td {
+  padding: var(--space-s) var(--space-m);
+  white-space: normal;
+  /* Kleine Tabellen sollen auf dem Handy in die Karte passen, lieber
+     trennen als schieben. */
+  hyphens: auto;
+}
+.lk-tabelle thead th {
+  background: var(--surface-2);
+  color: var(--text);
+  font-weight: 500;
+}
+.lk-tabelle tbody th {
+  font-weight: 500;
+  color: var(--text);
+  text-align: left;
+}
+.lk-tabelle tbody th:empty {
+  padding: 0;
+}
+
+.lk-liste {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-width: none;
+  display: grid;
+  gap: var(--space-s);
+}
+.lk-liste li {
+  position: relative;
+  padding-left: 28px;
+  margin: 0;
+}
+.lk-liste li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--lk-f3);
+  box-shadow: inset 0 0 0 4px var(--surface);
+  border: 2px solid var(--text);
+  box-sizing: border-box;
+}
+
+.lk-zitat {
+  position: relative;
+  margin: 0;
+  padding: var(--space-m) var(--space-l);
+  border-radius: 12px 12px 12px 4px;
+  background: var(--lk-f1);
+  border: 0;
+  color: var(--text);
+}
+.lk-zitat p {
+  margin: 0;
+  max-width: none;
+  font-size: 16px;
+  line-height: 1.55;
+}
+.lk-zitat p:not(.lk-zitat__label)::before {
+  content: '„';
+}
+.lk-zitat p:not(.lk-zitat__label)::after {
+  content: '“';
+}
+.lk-zitat__label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: var(--space-xs);
+}
+
+.lk-merke {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-m);
+  align-items: start;
+  padding: var(--space-m) var(--space-l);
+  border-radius: 12px;
+  border: 1px solid var(--border-strong);
+}
+.lk-merke__label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-small);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--text);
+  color: var(--bg);
+}
+.lk-merke p {
+  margin: 0;
+  max-width: none;
+  font-weight: 500;
+}
+
+/* Navigation unter den Karten */
+.lb-nav {
+  max-width: 720px;
+  margin: var(--space-l) auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-m);
+}
+.lb-nav__punkte {
+  display: flex;
+  gap: 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+/* Der Punkt ist 12px gross, die Flaeche zum Antippen 24px (WCAG 2.5.8). */
+.lb-nav__punkte button {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+.lb-nav__punkte button::before {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--text-muted);
+  box-sizing: border-box;
+}
+.lb-nav__punkte button[aria-current='true']::before {
+  background: var(--text);
+  border-color: var(--text);
+}
+.lb-nav__punkte button.ist-gesehen::before {
+  border-color: var(--text);
+}
+.lb-abschluss {
+  max-width: 720px;
+  margin: var(--space-xl) auto 0;
+  padding: var(--space-l);
+  border-radius: 14px;
+  background: var(--lk-f2);
+  text-align: center;
+}
+.lb-abschluss h2 {
+  margin-top: 0;
+  font-weight: 700;
+}
+.lb-abschluss .aktionen {
+  justify-content: center;
+}
+
+.lb-kapitelkopf ~ .kapitel-nav,
+.lb-abfrage .kapitel-nav,
+.lb-ergebnis .kapitel-nav {
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Mit JavaScript: eine Karte nach der anderen */
+.lb-nav--js {
+  display: none;
+}
+.js .lb-nav--js {
+  display: flex;
+}
+.js .lernkarten .lernkarte {
+  display: none;
+}
+.js .lernkarten .lernkarte.ist-aktiv {
+  display: block;
+  animation: lb-einblenden 0.25s ease;
+}
+.js .lb-abschluss {
+  display: none;
+}
+.js .lb-abschluss.ist-aktiv {
+  display: block;
+  animation: lb-einblenden 0.25s ease;
+}
+@keyframes lb-einblenden {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .lernkarten .lernkarte.ist-aktiv,
+  .js .lb-abschluss.ist-aktiv {
+    animation: none;
+  }
+  .ring__wert,
+  .lb-kachel,
+  .lb-kachel__icon {
+    transition: none;
+  }
+}
+
+/* ── Abfrage ── */
+.lb-abfrage {
+  max-width: 720px;
+  margin: 0 auto;
+}
+.lb-abfrage .frage {
+  border-radius: 14px;
+  padding: var(--space-l);
+}
+@media (min-width: 640px) {
+  .lb-abfrage .frage {
+    padding: var(--space-xl);
+  }
+}
+.lb-abfrage .frage__text {
+  font-size: 17px;
+  line-height: 1.5;
+}
+.lb-abfrage .optionen label {
+  padding: var(--space-m) var(--space-l);
+  border-radius: 10px;
+  font-size: 16px;
+}
+.lb-abfrage .optionen label:has(input:checked) {
+  border-color: var(--text);
+  background: var(--surface-2);
+}
+.lb-abfrage .luecken {
+  font-size: 16px;
+}
+.lb-abfrage .aktionen {
+  justify-content: space-between;
+}
+
+.lb-aufloesung {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: var(--space-l);
+}
+@media (min-width: 640px) {
+  .lb-aufloesung {
+    padding: var(--space-xl);
+  }
+}
+.lb-aufloesung.ist-richtig {
+  border-color: var(--ok);
+}
+.lb-aufloesung.ist-falsch {
+  border-color: var(--fehler);
+}
+.lb-aufloesung__status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  font-size: 17px;
+  margin-bottom: var(--space-m);
+}
+.lb-aufloesung__zeichen {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.ist-richtig .lb-aufloesung__zeichen {
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+.ist-falsch .lb-aufloesung__zeichen {
+  background: var(--fehler-bg);
+  color: var(--fehler);
+}
+.lb-aufloesung__frage {
+  font-weight: 500;
+  max-width: none;
+}
+.lb-aufloesung__optionen,
+.lb-aufloesung__paare {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--space-m);
+  max-width: none;
+  display: grid;
+  gap: var(--space-s);
+}
+.lb-aufloesung__optionen li,
+.lb-aufloesung__paare li {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-s);
+  padding: var(--space-s) var(--space-m);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin: 0;
+}
+.lb-aufloesung li.ist-loesung {
+  border-color: var(--ok);
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+.lb-aufloesung li.ist-fehlgriff {
+  border-color: var(--fehler);
+  background: var(--fehler-bg);
+  color: var(--fehler);
+}
+.lb-aufloesung li.ist-loesung .meta,
+.lb-aufloesung li.ist-fehlgriff .meta {
+  color: inherit;
+  opacity: 0.85;
+}
+.lb-aufloesung__marke {
+  min-width: 1.2em;
+  font-weight: 700;
+}
+.lb-aufloesung__luecken {
+  line-height: 2;
+  max-width: none;
+}
+.lb-aufloesung__luecke {
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin: 0 2px;
+}
+.lb-aufloesung__luecke.ist-loesung {
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+.lb-aufloesung__luecke.ist-fehlgriff {
+  background: var(--fehler-bg);
+  color: var(--fehler);
+}
+.lb-aufloesung__luecke s {
+  opacity: 0.8;
+}
+.lb-aufloesung__erklaerung {
+  margin: var(--space-l) 0 0;
+  padding: var(--space-m) var(--space-l);
+  border-radius: 12px;
+  background: var(--lk-f1);
+  max-width: none;
+}
+.lb-aufloesung__label {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: var(--space-xs);
+}
+
+/* ── Ergebnis ── */
+.lb-ergebnis {
+  max-width: 720px;
+  margin: 0 auto;
+}
+.lb-ergebnis__kopf {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-l) var(--space-xl);
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: var(--space-l);
+  margin-bottom: var(--space-l);
+}
+.lb-ergebnis__kopf h1 {
+  margin-bottom: var(--space-s);
+}
+.lb-ergebnis__liste {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--space-l);
+  max-width: none;
+  display: grid;
+  gap: var(--space-s);
+}
+.lb-ergebnis__liste li {
+  display: flex;
+  gap: var(--space-m);
+  align-items: baseline;
+  padding: var(--space-s) var(--space-m);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  margin: 0;
+}
+.lb-ergebnis__liste .lb-aufloesung__marke {
+  color: var(--ok);
+}
+.lb-ergebnis__liste li.ist-falsch .lb-aufloesung__marke {
+  color: var(--fehler);
+}
+.lb-ergebnis__liste li > span {
+  min-width: 0;
+}
+.lb-ergebnis__liste .meta {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+@media (max-width: 560px) {
+  .lb-hero,
+  .lb-ergebnis__kopf {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+  .lb-hero__zahlen,
+  .lb-hero .aktionen,
+  .lb-ergebnis__kopf .aktionen {
+    justify-content: center;
+  }
+  .lb-nav__punkte {
+    display: none;
+  }
+}

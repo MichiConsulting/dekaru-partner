@@ -37,7 +37,7 @@ Der Schritt von Mittel zu Groß sind für den Betrieb 300 €, für Sie 105 € 
 
 Seit dem 29.09.2026 gibt es auch auf Hosting Provision: **35 % auf die ersten zwölf bezahlten Monate.** Gerechnet wird auf das, was der Kunde tatsächlich zahlt. Gratismonate zählen nicht mit.
 
-| Tarif | je bezahltem Monat | höchstens (12 Monate) | bei Jahreszahlung |
+| Stufe | je bezahltem Monat | höchstens (12 Monate) | bei Jahreszahlung |
 |---|---|---|---|
 | Start, 19 € | 6,65 € | 79,80 € | 66,50 € auf einmal |
 | Basis, 39 € | 13,65 € | 163,80 € | 136,50 € auf einmal |
@@ -89,7 +89,7 @@ Was der Kunde bezahlt hat, bleibt bei Ihnen.
 
 ## Wenn ich die Preise erhöhe
 
-Meine Preise werden steigen. Damit steigt die Grundlage für Ihre 35 %, und irgendwann passt der Prozentsatz nicht mehr. Der Grundsatz, auf den Sie sich verlassen können: **wenn ich den Prozentsatz anpasse, sinkt der Betrag je Abschluss nicht.** Beispiel: heute Paket Mittel für 1.300 €, 35 %, also 455 €. Steigt der Preis für dasselbe Paket auf 1.600 € und der Satz auf 30 %, sind das 480 €, jedenfalls nicht weniger als 455 €. Die genaue Regelung steht im Vertrag.
+Meine Preise werden steigen. Damit steigt die Grundlage für Ihre 35 %, und irgendwann passt der Prozentsatz nicht mehr. Der Grundsatz, auf den Sie sich verlassen können: **wenn ich den Prozentsatz anpasse, sinkt der Betrag je Abschluss nicht.** Beispiel: heute Paket Mittel für 1.300 €, 35 %, also 455 €. Steigt der Preis für dasselbe Paket auf 1.600 € und sinkt der Satz auf 30 %, sind das 480 €, jedenfalls nicht weniger als 455 €. Die genaue Regelung steht im Vertrag.
 
 ## Ehrlich zum Anlauf
 

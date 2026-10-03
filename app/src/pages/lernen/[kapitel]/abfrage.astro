@@ -1,0 +1,136 @@
+---
+// Die Abfrage: eine Frage je Seite. Die Seite mit der Frage enthaelt keine
+// Loesung, bewertet wird auf dem Server, die Aufloesung kommt danach als
+// eigene Ansicht. Der Schluessel "wiederholen" sammelt alle falschen Fragen.
+import Layout from '../../../layouts/Layout.astro';
+import QuizFrage from '../../../components/QuizFrage.astro';
+import Aufloesung from '../../../components/lernen/Aufloesung.astro';
+import '../../../styles/lernen.css';
+import { frageNachId } from '../../../lib/inhalt.ts';
+import { markiereErledigt, markiereGelesen } from '../../../lib/lernen.ts';
+import { auswertung, beantworteFrage, ladeDurchlauf, starteDurchlauf, ueberspringe, weiter, zustand, type Durchlauf } from '../../../lib/abfrage.ts';
+import { bewerte } from '../../../lib/quiz.ts';
+import { ladeKontext } from '../../../lib/lernkontext.ts';
+import { istPost } from '../../../lib/http.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const db = Astro.locals.db;
+const csrf = Astro.locals.csrf ?? '';
+const slug = String(Astro.params.kapitel ?? '');
+
+const kontext = await ladeKontext(db, benutzer.id, slug);
+if (!kontext) return Astro.rewrite('/404');
+
+const hier = `/lernen/${slug}/abfrage`;
+const ergebnisSeite = `/lernen/${slug}/ergebnis`;
+
+async function neu(frageIds: string[]): Promise<Durchlauf> {
+  if (!kontext!.istWiederholen) await markiereGelesen(db, benutzer.id, slug);
+  return starteDurchlauf(db, benutzer.id, slug, frageIds);
+}
+
+let durchlauf = await ladeDurchlauf(db, benutzer.id, slug);
+
+if (istPost(Astro.request)) {
+  const form = await Astro.request.formData();
+  const aktion = String(form.get('aktion') ?? 'antwort');
+
+  if (aktion === 'gelesen' && !kontext.istWiederholen && kontext.fragen.length === 0) {
+    await markiereGelesen(db, benutzer.id, slug);
+    await markiereErledigt(db, benutzer.id, slug);
+    return Astro.redirect(`/lernen/${slug}?gelesen=1`, 303);
+  }
+  if (aktion === 'neu') {
+    await neu(kontext.fragen.map((f) => f.id));
+    return Astro.redirect(hier, 303);
+  }
+  if (aktion === 'falsche') {
+    const falsche = durchlauf ? auswertung(durchlauf).falsche : [];
+    if (falsche.length === 0) return Astro.redirect(ergebnisSeite, 303);
+    await neu(falsche);
+    return Astro.redirect(hier, 303);
+  }
+  if (!durchlauf) return Astro.redirect(hier, 303);
+  if (aktion === 'weiter') {
+    const danach = await weiter(db, benutzer.id, durchlauf);
+    return Astro.redirect(zustand(danach).art === 'fertig' ? ergebnisSeite : hier, 303);
+  }
+  // Antwort auf die offene Frage.
+  const z = zustand(durchlauf);
+  if (z.art === 'frage') {
+    const frage = frageNachId(durchlauf.fragen[z.index]);
+    if (frage && String(form.get('frage') ?? '') === frage.id) {
+      await beantworteFrage(db, benutzer.id, durchlauf, frage, form);
+    }
+  }
+  return Astro.redirect(hier, 303);
+}
+
+// GET: ohne Durchlauf oder nach einem beendeten beginnt ein neuer, wenn es
+// Fragen gibt. Ein beendeter Durchlauf fuehrt zum Ergebnis.
+if (!durchlauf && kontext.fragen.length > 0) durchlauf = await neu(kontext.fragen.map((f) => f.id));
+let z = zustand(durchlauf);
+
+// Fragen, die es nicht mehr gibt (quiz.json geaendert), werden uebersprungen.
+while (durchlauf && (z.art === 'frage' || z.art === 'aufloesung') && !frageNachId(durchlauf.fragen[z.index])) {
+  durchlauf = z.art === 'frage' ? await ueberspringe(db, benutzer.id, durchlauf) : await weiter(db, benutzer.id, durchlauf);
+  z = zustand(durchlauf);
+}
+if (z.art === 'fertig') return Astro.redirect(ergebnisSeite, 303);
+
+const index = z.art === 'frage' || z.art === 'aufloesung' ? z.index : 0;
+const frage = durchlauf && z.art !== 'leer' ? frageNachId(durchlauf.fragen[index]) : undefined;
+const gesamt = durchlauf?.fragen.length ?? 0;
+const ergebnis = z.art === 'aufloesung' && durchlauf ? durchlauf.ergebnisse[index] : null;
+const bewertung = ergebnis && frage ? bewerte(frage, ergebnis.antwort) : null;
+const titel = kontext.istWiederholen ? 'Wiederholen' : `Abfrage: ${kontext.titel}`;
+---
+
+<Layout titel={titel} aktiv="lernen">
+  <div class="lb-abfrage">
+    <div class="lb-kopfzeile">
+      <p class="meta">
+        <a href="/lernen">Lernen</a> / <a href={kontext.zurueck}>{kontext.istWiederholen ? 'Wiederholen' : `Kapitel ${kontext.nummer}`}</a> / Abfrage
+      </p>
+      {gesamt > 0 && <p class="meta">Frage {index + 1} von {gesamt}</p>}
+    </div>
+    <h1>{kontext.istWiederholen ? 'Falsche Fragen wiederholen' : kontext.titel}</h1>
+    {gesamt > 0 && (
+      <div class="lb-schritte" aria-hidden="true">
+        {Array.from({ length: gesamt }, (_, i) => <span class:list={[i < index && 'ist-fertig', i === index && 'ist-aktiv']}></span>)}
+      </div>
+    )}
+
+    {z.art === 'leer' || !frage || !durchlauf ? (
+      <div class="karte">
+        <p>{kontext.istWiederholen ? 'Es gibt keine offenen Fragen.' : 'Zu diesem Kapitel gibt es keine Fragen.'}</p>
+        <a class="btn btn--zweit" href={kontext.istWiederholen ? '/lernen' : kontext.zurueck}>Zurück</a>
+      </div>
+    ) : z.art === 'frage' ? (
+      <form method="post" action={hier}>
+        <input type="hidden" name="_csrf" value={csrf} />
+        <input type="hidden" name="aktion" value="antwort" />
+        <input type="hidden" name="frage" value={frage.id} />
+        <QuizFrage frage={frage} nummer={index + 1} antwort={null} bewertung={null} />
+        <div class="aktionen">
+          <a class="meta" href={kontext.zurueck}>Abbrechen, später weitermachen</a>
+          <button class="btn" type="submit">Antwort prüfen</button>
+        </div>
+      </form>
+    ) : (
+      ergebnis && bewertung && (
+        <>
+          <Aufloesung frage={frage} antwort={ergebnis.antwort} bewertung={bewertung} />
+          <form method="post" action={hier}>
+            <input type="hidden" name="_csrf" value={csrf} />
+            <input type="hidden" name="aktion" value="weiter" />
+            <div class="aktionen">
+              <span class="meta">{index + 1 < gesamt ? `Noch ${gesamt - index - 1} ${gesamt - index - 1 === 1 ? 'Frage' : 'Fragen'}` : 'Das war die letzte Frage'}</span>
+              <button class="btn" type="submit" autofocus>{index + 1 < gesamt ? 'Nächste Frage' : 'Zum Ergebnis'}</button>
+            </div>
+          </form>
+        </>
+      )
+    )}
+  </div>
+</Layout>

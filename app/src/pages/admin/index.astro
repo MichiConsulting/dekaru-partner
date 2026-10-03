@@ -4,6 +4,8 @@ import { alleBenutzer } from '../../lib/auth.ts';
 import { alleKunden } from '../../lib/kunden.ts';
 import { alleAbrechnungen } from '../../lib/provision.ts';
 import { fortschrittAller } from '../../lib/lernen.ts';
+import { pflichtsaetzeAller } from '../../lib/gespraech-fortschritt.ts';
+import { pflichtsatzListe } from '../../lib/inhalt-gespraech.ts';
 
 const db = Astro.locals.db;
 const benutzer = await alleBenutzer(db);
@@ -11,6 +13,7 @@ const vertriebler = benutzer.filter((b) => b.rolle === 'vertriebler');
 const kunden = await alleKunden(db);
 const abrechnungen = await alleAbrechnungen(db);
 const lern = await fortschrittAller(db);
+const pflichtsaetze = await pflichtsaetzeAller(db, pflichtsatzListe.map((e) => e.id));
 ---
 
 <Layout titel="Admin" aktiv="admin">
@@ -28,16 +31,17 @@ const lern = await fortschrittAller(db);
   </div>
 
   <h2>Lernfortschritt</h2>
-  <div class="tabelle-wrap">
+  <div class="tabelle-wrap schiebbar">
     <table>
-      <thead><tr><th>Vertriebler</th><th class="zahl">Kapitel erledigt</th><th class="zahl">Fragen richtig</th><th>Zuletzt</th></tr></thead>
+      <thead><tr><th>Vertriebler</th><th class="zahl">Kapitel erledigt</th><th class="zahl">Fragen richtig</th><th class="zahl">Pflichtsätze sitzen</th><th>Zuletzt</th></tr></thead>
       <tbody>
-        {lern.length === 0 && <tr><td colspan="4">Noch keine Vertriebler.</td></tr>}
+        {lern.length === 0 && <tr><td colspan="5">Noch keine Vertriebler.</td></tr>}
         {lern.map((l) => (
           <tr>
             <td><a href={`/admin/vertriebler/${l.benutzerId}`}>{l.name}</a>{!l.aktiv && <span class="badge" style="margin-left:8px">deaktiviert</span>}</td>
             <td class="zahl">{l.erledigt}</td>
             <td class="zahl">{l.richtig} / {l.beantwortet}</td>
+            <td class="zahl">{pflichtsaetze.get(l.benutzerId) ?? 0} / {pflichtsatzListe.length}</td>
             <td>{l.zuletzt ? l.zuletzt.toLocaleDateString('de-DE') : ''}</td>
           </tr>
         ))}

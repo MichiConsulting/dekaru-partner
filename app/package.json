@@ -9,6 +9,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "test": "vitest run",
+    "pruefe-grafiken": "node scripts/grafiken-pruefen.mjs",
     "db:migrate": "node scripts/db-migrate.mjs",
     "admin:anlegen": "node scripts/admin-anlegen.mjs",
     "provision:import": "node scripts/provision-import.mjs"

@@ -1,18 +1,27 @@
 # dekaru Partner-Portal
 
 Website für die Vertriebspartner von dekaru, später unter `partner.dekaru.de`.
-Jeder Vertriebler hat einen eigenen Login und sieht drei Bereiche:
+Jeder Vertriebler hat einen eigenen Login und sieht vier Bereiche:
 
-1. **Lernen**: das Angebot Kapitel für Kapitel, mit Grafiken und Fragen
-   (Auswahl, Wahr/Falsch, Zuordnen, Lückentext). Fortschritt und Punkte werden
-   je Person gespeichert, falsche Fragen lassen sich wiederholen.
-2. **Meine Kunden**: eigene Betriebe eintragen, Status pflegen, filtern,
+1. **Lernen**: jedes Kapitel als 4 bis 8 Lernkarten mit Grafiken, Kennzahlen
+   und Merksätzen, der lange Text bleibt unter "Ausführlich lesen". Danach die
+   Abfrage auf einer eigenen Seite, eine Frage je Seite (Auswahl, Wahr/Falsch,
+   Zuordnen, Lückentext), Auflösung erst nach der Antwort, am Ende eine
+   Ergebnisseite. Fortschritt und Punkte werden je Person gespeichert, falsche
+   Fragen lassen sich wiederholen.
+2. **Gespräch**: die Gesprächshilfe fürs Handy. Was der Kunde fragt, was der
+   Vertriebler sagt, mit Suche und Themen-Chips. Sechs Pflichtsätze sind als
+   "wortgleich" markiert und lassen sich unter `/gespraech/ueben` Satz für Satz
+   üben (Lückentext und Satzteile ordnen im Wechsel, Lösung erst nach der
+   Antwort). Ein Satz sitzt, wenn der letzte Versuch stimmt.
+3. **Meine Kunden**: eigene Betriebe eintragen, Status pflegen, filtern,
    Termine und Abschlüsse des Monats sehen. Niemand sieht fremde Einträge.
-3. **Meine Provision**: die Monatsaufstellungen aus `dekaru-rechnungen`, mit
+4. **Meine Provision**: die Monatsaufstellungen aus `dekaru-rechnungen`, mit
    entstandener, ausgezahlter und aufgelaufener Provision und den Regeln.
 
 Dazu ein **Admin-Bereich** für Michi: Zugänge anlegen und deaktivieren
-(Einladung mit Einmal-Passwort), alle Kunden, Lernstand, Provision importieren.
+(Einladung mit Einmal-Passwort), alle Kunden, Lernstand mitsamt der
+Pflichtsätze, Provision importieren.
 
 ## Aufbau
 
@@ -37,6 +46,15 @@ Redirect nach dem Speichern, ein kleines Skript nur für das Verbinden von
 Paaren im Quiz. Schriften Space Grotesk und Inter liegen im Bundle, es gibt
 keinen Aufruf nach draußen, kein Tracking, ein einziges Sitzungs-Cookie.
 
+**Hell und dunkel.** Ein Knopf im Kopf schaltet um, die Wahl liegt in
+`localStorage` unter `dekaru-theme` (wie auf dekaru.de). Ohne Wahl gilt die
+Systemeinstellung, auch ohne JavaScript über `prefers-color-scheme`.
+`public/theme-init.js` setzt `data-theme` auf `<html>` schon im `<head>`,
+damit beim Laden nichts aufblitzt; eine eigene Datei, weil die CSP keine
+Inline-Skripte erlaubt. Die Farbvariablen stehen in `global.css` einmal für
+hell und zweimal gleich für dunkel (`[data-theme='dark']` und das Media
+Query), `tests/modus.test.ts` hält beide Blöcke gleich.
+
 **Sicherheit.** Passwörter mit scrypt (`src/lib/passwort.ts`). Sitzungen in
 der Tabelle `sitzungen`, im Cookie nur ein Zufallstoken, in der Datenbank
 dessen SHA-256; Cookie httpOnly, Secure, SameSite=Lax, 14 Tage. Jede Sitzung
@@ -55,6 +73,38 @@ dort keine Kapitel liegen, gilt `app/inhalt-platzhalter/`. Fehlerhafte Fragen
 werden übersprungen und dem Admin unter Lernen aufgelistet. Ein Kapitel gilt
 als erledigt, wenn alle Fragen einmal richtig beantwortet sind. Grafiken sind
 nur angemeldet erreichbar (`/grafiken/<datei>`).
+
+**Lernbereich.** Die Lernkarten kommen aus `../inhalt/lernen/<kapitel>.json`
+(`lib/lernkarten.ts` prüft das Format, Fehler sieht der Admin unter Lernen),
+die Lerngrafiken aus `../inhalt/lernen/grafiken/` werden inline gesetzt und
+nehmen die Farbvariablen `--lk-*` aus `global.css`. Routen je Kapitel:
+`/lernen/<kapitel>` (Karten, mit JavaScript eine nach der anderen, ohne
+untereinander), `/lernen/<kapitel>/lesen` (ganzer Text),
+`/lernen/<kapitel>/abfrage` (eine Frage je Seite, Bewertung auf dem Server,
+die Frage-Seite enthält keine Lösung) und `/lernen/<kapitel>/ergebnis`.
+`/lernen/wiederholen/abfrage` nimmt alle zuletzt falschen Fragen. Der Stand
+liegt in `lernkarten_stand` (zuletzt gesehene Karte, gelesen) und
+`abfrage_durchlaeufe` (ein Durchlauf je Person und Kapitel), die Einzelantworten
+weiter in `quiz_antworten` (Migration `003-lernen.sql`). Styles nur in
+`styles/lernen.css`.
+
+**Grafiken prüfen.** Text in SVG bricht nicht um, eine zu lange Zeile ragt
+einfach aus ihrem Kasten. `tests/grafiken.test.ts` schätzt deshalb für jede
+Grafik unter `../inhalt/grafiken/` und `../inhalt/lernen/grafiken/` die Breite
+jeder Textzeile (`src/lib/grafik-pruefung.ts`, Zeichenklassen mal
+Schriftgröße, gegen Inter kalibriert) und prüft Rand zur viewBox, Abstand zum
+umgebenden Kasten, Überlappungen und die Schriftgröße in Bildschirmpixeln bei
+375 px Breite (mindestens 11 px). `npm run pruefe-grafiken` misst dasselbe
+exakt im Browser (Playwright mit Chromium, lokal, global oder über
+`PLAYWRIGHT_DIR`, wie beim PDF-Build) und ist der Maßstab, wenn die Näherung
+zweifelt. Beide erwarten 0 Befunde.
+
+**Gesprächshilfe.** `../inhalt/gespraechshilfe.json` wird ebenfalls beim Build
+eingelesen (`src/lib/inhalt-gespraech.ts`), geprüft (`src/lib/gespraech.ts`)
+und ins Bundle geschrieben. Fehlerhafte Einträge sieht der Admin unter
+`/gespraech`. Der Übungsstand der Pflichtsätze liegt in `pflichtsatz_antworten`
+(Migration `002-pflichtsaetze.sql`, `src/lib/gespraech-fortschritt.ts`). Der
+Platzhalter `{{Ihr Name}}` wird mit dem Namen der angemeldeten Person gefüllt.
 
 **Provision.** `dekaru-rechnungen/provision.mjs` schreibt neben jeder
 Markdown-Aufstellung eine `<slug>.json` (`lib/provision-json.mjs`, Format 1).
@@ -91,10 +141,10 @@ ADAPTER=node npm run build && PGLITE_PFAD=./.pglite node dist/server/entry.mjs
                        # eigenständiger Server auf Port 4321, für Lighthouse
 ```
 
-Lighthouse (mobil, Chrome headless, angemeldet, Stand 30.09.2026): Login,
-Start, Kapitel, Kunden jeweils Performance 97 bis 99, Accessibility 100, Best
-Practices 100. Desktop 100/100/100. SEO liegt bei 45 bis 50 und bleibt es: das
-Portal trägt `noindex` und hat keine öffentlichen Seiten.
+Lighthouse (mobil, Chrome headless, angemeldet, Stand 02.10.2026, hell und
+dunkel): Start, Lernen, Lernkarte, Abfrage, Gespräch, Kunden jeweils
+Performance 100, Accessibility 100, Best Practices 100. SEO liegt bei 45 bis 50
+und bleibt es: das Portal trägt `noindex` und hat keine öffentlichen Seiten.
 
 ## Einrichtung durch Michi, Schritt für Schritt
 
@@ -165,8 +215,23 @@ holt sich Michi so, dass sie nie in einer Datei landet:
    Das zweite Skript gibt das Einmal-Passwort aus. Es gilt für den ersten
    Login, danach verlangt das Portal ein eigenes.
 
-`db:migrate` ist wiederholbar und wendet nur an, was fehlt. Kommt später eine
-`002-…sql` dazu, denselben Befehl noch einmal.
+`db:migrate` ist wiederholbar und wendet nur an, was fehlt. Kommt eine neue
+`NNN-…sql` dazu, denselben Befehl noch einmal.
+
+**Offen seit Gesprächshilfe und neuem Lernbereich:** `002-pflichtsaetze.sql`
+(Tabelle `pflichtsatz_antworten`) und `003-lernen.sql` (Tabellen
+`lernkarten_stand` und `abfrage_durchlaeufe`) sind auf der Live-Datenbank noch
+nicht angewendet. Vor dem Merge nach `main` einmalig vom Mac aus:
+
+```
+cd ~/dekaru/dekaru-partner/app
+export DATABASE_URL='postgres://…?sslmode=require'
+npm run db:migrate        # meldet "Angewendet: 2, 3"
+unset DATABASE_URL
+```
+
+Bis dahin zeigen `/gespraech`, `/gespraech/ueben`, der Admin-Lernstand und der
+Lernbereich auf partner.dekaru.de einen Fehler, weil die Tabellen fehlen.
 
 ### 6. Deployen und Region prüfen
 

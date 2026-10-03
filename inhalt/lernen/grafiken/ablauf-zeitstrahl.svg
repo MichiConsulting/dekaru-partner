@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="g-ab" viewBox="0 0 320 258" role="img" aria-labelledby="ab-t ab-d" fill="currentColor" font-family="Inter, system-ui, sans-serif" font-size="12">
+  <title id="ab-t">Vom Anruf bis zur Rechnung in acht Schritten</title>
+  <desc id="ab-d">Acht nummerierte Schritte untereinander. Helle Kreise sind Ihre Schritte, dunkle die von Michael Henning. 1 Anruf oder Cold Visit, Sie. 2 Erstgespräch, Sie. 3 Vorschau bauen, Michael Henning. 4 Zweittermin mit Vorschau, Sie. 5 Angebot, Werkvertrag, AVV, Michael Henning. 6 Anzahlung, die Hälfte, erste Provision. 7 Bau in der Warteschlange, Michael Henning. 8 Abnahme und Restzahlung, Michael Henning.</desc>
+  <style>
+    #g-ab .f1{fill:var(--lk-f1,#ece6da)}#g-ab .f2{fill:var(--lk-f2,#e2e7ec)}#g-ab .ink{fill:var(--lk-ink,#141414)}#g-ab .on{fill:var(--lk-paper,#ffffff)}
+    #g-ab .ln{stroke:var(--lk-line,#b8b8b8);stroke-width:2;fill:none;stroke-dasharray:4 4}#g-ab .mu{fill:var(--lk-muted,#5f5f5f)}#g-ab .h{font-weight:700}#g-ab .n{font-weight:700;font-size:12px}
+  </style>
+  <path class="ln" d="M19 20v196"/>
+
+  <circle class="f1" cx="19" cy="20" r="13"/><text class="n" x="19" y="24.3" text-anchor="middle">1</text>
+  <text class="h" x="40" y="24.3">Anruf oder Cold Visit</text><text class="mu" x="308" y="24.3" text-anchor="end">Sie</text>
+
+  <circle class="f1" cx="19" cy="48" r="13"/><text class="n" x="19" y="52.3" text-anchor="middle">2</text>
+  <text class="h" x="40" y="52.3">Erstgespräch, "ab 600 €"</text><text class="mu" x="308" y="52.3" text-anchor="end">Sie allein</text>
+
+  <circle class="ink" cx="19" cy="76" r="13"/><text class="n on" x="19" y="80.3" text-anchor="middle">3</text>
+  <text class="h" x="40" y="80.3">Vorschau aus Ihrer Notiz</text><text class="mu" x="308" y="80.3" text-anchor="end">Michael Henning</text>
+
+  <circle class="f1" cx="19" cy="104" r="13"/><text class="n" x="19" y="108.3" text-anchor="middle">4</text>
+  <text class="h" x="40" y="108.3">Zweittermin, Vorschau</text><text class="mu" x="308" y="108.3" text-anchor="end">Sie, Briefing-Bogen</text>
+
+  <circle class="ink" cx="19" cy="132" r="13"/><text class="n on" x="19" y="136.3" text-anchor="middle">5</text>
+  <text class="h" x="40" y="136.3">Angebot, Verträge</text><text class="mu" x="308" y="136.3" text-anchor="end">Michael Henning</text>
+
+  <circle class="f2" cx="19" cy="160" r="13"/><text class="n" x="19" y="164.3" text-anchor="middle">6</text>
+  <text class="h" x="40" y="164.3">Anzahlung, die Hälfte</text><text class="mu" x="308" y="164.3" text-anchor="end">Ihre erste Provision</text>
+
+  <circle class="ink" cx="19" cy="188" r="13"/><text class="n on" x="19" y="192.3" text-anchor="middle">7</text>
+  <text class="h" x="40" y="192.3">Bau, Warteschlange</text><text class="mu" x="308" y="192.3" text-anchor="end">Michael Henning</text>
+
+  <circle class="ink" cx="19" cy="216" r="13"/><text class="n on" x="19" y="220.3" text-anchor="middle">8</text>
+  <text class="h" x="40" y="220.3">Abnahme, Restzahlung</text><text class="mu" x="308" y="220.3" text-anchor="end">Hosting beginnt</text>
+
+  <!-- Legende -->
+  <circle class="f1" cx="18" cy="246" r="6"/><text class="mu" x="30" y="250.3">Sie</text>
+  <circle class="ink" cx="66" cy="246" r="6"/><text class="mu" x="78" y="250.3">Michael Henning</text>
+  <circle class="f2" cx="190" cy="246" r="6"/><text class="mu" x="202" y="250.3">der Kunde zahlt</text>
+</svg>

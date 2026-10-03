@@ -13,7 +13,7 @@ const id = String(Astro.params.id ?? '');
 // Nur eigene Eintraege. Fremde IDs enden hier mit 404, nicht mit 403, damit
 // sich nicht einmal die Existenz eines fremden Eintrags erraten laesst.
 const kunde = await holeKunde(db, benutzer.id, id);
-if (!kunde) return new Response('Nicht gefunden', { status: 404 });
+if (!kunde) return Astro.rewrite('/404');
 
 let werte: Partial<KundeEingabe> = kunde;
 let fehler: string[] = [];

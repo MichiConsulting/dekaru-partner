@@ -23,7 +23,7 @@
   <g transform="translate(20 40)">
     <rect class="v" x="0" y="0" width="360" height="56" rx="4"/>
     <text class="h" x="14" y="22" font-size="13">1  Anruf oder Cold Visit</text>
-    <text class="m" x="14" y="42" font-size="12">Nur Gewerbe, geschäftliche Nummer. Ziel: das Erstgespräch.</text>
+    <text class="m" x="14" y="42" font-size="12">Nur Gewerbe, geschäftliche Nummer. Ziel: Erstgespräch.</text>
   </g>
   <path class="arrow" d="M200,96 L200,110" marker-end="url(#pf)"/>
 
@@ -32,7 +32,7 @@
     <rect class="v" x="0" y="0" width="360" height="72" rx="4"/>
     <text class="h" x="14" y="22" font-size="13">2  Erstgespräch, Sie allein</text>
     <text class="m" x="14" y="42" font-size="12">Leistung, Zusatzleistungen, Preisrahmen "ab 600 €".</text>
-    <text class="m" x="14" y="58" font-size="12">Zweittermin nur bei echtem Interesse, mit dem Entscheider.</text>
+    <text class="m" x="14" y="58" font-size="12">Zweittermin nur bei echtem Interesse, mit Entscheider.</text>
   </g>
   <path class="arrow" d="M380,148 L440,148" marker-end="url(#pf)"/>
 

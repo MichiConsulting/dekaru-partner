@@ -1,0 +1,105 @@
+---
+// Das Ergebnis des letzten Durchlaufs: Punkte, je Frage richtig oder falsch,
+// und der Weg zu den falschen Fragen.
+import Layout from '../../../layouts/Layout.astro';
+import Fortschrittsring from '../../../components/lernen/Fortschrittsring.astro';
+import '../../../styles/lernen.css';
+import { frageNachId } from '../../../lib/inhalt.ts';
+import { auswertung, ladeDurchlauf, zustand } from '../../../lib/abfrage.ts';
+import { erledigteKapitel, ladeAntworten, markiereErledigt } from '../../../lib/lernen.ts';
+import { ladeKontext } from '../../../lib/lernkontext.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const db = Astro.locals.db;
+const csrf = Astro.locals.csrf ?? '';
+const slug = String(Astro.params.kapitel ?? '');
+
+const kontext = await ladeKontext(db, benutzer.id, slug);
+if (!kontext) return Astro.rewrite('/404');
+
+const durchlauf = await ladeDurchlauf(db, benutzer.id, slug);
+if (!durchlauf || zustand(durchlauf).art !== 'fertig') return Astro.redirect(`/lernen/${slug}/abfrage`, 303);
+
+const ergebnis = auswertung(durchlauf);
+const prozent = ergebnis.max ? Math.round((ergebnis.punkte / ergebnis.max) * 100) : 0;
+const alleRichtig = ergebnis.max > 0 && ergebnis.punkte === ergebnis.max;
+
+// Das Kapitel ist abgeschlossen, wenn jede seiner Fragen schon einmal stimmte.
+let abgeschlossen = false;
+if (!kontext.istWiederholen && kontext.fragen.length > 0) {
+  const antworten = await ladeAntworten(db, benutzer.id, slug);
+  abgeschlossen = kontext.fragen.every((f) => antworten.get(f.id)?.jeRichtig) || (await erledigteKapitel(db, benutzer.id)).has(slug);
+  if (abgeschlossen) await markiereErledigt(db, benutzer.id, slug);
+}
+
+function frageText(id: string): string {
+  const f = frageNachId(id);
+  if (!f) return 'Frage nicht mehr vorhanden';
+  return f.typ === 'wahr-falsch' ? f.aussage : f.typ === 'lueckentext' ? f.text.replace(/\{\{[^}]*\}\}/g, '…') : f.frage;
+}
+---
+
+<Layout titel={`Ergebnis: ${kontext.titel}`} aktiv="lernen">
+  <div class="lb-ergebnis">
+    <p class="meta">
+      <a href="/lernen">Lernen</a> / <a href={kontext.zurueck}>{kontext.istWiederholen ? 'Wiederholen' : `Kapitel ${kontext.nummer}`}</a> / Ergebnis
+    </p>
+    <section class="lb-ergebnis__kopf" aria-labelledby="ergebnis-titel">
+      <Fortschrittsring prozent={prozent} groesse={132} strich={11}>
+        <span class="gross">{ergebnis.punkte}<span class="klein">von {ergebnis.max}</span></span>
+      </Fortschrittsring>
+      <div>
+        <h1 id="ergebnis-titel">
+          {alleRichtig ? 'Alles richtig.' : ergebnis.punkte === 0 ? 'Noch nichts richtig.' : `${ergebnis.punkte} von ${ergebnis.max} richtig.`}
+        </h1>
+        <p role="status">
+          {abgeschlossen && !kontext.istWiederholen && 'Das Kapitel ist abgeschlossen. '}
+          {alleRichtig
+            ? 'Sie können die Fragen jederzeit wiederholen.'
+            : `${ergebnis.falsche.length} ${ergebnis.falsche.length === 1 ? 'Frage' : 'Fragen'} noch nicht richtig. Wiederholen Sie nur diese, bis alles sitzt.`}
+        </p>
+        <div class="aktionen" style="margin-top:var(--space-m)">
+          {ergebnis.falsche.length > 0 && (
+            <form method="post" action={`/lernen/${slug}/abfrage`}>
+              <input type="hidden" name="_csrf" value={csrf} />
+              <input type="hidden" name="aktion" value="falsche" />
+              <button class="btn" type="submit">Falsche Fragen wiederholen</button>
+            </form>
+          )}
+          <form method="post" action={`/lernen/${slug}/abfrage`}>
+            <input type="hidden" name="_csrf" value={csrf} />
+            <input type="hidden" name="aktion" value="neu" />
+            <button class:list={['btn', ergebnis.falsche.length > 0 && 'btn--zweit']} type="submit">
+              {kontext.istWiederholen ? 'Alle offenen Fragen noch einmal' : 'Ganze Abfrage noch einmal'}
+            </button>
+          </form>
+          {!kontext.istWiederholen && kontext.nachher && alleRichtig && (
+            <a class="btn btn--zweit" href={`/lernen/${kontext.nachher.id}`}>Nächstes Kapitel</a>
+          )}
+        </div>
+      </div>
+    </section>
+
+    <h2>Die Fragen im Überblick</h2>
+    <ol class="lb-ergebnis__liste">
+      {durchlauf.fragen.map((id, i) => {
+        const e = durchlauf.ergebnisse[i];
+        const richtig = Boolean(e?.richtig);
+        return (
+          <li class:list={[richtig ? 'ist-richtig' : 'ist-falsch']}>
+            <span class="lb-aufloesung__marke" aria-hidden="true">{richtig ? '✓' : '✗'}</span>
+            <span>
+              <span class="sr-only">{richtig ? 'Richtig: ' : 'Falsch: '}</span>
+              {frageText(id)}
+            </span>
+          </li>
+        );
+      })}
+    </ol>
+
+    <nav class="kapitel-nav" aria-label="Weiter">
+      <a href={kontext.istWiederholen ? '/lernen' : kontext.zurueck}>← {kontext.istWiederholen ? 'Zur Übersicht' : 'Zu den Lernkarten'}</a>
+      {!kontext.istWiederholen && kontext.nachher ? <a href={`/lernen/${kontext.nachher.id}`}>{kontext.nachher.data.titel} →</a> : <a href="/lernen">Zur Übersicht →</a>}
+    </nav>
+  </div>
+</Layout>

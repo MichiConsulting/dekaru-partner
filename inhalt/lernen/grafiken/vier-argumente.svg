@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="g-va" viewBox="0 0 320 290" role="img" aria-labelledby="va-t va-d" fill="currentColor" font-family="Inter, system-ui, sans-serif" font-size="12">
+  <title id="va-t">Die vier Argumente, die überall tragen</title>
+  <desc id="va-d">Vier Kacheln untereinander: Festpreis vorher, der Betrieb kennt den Preis vor dem Start. Man sieht es vorher, eine gebaute Vorschau mit echten Daten. Ein Termin, der gilt, als Datum im Angebot. Ab dem Auftrag ein Ansprechpartner, dieselbe Person für alles.</desc>
+  <style>
+    #g-va .f1{fill:var(--lk-f1,#ece6da)}#g-va .f2{fill:var(--lk-f2,#e2e7ec)}#g-va .ink{fill:var(--lk-ink,#141414)}
+    #g-va .ln{stroke:var(--lk-ink,#141414);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}#g-va .mu{fill:var(--lk-muted,#5f5f5f)}#g-va .t{font-size:13px;font-weight:700}
+  </style>
+  <rect class="f1" x="4" y="4" width="312" height="66" rx="8"/>
+  <rect class="f2" x="4" y="76" width="312" height="66" rx="8"/>
+  <rect class="f2" x="4" y="148" width="312" height="66" rx="8"/>
+  <rect class="f1" x="4" y="220" width="312" height="66" rx="8"/>
+
+  <!-- Festpreis: Preisschild -->
+  <path class="ln" d="M18 22h16l12 12-14 14-14-14z"/><circle class="ink" cx="24" cy="28" r="2.2"/>
+  <text class="t" x="60" y="28">Festpreis vorher</text>
+  <text class="mu" x="60" y="46">Der Betrieb weiß vor dem Start,</text>
+  <text class="mu" x="60" y="61">was am Ende auf der Rechnung steht.</text>
+
+  <!-- Vorschau: Bildschirm mit Auge -->
+  <rect class="ln" x="16" y="92" width="32" height="22" rx="3"/><path class="ln" d="M26 120h12"/>
+  <path class="ln" d="M22 103c3-4 7-6 10-6s7 2 10 6c-3 4-7 6-10 6s-7-2-10-6z"/><circle class="ink" cx="32" cy="103" r="2.2"/>
+  <text class="t" x="60" y="100">Man sieht es vorher</text>
+  <text class="mu" x="60" y="118">Eine gebaute Vorschau mit den</text>
+  <text class="mu" x="60" y="133">echten Daten des Betriebs.</text>
+
+  <!-- Termin: Kalender mit Haken -->
+  <rect class="ln" x="16" y="166" width="32" height="28" rx="3"/><path class="ln" d="M16 174h32M25 162v8M39 162v8"/>
+  <path class="ln" d="M25 183l5 5 8-9"/>
+  <text class="t" x="60" y="172">Ein Termin, der gilt</text>
+  <text class="mu" x="60" y="190">Als Datum im Angebot,</text>
+  <text class="mu" x="60" y="205">im Werkvertrag verbindlich.</text>
+
+  <!-- Ansprechpartner: Person -->
+  <circle class="ln" cx="32" cy="242" r="7"/><path class="ln" d="M18 266c2-9 8-13 14-13s12 4 14 13"/>
+  <text class="t" x="60" y="244">Ein Ansprechpartner</text>
+  <text class="mu" x="60" y="262">Ab dem Auftrag dieselbe Person,</text>
+  <text class="mu" x="60" y="277">von der Rückfrage bis zum Hosting.</text>
+</svg>

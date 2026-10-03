@@ -8,13 +8,15 @@ import { fragenJeKapitel } from '../../../lib/inhalt.ts';
 import { alleKunden, istUuid, statusLabel } from '../../../lib/kunden.ts';
 import { datumDe } from '../../../lib/provision.ts';
 import { formular, istPost } from '../../../lib/http.ts';
+import { ladeUebungsstand } from '../../../lib/gespraech-fortschritt.ts';
+import { pflichtsatzListe } from '../../../lib/inhalt-gespraech.ts';
 
 const db = Astro.locals.db;
 const ich = Astro.locals.benutzer!;
 const csrf = Astro.locals.csrf ?? '';
 const id = String(Astro.params.id ?? '');
 const b = istUuid(id) ? await holeBenutzer(db, id) : null;
-if (!b) return new Response('Nicht gefunden', { status: 404 });
+if (!b) return Astro.rewrite('/404');
 
 let meldung: string | null = null;
 let einmal: string | null = null;
@@ -58,6 +60,7 @@ const kapitel = (await getCollection('kapitel')).sort((a, c) => a.data.nummer - 
 const stand = await fortschritt(db, benutzer.id, fragenJeKapitel(kapitel.map((k) => k.id)));
 const standJe = new Map(stand.map((s) => [s.kapitel, s]));
 const kunden = await alleKunden(db, { benutzerId: benutzer.id });
+const uebung = await ladeUebungsstand(db, benutzer.id);
 ---
 
 <Layout titel={benutzer.name} aktiv="admin">
@@ -98,7 +101,7 @@ const kunden = await alleKunden(db, { benutzerId: benutzer.id });
   </form>
 
   <h2>Lernfortschritt</h2>
-  <div class="tabelle-wrap">
+  <div class="tabelle-wrap schiebbar">
     <table>
       <thead><tr><th>Kapitel</th><th>Stand</th><th class="zahl">Fragen richtig</th></tr></thead>
       <tbody>
@@ -110,8 +113,21 @@ const kunden = await alleKunden(db, { benutzerId: benutzer.id });
     </table>
   </div>
 
+  <h2>Pflichtsätze ({pflichtsatzListe.filter((e) => uebung.get(e.id)?.sitzt).length} von {pflichtsatzListe.length} sitzen)</h2>
+  <div class="tabelle-wrap schiebbar">
+    <table>
+      <thead><tr><th>Satz</th><th>Stand</th><th class="zahl">Versuche</th><th>Zuletzt</th></tr></thead>
+      <tbody>
+        {pflichtsatzListe.map((e, i) => {
+          const s = uebung.get(e.id);
+          return <tr><td>{i + 1}. {e.frage}</td><td>{s?.sitzt ? 'Sitzt' : s ? 'Noch nicht' : 'Offen'}</td><td class="zahl">{s?.versuche ?? 0}</td><td>{s ? s.zuletzt.toLocaleDateString('de-DE') : ''}</td></tr>;
+        })}
+      </tbody>
+    </table>
+  </div>
+
   <h2>Kunden ({kunden.length})</h2>
-  <div class="tabelle-wrap">
+  <div class="tabelle-wrap schiebbar">
     <table>
       <thead><tr><th>Betrieb</th><th>Ort</th><th>Status</th><th>Termin</th><th>Geändert</th></tr></thead>
       <tbody>
