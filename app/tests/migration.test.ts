@@ -78,4 +78,27 @@ describe('Migrationen', () => {
     expect(await versionen(db)).toEqual([1, 2, 3, 4]);
     expect(await tabellen(db)).toEqual(expect.arrayContaining(NEUE_TABELLEN));
   });
+
+  it('befristet beim Nachziehen von Version 4 auch laengst bestehende offene Einladungen', async () => {
+    ordner = mkdtempSync(join(tmpdir(), 'migration-'));
+    for (const datei of ['001-schema.sql', '002-pflichtsaetze.sql', '003-lernen.sql']) {
+      copyFileSync(join(MIGRATIONEN_ORDNER, datei), join(ordner, datei));
+    }
+    db = await leereDb();
+    await migriere(db, ordner);
+    // Eine Einladung aus der Zeit vor Version 4: Spalte existiert noch nicht,
+    // "passwort_wechsel_noetig" ist wahr. Ohne den Nachzieh-Befehl in 004
+    // bliebe das Einmal-Passwort fuer immer gueltig.
+    await db.query(
+      `INSERT INTO benutzer (email, name, rolle, passwort_hash, passwort_wechsel_noetig)
+       VALUES ('alt@example.test', 'Alt', 'vertriebler', 'scrypt$1$1$1$a$a', true)`,
+    );
+
+    await migriere(db);
+
+    const zeilen = await db.query<{ einmal_passwort_bis: string | null }>(
+      "SELECT einmal_passwort_bis FROM benutzer WHERE email = 'alt@example.test'",
+    );
+    expect(zeilen[0].einmal_passwort_bis).not.toBeNull();
+  });
 });
