@@ -21,14 +21,15 @@ export async function formular(request: Request): Promise<Formular> {
 /**
  * Ermittelt die Adresse fuer Ratenbegrenzung und Protokoll.
  *
- * Hinter dem Vercel-Proxy ist "x-forwarded-for" kein verlaesslicher Wert:
- * Vercel haengt die echte Adresse nur an einen vorhandenen Header an, ersetzt
- * ihn aber nicht. Schickt der Client selbst "x-forwarded-for" mit, steht sein
- * frei gewaehlter Wert vorne, und genau den lieferte die alte Fassung dieser
- * Funktion zurueck. Eine Sperre nach fuenf Fehlversuchen liesse sich damit
- * aushebeln, indem jede Anfrage eine andere erfundene Adresse vorgibt.
- * "x-real-ip" setzt Vercel dagegen immer selbst auf die tatsaechliche
- * Verbindung, ein Client kann ihn nicht ueberschreiben.
+ * Jeder Client kann "x-forwarded-for" selbst mitschicken, die alte Fassung
+ * dieser Funktion nahm davon ungeprueft den ersten Eintrag. Ob Vercel einen
+ * vom Client vorgegebenen Wert ueberschreibt oder nur ergaenzt, ist hier
+ * nicht gegen die echte Plattform verifiziert (das haette einen Test gegen
+ * partner.dekaru.de gebraucht, der bewusst unterblieben ist). Verlaesslich
+ * ist dagegen: @astrojs/vercel vertraut in seiner eigenen Edge-Middleware
+ * fuer denselben Zweck "x-real-ip" und nicht "x-forwarded-for" (Quelle:
+ * node_modules/@astrojs/vercel/dist/serverless/middleware.js). Dieser
+ * Funktion folgt hier.
  */
 export function clientIp(astro: Pick<AstroGlobal, 'request' | 'clientAddress'>): string {
   if (process.env.VERCEL) {
