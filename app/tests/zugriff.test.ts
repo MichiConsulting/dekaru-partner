@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { entscheideZugriff, sichererWeiterPfad } from '../src/lib/zugriff.ts';
+import { entscheideZugriff, istAdmin, sichererWeiterPfad } from '../src/lib/zugriff.ts';
 import type { Benutzer } from '../src/lib/auth.ts';
 
 const vertriebler: Benutzer = {
@@ -36,5 +36,14 @@ describe('Zugriff', () => {
     expect(sichererWeiterPfad('https://boese.example')).toBe('/');
     expect(sichererWeiterPfad('//boese.example')).toBe('/');
     expect(sichererWeiterPfad(null)).toBe('/');
+  });
+  it('lehnt einen Tab ab, der im Browser aus "/" ein "//" macht', () => {
+    expect(sichererWeiterPfad('/\t/boese.example')).toBe('/');
+    expect(sichererWeiterPfad('/kunden\u0000x')).toBe('/');
+  });
+  it('istAdmin prueft die Rolle, unabhaengig vom Pfad', () => {
+    expect(istAdmin(admin)).toBe(true);
+    expect(istAdmin(vertriebler)).toBe(false);
+    expect(istAdmin(null)).toBe(false);
   });
 });
