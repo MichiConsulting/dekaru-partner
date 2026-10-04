@@ -1,14 +1,17 @@
 ---
 import { STATUS, type KundeEingabe } from '../lib/kunden.ts';
+import type { TrefferAdmin } from '../lib/dubletten.ts';
 
 interface Props {
   werte: Partial<KundeEingabe>;
   csrf: string;
   fehler?: string[];
   knopf: string;
+  /** Nur fuer Admins: Treffer der Dublettenpruefung, mit Freigabe zum Speichern. */
+  adminTreffer?: TrefferAdmin[];
 }
 
-const { werte, csrf, fehler = [], knopf } = Astro.props;
+const { werte, csrf, fehler = [], knopf, adminTreffer = [] } = Astro.props;
 ---
 
 {fehler.length > 0 && (
@@ -56,6 +59,15 @@ const { werte, csrf, fehler = [], knopf } = Astro.props;
     <textarea id="notiz" name="notiz" maxlength="2000">{werte.notiz ?? ''}</textarea>
     <p class="feld__hilfe">Nur, was für den nächsten Kontakt nötig ist. Keine privaten Angaben über Personen.</p>
   </div>
+  {adminTreffer.length > 0 && (
+    <div class="hinweis">
+      <p><strong>Diesen Betrieb gibt es schon:</strong></p>
+      <ul>
+        {adminTreffer.map((t) => <li>{t.name}{t.ort && `, ${t.ort}`}{t.telefon && `, ${t.telefon}`} bei {t.vertriebler}</li>)}
+      </ul>
+      <div class="wahl"><label><input type="checkbox" name="dublette_freigabe" value="1" required /> Trotzdem speichern (Admin-Freigabe, wird protokolliert)</label></div>
+    </div>
+  )}
   <div class="aktionen">
     <button type="submit" class="btn">{knopf}</button>
     <a href="/kunden" class="btn btn--zweit">Abbrechen</a>
