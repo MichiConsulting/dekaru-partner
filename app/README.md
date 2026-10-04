@@ -32,7 +32,8 @@ dekaru-partner/
   app/               dieses Portal
     astro.config.mjs Astro 6, SSR, Vercel-Adapter, Region fra1 in vercel.json
     db/migrationen/  Schema als SQL, wiederholbar
-    scripts/         db-migrate, admin-anlegen, provision-import
+    scripts/         db-migrate, admin-anlegen, provision-import, preise-sync
+    src/data/        preise.json, abgeleitet aus dekaru-website und dekaru-rechnungen
     src/lib/         Logik ohne Astro-Abhängigkeit, dadurch testbar
     src/pages/       Seiten und Endpunkte
     tests/           Vitest, laufen gegen PGlite im Speicher
@@ -114,6 +115,51 @@ dessen `vertriebler_slug` zum Slug in `vertriebler.json` passt. Import
 entweder im Admin-Bereich (Datei hochladen) oder per Skript. Der Admin markiert
 eine Abrechnung als ausgezahlt, dann zählt sie als überwiesen.
 
+**Stufe.** Jeder Vertriebler hat Stufe 1 oder 2 (Migration
+`006-stufe-briefing.sql`, Spalten `stufe`, `stufe_seit`,
+`stufe_bestaetigt_am` in `benutzer`, jede Änderung in `stufen_protokoll`).
+Neue Zugänge starten mit Stufe 1. Der Admin setzt die Stufe unter
+**Admin** → **Vertriebler** → Person, mit Datum ab wann und dem Datum der
+Bestätigung in Textform, die der Vertrag für Stufe 2 verlangt. Ohne dieses
+Datum lässt sich Stufe 2 nicht setzen. Logik in `src/lib/stufe.ts`.
+
+**Preisrechner.** `/preisrechner` rechnet mit denselben Zahlen wie dekaru.de:
+Pakete, Bausteine, die Funktion nur im Paket Groß, Hosting und die
+Zusatzleistungen. Die Zahlen stehen in `src/data/preise.json`, die nie von
+Hand geändert wird. `npm run preise-sync` liest sie aus
+`dekaru-website/site/src/data/preise.ts` und `hosting.ts` sowie aus
+`dekaru-rechnungen/preise.json` (Block `leistungen.einmalig`) und schreibt die
+Datei neu; `npm run preise-pruefen` meldet nur Abweichungen, ebenso
+`tests/preise-sync.test.ts`. Nach jeder Preisänderung auf dekaru.de also
+einmal syncen und die Datei committen, weil Vercel die anderen Repos nicht
+sieht. Sichtbar sind die Zahlen nur für Admin und Stufe 2: Summe, Hosting mit
+dem Hinweis auf die ersten zwölf bezahlten Monate und die eigene Provision
+(35 %, einschließlich etwaiger Umsatzsteuer). Stufe 1 sieht nur "ab 600 €"
+und den Hinweis, dass Michael Henning den Preis nennt; die Prüfung liegt auf
+dem Server, nicht im Markup. Ohne JavaScript rechnet der Knopf
+**Berechnen** auf dem Server, mit JavaScript aktualisiert sich die Summe
+sofort (`src/scripts/preisrechner.ts`).
+
+**Briefing-Bogen.** Der Bogen aus Blatt 11 als Formular (`/briefing`), immer
+an einen Betrieb aus "Meine Kunden" gebunden, Teil A wird daraus vorbelegt.
+Zwischenspeichern geht jederzeit, ohne Pflichtfelder; **An Michael Henning
+schicken** prüft die Pflichtangaben und setzt den Status auf eingereicht,
+danach ist der Bogen für den Vertriebler gesperrt. Der Admin sieht unter
+**Admin** → **Briefing-Bögen** nur abgeschickte Bögen, Entwürfe bleiben beim
+Vertriebler. Dort lädt er die Angebots-Eingabe als YAML herunter
+(`src/lib/angebot-yaml.ts`, Format von
+`dekaru-rechnungen/angebote/eingang/_beispiel.yaml`), legt sie nach
+`angebote/eingang/` und ruft `/angebot` auf. Paket und Bausteine stehen nur als
+Schlüssel darin, die Preise setzt das Angebotssystem aus seiner eigenen
+`preise.json`. Kundendatei, Zuordnung zum Vertriebler, Angaben für Werkvertrag
+und AVV sowie Teil G stehen als Kommentar dabei. Der Download markiert den
+Bogen als übernommen; **Zur Überarbeitung zurückgeben** macht ihn wieder zum
+Entwurf. Datensparsam: nur die Felder, die Angebot und Verträge brauchen.
+Einträge wie "Passwort:", "Kennwort ist", "PIN:" oder "Login:" sperren das
+Speichern, auch als Entwurf (`enthaeltPasswort` in `src/lib/briefing.ts`).
+`tests/angebot-yaml.test.ts` liest die erzeugte Datei mit dem YAML-Parser
+und der Paketlogik aus `dekaru-rechnungen`, wenn das Repo daneben liegt.
+
 ## Lokale Entwicklung
 
 ```
@@ -134,7 +180,8 @@ Das Skript gibt ein Einmal-Passwort aus. Nach dem Login verlangt das Portal ein
 eigenes Passwort.
 
 ```
-npm test               # Vitest: Login, Zugriff, Kunden, Quiz, Provision
+npm test               # Vitest: Login, Zugriff, Kunden, Quiz, Provision,
+                       # Stufe, Preise, Sync, Briefing, Angebots-YAML
 npm run check          # Typen
 npm run build          # Vercel-Build nach .vercel/output
 ADAPTER=node npm run build && PGLITE_PFAD=./.pglite node dist/server/entry.mjs
@@ -326,3 +373,7 @@ verpflichtet werden (nur geschäftliche Daten von Gewerbetreibenden).
   `system-ui` zurück (so in `inhalt/README.md` vorgesehen).
 - Astro 6 markiert `markdown.rehypePlugins` als veraltet. Fällt es weg,
   liefert die Route `/lernen/grafiken/<datei>` die Bilder trotzdem aus.
+- Admin-Schreibvorgänge für Stufe und Briefing laufen je über eine Funktion
+  (`setzeStufe` in `stufe.ts`, `setzeStatusAdmin` in `briefing.ts`). Sobald
+  `admin-aktionen.ts` mit `protokolliere()` aus dem Zweig `admin-ausbau` da
+  ist, dort den Aufruf ergänzen.
