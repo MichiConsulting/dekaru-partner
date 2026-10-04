@@ -389,6 +389,36 @@
 .briefing__aktionen .aktionen {
   margin-top: 0;
 }
+/* Auf schmalen Bildschirmen beide Knoepfe in einer Zeile, damit die Leiste wenig Platz nimmt. */
+@media (max-width: 480px) {
+  .briefing__aktionen {
+    padding: var(--space-s) 0;
+  }
+  .briefing__aktionen .aktionen {
+    flex-wrap: nowrap;
+  }
+  .briefing__aktionen .btn {
+    flex: 1 1 0;
+    padding: var(--space-xs) var(--space-s);
+    font-size: var(--text-small);
+    text-align: center;
+    line-height: 1.25;
+    min-height: 44px;
+  }
+}
+/* Haekchen im Bogen: Kasten links, Text daneben, auch wenn er umbricht. */
+.feld label.wahl {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  gap: var(--space-s);
+  font-weight: 400;
+  font-size: var(--text-body);
+}
+.feld label.wahl input {
+  flex: none;
+  margin-top: 0.2em;
+}
 .sperre {
   border-left: 3px solid var(--fehler);
   padding: var(--space-s) var(--space-m);
