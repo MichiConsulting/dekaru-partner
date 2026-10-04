@@ -114,6 +114,35 @@ dessen `vertriebler_slug` zum Slug in `vertriebler.json` passt. Import
 entweder im Admin-Bereich (Datei hochladen) oder per Skript. Der Admin markiert
 eine Abrechnung als ausgezahlt, dann zählt sie als überwiesen.
 
+**Provision automatisch.** `POST /api/provision-import` nimmt eine Abrechnung
+als JSON entgegen, gesendet von `npm run provision -- --monat JJJJ-MM --senden`
+in dekaru-rechnungen. Kein Login, Schutz über `Authorization: Bearer <Token>`
+gegen `PROVISION_IMPORT_TOKEN` (zeitkonstanter Vergleich über SHA-256, ohne
+eingerichtetes Token oder unter 32 Zeichen immer 401, Token in der URL zählt
+nicht). Fünf Fehlversuche je IP sperren 15 Minuten (Tabelle `login_versuche`,
+Schlüssel `provision-import:<ip>`), erfolgreiche Anfragen zählen nicht. Nur
+`application/json` bis 2 MB, dieselbe Prüfung wie der Upload. `?pruefen=1`
+prüft nur und sagt, ob neu, ersetzt oder unverändert. Gleicher Monat und Slug
+ersetzt wie beim Upload; ist der Inhalt gleich (das Feld `erstellt` zählt
+nicht), wird nichts geschrieben und keine Mail verschickt. Logik in
+`src/lib/provision-import.ts`, der Pfad ist in `zugriff.ts` als Token-Pfad von
+Login und CSRF ausgenommen, genau dieser eine Pfad.
+
+Nach einem neuen oder geänderten Import, auch per Upload im Admin, bekommt der
+Vertriebler mit diesem Slug eine Mail "Ihre Provisionsabrechnung für <Monat>
+ist im Portal" mit Link, ohne Beträge. Abschalten unter `/einstellungen`
+(Spalte `benutzer.provision_mail`). Versand per SMTP über `PORTAL_SMTP_*`, die
+gleichen Regeln wie im Formulardienst: STARTTLS ist bei Port 587 Pflicht,
+Anmeldung immer, Zertifikat wird geprüft. Weil nodemailer im Portal nicht
+installiert ist, steckt ein kleiner eigener Client in `src/lib/smtp.ts`; wer
+lieber nodemailer will, tauscht nur `smtpVersender()`. Fehlen die Variablen,
+geht keine Mail raus und der Admin sieht unter Provision einen Hinweis. Was mit
+der Mail geschah, steht je Abrechnung in der Spalte `benachrichtigung`
+(Migration `008-provision-import.sql`). Ein Mailfehler macht den Import nicht
+rückgängig. Ins zentrale Protokoll kommt der Import, sobald `protokolliere()`
+aus dem Branch admin-ausbau da ist (TODO in `provision-import.ts`), bis dahin
+nur eine Zeile ohne Beträge im Vercel-Log.
+
 ## Lokale Entwicklung
 
 ```
@@ -269,6 +298,53 @@ Login-Link zusammen. Deaktivieren beendet sofort alle Sitzungen.
 
 ### 9. Provision monatlich
 
+**Vor dem ersten Deploy dieses Stands:** `008-provision-import.sql` muss auf
+Neon laufen, sonst scheitern Provisionsseiten, Einstellungen und Import an den
+fehlenden Spalten:
+
+```
+cd ~/dekaru/dekaru-partner/app
+export DATABASE_URL='postgres://…?sslmode=require'
+npm run db:migrate
+unset DATABASE_URL
+```
+
+**Token für den automatischen Import, einmalig:**
+
+1. `openssl rand -hex 32 | pbcopy` erzeugt das Token direkt in die
+   Zwischenablage.
+2. `security add-generic-password -a "$USER" -s dekaru-portal-import -U -w`
+   und bei der Frage mit Cmd+V einfügen. Damit liegt es im macOS-Schlüsselbund.
+3. Vercel → Projekt → **Settings** → **Environment Variables**: Key
+   `PROVISION_IMPORT_TOKEN`, Value Cmd+V, nur **Production**, **Sensitive**
+   anhaken, **Save**, danach **Redeploy**.
+4. `pbcopy < /dev/null` leert die Zwischenablage.
+
+**Mail an die Vertriebler, einmalig:** dieselben Werte wie beim Formulardienst
+(Google Workspace SMTP-Relay), nur mit dem Präfix `PORTAL_SMTP_`:
+`PORTAL_SMTP_HOST` (`smtp-relay.gmail.com`), `PORTAL_SMTP_PORT` (`587`),
+`PORTAL_SMTP_SECURE` (`false`), `PORTAL_SMTP_USER`, `PORTAL_SMTP_PASS`,
+`PORTAL_SMTP_FROM`. Ebenfalls nur Production, `PORTAL_SMTP_PASS` als
+Sensitive. Im Google-Admin muss das Relay die Anmeldung mit diesem Konto
+erlauben (wie beim Formulardienst).
+
+**Ablauf am Fünften:**
+
+```
+cd ~/dekaru/dekaru-rechnungen
+npm run provision -- --monat 2026-10                  # erzeugen, md prüfen
+export PORTAL_URL=https://partner.dekaru.de
+export PORTAL_IMPORT_TOKEN="$(security find-generic-password -a "$USER" -s dekaru-portal-import -w)"
+npm run provision -- --monat 2026-10 --senden --trockenlauf
+npm run provision -- --monat 2026-10 --senden
+unset PORTAL_IMPORT_TOKEN
+```
+
+Die Ausgabe zeigt je Vertriebler neu, ersetzt oder unverändert und ob die Mail
+rausging. Danach überweisen und hier **Ausgezahlt** markieren.
+
+Der bisherige Weg bleibt:
+
 ```
 cd ~/dekaru/dekaru-rechnungen && npm run provision          # schreibt md und json
 cd ~/dekaru/dekaru-partner/app
@@ -287,6 +363,7 @@ Oder im Portal **Admin** → **Provision importieren** und die JSON-Dateien aus
 |---|---|---|---|
 | Vercel Inc. | Hosting, Serverless-Funktionen, Logs | Funktionen in Frankfurt (fra1), Edge-Netz weltweit, Unternehmenssitz USA | Vercel DPA mit EU-Standardvertragsklauseln, im Vercel-Dashboard unter Settings → Legal akzeptieren; AVV-Eintrag in `dekaru-rechnungen` (Anlage 3) ergänzen |
 | Neon Inc. | Postgres-Datenbank | AWS eu-central-1 (Frankfurt) | Neon DPA (über den Vercel Marketplace, zusätzlich bei neon.tech/dpa), ebenfalls in Anlage 3 aufnehmen |
+| Google (Workspace) | Versand der Provisionsmail über das SMTP-Relay | EU/USA nach Workspace-Vertrag | Google Workspace Data Processing Amendment, wie beim Formulardienst |
 
 Beides sind US-Unternehmen mit Datenhaltung in Frankfurt. Für die Übermittlung
 gelten die Standardvertragsklauseln beider DPAs; das Data Privacy Framework
@@ -304,7 +381,8 @@ oder zu prüfen:
   im berechtigten Interesse (lit. f), Kaltakquise nur B2B nach § 7 UWG.
 - Datenkategorien: Zugangsdaten, Lernfortschritt, selbst eingetragene
   Kundenkontakte (nur geschäftlich), Provisionsaufstellung, IP-Adresse kurz
-  beim Login, Server-Logs beim Hoster.
+  beim Login, Server-Logs beim Hoster. Dazu die E-Mail-Adresse für die
+  Benachrichtigung über neue Abrechnungen (ohne Beträge, abschaltbar).
 - Cookie `dp_sitzung`, technisch notwendig, kein Tracking, keine Dritten.
 - Empfänger Vercel und Neon mit Standort und Grundlage.
 - Speicherdauer: Zugang bis Ende der Zusammenarbeit, Provisionsaufstellungen
