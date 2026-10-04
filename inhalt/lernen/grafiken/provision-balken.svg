@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="g-pb" viewBox="0 0 320 194" role="img" aria-labelledby="pb-t pb-d" fill="currentColor" font-family="Inter, system-ui, sans-serif" font-size="12">
+<svg xmlns="http://www.w3.org/2000/svg" id="g-pb" viewBox="0 0 320 210" role="img" aria-labelledby="pb-t pb-d" fill="currentColor" font-family="Inter, system-ui, sans-serif" font-size="12">
   <title id="pb-t">Ihre Provision je Paket als Balken</title>
-  <desc id="pb-d">Fünf Balken, 35 Prozent vom Rechnungsbetrag. Paket Klein 600 Euro: 210 Euro. Paket Mittel 1.300 Euro: 455 Euro. Paket Groß 1.600 Euro: 560 Euro. Groß mit Logo-Entwurf 1.850 Euro: 647,50 Euro. Groß mit Google-Profil und Aufsteller 2.039 Euro: 713,65 Euro.</desc>
+  <desc id="pb-d">Fünf Balken, 35 Prozent vom Nettobetrag der Kundenrechnung, eine etwaige Umsatzsteuer des Vertriebspartners ist darin enthalten. Paket Klein 600 Euro: 210 Euro. Paket Mittel 1.300 Euro: 455 Euro. Paket Groß 1.600 Euro: 560 Euro. Groß mit Logo-Entwurf 1.850 Euro: 647,50 Euro. Groß mit Google-Profil und Aufsteller 2.039 Euro: 713,65 Euro.</desc>
   <style>
     #g-pb .f3{fill:var(--lk-f3,#cfcfc9)}#g-pb .ink{fill:var(--lk-ink,#141414)}#g-pb .on{fill:var(--lk-paper,#ffffff)}
     #g-pb .mu{fill:var(--lk-muted,#5f5f5f)}#g-pb .h{font-weight:700}
@@ -21,5 +21,6 @@
   <text x="4" y="149.3">Groß + Google-Profil</text><text x="4" y="164.3">+ Aufsteller <tspan class="mu">2.039 €</tspan></text>
   <rect class="ink" x="132" y="140" width="184" height="24" rx="3"/><text class="h on" x="310" y="156.3" text-anchor="end">713,65 €</text>
 
-  <text class="mu" x="4" y="186">35 % vom Rechnungsbetrag, ohne Umsatzsteuer</text>
+  <text class="mu" x="4" y="186">35 % vom Nettobetrag der Kundenrechnung.</text>
+  <text class="mu" x="4" y="202">Darin steckt Ihre etwaige Umsatzsteuer.</text>
 </svg>
