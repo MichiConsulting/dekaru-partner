@@ -84,7 +84,7 @@ export function pruefeStufe(eingabe: StufeEingabe): { wert: StufenStand; fehler:
     if (!seit) fehler.push('Stufe 2 braucht ein Datum, ab dem sie gilt.');
     if (!bestaetigtAm) fehler.push('Stufe 2 braucht das Datum der Bestätigung in Textform (§ 1 Absatz 6 des Vertrags).');
   }
-  return { wert: { stufe, seit, bestaetigtAm: stufe === 2 ? bestaetigtAm : bestaetigtAm }, fehler };
+  return { wert: { stufe, seit, bestaetigtAm }, fehler };
 }
 
 /** Setzt die Stufe und schreibt einen Protokolleintrag. */
