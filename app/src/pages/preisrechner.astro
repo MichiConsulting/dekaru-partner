@@ -1,0 +1,59 @@
+---
+import '../styles/vertrieb.css';
+import Layout from '../layouts/Layout.astro';
+import PreisAuswahl from '../components/PreisAuswahl.astro';
+import PreisSumme from '../components/PreisSumme.astro';
+import { PREIS_AB, auswahlAusFeldern, berechne, euro } from '../lib/preise.ts';
+import { darfPreiseSehen, ladeStufe } from '../lib/stufe.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const db = Astro.locals.db;
+
+// Zweite Pruefung neben der Seite selbst: Stufe 1 bekommt die Zahlen nicht
+// einmal ins Markup, nicht nur ausgeblendet.
+const stand = await ladeStufe(db, benutzer.id);
+const darf = darfPreiseSehen(benutzer, stand);
+
+const auswahl = auswahlAusFeldern(Astro.url.searchParams);
+const ergebnis = darf ? berechne(auswahl) : null;
+---
+
+<Layout titel="Preisrechner" aktiv="preisrechner">
+  <h1>Preisrechner</h1>
+
+  {!darf || !ergebnis ? (
+    <div class="karte" style="max-width:var(--measure)">
+      <p class="meta" style="margin:0">Website, einmalig</p>
+      <p class="summe__zahl">ab {euro(PREIS_AB)}</p>
+      <p>
+        In Stufe 1 ist das die einzige Zahl, die Sie nennen. Den Preis für einen bestimmten Betrieb nennt Michael Henning im Zweittermin, und
+        der gilt dann auch. Hosting kommt optional dazu.
+      </p>
+      <p class="meta">
+        Nach fünf gemeinsamen Zweitterminen beginnt Stufe 2. Dann schaltet Michael Henning den Preisrechner hier frei, und Sie nennen Paketpreis
+        und Zusatzbausteine selbst, ohne Nachlass.
+      </p>
+      <p class="meta">Drängt jemand: „Er nennt Ihnen die Zahl im Zweittermin, und die gilt dann auch."</p>
+    </div>
+  ) : (
+    <>
+      <p class="meta">
+        Dieselben Zahlen wie auf dekaru.de. Sie nennen Paketpreis und Bausteine aus dieser Liste, ohne Nachlass. Die einzige erlaubte Zusage ist
+        das Gratisquartal.
+      </p>
+      <form method="get" class="rechner rechner-form">
+        <div>
+          <PreisAuswahl auswahl={auswahl} />
+          <div class="aktionen ohne-js">
+            <button type="submit" class="btn">Berechnen</button>
+            <a href="/preisrechner" class="btn btn--zweit">Zurücksetzen</a>
+          </div>
+        </div>
+        <PreisSumme ergebnis={ergebnis} />
+      </form>
+      <script>
+        import '../scripts/preisrechner.ts';
+      </script>
+    </>
+  )}
+</Layout>

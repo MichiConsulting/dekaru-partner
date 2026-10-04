@@ -1,0 +1,47 @@
+---
+/**
+ * Die Summe des Preisrechners, serverseitig gerendert. Das Skript
+ * src/scripts/preisrechner.ts schreibt dieselben Felder live neu, erkennbar
+ * an den data-Attributen. Der Provisionsblock erscheint nur fuer den
+ * Vertriebler selbst (zeigeProvision), nie im Briefing fuer den Kunden.
+ */
+import { HOSTING_PROVISION_MONATE, PROVISION_PROZENT, euro, type Ergebnis } from '../lib/preise.ts';
+
+interface Props {
+  ergebnis: Ergebnis;
+  zeigeProvision?: boolean;
+}
+const { ergebnis: e, zeigeProvision = true } = Astro.props;
+const h = e.hosting;
+---
+
+<aside class="rechner__summe" aria-labelledby="summe-titel" data-summe-bereich>
+  <p class="meta" id="summe-titel" style="margin:0">Einmalig, ohne Umsatzsteuer</p>
+  <div aria-live="polite" aria-atomic="true">
+    <p class="summe__zahl" data-summe>{euro(e.summeEinmalig)}</p>
+  </div>
+  <ul class="summe__liste" data-aufstellung>
+    {e.zeilen.map((z) => (
+      <li><span>{z.bezeichnung}</span><span>{z.betrag === null ? 'nach Absprache' : euro(z.betrag)}</span></li>
+    ))}
+  </ul>
+  <div class="summe__block" data-hosting hidden={!h}>
+    <h3>Hosting</h3>
+    <p style="margin:0" data-hosting-text>
+      {h && (h.zahlweise === 'jaehrlich' ? `${h.tarif.name}, ${euro(h.jeZahlung)} im Jahr, Jahresvertrag.` : `${h.tarif.name}, ${euro(h.jeZahlung)} im Monat.`)}
+    </p>
+    <p class="summe__fuss" data-hosting-hinweise>{h?.hinweise.join(' ')}</p>
+  </div>
+  {zeigeProvision && (
+    <div class="summe__block">
+      <h3>Ihre Provision, {PROVISION_PROZENT} %</h3>
+      <p class="summe__provision" data-provision>{euro(e.provisionEinmalig)}</p>
+      <p class="summe__fuss" style="margin-top:var(--space-xs)">Auf alles Einmalige, fällig nach Zahlungseingang beim Kunden, einschließlich etwaiger Umsatzsteuer.</p>
+      <p class="summe__fuss" data-provision-hosting hidden={!h}>
+        {h && `Dazu Hosting: ${euro(h.provision)} auf die ersten ${HOSTING_PROVISION_MONATE} bezahlten Monate, vierteljährlich ausgezahlt. Gratismonate zählen nicht.`}
+      </p>
+    </div>
+  )}
+  <p class="summe__fuss" data-hinweise>{e.hinweise.join(' ')}</p>
+  <p class="summe__fuss">Der Rechner nennt den Preis für den gewählten Umfang, ohne Nachlass. Verbindlich wird er erst mit dem Angebot von Michael Henning.</p>
+</aside>
