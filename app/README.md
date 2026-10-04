@@ -408,31 +408,35 @@ holt sich Michi so, dass sie nie in einer Datei landet:
 `db:migrate` ist wiederholbar und wendet nur an, was fehlt. Kommt eine neue
 `NNN-…sql` dazu, denselben Befehl noch einmal.
 
-**Offen seit Gesprächshilfe, neuem Lernbereich und Cockpit:**
-`002-pflichtsaetze.sql` (Tabelle `pflichtsatz_antworten`), `003-lernen.sql`
-(Tabellen `lernkarten_stand` und `abfrage_durchlaeufe`),
-`004-einmal-passwort-ablauf.sql` und `005-wiedervorlage-kalender.sql`
-(Wiedervorlage-Spalten an `kunden`, Tabelle `kalender_token`) sind auf der
-Live-Datenbank noch nicht angewendet. Vor dem Merge nach `main` einmalig vom
-Mac aus:
+**Offen auf der Live-Datenbank (Stand Oktober 2026):** dort sind die
+Versionen 1 bis 3 angewendet. Es fehlen `004-einmal-passwort-ablauf.sql`,
+`005-wiedervorlage-kalender.sql` (Wiedervorlage an `kunden`, `kalender_token`),
+`006-stufe-briefing.sql` (Stufe an `benutzer`, `stufen_protokoll`,
+`briefings`), `007-admin-ausbau.sql` (`admin_protokoll`,
+`kunden_statuswechsel`, `dubletten_meldungen`, zwei Trigger) und
+`008-provision-import.sql` (`provision_mail`, Mailstatus an den Abrechnungen).
+Sie müssen laufen, **bevor** dieser Stand auf `main` deployt wird, sonst
+zeigen Startseite, Kunden, Kalender, Briefing, Admin und Provision einen
+Fehler. Einmalig vom Mac aus, mit dem Code des Zweigs (zsh):
 
 ```
-cd ~/dekaru/dekaru-partner/app
-export DATABASE_URL='postgres://…?sslmode=require'
-npm run db:migrate        # meldet "Angewendet: 2, 3, 4, 5"
+cd ~/dekaru/dekaru-partner
+git fetch origin
+git worktree add ~/dekaru/_ablage/portal-migration origin/portal-ausbau
+cd ~/dekaru/_ablage/portal-migration/app
+ln -s ~/dekaru/dekaru-partner/app/node_modules node_modules
+read -s "DATABASE_URL?Neon-URL: "; echo; export DATABASE_URL
+npm run db:migrate        # meldet "Angewendet: 4, 5, 6, 7, 8"
 unset DATABASE_URL
+cd ~/dekaru/dekaru-partner
+git worktree remove --force ~/dekaru/_ablage/portal-migration
 ```
 
-Bis dahin zeigen `/gespraech`, `/gespraech/ueben`, der Admin-Lernstand, der
-Lernbereich, die Startseite, `/kunden` und `/kalender` auf partner.dekaru.de
-einen Fehler, weil Tabellen und Spalten fehlen.
-
-**Offen seit dem Admin-Ausbau:** `007-admin-ausbau.sql` (Tabellen
-`admin_protokoll`, `kunden_statuswechsel`, `dubletten_meldungen`, zwei
-Trigger) muss vor dem Deploy des zugehörigen Codes gegen Neon laufen, sonst
-scheitern Admin-Aktionen und das Speichern von Kunden. Derselbe Befehl wie
-oben, er meldet dann unter anderem "Angewendet: 7". Die Migration hängt nur von
-Version 1 ab; laufen 005, 006 oder 008 erst danach, ist das unschädlich.
+Die Migrationen sind wiederholbar; ein zweiter Lauf meldet "Schema ist
+aktuell.". `tests/migration.test.ts` prüft genau diesen Weg (Stand 1 bis 3
+mit Bestand auf 8). Bestehende Vertriebler bekommen Stufe 1 und die
+Provisionsmail eingeschaltet, alte Abrechnungen bleiben ohne Mailstatus und
+lösen keine Mail aus.
 
 ### 6. Deployen und Region prüfen
 
@@ -470,16 +474,7 @@ Login-Link zusammen. Deaktivieren beendet sofort alle Sitzungen.
 
 ### 9. Provision monatlich
 
-**Vor dem ersten Deploy dieses Stands:** `008-provision-import.sql` muss auf
-Neon laufen, sonst scheitern Provisionsseiten, Einstellungen und Import an den
-fehlenden Spalten:
-
-```
-cd ~/dekaru/dekaru-partner/app
-export DATABASE_URL='postgres://…?sslmode=require'
-npm run db:migrate
-unset DATABASE_URL
-```
+Voraussetzung ist Migration 8 auf Neon (siehe Schritt 5).
 
 **Token für den automatischen Import, einmalig:**
 
@@ -537,7 +532,7 @@ Oder im Portal **Admin** → **Provision importieren** und die JSON-Dateien aus
 | Neon Inc. | Postgres-Datenbank | AWS eu-central-1 (Frankfurt) | Neon DPA (über den Vercel Marketplace, zusätzlich bei neon.tech/dpa), ebenfalls in Anlage 3 aufnehmen |
 | Google (Workspace) | Versand der Provisionsmail über das SMTP-Relay | EU/USA nach Workspace-Vertrag | Google Workspace Data Processing Amendment, wie beim Formulardienst |
 
-Beides sind US-Unternehmen mit Datenhaltung in Frankfurt. Für die Übermittlung
+Vercel und Neon sind US-Unternehmen mit Datenhaltung in Frankfurt. Für die Übermittlung
 gelten die Standardvertragsklauseln beider DPAs; das Data Privacy Framework
 kann zusätzlich genannt werden, wenn der Anbieter zertifiziert ist (bei Vercel
 der Fall, bei Neon prüfen).
@@ -569,19 +564,12 @@ verpflichtet werden (nur geschäftliche Daten von Gewerbetreibenden).
 ## Offene Punkte
 
 - Datenschutzseite: Platzhalter füllen, Text vor dem ersten Vertriebler
-  prüfen lassen.
-- "Stufe ändern" gibt es im Portal noch nicht. Der Protokollschlüssel
-  `stufe_geaendert` steht bereit, die Aktion selbst gehört dann in
-  `admin-aktionen.ts`.
-- Datenschutzseite: Admin-Protokoll (Nachvollziehbarkeit der Verwaltung,
-  24 Monate) und Dublettenprüfung noch aufnehmen.
+  prüfen lassen. Die Löschfrist für Briefing-Bögen (drei Monate nach
+  Übernahme bzw. Vertragsschluss) ist ein Vorschlag und wird bisher von Hand
+  umgesetzt.
 - Passwort vergessen: gibt es bewusst nicht als Selbstbedienung. Michi setzt im
   Admin ein neues Einmal-Passwort.
 - Grafiken werden als `<img>` eingebunden, ihre Schriften fallen deshalb auf
   `system-ui` zurück (so in `inhalt/README.md` vorgesehen).
 - Astro 6 markiert `markdown.rehypePlugins` als veraltet. Fällt es weg,
   liefert die Route `/lernen/grafiken/<datei>` die Bilder trotzdem aus.
-- Admin-Schreibvorgänge für Stufe und Briefing laufen je über eine Funktion
-  (`setzeStufe` in `stufe.ts`, `setzeStatusAdmin` in `briefing.ts`). Sobald
-  `admin-aktionen.ts` mit `protokolliere()` aus dem Zweig `admin-ausbau` da
-  ist, dort den Aufruf ergänzen.

@@ -119,6 +119,45 @@ describe('Migrationen', () => {
     await expect(db.query("INSERT INTO benutzer (email, name, rolle, passwort_hash, stufe) VALUES ('x@example.test', 'X', 'vertriebler', 'h', 3)")).rejects.toThrow();
   });
 
+  it('bringt eine Datenbank mit Stand 1 bis 3 und Bestand auf 8, so wie die Live-Datenbank', async () => {
+    ordner = mkdtempSync(join(tmpdir(), 'migration-'));
+    for (const datei of ['001-schema.sql', '002-pflichtsaetze.sql', '003-lernen.sql']) {
+      copyFileSync(join(MIGRATIONEN_ORDNER, datei), join(ordner, datei));
+    }
+    db = await leereDb();
+    expect(await migriere(db, ordner)).toEqual([1, 2, 3]);
+    const [v] = await db.query<{ id: string }>(
+      `INSERT INTO benutzer (email, name, rolle, passwort_hash, vertriebler_slug, passwort_wechsel_noetig)
+       VALUES ('live@example.test', 'Live', 'vertriebler', 'scrypt$1$1$1$a$a', 'live', true) RETURNING id`,
+    );
+    await db.query(
+      `INSERT INTO kunden (benutzer_id, name, ort, telefon, status, status_seit) VALUES ($1, 'Bäckerei Alt', 'Horb', '07451 1234', 'termin', '2026-09-01')`,
+      [v.id],
+    );
+    await db.query(
+      `INSERT INTO provision_abrechnungen (vertriebler_slug, monat, daten) VALUES ('live', '2026-09', '{"format":1}'::jsonb)`,
+    );
+
+    expect(await migriere(db)).toEqual([4, 5, 6, 7, 8]);
+    expect(await versionen(db)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+    expect(await tabellen(db)).toEqual(expect.arrayContaining(NEUE_TABELLEN));
+
+    const [b] = await db.query<{ stufe: number; provision_mail: boolean; einmal_passwort_bis: string | null }>(
+      "SELECT stufe, provision_mail, einmal_passwort_bis FROM benutzer WHERE email = 'live@example.test'",
+    );
+    expect(Number(b.stufe)).toBe(1);
+    expect(b.provision_mail).toBe(true);
+    expect(b.einmal_passwort_bis).not.toBeNull();
+    // Alte Abrechnungen bekommen keinen Mailstatus, also keine Mail fuer alte Monate.
+    const [a] = await db.query<{ benachrichtigung: string | null }>('SELECT benachrichtigung FROM provision_abrechnungen');
+    expect(a.benachrichtigung).toBeNull();
+    // Der Statusverlauf zieht den Bestand nach.
+    const wechsel = await db.query<{ status: string }>('SELECT status FROM kunden_statuswechsel');
+    expect(wechsel.map((w) => w.status)).toEqual(['termin']);
+    // Ein zweiter Lauf aendert nichts.
+    expect(await migriere(db)).toEqual([]);
+  });
+
   it('befristet beim Nachziehen von Version 4 auch laengst bestehende offene Einladungen', async () => {
     ordner = mkdtempSync(join(tmpdir(), 'migration-'));
     for (const datei of ['001-schema.sql', '002-pflichtsaetze.sql', '003-lernen.sql']) {
