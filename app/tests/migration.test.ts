@@ -35,7 +35,7 @@ async function tabellen(db: Db): Promise<string[]> {
   return zeilen.map((z) => z.table_name);
 }
 
-const NEUE_TABELLEN = ['pflichtsatz_antworten', 'lernkarten_stand', 'abfrage_durchlaeufe'];
+const NEUE_TABELLEN = ['pflichtsatz_antworten', 'lernkarten_stand', 'abfrage_durchlaeufe', 'kalender_token'];
 
 describe('Migrationen', () => {
   let db: Db | null = null;
@@ -51,22 +51,22 @@ describe('Migrationen', () => {
     const dateien = readdirSync(MIGRATIONEN_ORDNER).filter((n) => /^\d{3}-.*\.sql$/.test(n)).sort();
     const nummern = dateien.map((n) => Number(n.slice(0, 3)));
     expect(new Set(nummern).size).toBe(nummern.length);
-    expect(nummern).toEqual([1, 2, 3, 4]);
+    expect(nummern).toEqual([1, 2, 3, 4, 5]);
     for (const datei of dateien) {
       const sql = readFileSync(join(MIGRATIONEN_ORDNER, datei), 'utf8');
       expect(sql).toContain(`INSERT INTO schema_version (version) VALUES (${Number(datei.slice(0, 3))})`);
     }
   });
 
-  it('wendet auf eine frische Datenbank 1, 2 und 3 an', async () => {
+  it('wendet auf eine frische Datenbank alle Versionen an', async () => {
     db = await leereDb();
-    expect(await migriere(db)).toEqual([1, 2, 3, 4]);
-    expect(await versionen(db)).toEqual([1, 2, 3, 4]);
+    expect(await migriere(db)).toEqual([1, 2, 3, 4, 5]);
+    expect(await versionen(db)).toEqual([1, 2, 3, 4, 5]);
     expect(await tabellen(db)).toEqual(expect.arrayContaining(NEUE_TABELLEN));
     expect(await migriere(db)).toEqual([]);
   });
 
-  it('wendet auf eine Datenbank mit nur Version 1 genau 2, 3 und 4 an', async () => {
+  it('wendet auf eine Datenbank mit nur Version 1 genau 2 bis 5 an', async () => {
     ordner = mkdtempSync(join(tmpdir(), 'migration-'));
     copyFileSync(join(MIGRATIONEN_ORDNER, '001-schema.sql'), join(ordner, '001-schema.sql'));
     db = await leereDb();
@@ -74,9 +74,20 @@ describe('Migrationen', () => {
     expect(await versionen(db)).toEqual([1]);
     expect(await tabellen(db)).not.toEqual(expect.arrayContaining(['pflichtsatz_antworten']));
 
-    expect(await migriere(db)).toEqual([2, 3, 4]);
-    expect(await versionen(db)).toEqual([1, 2, 3, 4]);
+    expect(await migriere(db)).toEqual([2, 3, 4, 5]);
+    expect(await versionen(db)).toEqual([1, 2, 3, 4, 5]);
     expect(await tabellen(db)).toEqual(expect.arrayContaining(NEUE_TABELLEN));
+  });
+
+  it('Version 5 ergaenzt die Wiedervorlage-Spalten an kunden', async () => {
+    db = await leereDb();
+    await migriere(db);
+    const spalten = await db.query<{ column_name: string }>(
+      "SELECT column_name FROM information_schema.columns WHERE table_name = 'kunden'",
+    );
+    expect(spalten.map((s) => s.column_name)).toEqual(
+      expect.arrayContaining(['wiedervorlage_am', 'wiedervorlage_grund', 'wiedervorlage_erledigt_am']),
+    );
   });
 
   it('befristet beim Nachziehen von Version 4 auch laengst bestehende offene Einladungen', async () => {
