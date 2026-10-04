@@ -4,6 +4,7 @@ import { alleBenutzer, erstelleBenutzer, type Rolle } from '../../../lib/auth.ts
 import { erzeugeEinmalPasswort } from '../../../lib/passwort.ts';
 import { formular, istPost } from '../../../lib/http.ts';
 import { istAdmin } from '../../../lib/zugriff.ts';
+import { stufenAller } from '../../../lib/stufe.ts';
 
 if (!istAdmin(Astro.locals.benutzer)) return Astro.redirect('/verboten', 303);
 
@@ -35,6 +36,7 @@ if (istPost(Astro.request)) {
 }
 
 const liste = await alleBenutzer(db);
+const stufen = await stufenAller(db);
 ---
 
 <Layout titel="Vertriebler" aktiv="admin">
@@ -52,7 +54,7 @@ const liste = await alleBenutzer(db);
 
   <div class="tabelle-wrap schiebbar">
     <table>
-      <thead><tr><th>Name</th><th>E-Mail</th><th>Rolle</th><th>Slug</th><th>Letzter Login</th><th>Status</th><th></th></tr></thead>
+      <thead><tr><th>Name</th><th>E-Mail</th><th>Rolle</th><th>Slug</th><th>Stufe</th><th>Letzter Login</th><th>Status</th><th></th></tr></thead>
       <tbody>
         {liste.map((b) => (
           <tr>
@@ -60,6 +62,7 @@ const liste = await alleBenutzer(db);
             <td>{b.email}</td>
             <td>{b.rolle}</td>
             <td>{b.vertrieblerSlug ?? ''}</td>
+            <td>{b.rolle === 'vertriebler' ? stufen.get(b.id)?.stufe ?? 1 : ''}</td>
             <td>{b.letzterLogin ? b.letzterLogin.toLocaleDateString('de-DE') : 'nie'}</td>
             <td><span class:list={['badge', b.aktiv && 'badge--voll']}>{b.aktiv ? 'aktiv' : 'deaktiviert'}</span>{b.passwortWechselNoetig && <span class="meta"> Einmal-Passwort</span>}</td>
             <td><a href={`/admin/vertriebler/${b.id}`}>Öffnen</a></td>
