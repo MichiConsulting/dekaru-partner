@@ -285,10 +285,12 @@ Nach einem neuen oder geänderten Import, auch per Upload im Admin, bekommt der
 Vertriebler mit diesem Slug eine Mail "Ihre Provisionsabrechnung für <Monat>
 ist im Portal" mit Link, ohne Beträge. Abschalten unter `/einstellungen`
 (Spalte `benutzer.provision_mail`). Versand per SMTP über `PORTAL_SMTP_*`, die
-gleichen Regeln wie im Formulardienst: STARTTLS ist bei Port 587 Pflicht,
-Anmeldung immer, Zertifikat wird geprüft. Weil nodemailer im Portal nicht
-installiert ist, steckt ein kleiner eigener Client in `src/lib/smtp.ts`; wer
-lieber nodemailer will, tauscht nur `smtpVersender()`. Fehlen die Variablen,
+gleichen Regeln wie im Formulardienst, umgesetzt mit nodemailer in
+`src/lib/smtp.ts`: Port 465 ist TLS von Anfang an, jeder andere Port verlangt
+STARTTLS (`requireTLS`), Anmeldung immer (`forceAuth`, kein Rückfall auf
+"ohne Anmeldung"), Zertifikat wird geprüft, feste Zeitlimits von zehn
+Sekunden. `tests/smtp.test.ts` prüft das gegen einen lokalen Fake-Server mit
+eigenem Zertifikat, den Aufbau der Mail mit dem Stream-Transport. Fehlen die Variablen,
 geht keine Mail raus und der Admin sieht unter Provision einen Hinweis. Was mit
 der Mail geschah, steht je Abrechnung in der Spalte `benachrichtigung`
 (Migration `008-provision-import.sql`). Ein Mailfehler macht den Import nicht

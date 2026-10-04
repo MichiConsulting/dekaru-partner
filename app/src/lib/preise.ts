@@ -7,7 +7,7 @@
 // Browser (src/scripts/preisrechner.ts) dieselbe Funktion ausfuehrt wie der
 // Server. Es gibt dadurch nur eine Rechnung.
 
-import daten from '../data/preise.json';
+import daten from '../data/preise.json' with { type: 'json' };
 
 export const PREISE = daten;
 

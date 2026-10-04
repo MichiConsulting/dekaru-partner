@@ -21,12 +21,14 @@
     "@fontsource/inter": "^5.3.0",
     "@fontsource/space-grotesk": "^5.3.0",
     "astro": "^6.4.4",
+    "nodemailer": "^10.0.14",
     "pg": "^8.23.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@astrojs/node": "^10.1.4",
     "@electric-sql/pglite": "^0.5.8",
+    "@types/nodemailer": "^8.0.2",
     "@types/pg": "^8.15.0",
     "typescript": "^6.0.3",
     "vitest": "^5.0.2"

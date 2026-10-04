@@ -1,6 +1,7 @@
-// SMTP-Versand gegen einen lokalen Fake-Server. STARTTLS mit einem
-// selbstsignierten Zertifikat, das openssl beim Testlauf erzeugt; der Client
-// bekommt es als ca, die Pruefung des Zertifikats bleibt an.
+// SMTP-Versand ueber nodemailer gegen einen lokalen Fake-Server. STARTTLS mit
+// einem selbstsignierten Zertifikat, das openssl beim Testlauf erzeugt; der
+// Client bekommt es als ca, die Pruefung des Zertifikats bleibt an. Der Aufbau
+// der Mail wird zusaetzlich mit dem Stream-Transport von nodemailer geprueft.
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import net from 'node:net';
 import tls from 'node:tls';
@@ -8,7 +9,8 @@ import { execFileSync } from 'node:child_process';
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { baueMail, sendeSmtp, smtpAusUmgebung, fehlendeSmtpVariablen, type SmtpEinstellungen } from '../src/lib/smtp.ts';
+import nodemailer from 'nodemailer';
+import { mailDaten, sendeSmtp, smtpAusUmgebung, fehlendeSmtpVariablen, transportOptionen, type SmtpEinstellungen } from '../src/lib/smtp.ts';
 
 interface Protokoll {
   befehle: string[];
@@ -42,6 +44,8 @@ function fakeServer(opt: { starttls: boolean; key?: string; cert?: string; authA
         if (opt.authAnkuendigen !== false) zeilen.push('250-AUTH PLAIN LOGIN');
         zeilen.push('250 8BITMIME');
         sock.write(zeilen.join('\r\n') + '\r\n');
+      } else if (cmd === 'STARTTLS' && !opt.starttls) {
+        schreibe('502 STARTTLS nicht verfuegbar');
       } else if (cmd === 'STARTTLS') {
         schreibe('220 Go ahead');
         sock.removeAllListeners('data');
@@ -116,8 +120,9 @@ afterAll(() => rmSync(ordner, { recursive: true, force: true }));
 describe('SMTP', () => {
   it('sendet nichts ohne STARTTLS (requireTLS)', async () => {
     const s = await fakeServer({ starttls: false });
-    await expect(sendeSmtp({ ...BASIS, port: s.port }, NACHRICHT, { timeoutMs: 3000 })).rejects.toThrow(/STARTTLS/);
+    await expect(sendeSmtp({ ...BASIS, port: s.port }, NACHRICHT, { timeoutMs: 3000 })).rejects.toThrow();
     const befehle = s.protokolle[0].befehle;
+    expect(s.protokolle[0].tlsAktiv).toBe(false);
     expect(befehle.some((b) => b.startsWith('AUTH'))).toBe(false);
     expect(befehle.some((b) => b.startsWith('MAIL'))).toBe(false);
     await s.schliessen();
@@ -136,13 +141,13 @@ describe('SMTP', () => {
       'MAIL FROM:<partner@dekaru.de>',
       'RCPT TO:<anna@example.test>',
       'DATA',
-      'QUIT',
     ]);
     expect(p.tlsAktiv).toBe(true);
-    expect(p.daten).toContain('Subject: =?UTF-8?B?');
+    expect(p.daten).toMatch(/^Subject: =\?UTF-8\?[BQ]\?/m);
     expect(p.daten).toContain('To: anna@example.test');
-    const koerper = p.daten.split('\n\n')[1].replace(/\n/g, '');
-    expect(Buffer.from(koerper, 'base64').toString('utf8')).toContain('.Punkt am Anfang');
+    // Punkt am Zeilenanfang wird beim Senden verdoppelt (RFC 5321, Abschnitt 4.5.2).
+    expect(p.daten).toContain('\n..Punkt am Anfang');
+    expect(p.daten).toMatch(/^Content-Type: text\/plain; charset=utf-8$/m);
     await s.schliessen();
   });
 
@@ -157,17 +162,43 @@ describe('SMTP', () => {
   it('meldet falsche Zugangsdaten', async (ctx) => {
     if (!opensslDa) ctx.skip();
     const s = await fakeServer({ starttls: true, key, cert });
-    await expect(sendeSmtp({ ...BASIS, pass: 'falsch', port: s.port }, NACHRICHT, { ca: cert, timeoutMs: 3000 })).rejects.toThrow(/Anmeldung/);
+    await expect(sendeSmtp({ ...BASIS, pass: 'falsch', port: s.port }, NACHRICHT, { ca: cert, timeoutMs: 3000 })).rejects.toThrow(/Invalid login|535/);
+    expect(s.protokolle[0].befehle.some((b) => b.startsWith('MAIL'))).toBe(false);
     await s.schliessen();
   });
 });
 
 describe('Mail und Einstellungen', () => {
-  it('kodiert den Betreff, entfernt Zeilenumbrueche aus Kopfzeilen', () => {
-    const m = baueMail('partner@dekaru.de', { to: 'a@b.de\r\nBcc: x@y.de', subject: 'Hallo\r\nBcc: x@y.de', text: 'x' });
-    const kopf = m.split('\r\n\r\n')[0].split('\r\n');
-    expect(kopf.every((z) => !/[\r\n]/.test(z))).toBe(true);
-    expect(kopf.some((z) => z.startsWith('Bcc:'))).toBe(false);
+  it('kodiert den Betreff, entfernt Zeilenumbrueche aus Kopfzeilen (Stream-Transport)', async () => {
+    const t = nodemailer.createTransport({ streamTransport: true, buffer: true, newline: 'unix' });
+    // Eine untergeschobene Kopfzeile in der Adresse wird abgelehnt, nicht umgedeutet.
+    expect(() => mailDaten('partner@dekaru.de', { to: 'a@b.de\r\nBcc: x@y.de', subject: 'x', text: 'x' })).toThrow(/Empfängeradresse/);
+    const info = await t.sendMail(mailDaten('dekaru Partner-Portal <partner@dekaru.de>', {
+      to: 'Anna <a@b.de>',
+      subject: 'Abrechnung für März\r\nBcc: x@y.de',
+      text: 'Guten Tag,\n.Punkt am Anfang',
+    }));
+    const roh = (info.message as Buffer).toString('utf8');
+    const kopf = roh.split('\n\n')[0];
+    expect(kopf).not.toMatch(/^Bcc:/m);
+    expect(kopf).toMatch(/^Subject: =\?UTF-8\?[BQ]\?/m);
+    expect(kopf).toMatch(/^Auto-Submitted: auto-generated$/m);
+    expect(kopf).toMatch(/^Content-Type: text\/plain; charset=utf-8$/m);
+    expect(info.envelope).toEqual({ from: 'partner@dekaru.de', to: ['a@b.de'] });
+  });
+
+  it('Transport: secure bei 465, sonst requireTLS, immer Anmeldung und Zertifikatspruefung', () => {
+    const basis = { ...BASIS, port: 587 };
+    const t587 = transportOptionen(basis);
+    expect(t587).toMatchObject({ secure: false, requireTLS: true, ignoreTLS: false, forceAuth: true });
+    expect(t587.auth).toMatchObject({ user: 'relay@dekaru.de', pass: 'geheim' });
+    expect(t587.tls).toMatchObject({ rejectUnauthorized: true, servername: 'localhost' });
+    expect(transportOptionen({ ...basis, port: 465 })).toMatchObject({ secure: true, forceAuth: true });
+    // Auch ein anderer Port als 587 bekommt keinen Klartext.
+    expect(transportOptionen({ ...basis, port: 25 })).toMatchObject({ secure: false, requireTLS: true });
+    expect(smtpAusUmgebung({
+      PORTAL_SMTP_HOST: 'h', PORTAL_SMTP_PORT: '465', PORTAL_SMTP_SECURE: 'false', PORTAL_SMTP_USER: 'u', PORTAL_SMTP_PASS: 'p', PORTAL_SMTP_FROM: 'f',
+    })?.secure).toBe(true);
   });
 
   it('liest nur PORTAL_SMTP_*, ohne Werte kein Versand', () => {
