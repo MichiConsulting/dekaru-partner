@@ -61,7 +61,7 @@ describe('Migrationen', () => {
     const dateien = readdirSync(MIGRATIONEN_ORDNER).filter((n) => /^\d{3}-.*\.sql$/.test(n)).sort();
     const nummern = dateien.map((n) => Number(n.slice(0, 3)));
     expect(new Set(nummern).size).toBe(nummern.length);
-    expect(nummern).toEqual([1, 2, 3, 4, 5, 6, 7]);
+    expect(nummern).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
     for (const datei of dateien) {
       const sql = readFileSync(join(MIGRATIONEN_ORDNER, datei), 'utf8');
       expect(sql).toContain(`INSERT INTO schema_version (version) VALUES (${Number(datei.slice(0, 3))})`);
@@ -70,8 +70,8 @@ describe('Migrationen', () => {
 
   it('wendet auf eine frische Datenbank alle Versionen an', async () => {
     db = await leereDb();
-    expect(await migriere(db)).toEqual([1, 2, 3, 4, 5, 6, 7]);
-    expect(await versionen(db)).toEqual([1, 2, 3, 4, 5, 6, 7]);
+    expect(await migriere(db)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+    expect(await versionen(db)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
     expect(await tabellen(db)).toEqual(expect.arrayContaining(NEUE_TABELLEN));
     expect(await migriere(db)).toEqual([]);
   });
@@ -84,8 +84,8 @@ describe('Migrationen', () => {
     expect(await versionen(db)).toEqual([1]);
     expect(await tabellen(db)).not.toEqual(expect.arrayContaining(['pflichtsatz_antworten']));
 
-    expect(await migriere(db)).toEqual([2, 3, 4, 5, 6, 7]);
-    expect(await versionen(db)).toEqual([1, 2, 3, 4, 5, 6, 7]);
+    expect(await migriere(db)).toEqual([2, 3, 4, 5, 6, 7, 8]);
+    expect(await versionen(db)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
     expect(await tabellen(db)).toEqual(expect.arrayContaining(NEUE_TABELLEN));
   });
 

@@ -25,6 +25,7 @@ export const AKTIONEN = {
   provision_importiert: 'Provision importiert',
   provision_ausgezahlt: 'Als ausgezahlt markiert',
   provision_auszahlung_zurueck: 'Auszahlung zurückgesetzt',
+  provision_mail_nachgeholt: 'Provisionsmail nachgeholt',
   dublette_freigegeben: 'Dublette freigegeben',
   dublette_zugeordnet: 'Dublette zugeordnet',
   dublette_abgelehnt: 'Dublette beim Bisherigen belassen',

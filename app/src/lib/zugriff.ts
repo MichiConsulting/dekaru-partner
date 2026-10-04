@@ -15,7 +15,16 @@ const OEFFENTLICH = ['/login', '/datenschutz'];
 // Schutz ist das persoenliche Token im Pfad (src/lib/kalender-token.ts).
 const OEFFENTLICHE_PRAEFIXE = ['/_astro/', '/favicon', '/kalender/abo/'];
 
+// Endpunkte mit eigenem Token statt Sitzung. Genau diese Pfade, kein Praefix.
+// Sie brauchen weder Login noch CSRF-Feld, pruefen aber selbst ein Bearer-Token.
+const TOKEN_PFADE = ['/api/provision-import'];
+
+export function istTokenPfad(pfad: string): boolean {
+  return TOKEN_PFADE.includes(pfad);
+}
+
 export function istOeffentlich(pfad: string): boolean {
+  if (istTokenPfad(pfad)) return true;
   if (OEFFENTLICH.includes(pfad)) return true;
   return OEFFENTLICHE_PRAEFIXE.some((p) => pfad.startsWith(p));
 }

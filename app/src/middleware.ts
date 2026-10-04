@@ -4,7 +4,7 @@
 import { defineMiddleware } from 'astro:middleware';
 import { getDb } from './lib/db.ts';
 import { COOKIE_NAME, ladeSitzung } from './lib/auth.ts';
-import { entscheideZugriff, istIsrAnfrage } from './lib/zugriff.ts';
+import { entscheideZugriff, istIsrAnfrage, istTokenPfad } from './lib/zugriff.ts';
 
 const CSP = [
   "default-src 'self'",
@@ -72,7 +72,8 @@ export const onRequest = defineMiddleware(async (context, next) => {
   // Der Login selbst hat noch keine Sitzung, dort schuetzt Astros Origin-Pruefung.
   // Geprueft wird jede Methode, die Daten aendern kann, nicht nur POST, damit
   // eine spaeter hinzugefuegte PUT- oder DELETE-Route nicht ungeschuetzt bleibt.
-  if (!SICHERE_METHODEN.has(context.request.method) && sitzung) {
+  // Token-Endpunkte (istTokenPfad) lesen kein Formular und schuetzen sich selbst.
+  if (!SICHERE_METHODEN.has(context.request.method) && sitzung && !istTokenPfad(pathname)) {
     let feld: unknown = null;
     try {
       const form = await context.request.clone().formData();

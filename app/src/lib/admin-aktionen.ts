@@ -12,6 +12,8 @@ import { erzeugeEinmalPasswort } from './passwort.ts';
 import { importiereAbrechnung, markiereAusgezahlt, type Abrechnung } from './provision.ts';
 import { istUuid } from './kunden.ts';
 import { protokolliere, type Akteur } from './admin-protokoll.ts';
+import { importiereUndBenachrichtige, protokolliereProvisionsImport, type ImportErgebnis } from './provision-import.ts';
+import type { Versender } from './smtp.ts';
 
 export function akteurAus(benutzer: Pick<Benutzer, 'id' | 'name'>): Akteur {
   return { id: benutzer.id, name: benutzer.name };
@@ -118,6 +120,26 @@ export async function provisionImportieren(
     zielText: `${abrechnung.vertriebler} ${abrechnung.monat}`,
     details: { ersetzt: e.ersetzt, summeCent: abrechnung.summeCent, auszahlungCent: abrechnung.auszahlungCent, ...(datei ? { datei } : {}) },
   });
+  return e;
+}
+
+/**
+ * Upload im Admin: derselbe Weg wie der Import per Token. Neu oder ersetzt
+ * wird abgelegt und der Vertriebler benachrichtigt; unveraendert holt nur eine
+ * gescheiterte Mail nach. Beides landet im Protokoll.
+ */
+export async function provisionImportierenMitMail(
+  db: Db,
+  akteur: Akteur,
+  abrechnung: Abrechnung,
+  optionen: { versender: Versender | null; portalUrl: string; datei?: string },
+): Promise<ImportErgebnis> {
+  const e = await importiereUndBenachrichtige(db, abrechnung, {
+    importiertVon: akteur.id,
+    versender: optionen.versender,
+    portalUrl: optionen.portalUrl,
+  });
+  await protokolliereProvisionsImport(db, akteur, abrechnung, e, optionen.datei);
   return e;
 }
 
