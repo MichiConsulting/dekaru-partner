@@ -7,6 +7,7 @@ import { aktuellerMonat } from '../../lib/kunden.ts';
 import { euro, monatsname } from '../../lib/provision.ts';
 import {
   SORTIERUNGEN,
+  TAGE_OHNE_ANMELDUNG,
   istMonat,
   istSortierung,
   letzteMonate,
@@ -59,12 +60,14 @@ const spalten: { key: Sortierung; label: string; zahl: boolean }[] = [
   { key: 'abschluesse', label: 'Abschlüsse', zahl: true },
   { key: 'absagen', label: 'Absagen', zahl: true },
   { key: 'quote', label: 'Quote', zahl: true },
-  { key: 'provision', label: `Provision ${quartal}`, zahl: true },
+  { key: 'provision', label: `Provision Q${quartal.slice(1, 2)}`, zahl: true },
   { key: 'lernen', label: 'Lernen', zahl: true },
   { key: 'pflichtsaetze', label: 'Pflichtsätze', zahl: true },
   { key: 'login', label: 'Letzte Anmeldung', zahl: false },
   { key: 'hinweise', label: 'Hinweise', zahl: false },
 ];
+const grenze = Date.now() - TAGE_OHNE_ANMELDUNG * 24 * 60 * 60 * 1000;
+const seitLangem = (d: Date | null) => !d || d.getTime() < grenze;
 const datum = (d: Date | null) => (d ? d.toLocaleDateString('de-DE', { timeZone: 'Europe/Berlin' }) : 'nie');
 ---
 
@@ -134,14 +137,14 @@ const datum = (d: Date | null) => (d ? d.toLocaleDateString('de-DE', { timeZone:
             <td class:list={['zahl', z.quote === null && 'wenig']}>{quoteText(z.quote)}</td>
             <td class="zahl">{euro(z.provisionQuartalCent)}</td>
             <td class="zahl">
-              {z.kapitelErledigt} von {kapitelGesamt} Kapiteln<br />
-              <span class="meta">{z.quizRichtig} von {z.quizBeantwortet} Punkten</span>
+              {z.kapitelErledigt} von {kapitelGesamt} Kap.<br />
+              <span class="meta">{z.quizRichtig}/{z.quizBeantwortet} Punkte</span>
             </td>
-            <td class="zahl">{z.pflichtsaetzeSitzen} von {saetze}</td>
-            <td>{datum(z.letzterLogin)}</td>
-            <td>
+            <td class:list={['zahl', z.aktiv && z.pflichtsaetzeSitzen < saetze && 'warn']}>{z.pflichtsaetzeSitzen} von {saetze}</td>
+            <td class:list={[z.aktiv && seitLangem(z.letzterLogin) && 'warn']}>{datum(z.letzterLogin)}</td>
+            <td class="zahl">
               {z.hinweise.length > 0 ? (
-                <ul class="auffaellig">{z.hinweise.map((h) => <li>{h}</li>)}</ul>
+                <span class="warn" title={z.hinweise.join(', ')}>{z.hinweise.length}<span class="sr-only">: {z.hinweise.join(', ')}</span></span>
               ) : (
                 <span class="wenig">keine</span>
               )}

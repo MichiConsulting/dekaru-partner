@@ -22,20 +22,13 @@ th[aria-sort] .sortier {
   font-size: 11px;
 }
 
-/* Auffaellige Werte. Die Farbe ist nur Zusatz, der Text sagt es auch. */
-.auffaellig {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  max-width: none;
-}
-.auffaellig li {
-  margin: 0 0 2px;
-  white-space: nowrap;
+/* Auffaellige Werte. Die Farbe ist nur Zusatz, der Text sagt es auch
+   (Liste "Auffaellig" ueber der Tabelle). */
+.warn {
   color: var(--lk-warn);
-  font-weight: 500;
+  font-weight: 600;
 }
-.auffaellig li::before {
+.warn::before {
   content: '! ';
 }
 .uebersicht-hinweise {
@@ -64,6 +57,16 @@ th[aria-sort] .sortier {
   background: var(--surface);
   z-index: 1;
   box-shadow: 1px 0 0 var(--border);
+}
+.tabelle-wrap.tabelle-fest td:not(:first-child),
+.tabelle-wrap.tabelle-fest th:not(:first-child) {
+  min-width: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.tabelle-fest thead th {
+  white-space: normal;
+  vertical-align: bottom;
 }
 .tabelle-fest .wenig {
   color: var(--text-muted);
@@ -142,4 +145,7 @@ th[aria-sort] .sortier {
 }
 .dublette .aktionen form {
   display: inline;
+}
+.dublette .aktionen + .meta {
+  margin-top: var(--space-m);
 }

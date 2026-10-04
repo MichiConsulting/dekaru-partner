@@ -30,7 +30,7 @@ const offeneDubletten = await zaehleOffeneMeldungen(db);
     <div class="kennzahl"><div class="kennzahl__wert">{abrechnungen.length}</div><div class="kennzahl__label">importierte Abrechnungen</div></div>
   </div>
   {offeneDubletten > 0 && (
-    <div class="hinweis" role="status">
+    <div class="hinweis" role="status" style="margin-top:var(--space-l)">
       <p><a href="/admin/dubletten">{offeneDubletten === 1 ? 'Eine Dublettenmeldung wartet' : `${offeneDubletten} Dublettenmeldungen warten`} auf Ihre Entscheidung.</a></p>
     </div>
   )}
