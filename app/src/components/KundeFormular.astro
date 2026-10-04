@@ -65,7 +65,7 @@ const { werte, csrf, fehler = [], knopf, adminTreffer = [] } = Astro.props;
       <ul>
         {adminTreffer.map((t) => <li>{t.name}{t.ort && `, ${t.ort}`}{t.telefon && `, ${t.telefon}`} bei {t.vertriebler}</li>)}
       </ul>
-      <div class="wahl"><label><input type="checkbox" name="dublette_freigabe" value="1" required /> Trotzdem speichern (Admin-Freigabe, wird protokolliert)</label></div>
+      <div class="wahl"><label><input type="checkbox" name="dublette_freigabe" value="1" /> Trotzdem speichern (Admin-Freigabe, wird protokolliert)</label></div>
     </div>
   )}
   <div class="aktionen">

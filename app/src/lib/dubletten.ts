@@ -212,7 +212,11 @@ export async function pruefeDublette(
   return leer;
 }
 
-/** Legt eine offene Meldung an. Gibt es fuer dieselben Treffer schon eine offene, bleibt es bei der. */
+/**
+ * Legt eine offene Meldung an. Gibt es fuer dieselben Treffer schon eine
+ * offene oder eine abgelehnte, bleibt es dabei: der Admin hat schon
+ * entschieden oder wird es noch, ein erneuter Versuch erzeugt keine neue.
+ */
 async function legeMeldungAn(
   db: Db,
   benutzerId: string,
@@ -223,7 +227,7 @@ async function legeMeldungAn(
   const sortiert = [...treffer].sort();
   const offen = await db.query<{ id: string }>(
     `SELECT id FROM dubletten_meldungen
-     WHERE benutzer_id = $1 AND status = 'offen' AND treffer @> $2::uuid[] AND treffer <@ $2::uuid[]`,
+     WHERE benutzer_id = $1 AND status IN ('offen', 'abgelehnt') AND treffer @> $2::uuid[] AND treffer <@ $2::uuid[]`,
     [benutzerId, sortiert],
   );
   if (offen.length > 0) return;

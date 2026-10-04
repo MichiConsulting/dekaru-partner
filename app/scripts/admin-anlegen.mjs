@@ -28,7 +28,7 @@ const db = url ? await pgDb(url) : await pgliteDb(process.env.PGLITE_PFAD || und
 try {
   if (url) await migriere(db);
   const passwort = erzeugeEinmalPasswort();
-  const vorhanden = await db.query('SELECT id FROM benutzer WHERE email = $1', [normalisiereEmail(email)]);
+  const vorhanden = await db.query('SELECT id, name FROM benutzer WHERE email = $1', [normalisiereEmail(email)]);
   if (vorhanden[0]) {
     await setzePasswort(db, vorhanden[0].id, passwort, true);
     await db.query('UPDATE benutzer SET aktiv = true WHERE id = $1', [vorhanden[0].id]);
@@ -37,7 +37,7 @@ try {
       aktion: 'einmal_passwort_neu',
       zielTyp: 'benutzer',
       zielId: vorhanden[0].id,
-      zielText: normalisiereEmail(email),
+      zielText: vorhanden[0].name,
     });
     console.log(`Passwort fuer ${email} neu gesetzt.`);
   } else {

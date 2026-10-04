@@ -176,6 +176,8 @@ describe('Pruefung beim Speichern', () => {
     const [mc] = await ladeMeldungen(db, true);
     await dubletteEntscheiden(db, akteurAus(chef), mc.id, 'ablehnen');
     expect((await pruefeDublette(db, cora, { name: 'Bäckerei Müller', ort: 'Horb', telefon: '' })).blockiert).toBe(true);
+    // Nach der Ablehnung erzeugt ein neuer Versuch keine neue Meldung.
+    expect((await ladeMeldungen(db, true)).length).toBe(0);
   });
 
   it('zuordnen loescht den fremden Eintrag, ohne Daten zu uebertragen', async () => {
