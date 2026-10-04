@@ -1,6 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { alleAbrechnungen, datumDe, euro, importiereAbrechnung, markiereAusgezahlt, monatsname, pruefeAbrechnung } from '../../lib/provision.ts';
+import { alleAbrechnungen, datumDe, euro, markiereAusgezahlt, monatsname, pruefeAbrechnung } from '../../lib/provision.ts';
+import { BENACHRICHTIGUNG_TEXT, benachrichtigungen, importToken, importiereUndBenachrichtige, versenderAusUmgebung } from '../../lib/provision-import.ts';
+import { fehlendeSmtpVariablen } from '../../lib/smtp.ts';
 import { istPost } from '../../lib/http.ts';
 import { istUuid } from '../../lib/kunden.ts';
 import { istAdmin } from '../../lib/zugriff.ts';
@@ -47,10 +49,17 @@ if (istPost(Astro.request)) {
         meldungen.push({ ok: false, text: `${datei.name}: ${fehler.join(' ')}` });
         continue;
       }
-      const e = await importiereAbrechnung(db, abrechnung, ich.id);
+      // Derselbe Weg wie der Import per Token: unveraendert bleibt liegen, sonst Mail an den Vertriebler.
+      const e = await importiereUndBenachrichtige(db, abrechnung, {
+        importiertVon: ich.id,
+        versender: versenderAusUmgebung(),
+        portalUrl: import.meta.env.SITE ?? 'https://partner.dekaru.de',
+      });
+      const zusatz = e.status === 'ersetzt' ? ' (vorhandene ersetzt)' : e.status === 'unveraendert' ? ' (unverändert, nichts geändert)' : '';
+      const mail = e.benachrichtigung ? ` Benachrichtigung: ${BENACHRICHTIGUNG_TEXT[e.benachrichtigung]}.` : '';
       meldungen.push({
         ok: true,
-        text: `${datei.name}: ${abrechnung.vertriebler}, ${monatsname(abrechnung.monat)}, Auszahlung ${euro(abrechnung.auszahlungCent)}${e.ersetzt ? ' (vorhandene ersetzt)' : ''}.`,
+        text: `${datei.name}: ${abrechnung.vertriebler}, ${monatsname(abrechnung.monat)}, Auszahlung ${euro(abrechnung.auszahlungCent)}${zusatz}.${mail}`,
       });
     }
   }
@@ -58,15 +67,25 @@ if (istPost(Astro.request)) {
 if (Astro.url.searchParams.get('ok') === 'ausgezahlt') meldungen.push({ ok: true, text: 'Als ausgezahlt markiert.' });
 
 const liste = await alleAbrechnungen(db);
+const mails = await benachrichtigungen(db);
+const smtpFehlt = fehlendeSmtpVariablen();
+const tokenFehlt = !importToken();
 const heute = new Date().toISOString().slice(0, 10);
 ---
 
 <Layout titel="Provision importieren" aktiv="admin">
   <p class="meta"><a href="/admin">Admin</a> / Provision</p>
   <h1>Provision importieren</h1>
-  <p>Die JSON-Dateien entstehen mit <code>npm run provision</code> in dekaru-rechnungen unter <code>provision/&lt;Monat&gt;/&lt;slug&gt;.json</code>. Mehrere Dateien auf einmal sind möglich. Eine Abrechnung für denselben Monat und Slug wird ersetzt.</p>
+  <p>Die JSON-Dateien entstehen mit <code>npm run provision</code> in dekaru-rechnungen unter <code>provision/&lt;Monat&gt;/&lt;slug&gt;.json</code>. Mehrere Dateien auf einmal sind möglich. Eine Abrechnung für denselben Monat und Slug wird ersetzt, eine unveränderte bleibt liegen. Bequemer ist <code>npm run provision -- --monat JJJJ-MM --senden</code>, das schickt alle Dateien des Monats direkt hierher. Nach jedem neuen oder geänderten Import bekommt der Vertriebler eine Mail ohne Beträge, sofern er sie nicht abgeschaltet hat.</p>
 
   {meldungen.map((m) => <div class:list={['meldung', m.ok ? 'meldung--ok' : 'meldung--fehler']} role={m.ok ? 'status' : 'alert'}><p>{m.text}</p></div>)}
+
+  {smtpFehlt.length > 0 && (
+    <div class="meldung meldung--fehler" role="status"><p>Mailversand ist nicht eingerichtet, es fehlen: {smtpFehlt.join(', ')}. Vertriebler werden über neue Abrechnungen nicht benachrichtigt.</p></div>
+  )}
+  {tokenFehlt && (
+    <div class="meldung meldung--fehler" role="status"><p>Import per Skript ist nicht eingerichtet: PROVISION_IMPORT_TOKEN fehlt oder ist kürzer als 32 Zeichen. Der Upload hier funktioniert trotzdem.</p></div>
+  )}
 
   <form method="post" enctype="multipart/form-data" class="karte">
     <input type="hidden" name="_csrf" value={csrf} />
@@ -80,9 +99,9 @@ const heute = new Date().toISOString().slice(0, 10);
   <h2>Importierte Abrechnungen</h2>
   <div class="tabelle-wrap schiebbar">
     <table>
-      <thead><tr><th>Monat</th><th>Vertriebler</th><th class="zahl">Provision</th><th class="zahl">Auszahlung</th><th class="zahl">Aufgelaufen</th><th>Importiert</th><th>Ausgezahlt</th></tr></thead>
+      <thead><tr><th>Monat</th><th>Vertriebler</th><th class="zahl">Provision</th><th class="zahl">Auszahlung</th><th class="zahl">Aufgelaufen</th><th>Importiert</th><th>Mail</th><th>Ausgezahlt</th></tr></thead>
       <tbody>
-        {liste.length === 0 && <tr><td colspan="7">Noch nichts importiert.</td></tr>}
+        {liste.length === 0 && <tr><td colspan="8">Noch nichts importiert.</td></tr>}
         {liste.map((a) => (
           <tr>
             <td>{monatsname(a.monat)}</td>
@@ -91,6 +110,7 @@ const heute = new Date().toISOString().slice(0, 10);
             <td class="zahl">{euro(a.auszahlungCent)}</td>
             <td class="zahl">{euro(a.aufgelaufenCent)}</td>
             <td>{a.importiertAm.toLocaleDateString('de-DE')}</td>
+            <td>{mails.get(a.id) ? BENACHRICHTIGUNG_TEXT[mails.get(a.id)!] : ''}</td>
             <td>
               {a.ausgezahltAm ? (
                 <form method="post" class="inline">
