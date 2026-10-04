@@ -262,8 +262,11 @@ Schlüssel darin, die Preise setzt das Angebotssystem aus seiner eigenen
 und AVV sowie Teil G stehen als Kommentar dabei. Der Download markiert den
 Bogen als übernommen; **Zur Überarbeitung zurückgeben** macht ihn wieder zum
 Entwurf. Datensparsam: nur die Felder, die Angebot und Verträge brauchen.
-Einträge wie "Passwort:", "Kennwort ist", "PIN:" oder "Login:" sperren das
-Speichern, auch als Entwurf (`enthaeltPasswort` in `src/lib/briefing.ts`).
+Einträge wie "Passwort: …", "Passwort = …", "Kennwort: …", "PW: …", "PIN: …",
+"Login: …" oder "Zugangsdaten: …", also ein Stichwort mit Doppelpunkt oder
+Gleichheitszeichen und einem Wert dahinter, sperren das Speichern, auch als
+Entwurf (`enthaeltPasswort` in `src/lib/briefing.ts`). Das bloße Wort
+"Passwort" im Fließtext ist erlaubt.
 `tests/angebot-yaml.test.ts` liest die erzeugte Datei mit dem YAML-Parser
 und der Paketlogik aus `dekaru-rechnungen`, wenn das Repo daneben liegt.
 

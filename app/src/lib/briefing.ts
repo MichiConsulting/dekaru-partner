@@ -182,25 +182,19 @@ export function leereDaten(): BriefingDaten {
 
 /**
  * Blatt 11, Regel 2: keine Passwoerter, keine Zugangsdaten auf den Bogen.
- * Gesucht werden die gaengigen Muster, mit denen jemand so etwas notiert.
+ * Gesperrt wird nur, was nach einer notierten Angabe aussieht: ein Stichwort
+ * wie "Passwort", "Kennwort", "PW", "PIN", "Login" oder "Zugangsdaten",
+ * direkt gefolgt von ":" oder "=" und einem Wert. Das blosse Wort im
+ * Fliesstext ("Das Passwort schickt der Kunde selbst") bleibt erlaubt.
  * Treffer sperren das Speichern, auch als Entwurf.
  */
-const PASSWORT_MUSTER: RegExp[] = [
-  /passw(?:or[dt]|örter|ords?)\s*(?:[:=]|ist\b|lautet\b)/i,
-  /kennw(?:ort|örter)\s*(?:[:=]|ist\b|lautet\b)/i,
-  /\bpw\s*[:=]/i,
-  /\bpwd\s*[:=]/i,
-  /\bpin\s*[:=]/i,
-  /pass-?code\s*[:=]/i,
-  /zugangsdaten\s*[:=]/i,
-  /\blogin\s*[:=]/i,
-  /\bbenutzername\s*[:=]/i,
-  /\bpasswort\b/i,
-];
+const PASSWORT_STICHWORT =
+  'passw(?:ort|örter|ords?|d)|kennw(?:ort|örter)|pwd?|pin|pass-?code|zugangsdaten|login|benutzername|username';
+const PASSWORT_MUSTER = new RegExp(`(?<![\\p{L}\\p{N}])(?:${PASSWORT_STICHWORT})\\s*[:=]\\s*[^\\s:=]`, 'iu');
 
 export function enthaeltPasswort(text: string): boolean {
   const t = String(text ?? '');
-  return PASSWORT_MUSTER.some((m) => m.test(t));
+  return PASSWORT_MUSTER.test(t);
 }
 
 export const PASSWORT_SPERRE =

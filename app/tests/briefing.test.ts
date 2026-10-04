@@ -80,10 +80,35 @@ describe('Briefing-Bogen: Felder', () => {
   });
 
   it('erkennt gaengige Passwort-Muster', () => {
-    for (const text of ['Passwort: geheim', 'PW: 1234', 'Kennwort = abc', 'passwort ist hallo', 'Login: max / Zugangsdaten: xyz', 'PIN: 4711', 'Das Passwort schicke ich nach']) {
+    for (const text of [
+      'Passwort: geheim',
+      'Passwort =geheim',
+      'Strato Passwort:geheim123',
+      'PW: 1234',
+      'pw=1234',
+      'Kennwort = abc',
+      'Kennwort: abc',
+      'Login: max / Zugangsdaten: xyz',
+      'Zugangsdaten: info@example.de',
+      'PIN: 4711',
+      'Passwörter: siehe Zettel',
+    ]) {
       expect(enthaeltPasswort(text), text).toBe(true);
     }
-    for (const text of ['Strato, Zugang hat der Inhaber', 'Pinnwand im Laden', 'Login-Bereich für Kunden gewünscht (Sonderwunsch)', 'kein Logo vorhanden']) {
+    for (const text of [
+      'Strato, Zugang hat der Inhaber',
+      'Pinnwand im Laden',
+      'Login-Bereich für Kunden gewünscht (Sonderwunsch)',
+      'kein Logo vorhanden',
+      'Das Passwort schickt der Kunde selbst',
+      'Das Passwort schicke ich nach',
+      'Passwort für den Hoster klärt der Inhaber direkt',
+      'Passwort:',
+      'Passwort: ',
+      'Kennwort =',
+      'Uhrzeit: 14:30, Ansprechpartner Herr PWagner',
+      'Hinweis: Kunde hat kein Login',
+    ]) {
       expect(enthaeltPasswort(text), text).toBe(false);
     }
   });
