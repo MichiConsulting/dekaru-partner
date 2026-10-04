@@ -1,7 +1,7 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
-import { alleBenutzer, erstelleBenutzer, type Rolle } from '../../../lib/auth.ts';
-import { erzeugeEinmalPasswort } from '../../../lib/passwort.ts';
+import { alleBenutzer, type Rolle } from '../../../lib/auth.ts';
+import { AdminFehler, akteurAus, zugangAnlegen } from '../../../lib/admin-aktionen.ts';
 import { formular, istPost } from '../../../lib/http.ts';
 import { istAdmin } from '../../../lib/zugriff.ts';
 
@@ -16,21 +16,18 @@ let werte = { name: '', email: '', slug: '', rolle: 'vertriebler' };
 if (istPost(Astro.request)) {
   const d = await formular(Astro.request);
   werte = { name: d.name ?? '', email: d.email ?? '', slug: d.slug ?? '', rolle: d.rolle === 'admin' ? 'admin' : 'vertriebler' };
-  const passwort = erzeugeEinmalPasswort();
   try {
-    const b = await erstelleBenutzer(db, {
+    const { benutzer: b, passwort } = await zugangAnlegen(db, akteurAus(Astro.locals.benutzer!), {
       name: werte.name,
       email: werte.email,
       rolle: werte.rolle as Rolle,
-      vertrieblerSlug: werte.slug || null,
-      passwort,
-      wechselNoetig: true,
+      slug: werte.slug || null,
     });
     neu = { name: b.name, email: b.email, passwort };
     werte = { name: '', email: '', slug: '', rolle: 'vertriebler' };
   } catch (e) {
-    const text = e instanceof Error ? e.message : String(e);
-    fehler = /unique|duplicate|doppelt/i.test(text) ? 'E-Mail-Adresse oder Slug sind schon vergeben.' : text;
+    if (!(e instanceof AdminFehler)) throw e;
+    fehler = e.message;
   }
 }
 

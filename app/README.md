@@ -21,7 +21,8 @@ Jeder Vertriebler hat einen eigenen Login und sieht vier Bereiche:
 
 Dazu ein **Admin-Bereich** für Michi: Zugänge anlegen und deaktivieren
 (Einladung mit Einmal-Passwort), alle Kunden, Lernstand mitsamt der
-Pflichtsätze, Provision importieren.
+Pflichtsätze, Provision importieren, eine Übersicht aller Vertriebler, das
+Protokoll der Admin-Aktionen und die Dublettenprüfung bei Betrieben.
 
 ## Aufbau
 
@@ -114,6 +115,67 @@ dessen `vertriebler_slug` zum Slug in `vertriebler.json` passt. Import
 entweder im Admin-Bereich (Datei hochladen) oder per Skript. Der Admin markiert
 eine Abrechnung als ausgezahlt, dann zählt sie als überwiesen.
 
+**Admin-Übersicht** (`/admin/uebersicht`, `src/lib/admin-uebersicht.ts`).
+Je Vertriebler im gewählten Monat: Ersttermine, Zweittermine, Abschlüsse,
+Absagen, Abschlussquote (Abschlüsse durch Zweittermine), entstandene Provision
+im Quartal des Monats (Summe `summeCent` der importierten Abrechnungen),
+Kapitel und Quizpunkte, Pflichtsätze (x von 6), letzte Anmeldung. Sortiert
+wird über Links im Spaltenkopf, ohne JavaScript. Auffällig sind: 14 Tage
+ohne Anmeldung (oder nie angemeldet), offene Pflichtsätze, Lernen nicht
+begonnen, drei Zweittermine ohne Abschluss, viele Absagen; deaktivierte
+Zugänge nie. Gezählt wird jeder Betrieb, der im Monat in den Status
+gewechselt ist. Den Verlauf schreibt ein Trigger in `kunden_statuswechsel`
+mit (nur Kunde, Vertriebler, Status, Tag). Für Einträge vor Migration 7 kennt
+die Datenbank nur den damaligen letzten Status, die Monatszahlen sind erst ab
+dann genau.
+
+**Protokoll der Admin-Aktionen** (`/admin/protokoll`, Tabelle
+`admin_protokoll`). Jede schreibende Admin-Aktion steht dort mit Zeitpunkt,
+wer, was, Ziel und kurzen Details, nie mit Passwort, Hash oder Token
+(`bereinigeDetails` filtert solche Schlüssel zusätzlich heraus). Alle
+Aktionen laufen über `src/lib/admin-aktionen.ts`, das nach dem Erfolg
+`protokolliere()` aus `src/lib/admin-protokoll.ts` aufruft: Zugang anlegen,
+deaktivieren, aktivieren, Einmal-Passwort neu, Slug ändern, Provision
+importieren, ausgezahlt markieren und zurücksetzen, Dubletten entscheiden,
+Kunde trotz Dublette speichern. Die Skripte `admin-anlegen` und
+`provision-import` protokollieren ebenso, als "Skript ..." ohne Admin-ID.
+**Neue Admin-Aktionen** (zum Beispiel "Stufe ändern") bekommen einen
+Schlüssel in `AKTIONEN` und eine Funktion in `admin-aktionen.ts`;
+`tests/admin-protokoll.test.ts` schlägt fehl, sobald eine Admin-Seite einen
+schreibenden Baustein oder SQL direkt aufruft.
+
+Unveränderlich: der Code enthält kein UPDATE oder DELETE auf
+`admin_protokoll` (der Test prüft das), und ein Trigger lehnt UPDATE,
+TRUNCATE und das Löschen jüngerer Zeilen in der Datenbank ab. Keine
+Fremdschlüssel, damit auch ein gelöschter Benutzer keine Zeile verändert.
+**Aufbewahrung 24 Monate.** Danach entfernt Michi alte Zeilen einmal im Jahr
+von Hand im SQL-Editor von Neon; der Trigger lässt nur Zeilen durch, die
+älter als 24 Monate sind:
+
+```
+DELETE FROM admin_protokoll WHERE zeitpunkt < now() - interval '24 months';
+```
+
+**Dubletten** (`src/lib/dubletten.ts`, `/admin/dubletten`). Beim Anlegen und
+beim Ändern von Name, Ort oder Telefon eines Kunden prüft das Portal, ob
+derselbe Betrieb schon eingetragen ist, bei irgendeinem Vertriebler.
+Verglichen werden normalisierte Werte: Name ohne Rechtsform (GmbH, UG, e.K.,
+GmbH & Co. KG und andere), ohne Groß und Klein, Sonderzeichen und Leerraum,
+Umlaute ausgeschrieben (NFC und NFD gleich); Ort ohne Postleitzahl und
+Klammerzusatz; Telefon nur als Ziffern, +49 und 0049 werden 0. Gleich ist ein
+Betrieb bei gleicher Telefonnummer (ab sechs Ziffern) oder bei gleichem Namen
+und gleichem oder fehlendem Ort. Ein Vertriebler sieht dann nur "Dieser
+Betrieb wird bereits betreut, bitte mit Michael Henning klären." und kann
+nicht speichern; er erfährt weder wer noch welche Daten. Gleichzeitig entsteht
+eine Meldung in `dubletten_meldungen` (nur Name, Ort, Telefon des Versuchs).
+Der Admin sieht unter `/admin/dubletten` beide Seiten und entscheidet: beim
+Bisherigen lassen, dem Anfragenden zuordnen (der bisherige Eintrag wird
+gelöscht, Notiz und Ansprechpartner wandern nicht mit) oder beide behalten.
+Nach Zuordnen oder Freigabe kann der Anfragende speichern. Speichert der
+Admin selbst einen Kunden, sieht er die Treffer und kann mit einem Haken
+"Trotzdem speichern" freigeben, das wird protokolliert. Außerdem listet die
+Seite Dubletten, die schon im Bestand liegen.
+
 ## Lokale Entwicklung
 
 ```
@@ -134,7 +196,7 @@ Das Skript gibt ein Einmal-Passwort aus. Nach dem Login verlangt das Portal ein
 eigenes Passwort.
 
 ```
-npm test               # Vitest: Login, Zugriff, Kunden, Quiz, Provision
+npm test               # Vitest: Login, Zugriff, Kunden, Quiz, Provision, Admin
 npm run check          # Typen
 npm run build          # Vercel-Build nach .vercel/output
 ADAPTER=node npm run build && PGLITE_PFAD=./.pglite node dist/server/entry.mjs
@@ -233,6 +295,13 @@ unset DATABASE_URL
 Bis dahin zeigen `/gespraech`, `/gespraech/ueben`, der Admin-Lernstand und der
 Lernbereich auf partner.dekaru.de einen Fehler, weil die Tabellen fehlen.
 
+**Offen seit dem Admin-Ausbau:** `007-admin-ausbau.sql` (Tabellen
+`admin_protokoll`, `kunden_statuswechsel`, `dubletten_meldungen`, zwei
+Trigger) muss vor dem Deploy des zugehörigen Codes gegen Neon laufen, sonst
+scheitern Admin-Aktionen und das Speichern von Kunden. Derselbe Befehl wie
+oben, er meldet dann unter anderem "Angewendet: 7". Die Migration hängt nur von
+Version 1 ab; laufen 005, 006 oder 008 erst danach, ist das unschädlich.
+
 ### 6. Deployen und Region prüfen
 
 1. **Deployments** → neuestes Deployment → **Redeploy**, oder einfach ein
@@ -320,6 +389,11 @@ verpflichtet werden (nur geschäftliche Daten von Gewerbetreibenden).
 
 - Datenschutzseite: Platzhalter füllen, Text vor dem ersten Vertriebler
   prüfen lassen.
+- "Stufe ändern" gibt es im Portal noch nicht. Der Protokollschlüssel
+  `stufe_geaendert` steht bereit, die Aktion selbst gehört dann in
+  `admin-aktionen.ts`.
+- Datenschutzseite: Admin-Protokoll (Nachvollziehbarkeit der Verwaltung,
+  24 Monate) und Dublettenprüfung noch aufnehmen.
 - Passwort vergessen: gibt es bewusst nicht als Selbstbedienung. Michi setzt im
   Admin ein neues Einmal-Passwort.
 - Grafiken werden als `<img>` eingebunden, ihre Schriften fallen deshalb auf

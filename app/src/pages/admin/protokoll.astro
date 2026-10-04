@@ -1,0 +1,96 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import '../../styles/admin.css';
+import { AKTIONEN, PROTOKOLL_AUFBEWAHRUNG_MONATE, aktionLabel, detailsText, istAktion, ladeProtokoll } from '../../lib/admin-protokoll.ts';
+import { istAdmin } from '../../lib/zugriff.ts';
+
+if (!istAdmin(Astro.locals.benutzer)) return Astro.redirect('/verboten', 303);
+
+const db = Astro.locals.db;
+const p = Astro.url.searchParams;
+const datum = (w: string | null) => (/^\d{4}-\d{2}-\d{2}$/.test(w ?? '') ? (w as string) : '');
+const filter = {
+  aktion: istAktion(p.get('aktion') ?? '') ? (p.get('aktion') as string) : '',
+  suche: (p.get('suche') ?? '').slice(0, 100),
+  von: datum(p.get('von')),
+  bis: datum(p.get('bis')),
+  seite: Math.max(1, Math.floor(Number(p.get('seite')) || 1)),
+};
+const { eintraege, weitere } = await ladeProtokoll(db, filter);
+
+function seitenLink(seite: number): string {
+  const q = new URLSearchParams();
+  if (filter.aktion) q.set('aktion', filter.aktion);
+  if (filter.suche) q.set('suche', filter.suche);
+  if (filter.von) q.set('von', filter.von);
+  if (filter.bis) q.set('bis', filter.bis);
+  q.set('seite', String(seite));
+  return `/admin/protokoll?${q.toString()}`;
+}
+const zeit = (d: Date) =>
+  d.toLocaleString('de-DE', { timeZone: 'Europe/Berlin', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+---
+
+<Layout titel="Protokoll" aktiv="admin">
+  <p class="meta"><a href="/admin">Admin</a> / Protokoll</p>
+  <h1>Protokoll der Admin-Aktionen</h1>
+  <p class="meta">
+    Jede schreibende Admin-Aktion mit Zeitpunkt, wer, was und Ziel. Passwörter und Tokens stehen nie darin. Einträge
+    lassen sich weder ändern noch löschen und werden nach {PROTOKOLL_AUFBEWAHRUNG_MONATE} Monaten entfernt.
+  </p>
+
+  <form method="get" class="filter">
+    <div class="feld">
+      <label for="aktion">Aktion</label>
+      <select id="aktion" name="aktion">
+        <option value="">Alle</option>
+        {Object.entries(AKTIONEN).map(([k, v]) => <option value={k} selected={filter.aktion === k}>{v}</option>)}
+      </select>
+    </div>
+    <div class="feld">
+      <label for="suche">Ziel oder Person</label>
+      <input id="suche" name="suche" type="search" maxlength="100" value={filter.suche} />
+    </div>
+    <div class="feld">
+      <label for="von">Von</label>
+      <input id="von" name="von" type="date" value={filter.von} />
+    </div>
+    <div class="feld">
+      <label for="bis">Bis</label>
+      <input id="bis" name="bis" type="date" value={filter.bis} />
+    </div>
+    <button type="submit" class="btn btn--zweit">Filtern</button>
+    {(filter.aktion || filter.suche || filter.von || filter.bis) && <a href="/admin/protokoll">Filter zurücksetzen</a>}
+  </form>
+
+  <div class="tabelle-wrap schiebbar protokoll" role="region" aria-label="Protokoll" tabindex="0">
+    <table>
+      <thead>
+        <tr><th scope="col">Zeitpunkt</th><th scope="col">Wer</th><th scope="col">Aktion</th><th scope="col">Ziel</th><th scope="col">Details</th></tr>
+      </thead>
+      <tbody>
+        {eintraege.length === 0 && <tr><td colspan="5">Keine Einträge.</td></tr>}
+        {eintraege.map((e) => (
+          <tr>
+            <td class="zeit">{zeit(e.zeitpunkt)}</td>
+            <td>{e.adminName}</td>
+            <td>{aktionLabel(e.aktion)}</td>
+            <td>
+              {e.zielTyp === 'benutzer' && e.zielId ? <a href={`/admin/vertriebler/${e.zielId}`}>{e.zielText}</a> : e.zielText}
+            </td>
+            <td class="details">{detailsText(e.details)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  {
+    (filter.seite > 1 || weitere) && (
+      <nav class="seiten" aria-label="Seiten">
+        {filter.seite > 1 ? <a href={seitenLink(filter.seite - 1)}>Neuere Einträge</a> : <span />}
+        {weitere && <a href={seitenLink(filter.seite + 1)}>Ältere Einträge</a>}
+      </nav>
+    )
+  }
+</Layout>

@@ -7,7 +7,9 @@
 import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { migriere, pgDb, pgliteDb } from '../src/lib/db.ts';
-import { importiereAbrechnung, pruefeAbrechnung } from '../src/lib/provision.ts';
+import { pruefeAbrechnung } from '../src/lib/provision.ts';
+import { provisionImportieren } from '../src/lib/admin-aktionen.ts';
+import { skriptAkteur } from '../src/lib/admin-protokoll.ts';
 
 function argument(name) {
   const i = process.argv.indexOf(`--${name}`);
@@ -39,7 +41,7 @@ try {
         console.error(`  ${monat}/${datei}: ${liste.join(' ')}`);
         continue;
       }
-      const e = await importiereAbrechnung(db, abrechnung, null);
+      const e = await provisionImportieren(db, skriptAkteur('provision-import'), abrechnung, `${monat}/${datei}`);
       console.log(`  ${monat}/${datei}: ${e.ersetzt ? 'ersetzt' : 'neu'}`);
     }
   }

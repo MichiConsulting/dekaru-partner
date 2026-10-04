@@ -3,11 +3,14 @@ import Layout from '../../layouts/Layout.astro';
 import KundeFormular from '../../components/KundeFormular.astro';
 import { erstelleKunde, pruefeKunde, type KundeEingabe } from '../../lib/kunden.ts';
 import { formular, istPost } from '../../lib/http.ts';
+import { pruefeDublette, type TrefferAdmin } from '../../lib/dubletten.ts';
+import { akteurAus, protokolliereAdminDublette } from '../../lib/admin-aktionen.ts';
 
 const benutzer = Astro.locals.benutzer!;
 const csrf = Astro.locals.csrf ?? '';
 let werte: Partial<KundeEingabe> = {};
 let fehler: string[] = [];
+let adminTreffer: TrefferAdmin[] = [];
 
 if (istPost(Astro.request)) {
   const daten = await formular(Astro.request);
@@ -15,8 +18,20 @@ if (istPost(Astro.request)) {
   werte = geprueft.wert;
   fehler = geprueft.fehler;
   if (fehler.length === 0) {
-    await erstelleKunde(Astro.locals.db, benutzer.id, geprueft.wert);
-    return Astro.redirect('/kunden?ok=neu', 303);
+    // Gleicher Betrieb schon eingetragen? Vertriebler erfahren nur, dass es so ist.
+    const dublette = await pruefeDublette(Astro.locals.db, benutzer, geprueft.wert, {
+      adminFreigabe: benutzer.rolle === 'admin' && daten.dublette_freigabe === '1',
+    });
+    if (dublette.blockiert) {
+      fehler = [dublette.meldung ?? ''];
+      if (dublette.rolle === 'admin') adminTreffer = dublette.treffer;
+    } else {
+      const k = await erstelleKunde(Astro.locals.db, benutzer.id, geprueft.wert);
+      if (dublette.rolle === 'admin' && dublette.treffer.length > 0) {
+        await protokolliereAdminDublette(Astro.locals.db, akteurAus(benutzer), k, dublette.treffer.map((t) => t.id));
+      }
+      return Astro.redirect('/kunden?ok=neu', 303);
+    }
   }
 }
 ---
@@ -24,5 +39,5 @@ if (istPost(Astro.request)) {
 <Layout titel="Betrieb eintragen" aktiv="kunden" schmal>
   <p class="meta"><a href="/kunden">Meine Kunden</a> / Neu</p>
   <h1>Betrieb eintragen</h1>
-  <KundeFormular werte={werte} csrf={csrf} fehler={fehler} knopf="Eintragen" />
+  <KundeFormular werte={werte} csrf={csrf} fehler={fehler} knopf="Eintragen" adminTreffer={adminTreffer} />
 </Layout>

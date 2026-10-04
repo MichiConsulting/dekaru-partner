@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { alleAbrechnungen, datumDe, euro, importiereAbrechnung, markiereAusgezahlt, monatsname, pruefeAbrechnung } from '../../lib/provision.ts';
+import { alleAbrechnungen, datumDe, euro, monatsname, pruefeAbrechnung } from '../../lib/provision.ts';
+import { AdminFehler, akteurAus, auszahlungMarkieren, provisionImportieren } from '../../lib/admin-aktionen.ts';
 import { istPost } from '../../lib/http.ts';
 import { istUuid } from '../../lib/kunden.ts';
 import { istAdmin } from '../../lib/zugriff.ts';
@@ -19,14 +20,23 @@ if (istPost(Astro.request)) {
     const id = String(form.get('id') ?? '');
     const datum = String(form.get('datum') ?? '').slice(0, 10);
     if (istUuid(id) && /^\d{4}-\d{2}-\d{2}$/.test(datum)) {
-      await markiereAusgezahlt(db, id, datum);
-      return Astro.redirect('/admin/provision?ok=ausgezahlt', 303);
-    }
-    meldungen.push({ ok: false, text: 'Datum fehlt oder ist ungültig.' });
+      try {
+        await auszahlungMarkieren(db, akteurAus(ich), id, datum);
+        return Astro.redirect('/admin/provision?ok=ausgezahlt', 303);
+      } catch (e) {
+        if (!(e instanceof AdminFehler)) throw e;
+        meldungen.push({ ok: false, text: e.message });
+      }
+    } else meldungen.push({ ok: false, text: 'Datum fehlt oder ist ungültig.' });
   } else if (aktion === 'offen') {
     const id = String(form.get('id') ?? '');
-    if (istUuid(id)) await markiereAusgezahlt(db, id, null);
-    return Astro.redirect('/admin/provision', 303);
+    try {
+      await auszahlungMarkieren(db, akteurAus(ich), id, null);
+      return Astro.redirect('/admin/provision', 303);
+    } catch (e) {
+      if (!(e instanceof AdminFehler)) throw e;
+      meldungen.push({ ok: false, text: e.message });
+    }
   } else {
     const dateien = form.getAll('dateien').filter((d): d is File => d instanceof File && d.size > 0);
     if (dateien.length === 0) meldungen.push({ ok: false, text: 'Keine Datei ausgewählt.' });
@@ -47,7 +57,7 @@ if (istPost(Astro.request)) {
         meldungen.push({ ok: false, text: `${datei.name}: ${fehler.join(' ')}` });
         continue;
       }
-      const e = await importiereAbrechnung(db, abrechnung, ich.id);
+      const e = await provisionImportieren(db, akteurAus(ich), abrechnung, datei.name.slice(0, 120));
       meldungen.push({
         ok: true,
         text: `${datei.name}: ${abrechnung.vertriebler}, ${monatsname(abrechnung.monat)}, Auszahlung ${euro(abrechnung.auszahlungCent)}${e.ersetzt ? ' (vorhandene ersetzt)' : ''}.`,

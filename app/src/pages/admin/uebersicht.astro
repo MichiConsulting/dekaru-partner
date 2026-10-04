@@ -1,0 +1,160 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import '../../styles/admin.css';
+import { getCollection } from 'astro:content';
+import { pflichtsatzListe } from '../../lib/inhalt-gespraech.ts';
+import { aktuellerMonat } from '../../lib/kunden.ts';
+import { euro, monatsname } from '../../lib/provision.ts';
+import {
+  SORTIERUNGEN,
+  TAGE_OHNE_ANMELDUNG,
+  istMonat,
+  istSortierung,
+  letzteMonate,
+  quartalLabel,
+  quoteText,
+  sortiere,
+  standardRichtung,
+  vertrieblerUebersicht,
+  type Richtung,
+  type Sortierung,
+} from '../../lib/admin-uebersicht.ts';
+import { istAdmin } from '../../lib/zugriff.ts';
+
+if (!istAdmin(Astro.locals.benutzer)) return Astro.redirect('/verboten', 303);
+
+const db = Astro.locals.db;
+const heute = aktuellerMonat();
+const p = Astro.url.searchParams;
+const monatWahl = p.get('monat') ?? '';
+const monat = istMonat(monatWahl) && monatWahl <= heute ? monatWahl : heute;
+const sortWahl = p.get('sort') ?? '';
+const sort: Sortierung = istSortierung(sortWahl) ? sortWahl : 'name';
+const richtung: Richtung = p.get('richtung') === 'ab' ? 'ab' : p.get('richtung') === 'auf' ? 'auf' : standardRichtung(sort);
+
+const kapitel = await getCollection('kapitel');
+const kapitelGesamt = kapitel.length;
+const saetze = pflichtsatzListe.length;
+const zeilen = sortiere(
+  await vertrieblerUebersicht(db, { monat, pflichtsatzIds: pflichtsatzListe.map((e) => e.id), kapitelGesamt }),
+  sort,
+  richtung,
+);
+const auffaellig = zeilen.filter((z) => z.hinweise.length > 0);
+const quartal = quartalLabel(monat);
+const monate = letzteMonate(heute, 12);
+
+function link(spalte: Sortierung): string {
+  const r = spalte === sort ? (richtung === 'auf' ? 'ab' : 'auf') : standardRichtung(spalte);
+  return `/admin/uebersicht?monat=${monat}&sort=${spalte}&richtung=${r}`;
+}
+function ariaSort(spalte: Sortierung): 'ascending' | 'descending' | undefined {
+  if (spalte !== sort) return undefined;
+  return richtung === 'auf' ? 'ascending' : 'descending';
+}
+
+const spalten: { key: Sortierung; label: string; zahl: boolean }[] = [
+  { key: 'name', label: 'Vertriebler', zahl: false },
+  { key: 'ersttermine', label: 'Ersttermine', zahl: true },
+  { key: 'zweittermine', label: 'Zweittermine', zahl: true },
+  { key: 'abschluesse', label: 'Abschlüsse', zahl: true },
+  { key: 'absagen', label: 'Absagen', zahl: true },
+  { key: 'quote', label: 'Quote', zahl: true },
+  { key: 'provision', label: `Provision Q${quartal.slice(1, 2)}`, zahl: true },
+  { key: 'lernen', label: 'Lernen', zahl: true },
+  { key: 'pflichtsaetze', label: 'Pflichtsätze', zahl: true },
+  { key: 'login', label: 'Letzte Anmeldung', zahl: false },
+  { key: 'hinweise', label: 'Hinweise', zahl: false },
+];
+const grenze = Date.now() - TAGE_OHNE_ANMELDUNG * 24 * 60 * 60 * 1000;
+const seitLangem = (d: Date | null) => !d || d.getTime() < grenze;
+const datum = (d: Date | null) => (d ? d.toLocaleDateString('de-DE', { timeZone: 'Europe/Berlin' }) : 'nie');
+---
+
+<Layout titel="Übersicht Vertriebler" aktiv="admin">
+  <p class="meta"><a href="/admin">Admin</a> / Übersicht</p>
+  <h1>Übersicht Vertriebler</h1>
+  <p class="meta">
+    Zahlen für {monatsname(monat)}: gezählt wird jeder Betrieb, der in diesem Monat in den Status gewechselt ist.
+    Quote ist Abschlüsse durch Zweittermine. Provision ist die entstandene Provision aus den importierten Abrechnungen
+    im {quartal}.
+  </p>
+
+  <form method="get" class="filter">
+    <div class="feld">
+      <label for="monat">Monat</label>
+      <select id="monat" name="monat">
+        {monate.map((m) => <option value={m} selected={m === monat}>{monatsname(m)}</option>)}
+      </select>
+    </div>
+    <input type="hidden" name="sort" value={sort} />
+    <input type="hidden" name="richtung" value={richtung} />
+    <button type="submit" class="btn btn--zweit">Anzeigen</button>
+  </form>
+
+  {
+    auffaellig.length > 0 && (
+      <section class="uebersicht-hinweise" aria-labelledby="auffaellig-titel">
+        <h2 id="auffaellig-titel">Auffällig ({auffaellig.length})</h2>
+        <ul>
+          {auffaellig.map((z) => (
+            <li>
+              <a href={`/admin/vertriebler/${z.benutzerId}`}>{z.name}</a>: {z.hinweise.join(', ')}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  <div class="tabelle-wrap schiebbar tabelle-fest" role="region" aria-labelledby="tabelle-titel" tabindex="0">
+    <table>
+      <caption class="sr-only" id="tabelle-titel">Vertriebler im {monatsname(monat)}, sortiert nach {SORTIERUNGEN[sort]}</caption>
+      <thead>
+        <tr>
+          {spalten.map((s) => (
+            <th scope="col" class:list={[s.zahl && 'zahl']} aria-sort={ariaSort(s.key)}>
+              <a class="sortier" href={link(s.key)}>
+                {s.label}
+                {s.key === sort && <span class="sortier__pfeil" aria-hidden="true">{richtung === 'auf' ? '▲' : '▼'}</span>}
+              </a>
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {zeilen.length === 0 && <tr><td colspan={spalten.length}>Noch keine Vertriebler.</td></tr>}
+        {zeilen.map((z) => (
+          <tr>
+            <th scope="row">
+              <a href={`/admin/vertriebler/${z.benutzerId}`}>{z.name}</a>
+              {!z.aktiv && <span class="badge" style="margin-left:8px">deaktiviert</span>}
+            </th>
+            <td class="zahl">{z.ersttermine}</td>
+            <td class="zahl">{z.zweittermine}</td>
+            <td class="zahl">{z.abschluesse}</td>
+            <td class="zahl">{z.absagen}</td>
+            <td class:list={['zahl', z.quote === null && 'wenig']}>{quoteText(z.quote)}</td>
+            <td class="zahl">{euro(z.provisionQuartalCent)}</td>
+            <td class="zahl">
+              {z.kapitelErledigt} von {kapitelGesamt} Kap.<br />
+              <span class="meta">{z.quizRichtig}/{z.quizBeantwortet} Punkte</span>
+            </td>
+            <td class:list={['zahl', z.aktiv && z.pflichtsaetzeSitzen < saetze && 'warn']}>{z.pflichtsaetzeSitzen} von {saetze}</td>
+            <td class:list={[z.aktiv && seitLangem(z.letzterLogin) && 'warn']}>{datum(z.letzterLogin)}</td>
+            <td class="zahl">
+              {z.hinweise.length > 0 ? (
+                <span class="warn" title={z.hinweise.join(', ')}>{z.hinweise.length}<span class="sr-only">: {z.hinweise.join(', ')}</span></span>
+              ) : (
+                <span class="wenig">keine</span>
+              )}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="meta">
+    Monatszahlen sind ab Migration 7 genau. Für Einträge davor kennt das Portal nur den damaligen letzten Status.
+  </p>
+</Layout>

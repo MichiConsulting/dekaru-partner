@@ -7,6 +7,7 @@ import { fortschrittAller } from '../../lib/lernen.ts';
 import { pflichtsaetzeAller } from '../../lib/gespraech-fortschritt.ts';
 import { pflichtsatzListe } from '../../lib/inhalt-gespraech.ts';
 import { istAdmin } from '../../lib/zugriff.ts';
+import { zaehleOffeneMeldungen } from '../../lib/dubletten.ts';
 
 if (!istAdmin(Astro.locals.benutzer)) return Astro.redirect('/verboten', 303);
 
@@ -17,6 +18,7 @@ const kunden = await alleKunden(db);
 const abrechnungen = await alleAbrechnungen(db);
 const lern = await fortschrittAller(db);
 const pflichtsaetze = await pflichtsaetzeAller(db, pflichtsatzListe.map((e) => e.id));
+const offeneDubletten = await zaehleOffeneMeldungen(db);
 ---
 
 <Layout titel="Admin" aktiv="admin">
@@ -27,10 +29,18 @@ const pflichtsaetze = await pflichtsaetzeAller(db, pflichtsatzListe.map((e) => e
     <div class="kennzahl"><div class="kennzahl__wert">{kunden.filter((k) => k.status === 'abschluss').length}</div><div class="kennzahl__label">Abschlüsse</div></div>
     <div class="kennzahl"><div class="kennzahl__wert">{abrechnungen.length}</div><div class="kennzahl__label">importierte Abrechnungen</div></div>
   </div>
+  {offeneDubletten > 0 && (
+    <div class="hinweis" role="status" style="margin-top:var(--space-l)">
+      <p><a href="/admin/dubletten">{offeneDubletten === 1 ? 'Eine Dublettenmeldung wartet' : `${offeneDubletten} Dublettenmeldungen warten`} auf Ihre Entscheidung.</a></p>
+    </div>
+  )}
   <div class="aktionen">
-    <a class="btn" href="/admin/vertriebler">Vertriebler</a>
+    <a class="btn" href="/admin/uebersicht">Übersicht</a>
+    <a class="btn btn--zweit" href="/admin/vertriebler">Vertriebler</a>
     <a class="btn btn--zweit" href="/admin/kunden">Alle Kunden</a>
     <a class="btn btn--zweit" href="/admin/provision">Provision importieren</a>
+    <a class="btn btn--zweit" href="/admin/dubletten">Dubletten</a>
+    <a class="btn btn--zweit" href="/admin/protokoll">Protokoll</a>
   </div>
 
   <h2>Lernfortschritt</h2>

@@ -1,8 +1,8 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
-import { holeBenutzer, setzeAktiv, setzePasswort } from '../../../lib/auth.ts';
-import { erzeugeEinmalPasswort } from '../../../lib/passwort.ts';
+import { holeBenutzer } from '../../../lib/auth.ts';
+import { AdminFehler, akteurAus, einmalPasswortNeu, slugAendern, zugangAktivieren, zugangDeaktivieren } from '../../../lib/admin-aktionen.ts';
 import { fortschritt } from '../../../lib/lernen.ts';
 import { fragenJeKapitel } from '../../../lib/inhalt.ts';
 import { alleKunden, istUuid, statusLabel } from '../../../lib/kunden.ts';
@@ -27,29 +27,25 @@ let fehler: string | null = null;
 
 if (istPost(Astro.request)) {
   const d = await formular(Astro.request);
-  if (d.aktion === 'deaktivieren' && b.id !== ich.id) {
-    await setzeAktiv(db, b.id, false);
-    return Astro.redirect(`/admin/vertriebler/${b.id}?ok=deaktiviert`, 303);
-  } else if (d.aktion === 'aktivieren') {
-    await setzeAktiv(db, b.id, true);
-    return Astro.redirect(`/admin/vertriebler/${b.id}?ok=aktiviert`, 303);
-  } else if (d.aktion === 'passwort') {
-    einmal = erzeugeEinmalPasswort();
-    await setzePasswort(db, b.id, einmal, true);
-    await db.query('DELETE FROM sitzungen WHERE benutzer_id = $1', [b.id]);
-  } else if (d.aktion === 'slug') {
-    const slug = String(d.slug ?? '').trim();
-    if (slug && !/^[a-z0-9-]+$/.test(slug)) fehler = 'Der Slug darf nur Kleinbuchstaben, Ziffern und Bindestriche enthalten.';
-    else {
-      try {
-        await db.query('UPDATE benutzer SET vertriebler_slug = $2 WHERE id = $1', [b.id, slug || null]);
-        return Astro.redirect(`/admin/vertriebler/${b.id}?ok=slug`, 303);
-      } catch {
-        fehler = 'Dieser Slug ist schon vergeben.';
-      }
+  const akteur = akteurAus(ich);
+  try {
+    if (d.aktion === 'deaktivieren' && b.id !== ich.id) {
+      await zugangDeaktivieren(db, akteur, b.id);
+      return Astro.redirect(`/admin/vertriebler/${b.id}?ok=deaktiviert`, 303);
+    } else if (d.aktion === 'aktivieren') {
+      await zugangAktivieren(db, akteur, b.id);
+      return Astro.redirect(`/admin/vertriebler/${b.id}?ok=aktiviert`, 303);
+    } else if (d.aktion === 'passwort') {
+      einmal = await einmalPasswortNeu(db, akteur, b.id);
+    } else if (d.aktion === 'slug') {
+      await slugAendern(db, akteur, b.id, String(d.slug ?? ''));
+      return Astro.redirect(`/admin/vertriebler/${b.id}?ok=slug`, 303);
+    } else {
+      fehler = 'Unbekannte Aktion.';
     }
-  } else {
-    fehler = 'Unbekannte Aktion.';
+  } catch (e) {
+    if (!(e instanceof AdminFehler)) throw e;
+    fehler = e.message;
   }
 }
 
