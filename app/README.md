@@ -18,6 +18,14 @@ Jeder Vertriebler hat einen eigenen Login und sieht vier Bereiche:
    Termine und Abschlüsse des Monats sehen. Niemand sieht fremde Einträge.
 4. **Meine Provision**: die Monatsaufstellungen aus `dekaru-rechnungen`, mit
    entstandener, ausgezahlter und aufgelaufener Provision und den Regeln.
+5. **Kalender**: eigene Termine und offene Wiedervorlagen als Wochen- oder
+   Monatsliste, jeder Eintrag als `.ics`, dazu ein persönlicher Abo-Link für
+   die Kalender-App (unter Einstellungen).
+
+Die **Startseite ist ein Cockpit**: Termine diese Woche, fällige
+Wiedervorlagen, Abschlüsse im Monat, Provision im laufenden Quartal,
+Lernfortschritt und Pflichtsätze, jede Kachel mit dem Weg in ihren Bereich.
+Der Admin sieht dieselben Kacheln mit den Gesamtzahlen aller Vertriebler.
 
 Dazu ein **Admin-Bereich** für Michi: Zugänge anlegen und deaktivieren
 (Einladung mit Einmal-Passwort), alle Kunden, Lernstand mitsamt der
@@ -106,6 +114,38 @@ und ins Bundle geschrieben. Fehlerhafte Einträge sieht der Admin unter
 `/gespraech`. Der Übungsstand der Pflichtsätze liegt in `pflichtsatz_antworten`
 (Migration `002-pflichtsaetze.sql`, `src/lib/gespraech-fortschritt.ts`). Der
 Platzhalter `{{Ihr Name}}` wird mit dem Namen der angemeldeten Person gefüllt.
+
+**Wiedervorlage.** Je Kunde ein Datum und ein kurzer Grund, Spalten
+`wiedervorlage_am`, `wiedervorlage_grund` und `wiedervorlage_erledigt_am` an
+`kunden` (Migration `005-wiedervorlage-kalender.sql`, Logik in
+`src/lib/wiedervorlage.ts`). Setzen, ändern, erledigen und entfernen laufen
+über `POST /kunden/<id>/wiedervorlage`, nur für eigene Kunden. Die Liste
+`/kunden/wiedervorlagen` gruppiert nach überfällig, heute, diese Woche und
+später; "heute" kommt aus Europe/Berlin (`src/lib/datum.ts`), weil der Server
+auf Vercel in UTC läuft.
+
+**Kalender und Abo.** `/kalender` zeigt Termine (`termin_datum`) und offene
+Wiedervorlagen als Liste je Tag, Woche (`?von=JJJJ-MM-TT`) oder Monat
+(`?ansicht=monat&monat=JJJJ-MM`), ohne Widget und ohne JavaScript.
+`src/lib/kalender.ts` schreibt iCalendar nach RFC 5545: CRLF, Faltung bei 75
+Oktetten, Maskierung von Komma, Semikolon und Backslash, ganztägige Einträge
+mit stabiler UID, VTIMEZONE Europe/Berlin. Einzelne Einträge kommen von
+`/kalender/eintrag/<termin|wiedervorlage>/<id>.ics` (angemeldet, nur eigene).
+Der Abo-Link `/kalender/abo/<token>.ics` ist ohne Login erreichbar; das
+Token (32 Zufallsbytes) erzeugt und widerruft jede Person selbst unter
+`/einstellungen`, es wird einmal angezeigt und nur als SHA-256 gespeichert
+(Tabelle `kalender_token`, `src/lib/kalender-token.ts`). Je IP-Adresse gelten
+fünf unbekannte Tokens in 15 Minuten und höchstens 60 Abrufe in 15 Minuten,
+danach 429 für 15 Minuten (`src/lib/rate.ts`, dieselbe Tabelle wie der
+Login). Der Feed enthält nur Betriebsname, Status und Datum, keine
+Telefonnummern, Notizen oder Gründe. Deaktivierte Zugänge liefern nichts.
+
+**Cockpit.** `src/lib/cockpit.ts` liefert die Zahlen der Startseite:
+Termine der Kalenderwoche, offene und fällige Wiedervorlagen, Abschlüsse und
+neue Betriebe im Monat, Provision im Quartal (entstanden = Summe der
+Abrechnungen mit Abrechnungsmonat im Quartal, ausgezahlt = davon als
+überwiesen markiert, aufgelaufen = Stand der neuesten Abrechnung, beim Admin
+je Vertriebler einmal). Lernstand und Pflichtsätze holt die Seite selbst.
 
 **Provision.** `dekaru-rechnungen/provision.mjs` schreibt neben jeder
 Markdown-Aufstellung eine `<slug>.json` (`lib/provision-json.mjs`, Format 1).
@@ -196,7 +236,7 @@ Das Skript gibt ein Einmal-Passwort aus. Nach dem Login verlangt das Portal ein
 eigenes Passwort.
 
 ```
-npm test               # Vitest: Login, Zugriff, Kunden, Quiz, Provision, Admin
+npm test               # Vitest: Login, Zugriff, Kunden, Wiedervorlage, Kalender, Cockpit, Quiz, Provision, Admin
 npm run check          # Typen
 npm run build          # Vercel-Build nach .vercel/output
 ADAPTER=node npm run build && PGLITE_PFAD=./.pglite node dist/server/entry.mjs
@@ -205,7 +245,9 @@ ADAPTER=node npm run build && PGLITE_PFAD=./.pglite node dist/server/entry.mjs
 
 Lighthouse (mobil, Chrome headless, angemeldet, Stand 02.10.2026, hell und
 dunkel): Start, Lernen, Lernkarte, Abfrage, Gespräch, Kunden jeweils
-Performance 100, Accessibility 100, Best Practices 100. SEO liegt bei 45 bis 50
+Performance 100, Accessibility 100, Best Practices 100. Stand 04.10.2026:
+Start (Vertriebler und Admin), Kalender Woche und Monat, Wiedervorlagen,
+Einstellungen jeweils Performance 99, Accessibility 100, Best Practices 100. SEO liegt bei 45 bis 50
 und bleibt es: das Portal trägt `noindex` und hat keine öffentlichen Seiten.
 
 ## Einrichtung durch Michi, Schritt für Schritt
@@ -280,20 +322,24 @@ holt sich Michi so, dass sie nie in einer Datei landet:
 `db:migrate` ist wiederholbar und wendet nur an, was fehlt. Kommt eine neue
 `NNN-…sql` dazu, denselben Befehl noch einmal.
 
-**Offen seit Gesprächshilfe und neuem Lernbereich:** `002-pflichtsaetze.sql`
-(Tabelle `pflichtsatz_antworten`) und `003-lernen.sql` (Tabellen
-`lernkarten_stand` und `abfrage_durchlaeufe`) sind auf der Live-Datenbank noch
-nicht angewendet. Vor dem Merge nach `main` einmalig vom Mac aus:
+**Offen seit Gesprächshilfe, neuem Lernbereich und Cockpit:**
+`002-pflichtsaetze.sql` (Tabelle `pflichtsatz_antworten`), `003-lernen.sql`
+(Tabellen `lernkarten_stand` und `abfrage_durchlaeufe`),
+`004-einmal-passwort-ablauf.sql` und `005-wiedervorlage-kalender.sql`
+(Wiedervorlage-Spalten an `kunden`, Tabelle `kalender_token`) sind auf der
+Live-Datenbank noch nicht angewendet. Vor dem Merge nach `main` einmalig vom
+Mac aus:
 
 ```
 cd ~/dekaru/dekaru-partner/app
 export DATABASE_URL='postgres://…?sslmode=require'
-npm run db:migrate        # meldet "Angewendet: 2, 3"
+npm run db:migrate        # meldet "Angewendet: 2, 3, 4, 5"
 unset DATABASE_URL
 ```
 
-Bis dahin zeigen `/gespraech`, `/gespraech/ueben`, der Admin-Lernstand und der
-Lernbereich auf partner.dekaru.de einen Fehler, weil die Tabellen fehlen.
+Bis dahin zeigen `/gespraech`, `/gespraech/ueben`, der Admin-Lernstand, der
+Lernbereich, die Startseite, `/kunden` und `/kalender` auf partner.dekaru.de
+einen Fehler, weil Tabellen und Spalten fehlen.
 
 **Offen seit dem Admin-Ausbau:** `007-admin-ausbau.sql` (Tabellen
 `admin_protokoll`, `kunden_statuswechsel`, `dubletten_meldungen`, zwei

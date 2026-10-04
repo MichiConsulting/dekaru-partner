@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import { STATUS, aktuellerMonat, listeKunden, monatszahlen, statusLabel } from '../../lib/kunden.ts';
 import { datumDe, monatsname } from '../../lib/provision.ts';
+import { anzahlFaellig, offeneWiedervorlagen } from '../../lib/wiedervorlage.ts';
 
 const benutzer = Astro.locals.benutzer!;
 const db = Astro.locals.db;
@@ -11,6 +12,7 @@ const kunden = await listeKunden(db, benutzer.id, { status, suche });
 const monat = aktuellerMonat();
 const zahlen = await monatszahlen(db, benutzer.id, monat);
 const gespeichert = Astro.url.searchParams.get('ok');
+const faellig = anzahlFaellig(await offeneWiedervorlagen(db, benutzer.id));
 ---
 
 <Layout titel="Meine Kunden" aktiv="kunden">
@@ -21,11 +23,13 @@ const gespeichert = Astro.url.searchParams.get('ok');
   <div class="raster">
     <div class="kennzahl"><div class="kennzahl__wert">{zahlen.termine}</div><div class="kennzahl__label">Termine im {monatsname(monat)}</div></div>
     <div class="kennzahl"><div class="kennzahl__wert">{zahlen.abschluesse}</div><div class="kennzahl__label">Abschlüsse im {monatsname(monat)}</div></div>
+    <div class="kennzahl"><div class="kennzahl__wert">{faellig}</div><div class="kennzahl__label"><a href="/kunden/wiedervorlagen">Wiedervorlagen</a> fällig</div></div>
     <div class="kennzahl"><div class="kennzahl__wert">{kunden.length}</div><div class="kennzahl__label">{status || suche ? 'Treffer' : 'Betriebe gesamt'}</div></div>
   </div>
 
   <div class="aktionen">
     <a class="btn" href="/kunden/neu">Betrieb eintragen</a>
+    <a class="btn btn--zweit" href="/kunden/wiedervorlagen">Wiedervorlagen</a>
   </div>
 
   <form method="get" class="filter" style="margin-top:var(--space-l)">

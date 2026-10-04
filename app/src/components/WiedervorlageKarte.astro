@@ -1,0 +1,83 @@
+---
+// Wiedervorlage auf der Kundenseite: Datum und Grund setzen oder aendern,
+// erledigt markieren, entfernen. Dazu die .ics-Downloads fuer Termin und
+// Wiedervorlage. Alle Formulare gehen an /kunden/<id>/wiedervorlage.
+import type { Wiedervorlage } from '../lib/wiedervorlage.ts';
+import { GRUND_MAX } from '../lib/wiedervorlage.ts';
+import { faelligkeit } from '../lib/wiedervorlage.ts';
+import { heuteBerlin } from '../lib/datum.ts';
+import { datumDe } from '../lib/provision.ts';
+
+interface Props {
+  kundeId: string;
+  wiedervorlage: Wiedervorlage | null;
+  terminDatum: string | null;
+  csrf: string;
+  fehler?: string | null;
+}
+
+const { kundeId, wiedervorlage, terminDatum, csrf, fehler = null } = Astro.props;
+const aktion = `/kunden/${kundeId}/wiedervorlage`;
+const offen = wiedervorlage && !wiedervorlage.erledigtAm;
+const heute = heuteBerlin();
+const stufe = offen ? faelligkeit(wiedervorlage.datum, heute) : null;
+const stufeText = { ueberfaellig: 'überfällig', heute: 'heute fällig', woche: 'diese Woche', spaeter: '' }[stufe ?? 'spaeter'];
+---
+
+<section class="karte" aria-labelledby="wv-titel">
+  <h2 id="wv-titel" style="margin-top:0;font-size:var(--text-h3)">Wiedervorlage</h2>
+  {fehler && <div class="meldung meldung--fehler" role="alert"><p>{fehler}</p></div>}
+
+  {offen ? (
+    <p>
+      Offen am <strong><time datetime={wiedervorlage.datum}>{datumDe(wiedervorlage.datum)}</time></strong>
+      {stufeText && <span class:list={['badge', stufe === 'ueberfaellig' && 'badge--voll']} style="margin-left:8px">{stufeText}</span>}
+      {wiedervorlage.grund && <span class="meta"><br />{wiedervorlage.grund}</span>}
+    </p>
+  ) : wiedervorlage ? (
+    <p class="meta">Letzte Wiedervorlage vom {datumDe(wiedervorlage.datum)} erledigt am {datumDe(heuteBerlin(wiedervorlage.erledigtAm!))}.</p>
+  ) : (
+    <p class="meta">Keine Wiedervorlage. Ein Datum und ein kurzer Grund, und der Betrieb erscheint rechtzeitig auf der Startseite und im Kalender.</p>
+  )}
+
+  <form method="post" action={aktion}>
+    <input type="hidden" name="_csrf" value={csrf} />
+    <div class="feld--zeile">
+      <div class="feld">
+        <label for="wv-datum">{offen ? 'Neues Datum' : 'Wiedervorlage am'}</label>
+        <input id="wv-datum" name="datum" type="date" required value={offen ? wiedervorlage.datum : ''} min="2020-01-01" max="2099-12-31" />
+      </div>
+      <div class="feld">
+        <label for="wv-grund">Grund (kurz)</label>
+        <input id="wv-grund" name="grund" type="text" maxlength={GRUND_MAX} value={offen ? wiedervorlage.grund : ''} placeholder="Angebot nachfassen" />
+      </div>
+    </div>
+    <div class="aktionen" style="margin-top:0">
+      <button type="submit" class="btn btn--klein">{offen ? 'Wiedervorlage ändern' : 'Wiedervorlage setzen'}</button>
+    </div>
+  </form>
+
+  {offen && (
+    <div class="aktionen">
+      <form method="post" action={aktion} class="inline">
+        <input type="hidden" name="_csrf" value={csrf} />
+        <input type="hidden" name="aktion" value="erledigt" />
+        <button type="submit" class="btn btn--zweit btn--klein">Erledigt</button>
+      </form>
+      <form method="post" action={aktion} class="inline">
+        <input type="hidden" name="_csrf" value={csrf} />
+        <input type="hidden" name="aktion" value="entfernen" />
+        <button type="submit" class="btn btn--zweit btn--klein">Entfernen</button>
+      </form>
+    </div>
+  )}
+
+  {(terminDatum || offen) && (
+    <p class="meta" style="margin-top:var(--space-l)">
+      In den eigenen Kalender:
+      {terminDatum && <a href={`/kalender/eintrag/termin/${kundeId}.ics`} download> Termin am {datumDe(terminDatum)} als .ics</a>}
+      {terminDatum && offen && ', '}
+      {offen && <a href={`/kalender/eintrag/wiedervorlage/${kundeId}.ics`} download> Wiedervorlage als .ics</a>}
+    </p>
+  )}
+</section>

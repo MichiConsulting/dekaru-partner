@@ -11,7 +11,9 @@ export type Entscheidung =
 const OEFFENTLICH = ['/login', '/datenschutz'];
 // "/_image" steht bewusst nicht hier: das Portal nutzt astro:assets nicht,
 // die Route gaebe es ohne Login unnoetig frei.
-const OEFFENTLICHE_PRAEFIXE = ['/_astro/', '/favicon'];
+// "/kalender/abo/" ist der Abo-Endpunkt fuer Kalender-Apps: ohne Login, der
+// Schutz ist das persoenliche Token im Pfad (src/lib/kalender-token.ts).
+const OEFFENTLICHE_PRAEFIXE = ['/_astro/', '/favicon', '/kalender/abo/'];
 
 export function istOeffentlich(pfad: string): boolean {
   if (OEFFENTLICH.includes(pfad)) return true;
