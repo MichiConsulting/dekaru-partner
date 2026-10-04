@@ -229,6 +229,35 @@ describe('Import per Token', () => {
       expect(r.json).toMatchObject({ status: 'neu', benachrichtigung: 'fehler' });
       expect(await ladeAbrechnung(db, 'anna', '2026-12')).not.toBeNull();
     });
+
+    it('erneutes Senden holt eine gescheiterte oder haengengebliebene Mail genau einmal nach', async () => {
+      // 2026-12 ist aus dem vorigen Test mit 'fehler' stehen geblieben.
+      const zwoelf = datei({ monat: '2026-12', zeilen: [{ ...ZEILE, monat: '2026-12' }] });
+      const r = await senden(anfrage(zwoelf));
+      expect(r.json).toMatchObject({ status: 'unveraendert', benachrichtigung: 'gesendet' });
+      expect(post.gesendet).toHaveLength(1);
+      expect(post.gesendet[0].to).toBe('anna@example.test');
+      const nochmal = await senden(anfrage(zwoelf));
+      expect(nochmal.json).toMatchObject({ status: 'unveraendert', benachrichtigung: null });
+      expect(post.gesendet).toHaveLength(1);
+
+      // Zeitlimit mitten im Versand: Status bleibt 'ausstehend', naechstes Senden holt nach.
+      const id = (await ladeAbrechnung(db, 'anna', '2026-12'))!.id;
+      await db.query("UPDATE provision_abrechnungen SET benachrichtigung = 'ausstehend' WHERE id = $1", [id]);
+      expect((await senden(anfrage(zwoelf))).json).toMatchObject({ benachrichtigung: 'gesendet' });
+      expect(post.gesendet).toHaveLength(2);
+
+      // Vor Migration 008 importiert (NULL): keine Mail fuer alte Monate.
+      await db.query('UPDATE provision_abrechnungen SET benachrichtigung = NULL WHERE id = $1', [id]);
+      expect((await senden(anfrage(zwoelf))).json).toMatchObject({ benachrichtigung: null });
+      expect(post.gesendet).toHaveLength(2);
+    });
+
+    it('die Mail verlinkt die Einstellungen direkt', async () => {
+      const r = await senden(anfrage(datei({ monat: '2027-01', zeilen: [{ ...ZEILE, monat: '2027-01' }] })));
+      expect(r.json).toMatchObject({ benachrichtigung: 'gesendet' });
+      expect(post.gesendet[0].text).toContain('https://partner.dekaru.de/einstellungen');
+    });
   });
 });
 

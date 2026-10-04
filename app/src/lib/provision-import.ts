@@ -34,7 +34,10 @@ export const MIN_TOKEN_LAENGE = 32;
 export type ImportStatus = 'neu' | 'ersetzt' | 'unveraendert';
 export type Benachrichtigung = 'gesendet' | 'abgeschaltet' | 'kein_smtp' | 'kein_konto' | 'fehler';
 
-export const BENACHRICHTIGUNG_TEXT: Record<Benachrichtigung, string> = {
+// 'ausstehend' steht nur zwischen Ablegen und Versand in der Datenbank. Bleibt
+// es stehen (Zeitlimit der Funktion), holt der naechste Import die Mail nach.
+export const BENACHRICHTIGUNG_TEXT: Record<Benachrichtigung | 'ausstehend', string> = {
+  ausstehend: 'nicht abgeschlossen, wird beim nächsten Senden nachgeholt',
   gesendet: 'Mail gesendet',
   abgeschaltet: 'vom Vertriebler abgeschaltet',
   kein_smtp: 'nicht gesendet, SMTP fehlt',
@@ -103,11 +106,12 @@ interface Vorhanden {
   id: string;
   daten: unknown;
   ausgezahlt_am: unknown;
+  benachrichtigung: string | null;
 }
 
 async function vorhandene(db: Db, a: Abrechnung): Promise<Vorhanden | null> {
   const zeilen = await db.query<Vorhanden>(
-    'SELECT id, daten, ausgezahlt_am FROM provision_abrechnungen WHERE vertriebler_slug = $1 AND monat = $2',
+    'SELECT id, daten, ausgezahlt_am, benachrichtigung FROM provision_abrechnungen WHERE vertriebler_slug = $1 AND monat = $2',
     [a.vertriebler, a.monat],
   );
   const z = zeilen[0];
@@ -156,7 +160,7 @@ export function provisionsMail(name: string, monat: string, portalUrl: string, e
     '',
     'Die Beträge stehen bewusst nur im Portal und nicht in dieser Mail.',
     '',
-    'Diese Mail ist automatisch verschickt. Abschalten können Sie sie im Portal unter Einstellungen.',
+    `Diese Mail ist automatisch verschickt. Abschalten können Sie sie hier: ${portalUrl.replace(/\/+$/, '')}/einstellungen`,
     '',
     'Viele Grüße',
     'Michael Henning, dekaru',
@@ -189,19 +193,37 @@ async function benachrichtige(
   }
 }
 
-/** Legt die Abrechnung ab und benachrichtigt den Vertriebler, wenn sich etwas geaendert hat. */
-export async function importiereUndBenachrichtige(db: Db, a: Abrechnung, optionen: ImportOptionen): Promise<ImportErgebnis> {
-  const v = await vorschau(db, a);
-  if (v.status === 'unveraendert') return { ...v, id: null, benachrichtigung: null };
-  const { id } = await importiereAbrechnung(db, a, optionen.importiertVon);
-  const benachrichtigung = await benachrichtige(db, a, v.status === 'ersetzt', optionen);
+async function setzeStatus(db: Db, id: string, status: Benachrichtigung | 'ausstehend'): Promise<void> {
   await db.query(
     `UPDATE provision_abrechnungen
         SET benachrichtigung = $2,
             benachrichtigt_am = CASE WHEN $2 = 'gesendet' THEN now() ELSE NULL END
       WHERE id = $1`,
-    [id, benachrichtigung],
+    [id, status],
   );
+}
+
+/** Mail, die beim letzten Mal scheiterte oder nicht zu Ende kam. NULL (vor Migration 008) zaehlt nicht. */
+const NACHHOLEN = new Set(['fehler', 'ausstehend']);
+
+/**
+ * Legt die Abrechnung ab und benachrichtigt den Vertriebler, wenn sich etwas
+ * geaendert hat. Bei unveraendertem Inhalt wird nur eine gescheiterte Mail
+ * nachgeholt, damit erneutes Senden auch diesen Fall repariert.
+ */
+export async function importiereUndBenachrichtige(db: Db, a: Abrechnung, optionen: ImportOptionen): Promise<ImportErgebnis> {
+  const vorher = await vorhandene(db, a);
+  const v = await vorschau(db, a);
+  if (v.status === 'unveraendert') {
+    if (!vorher || !NACHHOLEN.has(vorher.benachrichtigung ?? '')) return { ...v, id: null, benachrichtigung: null };
+    const benachrichtigung = await benachrichtige(db, a, false, optionen);
+    await setzeStatus(db, vorher.id, benachrichtigung);
+    return { ...v, id: vorher.id, benachrichtigung };
+  }
+  const { id } = await importiereAbrechnung(db, a, optionen.importiertVon);
+  await setzeStatus(db, id, 'ausstehend');
+  const benachrichtigung = await benachrichtige(db, a, v.status === 'ersetzt', optionen);
+  await setzeStatus(db, id, benachrichtigung);
   return { ...v, id, benachrichtigung };
 }
 
@@ -224,11 +246,11 @@ export async function setzeProvisionMail(db: Db, benutzerId: string, an: boolean
 }
 
 /** Je Abrechnung, was mit der Mail geschah. Fuer die Tabelle im Admin. */
-export async function benachrichtigungen(db: Db): Promise<Map<string, Benachrichtigung>> {
-  const zeilen = await db.query<{ id: string; benachrichtigung: Benachrichtigung | null }>(
+export async function benachrichtigungen(db: Db): Promise<Map<string, Benachrichtigung | 'ausstehend'>> {
+  const zeilen = await db.query<{ id: string; benachrichtigung: Benachrichtigung | 'ausstehend' | null }>(
     'SELECT id, benachrichtigung FROM provision_abrechnungen WHERE benachrichtigung IS NOT NULL',
   );
-  return new Map(zeilen.map((z) => [z.id, z.benachrichtigung as Benachrichtigung]));
+  return new Map(zeilen.map((z) => [z.id, z.benachrichtigung as Benachrichtigung | 'ausstehend']));
 }
 
 // ---------------------------------------------------------------------------

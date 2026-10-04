@@ -11,7 +11,8 @@
 ALTER TABLE benutzer ADD COLUMN IF NOT EXISTS provision_mail boolean NOT NULL DEFAULT true;
 
 -- Was beim letzten Import mit der Benachrichtigung geschah, fuer den Hinweis
--- im Admin: gesendet, abgeschaltet, kein_smtp, kein_konto, fehler.
+-- im Admin: gesendet, abgeschaltet, kein_smtp, kein_konto, fehler, und
+-- ausstehend zwischen Ablegen und Versand (wird beim naechsten Senden nachgeholt).
 ALTER TABLE provision_abrechnungen ADD COLUMN IF NOT EXISTS benachrichtigung text;
 ALTER TABLE provision_abrechnungen ADD COLUMN IF NOT EXISTS benachrichtigt_am timestamptz;
 
