@@ -182,9 +182,30 @@ export async function ladeProtokoll(
   return { eintraege, weitere: zeilen.length > PROTOKOLL_SEITE };
 }
 
-/** Details als kurzer Text fuer die Tabelle, zum Beispiel "alt: anna, neu: anna-b". */
+const DETAIL_NAMEN: Record<string, string> = {
+  alt: 'vorher',
+  neu: 'nachher',
+  rolle: 'Rolle',
+  slug: 'Slug',
+  summeCent: 'Provision',
+  auszahlungCent: 'Auszahlung',
+  datei: 'Datei',
+  datum: 'Datum',
+  treffer: 'Treffer',
+  geloeschteEintraege: 'gelöschte Einträge',
+};
+
+const EURO = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' });
+
+/** Details als kurzer Text fuer die Tabelle, zum Beispiel "vorher: anna, nachher: anna-b". */
 export function detailsText(details: Record<string, unknown>): string {
   return Object.entries(details ?? {})
-    .map(([k, v]) => `${k}: ${typeof v === 'object' && v !== null ? JSON.stringify(v) : String(v)}`)
+    .map(([k, v]) => {
+      if (k === 'ersetzt') return v ? 'vorhandene ersetzt' : 'neu';
+      const name = DETAIL_NAMEN[k] ?? k;
+      if (k.endsWith('Cent') && typeof v === 'number') return `${name}: ${EURO.format(v / 100)}`;
+      const text = typeof v === 'object' && v !== null ? JSON.stringify(v) : String(v);
+      return `${name}: ${text === '' ? 'leer' : text}`;
+    })
     .join(', ');
 }
