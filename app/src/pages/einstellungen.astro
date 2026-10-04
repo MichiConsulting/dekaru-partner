@@ -1,0 +1,46 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { formular, istPost } from '../lib/http.ts';
+import { provisionMailAn, setzeProvisionMail } from '../lib/provision-import.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const db = Astro.locals.db;
+const csrf = Astro.locals.csrf ?? '';
+
+if (istPost(Astro.request)) {
+  const daten = await formular(Astro.request);
+  await setzeProvisionMail(db, benutzer.id, daten.provision_mail === 'an');
+  return Astro.redirect('/einstellungen?ok=1', 303);
+}
+
+const mailAn = await provisionMailAn(db, benutzer.id);
+const gespeichert = Astro.url.searchParams.get('ok') === '1';
+---
+
+<Layout titel="Einstellungen" schmal>
+  <h1>Einstellungen</h1>
+  {gespeichert && <div class="meldung meldung--ok" role="status"><p>Gespeichert.</p></div>}
+
+  <h2>Benachrichtigung</h2>
+  <form method="post" class="karte">
+    <input type="hidden" name="_csrf" value={csrf} />
+    <div class="feld">
+      <label class="auswahl">
+        <input type="checkbox" name="provision_mail" value="an" checked={mailAn} />
+        E-Mail, sobald eine neue Provisionsabrechnung im Portal ist
+      </label>
+      <p class="feld__hilfe">Die Mail nennt nur den Monat und den Link, keine Beträge. Sie geht an {benutzer.email}.</p>
+    </div>
+    <div class="aktionen">
+      <button type="submit" class="btn">Speichern</button>
+    </div>
+  </form>
+
+  <h2>Zugang</h2>
+  <p><a href="/passwort">Passwort ändern</a></p>
+</Layout>
+
+<style>
+  .auswahl { display: flex; gap: var(--space-s); align-items: flex-start; font-weight: inherit; }
+  .auswahl input { margin-top: 0.25em; width: 1.1em; height: 1.1em; flex: none; }
+</style>
