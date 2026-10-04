@@ -3,6 +3,9 @@ import Layout from '../../layouts/Layout.astro';
 import { alleAbrechnungen, datumDe, euro, importiereAbrechnung, markiereAusgezahlt, monatsname, pruefeAbrechnung } from '../../lib/provision.ts';
 import { istPost } from '../../lib/http.ts';
 import { istUuid } from '../../lib/kunden.ts';
+import { istAdmin } from '../../lib/zugriff.ts';
+
+if (!istAdmin(Astro.locals.benutzer)) return Astro.redirect('/verboten', 303);
 
 const db = Astro.locals.db;
 const ich = Astro.locals.benutzer!;

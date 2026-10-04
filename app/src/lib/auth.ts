@@ -20,6 +20,11 @@ export const RATE_FENSTER_MINUTEN = 15;
 export const RATE_MAX_FEHLVERSUCHE = 5;
 export const RATE_SPERRE_MINUTEN = 15;
 
+// Ein Einmal-Passwort aus der Einladung gilt nur eine begrenzte Zeit. Ohne
+// Frist bliebe eine abgefangene Einladungsmail (Postfach, Chatverlauf,
+// Zettel) dauerhaft ein gueltiger Zugang, auch Monate spaeter.
+export const EINMAL_PASSWORT_GUELTIG_STUNDEN = 72;
+
 export type Rolle = 'admin' | 'vertriebler';
 
 export interface Benutzer {
@@ -72,10 +77,43 @@ export interface RateStatus {
   wartenSekunden: number;
 }
 
-export async function rateStatus(db: Db, schluessel: string, jetzt = new Date()): Promise<RateStatus> {
-  const zeilen = await db.query<{ gesperrt_bis: Date | string | null }>(
-    'SELECT gesperrt_bis FROM login_versuche WHERE schluessel = $1',
-    [schluessel],
+/**
+ * Zaehlt einen Versuch und sagt, ob dieser Schluessel jetzt gesperrt ist.
+ * Eine Sperre folgt nach RATE_MAX_FEHLVERSUCHE im Fenster.
+ *
+ * Das Zaehlen und die Sperr-Entscheidung laufen in einem einzigen Upsert.
+ * Postgres sperrt die betroffene Zeile fuer die Dauer der Anweisung, darum
+ * serialisieren sich gleichzeitige Aufrufe mit demselben Schluessel. Zaehlt
+ * man stattdessen zuerst per SELECT und schreibt erst nach der (langsamen)
+ * Passwortpruefung mit einem zweiten Statement, koennen viele parallele
+ * Anfragen alle den alten, noch nicht gesperrten Stand lesen und die Sperre
+ * so vollstaendig umgehen. Darum wird hier gezaehlt, bevor scrypt laeuft,
+ * nicht erst, wenn das Passwort falsch war.
+ */
+export async function registriereVersuch(db: Db, schluessel: string, jetzt = new Date()): Promise<RateStatus> {
+  const fensterCutoff = new Date(jetzt.getTime() - RATE_FENSTER_MINUTEN * 60 * 1000);
+  const gesperrtBisWert = new Date(jetzt.getTime() + RATE_SPERRE_MINUTEN * 60 * 1000);
+  const zeilen = await db.query<{ fehlversuche: number; gesperrt_bis: Date | string | null }>(
+    `INSERT INTO login_versuche (schluessel, fehlversuche, fenster_start, gesperrt_bis)
+     VALUES ($1, 1, $2, NULL)
+     ON CONFLICT (schluessel) DO UPDATE SET
+       fehlversuche = CASE
+         WHEN login_versuche.gesperrt_bis IS NOT NULL AND login_versuche.gesperrt_bis > $2 THEN login_versuche.fehlversuche
+         WHEN login_versuche.fenster_start < $3 THEN 1
+         ELSE login_versuche.fehlversuche + 1
+       END,
+       fenster_start = CASE
+         WHEN login_versuche.gesperrt_bis IS NOT NULL AND login_versuche.gesperrt_bis > $2 THEN login_versuche.fenster_start
+         WHEN login_versuche.fenster_start < $3 THEN $2
+         ELSE login_versuche.fenster_start
+       END,
+       gesperrt_bis = CASE
+         WHEN login_versuche.gesperrt_bis IS NOT NULL AND login_versuche.gesperrt_bis > $2 THEN login_versuche.gesperrt_bis
+         WHEN (CASE WHEN login_versuche.fenster_start < $3 THEN 1 ELSE login_versuche.fehlversuche + 1 END) > $4 THEN $5
+         ELSE NULL
+       END
+     RETURNING fehlversuche, gesperrt_bis`,
+    [schluessel, jetzt, fensterCutoff, RATE_MAX_FEHLVERSUCHE, gesperrtBisWert],
   );
   const bis = zeilen[0]?.gesperrt_bis ? new Date(zeilen[0].gesperrt_bis) : null;
   if (bis && bis.getTime() > jetzt.getTime()) {
@@ -84,36 +122,23 @@ export async function rateStatus(db: Db, schluessel: string, jetzt = new Date())
   return { gesperrt: false, wartenSekunden: 0 };
 }
 
-/** Zaehlt einen Fehlversuch. Nach RATE_MAX_FEHLVERSUCHE im Fenster folgt die Sperre. */
-export async function rateFehlversuch(db: Db, schluessel: string, jetzt = new Date()): Promise<void> {
-  const zeilen = await db.query<{ fehlversuche: number; fenster_start: Date | string }>(
-    'SELECT fehlversuche, fenster_start FROM login_versuche WHERE schluessel = $1',
-    [schluessel],
-  );
-  const fensterMs = RATE_FENSTER_MINUTEN * 60 * 1000;
-  let versuche = 1;
-  let fensterStart = jetzt;
-  if (zeilen[0]) {
-    const start = new Date(zeilen[0].fenster_start);
-    if (jetzt.getTime() - start.getTime() < fensterMs) {
-      versuche = Number(zeilen[0].fehlversuche) + 1;
-      fensterStart = start;
-    }
-  }
-  const gesperrtBis = versuche >= RATE_MAX_FEHLVERSUCHE ? new Date(jetzt.getTime() + RATE_SPERRE_MINUTEN * 60 * 1000) : null;
-  await db.query(
-    `INSERT INTO login_versuche (schluessel, fehlversuche, fenster_start, gesperrt_bis)
-     VALUES ($1, $2, $3, $4)
-     ON CONFLICT (schluessel) DO UPDATE
-       SET fehlversuche = EXCLUDED.fehlversuche,
-           fenster_start = EXCLUDED.fenster_start,
-           gesperrt_bis = EXCLUDED.gesperrt_bis`,
-    [schluessel, versuche, fensterStart, gesperrtBis],
-  );
-}
-
 export async function rateZuruecksetzen(db: Db, schluessel: string): Promise<void> {
   await db.query('DELETE FROM login_versuche WHERE schluessel = $1', [schluessel]);
+}
+
+/**
+ * Loescht abgelaufene Sitzungen und erledigte Ratenbegrenzungs-Zeilen.
+ * Beides traegt personenbezogene Daten (IP-Adressen, E-Mail-Adressen in
+ * login_versuche), darum bleibt es nicht laenger liegen als noetig. Laeuft
+ * bei jedem Login mit, eigene Hintergrundjobs braucht das Portal nicht.
+ */
+export async function raeumeAbgelaufenesAuf(db: Db, jetzt = new Date()): Promise<void> {
+  await db.query('DELETE FROM sitzungen WHERE laeuft_ab <= $1', [jetzt]);
+  const fensterCutoff = new Date(jetzt.getTime() - RATE_FENSTER_MINUTEN * 60 * 1000);
+  await db.query('DELETE FROM login_versuche WHERE (gesperrt_bis IS NULL OR gesperrt_bis <= $1) AND fenster_start <= $2', [
+    jetzt,
+    fensterCutoff,
+  ]);
 }
 
 // ---------------------------------------------------------------------------
@@ -195,13 +220,20 @@ export async function login(
   const email = normalisiereEmail(eingabe.email);
   const schluessel = [`email:${email}`, `ip:${eingabe.ip || 'unbekannt'}`];
 
-  for (const s of schluessel) {
-    const status = await rateStatus(db, s, jetzt);
-    if (status.gesperrt) return { ok: false, grund: 'gesperrt', wartenSekunden: status.wartenSekunden };
-  }
+  await raeumeAbgelaufenesAuf(db, jetzt);
 
-  const zeilen = await db.query<BenutzerZeile>(
-    'SELECT id, email, name, rolle, vertriebler_slug, passwort_hash, passwort_wechsel_noetig, aktiv FROM benutzer WHERE email = $1',
+  // Zaehlt diesen Versuch atomar, bevor das langsame scrypt beginnt. So
+  // bleibt die Sperre auch bei vielen gleichzeitigen Anfragen wirksam.
+  let wartenSekunden = 0;
+  for (const s of schluessel) {
+    const status = await registriereVersuch(db, s, jetzt);
+    if (status.gesperrt) wartenSekunden = Math.max(wartenSekunden, status.wartenSekunden);
+  }
+  if (wartenSekunden > 0) return { ok: false, grund: 'gesperrt', wartenSekunden };
+
+  const zeilen = await db.query<BenutzerZeile & { einmal_passwort_bis: Date | string | null }>(
+    `SELECT id, email, name, rolle, vertriebler_slug, passwort_hash, passwort_wechsel_noetig, aktiv, einmal_passwort_bis
+     FROM benutzer WHERE email = $1`,
     [email],
   );
   const z = zeilen[0];
@@ -210,8 +242,14 @@ export async function login(
     ? await pruefePasswort(eingabe.passwort ?? '', z.passwort_hash)
     : await pruefePasswort(eingabe.passwort ?? '', BLIND_HASH).then(() => false);
 
-  if (!z || !stimmt || !z.aktiv) {
-    for (const s of schluessel) await rateFehlversuch(db, s, jetzt);
+  // Die Pruefung der Ablauffrist steht bewusst erst nach scrypt: faellt sie
+  // davor, wuerde ein abgelaufenes Einmal-Passwort schneller abgelehnt als
+  // ein falsches, und die Antwortzeit verriete, dass die Adresse existiert.
+  const einmalAbgelaufen = Boolean(
+    z?.passwort_wechsel_noetig && z.einmal_passwort_bis && new Date(z.einmal_passwort_bis).getTime() <= jetzt.getTime(),
+  );
+
+  if (!z || !stimmt || !z.aktiv || einmalAbgelaufen) {
     return { ok: false, grund: 'falsch' };
   }
 
@@ -240,21 +278,29 @@ export async function erstelleBenutzer(
   const slug = daten.vertrieblerSlug ? String(daten.vertrieblerSlug).trim() : null;
   if (slug && !/^[a-z0-9-]+$/.test(slug)) throw new Error('Der Vertriebler-Slug darf nur Kleinbuchstaben, Ziffern und Bindestriche enthalten.');
   const hash = await hashPasswort(daten.passwort);
+  const wechselNoetig = daten.wechselNoetig ?? false;
+  const einmalBis = wechselNoetig ? einmalPasswortFrist() : null;
   const zeilen = await db.query<BenutzerZeile>(
-    `INSERT INTO benutzer (email, name, rolle, vertriebler_slug, passwort_hash, passwort_wechsel_noetig)
-     VALUES ($1, $2, $3, $4, $5, $6)
+    `INSERT INTO benutzer (email, name, rolle, vertriebler_slug, passwort_hash, passwort_wechsel_noetig, einmal_passwort_bis)
+     VALUES ($1, $2, $3, $4, $5, $6, $7)
      RETURNING id, email, name, rolle, vertriebler_slug, passwort_hash, passwort_wechsel_noetig, aktiv`,
-    [email, name, daten.rolle, slug || null, hash, daten.wechselNoetig ?? false],
+    [email, name, daten.rolle, slug || null, hash, wechselNoetig, einmalBis],
   );
   return zuBenutzer(zeilen[0]);
 }
 
+function einmalPasswortFrist(jetzt = new Date()): Date {
+  return new Date(jetzt.getTime() + EINMAL_PASSWORT_GUELTIG_STUNDEN * 60 * 60 * 1000);
+}
+
 export async function setzePasswort(db: Db, benutzerId: string, passwort: string, wechselNoetig = false): Promise<void> {
   const hash = await hashPasswort(passwort);
-  await db.query('UPDATE benutzer SET passwort_hash = $2, passwort_wechsel_noetig = $3 WHERE id = $1', [
+  const einmalBis = wechselNoetig ? einmalPasswortFrist() : null;
+  await db.query('UPDATE benutzer SET passwort_hash = $2, passwort_wechsel_noetig = $3, einmal_passwort_bis = $4 WHERE id = $1', [
     benutzerId,
     hash,
     wechselNoetig,
+    einmalBis,
   ]);
 }
 

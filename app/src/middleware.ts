@@ -4,7 +4,7 @@
 import { defineMiddleware } from 'astro:middleware';
 import { getDb } from './lib/db.ts';
 import { COOKIE_NAME, ladeSitzung } from './lib/auth.ts';
-import { entscheideZugriff } from './lib/zugriff.ts';
+import { entscheideZugriff, istIsrAnfrage } from './lib/zugriff.ts';
 
 const CSP = [
   "default-src 'self'",
@@ -18,8 +18,36 @@ const CSP = [
   "object-src 'none'",
 ].join('; ');
 
+// Methoden, die keine Formulardaten tragen und darum keinen CSRF-Schutz
+// brauchen. Alles andere kann Daten aendern und braucht das Sitzungs-Token.
+const SICHERE_METHODEN = new Set(['GET', 'HEAD', 'OPTIONS']);
+
+/** Setzt dieselben Sicherheits-Header auf jede Antwort, auch auf fruehe Abweisungen. */
+function sicherheitsHeader(antwort: Response, pathname: string): Response {
+  const kopf = antwort.headers;
+  kopf.set('X-Content-Type-Options', 'nosniff');
+  kopf.set('X-Frame-Options', 'DENY');
+  kopf.set('Referrer-Policy', 'same-origin');
+  kopf.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+  if (import.meta.env.PROD) {
+    kopf.set('Content-Security-Policy', CSP);
+    // Nur in Produktion, wo immer HTTPS gilt. Zwei Jahre, inklusive Subdomains.
+    kopf.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains');
+  }
+  if (!pathname.startsWith('/_astro/')) kopf.set('Cache-Control', 'private, no-store');
+  return antwort;
+}
+
 export const onRequest = defineMiddleware(async (context, next) => {
   const { pathname } = context.url;
+
+  // Siehe istIsrAnfrage: dieses Portal hat keine ISR-Seite, so eine Anfrage
+  // ist hier immer unerwartet. Abgewiesen, bevor ueberhaupt die Datenbank
+  // angefasst wird.
+  if (istIsrAnfrage(context.request)) {
+    return sicherheitsHeader(new Response('Ungueltige Anfrage.', { status: 400 }), pathname);
+  }
+
   const db = await getDb();
   context.locals.db = db;
 
@@ -31,18 +59,20 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   const entscheidung = entscheideZugriff(pathname, context.locals.benutzer);
   if (entscheidung.typ === 'login') {
-    if (context.request.method !== 'GET') return new Response('Bitte anmelden.', { status: 401 });
+    if (context.request.method !== 'GET') return sicherheitsHeader(new Response('Bitte anmelden.', { status: 401 }), pathname);
     const weiter = pathname === '/' ? '' : `?weiter=${encodeURIComponent(pathname + context.url.search)}`;
-    return context.redirect(`/login${weiter}`, 303);
+    return sicherheitsHeader(context.redirect(`/login${weiter}`, 303), pathname);
   }
-  if (entscheidung.typ === 'passwort') return context.redirect('/passwort', 303);
+  if (entscheidung.typ === 'passwort') return sicherheitsHeader(context.redirect('/passwort', 303), pathname);
   if (entscheidung.typ === 'verboten') {
-    return next('/verboten');
+    return sicherheitsHeader(await next('/verboten'), pathname);
   }
 
   // CSRF: jedes Formular einer angemeldeten Person traegt das Sitzungs-Token.
   // Der Login selbst hat noch keine Sitzung, dort schuetzt Astros Origin-Pruefung.
-  if (context.request.method === 'POST' && sitzung) {
+  // Geprueft wird jede Methode, die Daten aendern kann, nicht nur POST, damit
+  // eine spaeter hinzugefuegte PUT- oder DELETE-Route nicht ungeschuetzt bleibt.
+  if (!SICHERE_METHODEN.has(context.request.method) && sitzung) {
     let feld: unknown = null;
     try {
       const form = await context.request.clone().formData();
@@ -51,20 +81,16 @@ export const onRequest = defineMiddleware(async (context, next) => {
       feld = null;
     }
     if (typeof feld !== 'string' || feld !== sitzung.csrf) {
-      return new Response('Das Formular ist abgelaufen. Bitte die Seite neu laden und noch einmal absenden.', {
-        status: 403,
-        headers: { 'Content-Type': 'text/plain; charset=utf-8' },
-      });
+      return sicherheitsHeader(
+        new Response('Das Formular ist abgelaufen. Bitte die Seite neu laden und noch einmal absenden.', {
+          status: 403,
+          headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+        }),
+        pathname,
+      );
     }
   }
 
   const antwort = await next();
-  const kopf = antwort.headers;
-  kopf.set('X-Content-Type-Options', 'nosniff');
-  kopf.set('X-Frame-Options', 'DENY');
-  kopf.set('Referrer-Policy', 'same-origin');
-  kopf.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
-  if (import.meta.env.PROD) kopf.set('Content-Security-Policy', CSP);
-  if (!pathname.startsWith('/_astro/')) kopf.set('Cache-Control', 'private, no-store');
-  return antwort;
+  return sicherheitsHeader(antwort, pathname);
 });

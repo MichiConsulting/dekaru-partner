@@ -18,9 +18,24 @@ export async function formular(request: Request): Promise<Formular> {
   return daten;
 }
 
+/**
+ * Ermittelt die Adresse fuer Ratenbegrenzung und Protokoll.
+ *
+ * Jeder Client kann "x-forwarded-for" selbst mitschicken, die alte Fassung
+ * dieser Funktion nahm davon ungeprueft den ersten Eintrag. Ob Vercel einen
+ * vom Client vorgegebenen Wert ueberschreibt oder nur ergaenzt, ist hier
+ * nicht gegen die echte Plattform verifiziert (das haette einen Test gegen
+ * partner.dekaru.de gebraucht, der bewusst unterblieben ist). Verlaesslich
+ * ist dagegen: @astrojs/vercel vertraut in seiner eigenen Edge-Middleware
+ * fuer denselben Zweck "x-real-ip" und nicht "x-forwarded-for" (Quelle:
+ * node_modules/@astrojs/vercel/dist/serverless/middleware.js). Dieser
+ * Funktion folgt hier.
+ */
 export function clientIp(astro: Pick<AstroGlobal, 'request' | 'clientAddress'>): string {
-  const weitergeleitet = astro.request.headers.get('x-forwarded-for');
-  if (weitergeleitet) return weitergeleitet.split(',')[0].trim().slice(0, 64);
+  if (process.env.VERCEL) {
+    const echt = astro.request.headers.get('x-real-ip');
+    if (echt) return echt.trim().slice(0, 64);
+  }
   try {
     return astro.clientAddress;
   } catch {
