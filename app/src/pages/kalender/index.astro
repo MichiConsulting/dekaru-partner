@@ -1,0 +1,98 @@
+---
+// Kalender: eigene Termine und offene Wiedervorlagen als Liste je Tag,
+// wahlweise eine Woche oder ein Monat. Kein Kalender-Widget, nur Links,
+// damit es auf dem Handy und ohne JavaScript geht.
+import Layout from '../../layouts/Layout.astro';
+import '../../styles/cockpit.css';
+import { eintraegeImZeitraum, nachTag } from '../../lib/kalender.ts';
+import { datumKurz, heuteBerlin, istIsoDatum, istMonat, monat, monatPlus, monatVon, plusTage, woche, wochentagName } from '../../lib/datum.ts';
+import { datumDe, monatsname } from '../../lib/provision.ts';
+import { statusLabel } from '../../lib/kunden.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const db = Astro.locals.db;
+const heute = heuteBerlin();
+
+const ansicht = Astro.url.searchParams.get('ansicht') === 'monat' ? 'monat' : 'woche';
+const vonParam = Astro.url.searchParams.get('von');
+const monatParam = Astro.url.searchParams.get('monat');
+
+let bereich: { von: string; bis: string };
+let titel: string;
+let zurueck: string;
+let vor: string;
+let aktuellerMonat = monatVon(heute);
+if (ansicht === 'monat') {
+  aktuellerMonat = istMonat(monatParam) ? monatParam : monatVon(heute);
+  bereich = monat(aktuellerMonat);
+  titel = monatsname(aktuellerMonat);
+  zurueck = `/kalender?ansicht=monat&monat=${monatPlus(aktuellerMonat, -1)}`;
+  vor = `/kalender?ansicht=monat&monat=${monatPlus(aktuellerMonat, 1)}`;
+} else {
+  bereich = woche(istIsoDatum(vonParam) ? vonParam : heute);
+  titel = `${datumDe(bereich.von)} bis ${datumDe(bereich.bis)}`;
+  zurueck = `/kalender?von=${plusTage(bereich.von, -7)}`;
+  vor = `/kalender?von=${plusTage(bereich.von, 7)}`;
+}
+
+const eintraege = await eintraegeImZeitraum(db, benutzer.id, bereich.von, bereich.bis);
+const tage = nachTag(eintraege);
+
+// Die Wochenansicht zeigt alle sieben Tage, auch leere, der Monat nur Tage mit Eintraegen.
+const sichtbareTage =
+  ansicht === 'woche'
+    ? Array.from({ length: 7 }, (_, i) => plusTage(bereich.von, i)).map((datum) => ({
+        datum,
+        eintraege: tage.find((t) => t.datum === datum)?.eintraege ?? [],
+      }))
+    : tage;
+
+const istHeuteDrin = heute >= bereich.von && heute <= bereich.bis;
+---
+
+<Layout titel="Kalender" aktiv="kalender">
+  <h1>Kalender</h1>
+  <p class="meta">Termine aus Meine Kunden und offene Wiedervorlagen. Heute ist {datumKurz(heute, true)}</p>
+
+  <div class="kal-kopf">
+    <nav class="kal-tabs" aria-label="Ansicht">
+      <a class="btn btn--zweit btn--klein" href="/kalender" aria-current={ansicht === 'woche' ? 'page' : undefined}>Woche</a>
+      <a class="btn btn--zweit btn--klein" href="/kalender?ansicht=monat" aria-current={ansicht === 'monat' ? 'page' : undefined}>Monat</a>
+    </nav>
+    <h2 aria-live="polite">{titel}</h2>
+    <nav class="kal-nav" aria-label="Zeitraum">
+      <a class="btn btn--zweit btn--klein" href={zurueck} rel="prev">{ansicht === 'monat' ? 'Voriger Monat' : 'Vorige Woche'}</a>
+      {!istHeuteDrin && <a class="btn btn--zweit btn--klein" href={ansicht === 'monat' ? '/kalender?ansicht=monat' : '/kalender'}>Heute</a>}
+      <a class="btn btn--zweit btn--klein" href={vor} rel="next">{ansicht === 'monat' ? 'Nächster Monat' : 'Nächste Woche'}</a>
+    </nav>
+  </div>
+
+  {sichtbareTage.length === 0 && <p>Keine Termine und keine Wiedervorlagen im {titel}.</p>}
+
+  {sichtbareTage.map((tag) => (
+    <section class:list={['kal-tag', tag.datum === heute && 'kal-tag--heute', tag.eintraege.length === 0 && 'kal-tag--leer']} aria-labelledby={`tag-${tag.datum}`}>
+      <div class="kal-tag__kopf">
+        <h3 id={`tag-${tag.datum}`}><time datetime={tag.datum}>{wochentagName(tag.datum)}, {datumDe(tag.datum)}</time>{tag.datum === heute && ' (heute)'}</h3>
+        {tag.eintraege.length === 0 && <span>frei</span>}
+      </div>
+      {tag.eintraege.length > 0 && (
+        <ul class="kal-liste">
+          {tag.eintraege.map((e) => (
+            <li class="kal-eintrag">
+              <span class:list={['badge', e.typ === 'termin' && 'badge--voll']}>{e.typ === 'termin' ? 'Termin' : 'Wiedervorlage'}</span>
+              <span class="kal-eintrag__text">
+                <a href={`/kunden/${e.kundeId}`}>{e.kundeName}</a>
+                <span class="meta"> {statusLabel(e.status)}{e.ort && `, ${e.ort}`}{e.grund && `. ${e.grund}`}</span>
+              </span>
+              <a class="kal-eintrag__ics" href={`/kalender/eintrag/${e.typ}/${e.kundeId}.ics`} download>Als .ics<span class="sr-only"> herunterladen: {e.kundeName}, {datumDe(e.datum)}</span></a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  ))}
+
+  <div class="hinweis" style="margin-top:var(--space-xl)">
+    <strong>Im eigenen Kalender.</strong> Unter <a href="/einstellungen">Einstellungen</a> erzeugen Sie einen persönlichen Abo-Link für Apple Kalender, Google Kalender oder Outlook. Er enthält nur Betriebsname, Status und Datum, keine Telefonnummern und keine Notizen.
+  </div>
+</Layout>

@@ -1,0 +1,71 @@
+---
+// Alle offenen Wiedervorlagen, gruppiert: ueberfaellig, heute, diese Woche,
+// spaeter. Jede Zeile laesst sich direkt als erledigt markieren.
+import Layout from '../../layouts/Layout.astro';
+import '../../styles/cockpit.css';
+import { gruppiere, offeneWiedervorlagen, type Wiedervorlage } from '../../lib/wiedervorlage.ts';
+import { datumKurz, heuteBerlin } from '../../lib/datum.ts';
+import { statusLabel } from '../../lib/kunden.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const db = Astro.locals.db;
+const csrf = Astro.locals.csrf ?? '';
+const heute = heuteBerlin();
+const liste = await offeneWiedervorlagen(db, benutzer.id);
+const g = gruppiere(liste, heute);
+const ok = Astro.url.searchParams.get('ok');
+const wv = Astro.url.searchParams.get('wv');
+
+const gruppen: { id: string; titel: string; eintraege: Wiedervorlage[] }[] = [
+  { id: 'ueberfaellig', titel: 'Überfällig', eintraege: g.ueberfaellig },
+  { id: 'heute', titel: 'Heute', eintraege: g.heute },
+  { id: 'woche', titel: 'Diese Woche', eintraege: g.woche },
+  { id: 'spaeter', titel: 'Später', eintraege: g.spaeter },
+];
+---
+
+<Layout titel="Wiedervorlagen" aktiv="kunden">
+  <p class="meta"><a href="/kunden">Meine Kunden</a> / Wiedervorlagen</p>
+  <h1>Wiedervorlagen</h1>
+  {ok === 'wv-erledigt' && <div class="meldung meldung--ok" role="status"><p>Die Wiedervorlage ist erledigt.</p></div>}
+  {wv === 'fehlt' && <div class="meldung meldung--fehler" role="alert"><p>Diese Wiedervorlage gibt es nicht mehr. Vielleicht war sie schon erledigt.</p></div>}
+
+  <div class="raster">
+    <div class="kennzahl"><div class="kennzahl__wert">{g.ueberfaellig.length + g.heute.length}</div><div class="kennzahl__label">fällig heute oder überfällig</div></div>
+    <div class="kennzahl"><div class="kennzahl__wert">{g.woche.length}</div><div class="kennzahl__label">noch diese Woche</div></div>
+    <div class="kennzahl"><div class="kennzahl__wert">{liste.length}</div><div class="kennzahl__label">offen insgesamt</div></div>
+  </div>
+
+  {liste.length === 0 && <p style="margin-top:var(--space-l)">Keine offene Wiedervorlage. Sie setzen eine beim Betrieb unter <a href="/kunden">Meine Kunden</a>.</p>}
+
+  {gruppen.filter((gr) => gr.eintraege.length > 0).map((gr) => (
+    <section class="wv-gruppe" aria-labelledby={`wv-${gr.id}`}>
+      <h2 id={`wv-${gr.id}`}>{gr.titel}<span class="badge">{gr.eintraege.length}</span></h2>
+      <div class="tabelle-wrap schiebbar">
+        <table class="tabelle--karten" role="table">
+          <thead role="rowgroup">
+            <tr role="row"><th role="columnheader">Betrieb</th><th role="columnheader">Am</th><th role="columnheader">Status</th><th role="columnheader">Grund</th><th role="columnheader"><span class="sr-only">Erledigen</span></th></tr>
+          </thead>
+          <tbody role="rowgroup">
+            {gr.eintraege.map((w) => (
+              <tr role="row">
+                <td role="cell" class="zelle--titel"><a href={`/kunden/${w.kundeId}`}>{w.kundeName}</a>{w.ort && <span class="meta"> {w.ort}</span>}</td>
+                <td role="cell" data-label="Am"><time datetime={w.datum}>{datumKurz(w.datum, true)}</time></td>
+                <td role="cell" data-label="Status"><span class:list={['badge', w.status === 'abschluss' && 'badge--voll']}>{statusLabel(w.status)}</span></td>
+                <td role="cell" data-label="Grund" class="wv-zeile__grund">{w.grund}</td>
+                <td role="cell" data-label="">
+                  <form method="post" action={`/kunden/${w.kundeId}/wiedervorlage`} class="inline">
+                    <input type="hidden" name="_csrf" value={csrf} />
+                    <input type="hidden" name="aktion" value="erledigt" />
+                    <input type="hidden" name="zurueck" value="/kunden/wiedervorlagen" />
+                    <button type="submit" class="btn btn--zweit btn--klein">Erledigt<span class="sr-only">: {w.kundeName}</span></button>
+                  </form>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  ))}
+</Layout>

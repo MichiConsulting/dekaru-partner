@@ -1,6 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import KundeFormular from '../../components/KundeFormular.astro';
+import WiedervorlageKarte from '../../components/WiedervorlageKarte.astro';
+import { holeWiedervorlage } from '../../lib/wiedervorlage.ts';
 import { aendereKunde, holeKunde, loescheKunde, pruefeKunde, statusLabel, type KundeEingabe } from '../../lib/kunden.ts';
 import { datumDe } from '../../lib/provision.ts';
 import { formular, istPost } from '../../lib/http.ts';
@@ -17,7 +19,11 @@ if (!kunde) return Astro.rewrite('/404');
 
 let werte: Partial<KundeEingabe> = kunde;
 let fehler: string[] = [];
-let gespeichert = Astro.url.searchParams.get('ok') === '1';
+const ok = Astro.url.searchParams.get('ok');
+let gespeichert = ok === '1';
+const wiedervorlage = await holeWiedervorlage(db, benutzer.id, id);
+const wvMeldung = { wv: 'Die Wiedervorlage ist gesetzt.', 'wv-erledigt': 'Die Wiedervorlage ist erledigt.', 'wv-entfernt': 'Die Wiedervorlage ist entfernt.' }[ok ?? ''] ?? null;
+const wvFehler = Astro.url.searchParams.get('wv') === 'datum' ? 'Das Datum der Wiedervorlage fehlt oder ist ungültig.' : Astro.url.searchParams.get('wv') === 'fehlt' ? 'Es gibt keine offene Wiedervorlage mehr.' : null;
 
 if (istPost(Astro.request)) {
   const daten = await formular(Astro.request);
@@ -40,7 +46,9 @@ if (istPost(Astro.request)) {
   <h1>{kunde.name}</h1>
   <p class="meta">Status {statusLabel(kunde.status)} seit {datumDe(kunde.statusSeit)}. Eingetragen am {datumDe(kunde.erstelltAm.toISOString())}.</p>
   {gespeichert && <div class="meldung meldung--ok" role="status"><p>Gespeichert.</p></div>}
+  {wvMeldung && <div class="meldung meldung--ok" role="status"><p>{wvMeldung}</p></div>}
   <KundeFormular werte={werte} csrf={csrf} fehler={fehler} knopf="Speichern" />
+  <WiedervorlageKarte kundeId={kunde.id} wiedervorlage={wiedervorlage} terminDatum={kunde.terminDatum} csrf={csrf} fehler={wvFehler} />
   <form method="post" class="karte">
     <input type="hidden" name="_csrf" value={csrf} />
     <input type="hidden" name="aktion" value="loeschen" />

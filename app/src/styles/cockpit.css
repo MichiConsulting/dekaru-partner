@@ -1,0 +1,223 @@
+/*
+ * Cockpit (Startseite), Kalender, Wiedervorlagen und Einstellungen.
+ * Nur Farbvariablen aus global.css, damit hell und dunkel gleich gut lesbar
+ * bleiben. Kein Akzent auf Flaechen, der bleibt Buttons und Links.
+ */
+
+/* ── Kacheln auf der Startseite ── */
+.kacheln {
+  display: grid;
+  gap: var(--space-m);
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  margin-bottom: var(--space-xl);
+}
+.kachel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-l);
+}
+.kachel > h2 {
+  margin: 0;
+  font-size: var(--text-h3);
+  font-weight: 500;
+  color: var(--text-muted);
+}
+.kachel__wert {
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+.kachel__wert small {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-left: var(--space-xs);
+}
+.kachel__wert--warn {
+  color: var(--fehler);
+}
+.kachel p {
+  margin: 0;
+}
+.kachel__liste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: var(--text-small);
+  max-width: none;
+}
+.kachel__liste li {
+  display: flex;
+  gap: var(--space-s);
+  align-items: baseline;
+  margin: 0;
+  padding: var(--space-xs) 0;
+  border-top: 1px solid var(--border);
+}
+.kachel__liste time {
+  color: var(--text-muted);
+  white-space: nowrap;
+  min-width: 9.5ch;
+  font-variant-numeric: tabular-nums;
+}
+.kachel__liste a {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.kachel__zahlen {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-s);
+  margin: 0;
+}
+.kachel__zahlen div {
+  min-width: 0;
+}
+.kachel__zahlen dt {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+.kachel__zahlen dd {
+  margin: 0;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.kachel__fuss {
+  margin-top: auto;
+  padding-top: var(--space-s);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-s);
+}
+.kachel .fortschritt {
+  margin: var(--space-xs) 0 0;
+}
+
+/* ── Kalender ── */
+.kal-kopf {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-s) var(--space-m);
+  margin-bottom: var(--space-l);
+}
+.kal-kopf h2 {
+  margin: 0;
+  font-size: var(--text-h3);
+}
+.kal-nav,
+.kal-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+.kal-tabs .btn[aria-current='page'] {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+}
+.kal-tag {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: var(--space-s);
+}
+.kal-tag__kopf {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-m);
+  padding: var(--space-s) var(--space-m);
+  font-size: var(--text-small);
+  font-weight: 500;
+  border-bottom: 1px solid var(--border);
+}
+.kal-tag__kopf h3 {
+  margin: 0;
+  font-size: var(--text-small);
+  font-family: var(--font-body);
+  font-weight: 500;
+}
+.kal-tag--heute .kal-tag__kopf {
+  background: var(--surface-2);
+}
+.kal-tag--leer .kal-tag__kopf {
+  border-bottom: 0;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+.kal-tag--leer .kal-tag__kopf h3 {
+  color: var(--text);
+}
+.kal-liste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
+.kal-eintrag {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--space-xs) var(--space-m);
+  align-items: baseline;
+  padding: var(--space-s) var(--space-m);
+  border-bottom: 1px solid var(--border);
+  margin: 0;
+}
+.kal-eintrag:last-child {
+  border-bottom: 0;
+}
+.kal-eintrag__text {
+  min-width: 0;
+}
+.kal-eintrag__text a {
+  font-weight: 500;
+}
+.kal-eintrag__ics {
+  font-size: var(--text-small);
+  white-space: nowrap;
+}
+@media (max-width: 480px) {
+  .kal-eintrag {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .kal-eintrag__ics {
+    grid-column: 2;
+  }
+}
+
+/* ── Wiedervorlagen ── */
+.wv-gruppe > h2 {
+  font-size: var(--text-h3);
+  margin-top: var(--space-xl);
+}
+.wv-gruppe > h2 .badge {
+  margin-left: var(--space-s);
+  vertical-align: middle;
+}
+.wv-zeile__grund {
+  color: var(--text-muted);
+}
+
+/* ── Abo-Link in den Einstellungen ── */
+.abo-link {
+  display: block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: var(--text-small);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-s) var(--space-m);
+  overflow-wrap: anywhere;
+  user-select: all;
+  margin: var(--space-s) 0 var(--space-m);
+}
