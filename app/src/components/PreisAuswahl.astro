@@ -1,0 +1,160 @@
+---
+/**
+ * Die Eingabefelder des Preisrechners: Paket, Zusatzbausteine,
+ * Zusatzleistungen, Hosting. Echte Formularfelder, damit alles ohne
+ * JavaScript funktioniert (GET im Preisrechner, POST im Briefing). Die
+ * Feldnamen liest auswahlAusFeldern in lib/preise.ts.
+ *
+ * zeigePreise=false fuer Stufe 1 im Briefing: dieselbe Auswahl, aber ohne
+ * eine einzige Zahl, denn dort ist "ab 600 Euro" die einzige erlaubte Angabe.
+ */
+import {
+  ALLE_POSTEN,
+  FUNKTION,
+  GRUNDLEISTUNG,
+  GRUPPEN,
+  HOSTING,
+  HOSTING_TARIFE,
+  PAKETE,
+  ZUSATZLEISTUNGEN,
+  enthaltenIn,
+  euro,
+  paketInhalte,
+  type Auswahl,
+} from '../lib/preise.ts';
+
+interface Props {
+  auswahl: Auswahl;
+  zeigePreise?: boolean;
+  /** Nummer des ersten Schritts in der Ueberschrift, im Briefing zaehlt Teil B anders. */
+  ueberschriften?: boolean;
+}
+
+const { auswahl, zeigePreise = true, ueberschriften = true } = Astro.props;
+
+function paketAttribute(schluessel: string): Record<string, string> {
+  const a: Record<string, string> = {};
+  for (const { paket, menge } of enthaltenIn(schluessel)) a[`data-in-${paket.schluessel}`] = String(menge);
+  return a;
+}
+const anzahlVon = (schluessel: string) => {
+  const w = auswahl.bausteine[schluessel];
+  return typeof w === 'number' ? w : 0;
+};
+const gewaehlt = (schluessel: string) => Boolean(auswahl.bausteine[schluessel]);
+---
+
+<fieldset class="pakete-feld">
+  <legend class="rechner__schritt">{ueberschriften && '1. '}Paket</legend>
+  <p class="meta">In jedem Paket: {GRUNDLEISTUNG.join(', ')}.</p>
+  <div class="pakete">
+    {PAKETE.map((paket) => (
+      <div class="paket">
+        <input type="radio" name="paket" id={`paket-${paket.schluessel}`} value={paket.schluessel} checked={auswahl.paket === paket.schluessel} />
+        <label class="paket__label" for={`paket-${paket.schluessel}`}>
+          {paket.empfohlen && <span class="paket__badge">Empfohlen</span>}
+          <span>{paket.name}</span>
+          {zeigePreise && <span class="paket__preis">{euro(paket.preis)}</span>}
+          <span class="paket__text">{paket.beschreibung}</span>
+        </label>
+        <ul class="paket__inhalt" aria-label={`Inhalt von ${paket.name}`}>
+          {paketInhalte(paket).map((zeile) => <li>{zeile}</li>)}
+        </ul>
+        {paket.funktion && (
+          <p class="paket__funktion"><strong>{FUNKTION.titel}:</strong> {FUNKTION.name}. {FUNKTION.hinweis}</p>
+        )}
+      </div>
+    ))}
+  </div>
+</fieldset>
+
+<h2 class="rechner__schritt">{ueberschriften && '2. '}Zusatzbausteine</h2>
+<p class="meta">Zu jedem Paket buchbar. Was das Paket schon enthält, ist markiert und kostet nichts extra.</p>
+{GRUPPEN.map((gruppe) => (
+  <section class="gruppe" aria-label={gruppe.titel}>
+    <h3 class="gruppe__titel">{gruppe.titel}</h3>
+    {gruppe.posten.map((posten) => (
+      <div class="posten" data-schluessel={posten.schluessel} data-art={posten.art} {...paketAttribute(posten.schluessel)}>
+        <div class="posten__text">
+          <label for={`b-${posten.schluessel}`}>{posten.name}</label>
+          <span class="posten__hinweis">{posten.hinweis}</span>
+          {posten.art === 'anzahl' &&
+            enthaltenIn(posten.schluessel).map(({ paket, menge }) => (
+              <span class="posten__enthalten-hinweis" data-fuer={paket.schluessel}>{menge} in {paket.name} enthalten, hier zählen weitere</span>
+            ))}
+        </div>
+        {zeigePreise && (
+          <span class="posten__preis">
+            {posten.art === 'anzahl' ? `${euro(posten.preis)} ${posten.einheit ?? ''}` : posten.art === 'anfrage' ? 'nach Absprache' : euro(posten.preis)}
+          </span>
+        )}
+        <div class="posten__wahl">
+          {posten.art === 'anzahl' ? (
+            <input id={`b-${posten.schluessel}`} name={`b_${posten.schluessel}`} type="number" inputmode="numeric" min="0" max={posten.max ?? 99} value={anzahlVon(posten.schluessel) || ''} placeholder="0" />
+          ) : (
+            <>
+              <span class="posten__enthalten">Enthalten</span>
+              <input id={`b-${posten.schluessel}`} name={`b_${posten.schluessel}`} type="checkbox" checked={gewaehlt(posten.schluessel)} />
+            </>
+          )}
+        </div>
+      </div>
+    ))}
+  </section>
+))}
+{ALLE_POSTEN.some((p) => p.art === 'anfrage') && (
+  <p class="meta">Ein individuelles Feature hat keinen Listenpreis. Beschreibung aufnehmen, den Preis nennt nur Michael Henning.</p>
+)}
+
+<h2 class="rechner__schritt">{ueberschriften && '3. '}Zusatzleistungen</h2>
+<p class="meta">Einmalig, neben der Website. Nur anbieten, wenn es einen Anlass gibt.</p>
+<section class="gruppe" aria-label="Zusatzleistungen">
+  {ZUSATZLEISTUNGEN.map((z) => (
+    <div class="posten">
+      <div class="posten__text">
+        <label for={`z-${z.schluessel}`}>{z.name}</label>
+        <span class="posten__hinweis">{z.nutzen}{z.zusatz ? ` ${z.zusatz}.` : ''}</span>
+      </div>
+      {zeigePreise && <span class="posten__preis">{euro(z.preis)}{z.einheit === 'Jahr' ? ' im Jahr' : ''}</span>}
+      <div class="posten__wahl">
+        <input id={`z-${z.schluessel}`} name={`z_${z.schluessel}`} type="checkbox" checked={auswahl.zusatzleistungen.includes(z.schluessel)} />
+      </div>
+    </div>
+  ))}
+</section>
+
+<fieldset>
+  <legend class="rechner__schritt">{ueberschriften && '4. '}Hosting</legend>
+  <p class="meta">Monatlich, optional, nach der Mindestlaufzeit monatlich kündbar. Bei Groß läuft die {FUNKTION.name} nur mit Hosting bei dekaru.</p>
+  <div class="hosting">
+    {HOSTING_TARIFE.map((t) => (
+      <label class="hosting__tarif">
+        <input type="radio" name="hosting" value={t.id} checked={auswahl.hosting.tarif === t.id} />
+        <span>
+          <strong>{t.name}</strong>
+          <span class="meta">{t.aenderungen} Änderungen im Monat{t.monat === null ? ', nur als Jahresvertrag' : ''}</span>
+        </span>
+        {zeigePreise && (
+          <span class="posten__preis">{t.monat === null ? `${euro(t.jahr)} im Jahr` : `${euro(t.monat)} im Monat`}</span>
+        )}
+      </label>
+    ))}
+    <label class="hosting__tarif">
+      <input type="radio" name="hosting" value="keins" checked={auswahl.hosting.tarif === null} />
+      <span><strong>Kein Hosting</strong><span class="meta">Der Kunde hostet selbst. Bei Groß entfällt die {FUNKTION.name}.</span></span>
+    </label>
+  </div>
+  <div class="feld--zeile" style="margin-top:var(--space-m)">
+    <fieldset class="feld">
+      <legend>Zahlweise</legend>
+      <div class="wahl">
+        <label><input type="radio" name="zahlweise" value="monatlich" checked={auswahl.hosting.zahlweise === 'monatlich'} /> monatlich</label>
+        <label><input type="radio" name="zahlweise" value="jaehrlich" checked={auswahl.hosting.zahlweise === 'jaehrlich'} /> jährlich, {HOSTING.bezahlteMonate} von 12 Monaten bezahlt</label>
+      </div>
+    </fieldset>
+    <div class="feld">
+      <label class="wahl" style="margin-top:var(--space-l)"><input type="checkbox" name="gratisquartal" checked={auswahl.hosting.gratisquartal} /> Gratisquartal zugesagt</label>
+      <p class="feld__hilfe">{HOSTING.gratisHinweis} Nie ein Nachlass auf die Website, nicht mit weiteren Vorteilen kombinierbar.</p>
+    </div>
+  </div>
+</fieldset>

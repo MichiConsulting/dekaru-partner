@@ -18,10 +18,19 @@ Jeder Vertriebler hat einen eigenen Login und sieht vier Bereiche:
    Termine und Abschlüsse des Monats sehen. Niemand sieht fremde Einträge.
 4. **Meine Provision**: die Monatsaufstellungen aus `dekaru-rechnungen`, mit
    entstandener, ausgezahlter und aufgelaufener Provision und den Regeln.
+5. **Kalender**: eigene Termine und offene Wiedervorlagen als Wochen- oder
+   Monatsliste, jeder Eintrag als `.ics`, dazu ein persönlicher Abo-Link für
+   die Kalender-App (unter Einstellungen).
+
+Die **Startseite ist ein Cockpit**: Termine diese Woche, fällige
+Wiedervorlagen, Abschlüsse im Monat, Provision im laufenden Quartal,
+Lernfortschritt und Pflichtsätze, jede Kachel mit dem Weg in ihren Bereich.
+Der Admin sieht dieselben Kacheln mit den Gesamtzahlen aller Vertriebler.
 
 Dazu ein **Admin-Bereich** für Michi: Zugänge anlegen und deaktivieren
 (Einladung mit Einmal-Passwort), alle Kunden, Lernstand mitsamt der
-Pflichtsätze, Provision importieren.
+Pflichtsätze, Provision importieren, eine Übersicht aller Vertriebler, das
+Protokoll der Admin-Aktionen und die Dublettenprüfung bei Betrieben.
 
 ## Aufbau
 
@@ -32,7 +41,8 @@ dekaru-partner/
   app/               dieses Portal
     astro.config.mjs Astro 6, SSR, Vercel-Adapter, Region fra1 in vercel.json
     db/migrationen/  Schema als SQL, wiederholbar
-    scripts/         db-migrate, admin-anlegen, provision-import
+    scripts/         db-migrate, admin-anlegen, provision-import, preise-sync
+    src/data/        preise.json, abgeleitet aus dekaru-website und dekaru-rechnungen
     src/lib/         Logik ohne Astro-Abhängigkeit, dadurch testbar
     src/pages/       Seiten und Endpunkte
     tests/           Vitest, laufen gegen PGlite im Speicher
@@ -106,6 +116,38 @@ und ins Bundle geschrieben. Fehlerhafte Einträge sieht der Admin unter
 (Migration `002-pflichtsaetze.sql`, `src/lib/gespraech-fortschritt.ts`). Der
 Platzhalter `{{Ihr Name}}` wird mit dem Namen der angemeldeten Person gefüllt.
 
+**Wiedervorlage.** Je Kunde ein Datum und ein kurzer Grund, Spalten
+`wiedervorlage_am`, `wiedervorlage_grund` und `wiedervorlage_erledigt_am` an
+`kunden` (Migration `005-wiedervorlage-kalender.sql`, Logik in
+`src/lib/wiedervorlage.ts`). Setzen, ändern, erledigen und entfernen laufen
+über `POST /kunden/<id>/wiedervorlage`, nur für eigene Kunden. Die Liste
+`/kunden/wiedervorlagen` gruppiert nach überfällig, heute, diese Woche und
+später; "heute" kommt aus Europe/Berlin (`src/lib/datum.ts`), weil der Server
+auf Vercel in UTC läuft.
+
+**Kalender und Abo.** `/kalender` zeigt Termine (`termin_datum`) und offene
+Wiedervorlagen als Liste je Tag, Woche (`?von=JJJJ-MM-TT`) oder Monat
+(`?ansicht=monat&monat=JJJJ-MM`), ohne Widget und ohne JavaScript.
+`src/lib/kalender.ts` schreibt iCalendar nach RFC 5545: CRLF, Faltung bei 75
+Oktetten, Maskierung von Komma, Semikolon und Backslash, ganztägige Einträge
+mit stabiler UID, VTIMEZONE Europe/Berlin. Einzelne Einträge kommen von
+`/kalender/eintrag/<termin|wiedervorlage>/<id>.ics` (angemeldet, nur eigene).
+Der Abo-Link `/kalender/abo/<token>.ics` ist ohne Login erreichbar; das
+Token (32 Zufallsbytes) erzeugt und widerruft jede Person selbst unter
+`/einstellungen`, es wird einmal angezeigt und nur als SHA-256 gespeichert
+(Tabelle `kalender_token`, `src/lib/kalender-token.ts`). Je IP-Adresse gelten
+fünf unbekannte Tokens in 15 Minuten und höchstens 60 Abrufe in 15 Minuten,
+danach 429 für 15 Minuten (`src/lib/rate.ts`, dieselbe Tabelle wie der
+Login). Der Feed enthält nur Betriebsname, Status und Datum, keine
+Telefonnummern, Notizen oder Gründe. Deaktivierte Zugänge liefern nichts.
+
+**Cockpit.** `src/lib/cockpit.ts` liefert die Zahlen der Startseite:
+Termine der Kalenderwoche, offene und fällige Wiedervorlagen, Abschlüsse und
+neue Betriebe im Monat, Provision im Quartal (entstanden = Summe der
+Abrechnungen mit Abrechnungsmonat im Quartal, ausgezahlt = davon als
+überwiesen markiert, aufgelaufen = Stand der neuesten Abrechnung, beim Admin
+je Vertriebler einmal). Lernstand und Pflichtsätze holt die Seite selbst.
+
 **Provision.** `dekaru-rechnungen/provision.mjs` schreibt neben jeder
 Markdown-Aufstellung eine `<slug>.json` (`lib/provision-json.mjs`, Format 1).
 Das Portal prüft die Datei (`src/lib/provision.ts`, Summen müssen zu den Zeilen
@@ -113,6 +155,150 @@ passen), legt sie in `provision_abrechnungen` ab und zeigt sie dem Vertriebler,
 dessen `vertriebler_slug` zum Slug in `vertriebler.json` passt. Import
 entweder im Admin-Bereich (Datei hochladen) oder per Skript. Der Admin markiert
 eine Abrechnung als ausgezahlt, dann zählt sie als überwiesen.
+
+**Admin-Übersicht** (`/admin/uebersicht`, `src/lib/admin-uebersicht.ts`).
+Je Vertriebler im gewählten Monat: Ersttermine, Zweittermine, Abschlüsse,
+Absagen, Abschlussquote (Abschlüsse durch Zweittermine), entstandene Provision
+im Quartal des Monats (Summe `summeCent` der importierten Abrechnungen),
+Kapitel und Quizpunkte, Pflichtsätze (x von 6), letzte Anmeldung. Sortiert
+wird über Links im Spaltenkopf, ohne JavaScript. Auffällig sind: 14 Tage
+ohne Anmeldung (oder nie angemeldet), offene Pflichtsätze, Lernen nicht
+begonnen, drei Zweittermine ohne Abschluss, viele Absagen; deaktivierte
+Zugänge nie. Gezählt wird jeder Betrieb, der im Monat in den Status
+gewechselt ist. Den Verlauf schreibt ein Trigger in `kunden_statuswechsel`
+mit (nur Kunde, Vertriebler, Status, Tag). Für Einträge vor Migration 7 kennt
+die Datenbank nur den damaligen letzten Status, die Monatszahlen sind erst ab
+dann genau.
+
+**Protokoll der Admin-Aktionen** (`/admin/protokoll`, Tabelle
+`admin_protokoll`). Jede schreibende Admin-Aktion steht dort mit Zeitpunkt,
+wer, was, Ziel und kurzen Details, nie mit Passwort, Hash oder Token
+(`bereinigeDetails` filtert solche Schlüssel zusätzlich heraus). Alle
+Aktionen laufen über `src/lib/admin-aktionen.ts`, das nach dem Erfolg
+`protokolliere()` aus `src/lib/admin-protokoll.ts` aufruft: Zugang anlegen,
+deaktivieren, aktivieren, Einmal-Passwort neu, Slug ändern, Stufe ändern
+(`stufe_geaendert`), Provision hochladen (mit Mailstatus), eine gescheiterte
+Provisionsmail nachholen, ausgezahlt markieren und zurücksetzen, Briefing als
+übernommen markieren oder zurückgeben, die Angebots-Eingabe (YAML)
+herunterladen, Dubletten entscheiden, Kunde trotz Dublette speichern. Die
+Skripte `admin-anlegen` und `provision-import` protokollieren ebenso, als
+"Skript ..." ohne Admin-ID, der Endpunkt `/api/provision-import` als "Import
+per Token". Ein unveränderter Import ohne nachgeholte Mail schreibt nichts
+und bekommt darum keinen Eintrag.
+**Neue Admin-Aktionen** bekommen einen
+Schlüssel in `AKTIONEN` und eine Funktion in `admin-aktionen.ts`;
+`tests/admin-protokoll.test.ts` schlägt fehl, sobald eine Admin-Seite einen
+schreibenden Baustein oder SQL direkt aufruft.
+
+Unveränderlich: der Code enthält kein UPDATE oder DELETE auf
+`admin_protokoll` (der Test prüft das), und ein Trigger lehnt UPDATE,
+TRUNCATE und das Löschen jüngerer Zeilen in der Datenbank ab. Keine
+Fremdschlüssel, damit auch ein gelöschter Benutzer keine Zeile verändert.
+**Aufbewahrung 24 Monate.** Danach entfernt Michi alte Zeilen einmal im Jahr
+von Hand im SQL-Editor von Neon; der Trigger lässt nur Zeilen durch, die
+älter als 24 Monate sind:
+
+```
+DELETE FROM admin_protokoll WHERE zeitpunkt < now() - interval '24 months';
+```
+
+**Dubletten** (`src/lib/dubletten.ts`, `/admin/dubletten`). Beim Anlegen und
+beim Ändern von Name, Ort oder Telefon eines Kunden prüft das Portal, ob
+derselbe Betrieb schon eingetragen ist, bei irgendeinem Vertriebler.
+Verglichen werden normalisierte Werte: Name ohne Rechtsform (GmbH, UG, e.K.,
+GmbH & Co. KG und andere), ohne Groß und Klein, Sonderzeichen und Leerraum,
+Umlaute ausgeschrieben (NFC und NFD gleich); Ort ohne Postleitzahl und
+Klammerzusatz; Telefon nur als Ziffern, +49 und 0049 werden 0. Gleich ist ein
+Betrieb bei gleicher Telefonnummer (ab sechs Ziffern) oder bei gleichem Namen
+und gleichem oder fehlendem Ort. Ein Vertriebler sieht dann nur "Dieser
+Betrieb wird bereits betreut, bitte mit Michael Henning klären." und kann
+nicht speichern; er erfährt weder wer noch welche Daten. Gleichzeitig entsteht
+eine Meldung in `dubletten_meldungen` (nur Name, Ort, Telefon des Versuchs).
+Der Admin sieht unter `/admin/dubletten` beide Seiten und entscheidet: beim
+Bisherigen lassen, dem Anfragenden zuordnen (der bisherige Eintrag wird
+gelöscht, Notiz und Ansprechpartner wandern nicht mit) oder beide behalten.
+Nach Zuordnen oder Freigabe kann der Anfragende speichern. Speichert der
+Admin selbst einen Kunden, sieht er die Treffer und kann mit einem Haken
+"Trotzdem speichern" freigeben, das wird protokolliert. Außerdem listet die
+Seite Dubletten, die schon im Bestand liegen.
+
+**Stufe.** Jeder Vertriebler hat Stufe 1 oder 2 (Migration
+`006-stufe-briefing.sql`, Spalten `stufe`, `stufe_seit`,
+`stufe_bestaetigt_am` in `benutzer`, jede Änderung in `stufen_protokoll`).
+Neue Zugänge starten mit Stufe 1. Der Admin setzt die Stufe unter
+**Admin** → **Vertriebler** → Person, mit Datum ab wann und dem Datum der
+Bestätigung in Textform, die der Vertrag für Stufe 2 verlangt. Ohne dieses
+Datum lässt sich Stufe 2 nicht setzen. Logik in `src/lib/stufe.ts`.
+
+**Preisrechner.** `/preisrechner` rechnet mit denselben Zahlen wie dekaru.de:
+Pakete, Bausteine, die Funktion nur im Paket Groß, Hosting und die
+Zusatzleistungen. Die Zahlen stehen in `src/data/preise.json`, die nie von
+Hand geändert wird. `npm run preise-sync` liest sie aus
+`dekaru-website/site/src/data/preise.ts` und `hosting.ts` sowie aus
+`dekaru-rechnungen/preise.json` (Block `leistungen.einmalig`) und schreibt die
+Datei neu; `npm run preise-pruefen` meldet nur Abweichungen, ebenso
+`tests/preise-sync.test.ts`. Nach jeder Preisänderung auf dekaru.de also
+einmal syncen und die Datei committen, weil Vercel die anderen Repos nicht
+sieht. Sichtbar sind die Zahlen nur für Admin und Stufe 2: Summe, Hosting mit
+dem Hinweis auf die ersten zwölf bezahlten Monate und die eigene Provision
+(35 %, einschließlich etwaiger Umsatzsteuer). Stufe 1 sieht nur "ab 600 €"
+und den Hinweis, dass Michael Henning den Preis nennt; die Prüfung liegt auf
+dem Server, nicht im Markup. Ohne JavaScript rechnet der Knopf
+**Berechnen** auf dem Server, mit JavaScript aktualisiert sich die Summe
+sofort (`src/scripts/preisrechner.ts`).
+
+**Briefing-Bogen.** Der Bogen aus Blatt 11 als Formular (`/briefing`), immer
+an einen Betrieb aus "Meine Kunden" gebunden, Teil A wird daraus vorbelegt.
+Zwischenspeichern geht jederzeit, ohne Pflichtfelder; **An Michael Henning
+schicken** prüft die Pflichtangaben und setzt den Status auf eingereicht,
+danach ist der Bogen für den Vertriebler gesperrt. Der Admin sieht unter
+**Admin** → **Briefing-Bögen** nur abgeschickte Bögen, Entwürfe bleiben beim
+Vertriebler. Dort lädt er die Angebots-Eingabe als YAML herunter
+(`src/lib/angebot-yaml.ts`, Format von
+`dekaru-rechnungen/angebote/eingang/_beispiel.yaml`), legt sie nach
+`angebote/eingang/` und ruft `/angebot` auf. Paket und Bausteine stehen nur als
+Schlüssel darin, die Preise setzt das Angebotssystem aus seiner eigenen
+`preise.json`. Kundendatei, Zuordnung zum Vertriebler, Angaben für Werkvertrag
+und AVV sowie Teil G stehen als Kommentar dabei. Der Download markiert den
+Bogen als übernommen; **Zur Überarbeitung zurückgeben** macht ihn wieder zum
+Entwurf. Datensparsam: nur die Felder, die Angebot und Verträge brauchen.
+Einträge wie "Passwort: …", "Passwort = …", "Kennwort: …", "PW: …", "PIN: …",
+"Login: …" oder "Zugangsdaten: …", also ein Stichwort mit Doppelpunkt oder
+Gleichheitszeichen und einem Wert dahinter, sperren das Speichern, auch als
+Entwurf (`enthaeltPasswort` in `src/lib/briefing.ts`). Das bloße Wort
+"Passwort" im Fließtext ist erlaubt.
+`tests/angebot-yaml.test.ts` liest die erzeugte Datei mit dem YAML-Parser
+und der Paketlogik aus `dekaru-rechnungen`, wenn das Repo daneben liegt.
+
+**Provision automatisch.** `POST /api/provision-import` nimmt eine Abrechnung
+als JSON entgegen, gesendet von `npm run provision -- --monat JJJJ-MM --senden`
+in dekaru-rechnungen. Kein Login, Schutz über `Authorization: Bearer <Token>`
+gegen `PROVISION_IMPORT_TOKEN` (zeitkonstanter Vergleich über SHA-256, ohne
+eingerichtetes Token oder unter 32 Zeichen immer 401, Token in der URL zählt
+nicht). Fünf Fehlversuche je IP sperren 15 Minuten (Tabelle `login_versuche`,
+Schlüssel `provision-import:<ip>`), erfolgreiche Anfragen zählen nicht. Nur
+`application/json` bis 2 MB, dieselbe Prüfung wie der Upload. `?pruefen=1`
+prüft nur und sagt, ob neu, ersetzt oder unverändert. Gleicher Monat und Slug
+ersetzt wie beim Upload; ist der Inhalt gleich (das Feld `erstellt` zählt
+nicht), wird nichts geschrieben und keine Mail verschickt. Logik in
+`src/lib/provision-import.ts`, der Pfad ist in `zugriff.ts` als Token-Pfad von
+Login und CSRF ausgenommen, genau dieser eine Pfad.
+
+Nach einem neuen oder geänderten Import, auch per Upload im Admin, bekommt der
+Vertriebler mit diesem Slug eine Mail "Ihre Provisionsabrechnung für <Monat>
+ist im Portal" mit Link, ohne Beträge. Abschalten unter `/einstellungen`
+(Spalte `benutzer.provision_mail`). Versand per SMTP über `PORTAL_SMTP_*`, die
+gleichen Regeln wie im Formulardienst, umgesetzt mit nodemailer in
+`src/lib/smtp.ts`: Port 465 ist TLS von Anfang an, jeder andere Port verlangt
+STARTTLS (`requireTLS`), Anmeldung immer (`forceAuth`, kein Rückfall auf
+"ohne Anmeldung"), Zertifikat wird geprüft, feste Zeitlimits von zehn
+Sekunden. `tests/smtp.test.ts` prüft das gegen einen lokalen Fake-Server mit
+eigenem Zertifikat, den Aufbau der Mail mit dem Stream-Transport. Fehlen die Variablen,
+geht keine Mail raus und der Admin sieht unter Provision einen Hinweis. Was mit
+der Mail geschah, steht je Abrechnung in der Spalte `benachrichtigung`
+(Migration `008-provision-import.sql`). Ein Mailfehler macht den Import nicht
+rückgängig. Jeder Import steht im Admin-Protokoll, per Token als "Import per
+Token" ohne Admin-ID, dazu eine Zeile ohne Beträge im Vercel-Log.
 
 ## Lokale Entwicklung
 
@@ -134,7 +320,9 @@ Das Skript gibt ein Einmal-Passwort aus. Nach dem Login verlangt das Portal ein
 eigenes Passwort.
 
 ```
-npm test               # Vitest: Login, Zugriff, Kunden, Quiz, Provision
+npm test               # Vitest: Login, Zugriff, Kunden, Wiedervorlage, Kalender,
+                       # Cockpit, Quiz, Provision, Admin, Stufe, Preise, Sync,
+                       # Briefing, Angebots-YAML
 npm run check          # Typen
 npm run build          # Vercel-Build nach .vercel/output
 ADAPTER=node npm run build && PGLITE_PFAD=./.pglite node dist/server/entry.mjs
@@ -143,7 +331,9 @@ ADAPTER=node npm run build && PGLITE_PFAD=./.pglite node dist/server/entry.mjs
 
 Lighthouse (mobil, Chrome headless, angemeldet, Stand 02.10.2026, hell und
 dunkel): Start, Lernen, Lernkarte, Abfrage, Gespräch, Kunden jeweils
-Performance 100, Accessibility 100, Best Practices 100. SEO liegt bei 45 bis 50
+Performance 100, Accessibility 100, Best Practices 100. Stand 04.10.2026:
+Start (Vertriebler und Admin), Kalender Woche und Monat, Wiedervorlagen,
+Einstellungen jeweils Performance 99, Accessibility 100, Best Practices 100. SEO liegt bei 45 bis 50
 und bleibt es: das Portal trägt `noindex` und hat keine öffentlichen Seiten.
 
 ## Einrichtung durch Michi, Schritt für Schritt
@@ -193,8 +383,13 @@ Menünamen englisch, wie sie auf dem Mac und bei Vercel erscheinen.
 ### 4. Umgebungsvariablen prüfen
 
 Vercel-Projekt → **Settings** → **Environment Variables**. Dort muss
-`DATABASE_URL` stehen (aus Schritt 3). Weitere Variablen braucht das Portal
-nicht. `PGLITE_PFAD` bleibt lokal in `.env` und wird nie eingetragen.
+`DATABASE_URL` stehen (aus Schritt 3). Für den automatischen
+Provisionsimport und die Mail an die Vertriebler kommen
+`PROVISION_IMPORT_TOKEN` und `PORTAL_SMTP_HOST`, `PORTAL_SMTP_PORT`,
+`PORTAL_SMTP_SECURE`, `PORTAL_SMTP_USER`, `PORTAL_SMTP_PASS`,
+`PORTAL_SMTP_FROM` dazu (Schritt 9). Ohne sie läuft das Portal, nur Import per
+Token und Mail fallen weg. `PGLITE_PFAD` bleibt lokal in `.env` und wird nie
+eingetragen.
 
 ### 5. Schema anlegen und ersten Admin erzeugen
 
@@ -218,20 +413,35 @@ holt sich Michi so, dass sie nie in einer Datei landet:
 `db:migrate` ist wiederholbar und wendet nur an, was fehlt. Kommt eine neue
 `NNN-…sql` dazu, denselben Befehl noch einmal.
 
-**Offen seit Gesprächshilfe und neuem Lernbereich:** `002-pflichtsaetze.sql`
-(Tabelle `pflichtsatz_antworten`) und `003-lernen.sql` (Tabellen
-`lernkarten_stand` und `abfrage_durchlaeufe`) sind auf der Live-Datenbank noch
-nicht angewendet. Vor dem Merge nach `main` einmalig vom Mac aus:
+**Offen auf der Live-Datenbank (Stand Oktober 2026):** dort sind die
+Versionen 1 bis 3 angewendet. Es fehlen `004-einmal-passwort-ablauf.sql`,
+`005-wiedervorlage-kalender.sql` (Wiedervorlage an `kunden`, `kalender_token`),
+`006-stufe-briefing.sql` (Stufe an `benutzer`, `stufen_protokoll`,
+`briefings`), `007-admin-ausbau.sql` (`admin_protokoll`,
+`kunden_statuswechsel`, `dubletten_meldungen`, zwei Trigger) und
+`008-provision-import.sql` (`provision_mail`, Mailstatus an den Abrechnungen).
+Sie müssen laufen, **bevor** dieser Stand auf `main` deployt wird, sonst
+zeigen Startseite, Kunden, Kalender, Briefing, Admin und Provision einen
+Fehler. Einmalig vom Mac aus, mit dem Code des Zweigs (zsh):
 
 ```
-cd ~/dekaru/dekaru-partner/app
-export DATABASE_URL='postgres://…?sslmode=require'
-npm run db:migrate        # meldet "Angewendet: 2, 3"
+cd ~/dekaru/dekaru-partner
+git fetch origin
+git worktree add ~/dekaru/_ablage/portal-migration origin/portal-ausbau
+cd ~/dekaru/_ablage/portal-migration/app
+ln -s ~/dekaru/dekaru-partner/app/node_modules node_modules
+read -s "DATABASE_URL?Neon-URL: "; echo; export DATABASE_URL
+npm run db:migrate        # meldet "Angewendet: 4, 5, 6, 7, 8"
 unset DATABASE_URL
+cd ~/dekaru/dekaru-partner
+git worktree remove --force ~/dekaru/_ablage/portal-migration
 ```
 
-Bis dahin zeigen `/gespraech`, `/gespraech/ueben`, der Admin-Lernstand und der
-Lernbereich auf partner.dekaru.de einen Fehler, weil die Tabellen fehlen.
+Die Migrationen sind wiederholbar; ein zweiter Lauf meldet "Schema ist
+aktuell.". `tests/migration.test.ts` prüft genau diesen Weg (Stand 1 bis 3
+mit Bestand auf 8). Bestehende Vertriebler bekommen Stufe 1 und die
+Provisionsmail eingeschaltet, alte Abrechnungen bleiben ohne Mailstatus und
+lösen keine Mail aus.
 
 ### 6. Deployen und Region prüfen
 
@@ -269,6 +479,44 @@ Login-Link zusammen. Deaktivieren beendet sofort alle Sitzungen.
 
 ### 9. Provision monatlich
 
+Voraussetzung ist Migration 8 auf Neon (siehe Schritt 5).
+
+**Token für den automatischen Import, einmalig:**
+
+1. `openssl rand -hex 32 | pbcopy` erzeugt das Token direkt in die
+   Zwischenablage.
+2. `security add-generic-password -a "$USER" -s dekaru-portal-import -U -w`
+   und bei der Frage mit Cmd+V einfügen. Damit liegt es im macOS-Schlüsselbund.
+3. Vercel → Projekt → **Settings** → **Environment Variables**: Key
+   `PROVISION_IMPORT_TOKEN`, Value Cmd+V, nur **Production**, **Sensitive**
+   anhaken, **Save**, danach **Redeploy**.
+4. `pbcopy < /dev/null` leert die Zwischenablage.
+
+**Mail an die Vertriebler, einmalig:** dieselben Werte wie beim Formulardienst
+(Google Workspace SMTP-Relay), nur mit dem Präfix `PORTAL_SMTP_`:
+`PORTAL_SMTP_HOST` (`smtp-relay.gmail.com`), `PORTAL_SMTP_PORT` (`587`),
+`PORTAL_SMTP_SECURE` (`false`), `PORTAL_SMTP_USER`, `PORTAL_SMTP_PASS`,
+`PORTAL_SMTP_FROM`. Ebenfalls nur Production, `PORTAL_SMTP_PASS` als
+Sensitive. Im Google-Admin muss das Relay die Anmeldung mit diesem Konto
+erlauben (wie beim Formulardienst).
+
+**Ablauf am Fünften:**
+
+```
+cd ~/dekaru/dekaru-rechnungen
+npm run provision -- --monat 2026-10                  # erzeugen, md prüfen
+export PORTAL_URL=https://partner.dekaru.de
+export PORTAL_IMPORT_TOKEN="$(security find-generic-password -a "$USER" -s dekaru-portal-import -w)"
+npm run provision -- --monat 2026-10 --senden --trockenlauf
+npm run provision -- --monat 2026-10 --senden
+unset PORTAL_IMPORT_TOKEN
+```
+
+Die Ausgabe zeigt je Vertriebler neu, ersetzt oder unverändert und ob die Mail
+rausging. Danach überweisen und hier **Ausgezahlt** markieren.
+
+Der bisherige Weg bleibt:
+
 ```
 cd ~/dekaru/dekaru-rechnungen && npm run provision          # schreibt md und json
 cd ~/dekaru/dekaru-partner/app
@@ -287,8 +535,9 @@ Oder im Portal **Admin** → **Provision importieren** und die JSON-Dateien aus
 |---|---|---|---|
 | Vercel Inc. | Hosting, Serverless-Funktionen, Logs | Funktionen in Frankfurt (fra1), Edge-Netz weltweit, Unternehmenssitz USA | Vercel DPA mit EU-Standardvertragsklauseln, im Vercel-Dashboard unter Settings → Legal akzeptieren; AVV-Eintrag in `dekaru-rechnungen` (Anlage 3) ergänzen |
 | Neon Inc. | Postgres-Datenbank | AWS eu-central-1 (Frankfurt) | Neon DPA (über den Vercel Marketplace, zusätzlich bei neon.tech/dpa), ebenfalls in Anlage 3 aufnehmen |
+| Google (Workspace) | Versand der Provisionsmail über das SMTP-Relay | EU/USA nach Workspace-Vertrag | Google Workspace Data Processing Amendment, wie beim Formulardienst |
 
-Beides sind US-Unternehmen mit Datenhaltung in Frankfurt. Für die Übermittlung
+Vercel und Neon sind US-Unternehmen mit Datenhaltung in Frankfurt. Für die Übermittlung
 gelten die Standardvertragsklauseln beider DPAs; das Data Privacy Framework
 kann zusätzlich genannt werden, wenn der Anbieter zertifiziert ist (bei Vercel
 der Fall, bei Neon prüfen).
@@ -304,7 +553,8 @@ oder zu prüfen:
   im berechtigten Interesse (lit. f), Kaltakquise nur B2B nach § 7 UWG.
 - Datenkategorien: Zugangsdaten, Lernfortschritt, selbst eingetragene
   Kundenkontakte (nur geschäftlich), Provisionsaufstellung, IP-Adresse kurz
-  beim Login, Server-Logs beim Hoster.
+  beim Login, Server-Logs beim Hoster. Dazu die E-Mail-Adresse für die
+  Benachrichtigung über neue Abrechnungen (ohne Beträge, abschaltbar).
 - Cookie `dp_sitzung`, technisch notwendig, kein Tracking, keine Dritten.
 - Empfänger Vercel und Neon mit Standort und Grundlage.
 - Speicherdauer: Zugang bis Ende der Zusammenarbeit, Provisionsaufstellungen
@@ -319,7 +569,9 @@ verpflichtet werden (nur geschäftliche Daten von Gewerbetreibenden).
 ## Offene Punkte
 
 - Datenschutzseite: Platzhalter füllen, Text vor dem ersten Vertriebler
-  prüfen lassen.
+  prüfen lassen. Die Löschfrist für Briefing-Bögen (drei Monate nach
+  Übernahme bzw. Vertragsschluss) ist ein Vorschlag und wird bisher von Hand
+  umgesetzt.
 - Passwort vergessen: gibt es bewusst nicht als Selbstbedienung. Michi setzt im
   Admin ein neues Einmal-Passwort.
 - Grafiken werden als `<img>` eingebunden, ihre Schriften fallen deshalb auf

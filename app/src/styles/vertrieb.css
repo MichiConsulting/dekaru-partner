@@ -1,0 +1,461 @@
+/*
+ * Preisrechner und Briefing-Bogen. Nur Farbvariablen aus global.css, kein
+ * eigener Wert, damit hell und dunkel von dort kommen. Akzent bleibt auf
+ * Buttons, Links und Formular-Haekchen (accent-color in global.css).
+ */
+
+/* ── Preisrechner: Layout ── */
+.rechner {
+  display: grid;
+  gap: var(--space-l);
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+}
+@media (min-width: 900px) {
+  .rechner {
+    grid-template-columns: minmax(0, 1fr) 320px;
+  }
+  .rechner__summe {
+    position: sticky;
+    top: var(--space-m);
+  }
+}
+.rechner__schritt {
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  font-weight: 500;
+  margin: var(--space-xl) 0 var(--space-xs);
+}
+.rechner__schritt:first-child {
+  margin-top: 0;
+}
+
+/* Paketkarten: eine echte Radiogruppe, die Karte ist das Label. */
+.pakete {
+  display: grid;
+  gap: var(--space-m);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+.paket {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-l) var(--space-m) var(--space-m);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.paket:hover {
+  border-color: var(--border-strong);
+}
+.paket:has(input:checked) {
+  border-color: var(--text);
+  box-shadow: inset 0 0 0 1px var(--text);
+}
+.paket:has(input:focus-visible) {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+.paket input[type='radio'] {
+  position: absolute;
+  top: var(--space-m);
+  right: var(--space-m);
+}
+.paket__label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  cursor: pointer;
+  margin: 0;
+  font-weight: 500;
+}
+.paket__label::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+.paket__badge {
+  position: absolute;
+  top: 0;
+  left: var(--space-m);
+  transform: translateY(-50%);
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--text);
+  color: var(--bg);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.paket__preis {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.paket__text {
+  font-size: var(--text-small);
+  color: var(--text-muted);
+  font-weight: 400;
+}
+.paket__inhalt {
+  list-style: none;
+  margin: var(--space-xs) 0 0;
+  padding: var(--space-s) 0 0;
+  border-top: 1px solid var(--border);
+  font-size: var(--text-small);
+  color: var(--text-muted);
+  max-width: none;
+}
+.paket__inhalt li {
+  display: flex;
+  gap: var(--space-s);
+  margin-bottom: 2px;
+}
+.paket__inhalt li::before {
+  content: '✓';
+  flex-shrink: 0;
+  color: var(--text);
+}
+.paket__funktion {
+  margin: var(--space-xs) 0 0;
+  padding: var(--space-s) var(--space-m);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  font-size: var(--text-small);
+  color: var(--text-muted);
+}
+.paket__funktion strong {
+  display: block;
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* Bausteine: Gruppen als Karten, je Posten eine Zeile. */
+.gruppe {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: var(--space-m);
+}
+.gruppe__titel {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0;
+  padding: var(--space-m) var(--space-l);
+  border-bottom: 1px solid var(--border);
+}
+.posten {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-s) var(--space-m);
+  padding: var(--space-m) var(--space-l);
+  border-bottom: 1px solid var(--border);
+}
+.posten:last-child {
+  border-bottom: 0;
+}
+.posten__text {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+.posten__text label,
+.posten__name {
+  display: block;
+  font-weight: 500;
+  cursor: pointer;
+}
+.posten__hinweis {
+  display: block;
+  font-size: var(--text-small);
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.posten__enthalten-hinweis {
+  display: none;
+  font-size: var(--text-small);
+  color: var(--text);
+  margin-top: 2px;
+}
+.posten__preis {
+  flex: 0 0 auto;
+  min-width: 7em;
+  text-align: right;
+  font-size: var(--text-small);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.posten__wahl {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 5.5em;
+  min-height: 40px;
+}
+.posten__wahl input[type='number'] {
+  width: 5.5em;
+  min-height: 40px;
+  padding: var(--space-s);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font: 400 var(--text-body) var(--font-body);
+  text-align: center;
+}
+.posten__wahl input[type='checkbox'] {
+  width: 22px;
+  height: 22px;
+}
+.posten__enthalten {
+  display: none;
+  padding: 2px 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+/* Enthaltene Schalter: "Enthalten" statt Haekchen, gesteuert allein von der
+   Radiogruppe, deshalb auch ohne JavaScript richtig. */
+.rechner-form:has([name='paket'][value='klein']:checked) .posten[data-in-klein]:not([data-art='anzahl']) .posten__wahl input,
+.rechner-form:has([name='paket'][value='mittel']:checked) .posten[data-in-mittel]:not([data-art='anzahl']) .posten__wahl input,
+.rechner-form:has([name='paket'][value='gross']:checked) .posten[data-in-gross]:not([data-art='anzahl']) .posten__wahl input {
+  display: none;
+}
+.rechner-form:has([name='paket'][value='klein']:checked) .posten[data-in-klein]:not([data-art='anzahl']) .posten__enthalten,
+.rechner-form:has([name='paket'][value='mittel']:checked) .posten[data-in-mittel]:not([data-art='anzahl']) .posten__enthalten,
+.rechner-form:has([name='paket'][value='gross']:checked) .posten[data-in-gross]:not([data-art='anzahl']) .posten__enthalten {
+  display: inline-block;
+}
+.rechner-form:has([name='paket'][value='klein']:checked) .posten[data-in-klein]:not([data-art='anzahl']) .posten__preis,
+.rechner-form:has([name='paket'][value='mittel']:checked) .posten[data-in-mittel]:not([data-art='anzahl']) .posten__preis,
+.rechner-form:has([name='paket'][value='gross']:checked) .posten[data-in-gross]:not([data-art='anzahl']) .posten__preis {
+  text-decoration: line-through;
+}
+.rechner-form:has([name='paket'][value='klein']:checked) .posten__enthalten-hinweis[data-fuer='klein'],
+.rechner-form:has([name='paket'][value='mittel']:checked) .posten__enthalten-hinweis[data-fuer='mittel'],
+.rechner-form:has([name='paket'][value='gross']:checked) .posten__enthalten-hinweis[data-fuer='gross'] {
+  display: block;
+}
+
+/* Hosting */
+.hosting {
+  display: grid;
+  gap: var(--space-s);
+}
+.hosting__tarif {
+  display: flex;
+  align-items: center;
+  gap: var(--space-m);
+  padding: var(--space-m) var(--space-l);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  margin: 0;
+  font-weight: 400;
+}
+.hosting__tarif:has(input:checked) {
+  border-color: var(--text);
+}
+.hosting__tarif strong {
+  font-weight: 500;
+}
+.hosting__tarif .meta {
+  display: block;
+}
+.hosting__tarif .posten__preis {
+  margin-left: auto;
+}
+
+/* Summe */
+.rechner__summe {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-l);
+}
+.summe__zahl {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 5vw, 40px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+  margin: var(--space-xs) 0 0;
+}
+.summe__liste {
+  list-style: none;
+  padding: var(--space-m) 0 0;
+  margin: var(--space-m) 0 0;
+  border-top: 1px solid var(--border);
+  font-size: var(--text-small);
+  color: var(--text-muted);
+  max-width: none;
+}
+.summe__liste li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-s);
+  margin: 0;
+  padding: 2px 0;
+}
+.summe__liste li span:last-child {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.summe__liste li.summe__gesamt {
+  border-top: 1px solid var(--border-strong);
+  margin-top: var(--space-xs);
+  padding-top: var(--space-xs);
+  color: var(--text);
+  font-weight: 500;
+}
+.summe__block {
+  margin-top: var(--space-m);
+  padding-top: var(--space-m);
+  border-top: 1px solid var(--border);
+}
+.summe__block h3 {
+  margin: 0 0 var(--space-xs);
+  font-size: var(--text-small);
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.summe__provision {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  margin: 0;
+}
+.summe__fuss {
+  font-size: var(--text-small);
+  color: var(--text-muted);
+  margin: var(--space-m) 0 0;
+}
+.rechner .js-nur {
+  display: none;
+}
+.js .rechner .js-nur {
+  display: inline-flex;
+}
+.js .rechner .ohne-js {
+  display: none;
+}
+
+/* ── Briefing ── */
+.briefing__teil {
+  margin-bottom: var(--space-l);
+}
+.briefing__teil > h2 {
+  margin-top: 0;
+}
+.briefing__teil > h2 .nummer {
+  color: var(--text-muted);
+  margin-right: var(--space-s);
+}
+.briefing__status {
+  display: inline-block;
+}
+.pflicht::after {
+  content: ' (Pflicht)';
+  color: var(--text-muted);
+  font-weight: 400;
+}
+.briefing__aktionen {
+  position: sticky;
+  bottom: 0;
+  padding: var(--space-m) 0;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  margin-top: var(--space-l);
+}
+.briefing__aktionen .aktionen {
+  margin-top: 0;
+}
+/* Auf schmalen Bildschirmen beide Knoepfe in einer Zeile, damit die Leiste wenig Platz nimmt. */
+@media (max-width: 480px) {
+  .briefing__aktionen {
+    padding: var(--space-s) 0;
+  }
+  .briefing__aktionen .aktionen {
+    flex-wrap: nowrap;
+  }
+  .briefing__aktionen .btn {
+    flex: 1 1 0;
+    padding: var(--space-xs) var(--space-s);
+    font-size: var(--text-small);
+    text-align: center;
+    line-height: 1.25;
+    min-height: 44px;
+  }
+}
+/* Haekchen im Bogen: Kasten links, Text daneben, auch wenn er umbricht. */
+.feld label.wahl {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  gap: var(--space-s);
+  font-weight: 400;
+  font-size: var(--text-body);
+}
+.feld label.wahl input {
+  flex: none;
+  margin-top: 0.2em;
+}
+.sperre {
+  border-left: 3px solid var(--fehler);
+  padding: var(--space-s) var(--space-m);
+  background: var(--fehler-bg);
+  color: var(--fehler);
+  font-size: var(--text-small);
+  margin-bottom: var(--space-l);
+  max-width: var(--measure);
+}
+.sperre strong {
+  display: block;
+}
+.lesen dl {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xs) var(--space-l);
+  margin: 0;
+}
+@media (min-width: 640px) {
+  .lesen dl {
+    grid-template-columns: 16em minmax(0, 1fr);
+  }
+}
+.lesen dt {
+  color: var(--text-muted);
+  font-size: var(--text-small);
+}
+.lesen dd {
+  margin: 0 0 var(--space-s);
+  white-space: pre-wrap;
+}
+pre.yaml {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-m);
+  font-size: var(--text-small);
+  overflow-x: auto;
+  max-width: 100%;
+}

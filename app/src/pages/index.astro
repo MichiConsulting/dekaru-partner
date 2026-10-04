@@ -1,65 +1,193 @@
 ---
+// Startseite als Cockpit: sechs Kacheln mit den Zahlen, die den Tag
+// bestimmen, jede mit dem Weg in ihren Bereich. Der Admin sieht dieselben
+// Kacheln mit den Gesamtzahlen aller Vertriebler.
 import Layout from '../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
+import '../styles/cockpit.css';
 import { fragenJeKapitel } from '../lib/inhalt.ts';
-import { fortschritt } from '../lib/lernen.ts';
-import { aktuellerMonat, monatszahlen } from '../lib/kunden.ts';
-import { euro, ladeAbrechnungen, monatsname, summen } from '../lib/provision.ts';
+import { alleKapitel } from '../lib/lernkontext.ts';
+import { fortschritt, fortschrittAller } from '../lib/lernen.ts';
+import { anzahlSitzt, ladeUebungsstand, pflichtsaetzeAller } from '../lib/gespraech-fortschritt.ts';
+import { pflichtsatzListe } from '../lib/inhalt-gespraech.ts';
+import { alleAbrechnungen, datumDe, euro, ladeAbrechnungen, monatsname } from '../lib/provision.ts';
+import { cockpitZahlen, cockpitZahlenAdmin, provisionImQuartal } from '../lib/cockpit.ts';
+import { datumKurz, heuteBerlin } from '../lib/datum.ts';
+import { istAdmin } from '../lib/zugriff.ts';
 
 const benutzer = Astro.locals.benutzer!;
 const db = Astro.locals.db;
+const admin = istAdmin(benutzer);
+const heute = heuteBerlin();
 
-const kapitel = (await getCollection('kapitel')).sort((a, b) => a.data.nummer - b.data.nummer);
-const stand = await fortschritt(db, benutzer.id, fragenJeKapitel(kapitel.map((k) => k.id)));
+const kapitel = await alleKapitel();
+const kapitelFragen = fragenJeKapitel(kapitel.map((k) => k.id));
+const pflichtIds = pflichtsatzListe.map((e) => e.id);
+const vorname = benutzer.name.split(' ')[0];
+
+// Je Vertriebler
+const z = admin ? null : await cockpitZahlen(db, benutzer.id, heute);
+const stand = admin ? [] : await fortschritt(db, benutzer.id, kapitelFragen);
 const erledigt = stand.filter((s) => s.erledigt).length;
 const naechstes = kapitel.find((k) => !stand.find((s) => s.kapitel === k.id)?.erledigt);
+const uebung = admin ? null : await ladeUebungsstand(db, benutzer.id);
+const sitzen = uebung ? anzahlSitzt(uebung, pflichtIds) : 0;
+const abrechnungen = !admin && benutzer.vertrieblerSlug ? await ladeAbrechnungen(db, benutzer.vertrieblerSlug) : [];
+const quartal = provisionImQuartal(admin ? await alleAbrechnungen(db) : abrechnungen, heute);
+const faellige = z ? z.wiedervorlagen.filter((w) => w.datum <= heute).slice(0, 3) : [];
 
-const monat = aktuellerMonat();
-const zahlen = await monatszahlen(db, benutzer.id, monat);
+// Admin: Gesamtzahlen
+const a = admin ? await cockpitZahlenAdmin(db, heute) : null;
+const lern = admin ? await fortschrittAller(db) : [];
+const lernAktiv = lern.filter((l) => l.aktiv);
+const kapitelErledigtGesamt = lernAktiv.reduce((s, l) => s + l.erledigt, 0);
+const kapitelMoeglich = lernAktiv.length * kapitel.length;
+const fertigeVertriebler = lernAktiv.filter((l) => kapitel.length > 0 && l.erledigt >= kapitel.length).length;
+const pflicht = admin ? await pflichtsaetzeAller(db, pflichtIds) : new Map<string, number>();
+const pflichtGesamt = lernAktiv.reduce((s, l) => s + (pflicht.get(l.benutzerId) ?? 0), 0);
+const pflichtMoeglich = lernAktiv.length * pflichtIds.length;
 
-const abrechnungen = benutzer.vertrieblerSlug ? await ladeAbrechnungen(db, benutzer.vertrieblerSlug) : [];
-const provision = summen(abrechnungen);
-const letzte = abrechnungen[0];
+const prozent = (teil: number, ganz: number) => (ganz > 0 ? Math.round((teil / ganz) * 100) : 0);
+const wochenText = (von: string, bis: string) => `${datumDe(von)} bis ${datumDe(bis)}`;
 ---
 
 <Layout titel="Start" aktiv="start">
-  <h1>Guten Tag, {benutzer.name.split(' ')[0]}.</h1>
-  <p class="meta">{monatsname(monat)}</p>
+  <h1>Guten Tag, {vorname}.</h1>
+  <p class="meta">{admin ? 'Gesamtzahlen aller Vertriebler.' : 'Ihr Überblick.'} Heute ist {datumKurz(heute, true)}</p>
 
-  <div class="raster">
-    <section class="karte">
-      <h2 style="margin-top:0">Lernen</h2>
-      <p class="punkte">{erledigt} von {kapitel.length} Kapiteln</p>
-      <div class="fortschritt" aria-hidden="true"><span style={`width:${kapitel.length ? Math.round((erledigt / kapitel.length) * 100) : 0}%`}></span></div>
-      {naechstes ? <p>Als Nächstes: <a href={`/lernen/${naechstes.id}`}>{naechstes.data.titel}</a></p> : <p>Alle Kapitel sind erledigt.</p>}
-      <a class="btn btn--zweit btn--klein" href="/lernen">Zum Lernbereich</a>
-    </section>
+  {z && (
+    <div class="kacheln">
+      <section class="kachel" aria-labelledby="k-termine">
+        <h2 id="k-termine">Termine diese Woche</h2>
+        <p class="kachel__wert">{z.termineWoche.length}<small>{wochenText(z.woche.von, z.woche.bis)}</small></p>
+        {z.naechsteTermine.length > 0 ? (
+          <ul class="kachel__liste">
+            {z.naechsteTermine.map((t) => (
+              <li><time datetime={t.datum}>{datumKurz(t.datum)}</time><a href={`/kunden/${t.kundeId}`}>{t.kundeName}</a></li>
+            ))}
+          </ul>
+        ) : (
+          <p class="meta">Kein Termin eingetragen. Ein Termin entsteht über den Status eines Betriebs.</p>
+        )}
+        <div class="kachel__fuss"><a class="btn btn--zweit btn--klein" href="/kalender">Kalender</a></div>
+      </section>
 
-    <section class="karte">
-      <h2 style="margin-top:0">Meine Kunden</h2>
-      <p class="punkte">{zahlen.termine} Termine, {zahlen.abschluesse} Abschlüsse</p>
-      <p class="meta">In diesem Monat. {zahlen.neue} neue Betriebe eingetragen.</p>
-      <div class="aktionen" style="margin-top:0">
-        <a class="btn btn--klein" href="/kunden/neu">Betrieb eintragen</a>
-        <a class="btn btn--zweit btn--klein" href="/kunden">Liste</a>
-      </div>
-    </section>
+      <section class="kachel" aria-labelledby="k-wv">
+        <h2 id="k-wv">Fällige Wiedervorlagen</h2>
+        <p class:list={['kachel__wert', z.ueberfaellig > 0 && 'kachel__wert--warn']}>
+          {z.faellig}<small>{z.ueberfaellig > 0 ? `davon ${z.ueberfaellig} überfällig` : `${z.wiedervorlagen.length} offen insgesamt`}</small>
+        </p>
+        {faellige.length > 0 ? (
+          <ul class="kachel__liste">
+            {faellige.map((w) => (
+              <li><time datetime={w.datum}>{datumKurz(w.datum)}</time><a href={`/kunden/${w.kundeId}`}>{w.kundeName}</a></li>
+            ))}
+          </ul>
+        ) : (
+          <p class="meta">Nichts fällig. Eine Wiedervorlage setzen Sie beim Betrieb unter Meine Kunden.</p>
+        )}
+        <div class="kachel__fuss"><a class="btn btn--zweit btn--klein" href="/kunden/wiedervorlagen">Wiedervorlagen</a></div>
+      </section>
 
-    <section class="karte">
-      <h2 style="margin-top:0">Meine Provision</h2>
-      {letzte ? (
-        <>
-          <p class="punkte">{euro(letzte.auszahlungCent)}</p>
-          <p class="meta">Auszahlung aus der Abrechnung {monatsname(letzte.monat)}. Aufgelaufen: {euro(provision.aufgelaufenCent)} Hosting.</p>
-        </>
-      ) : (
-        <p class="meta">Noch keine Abrechnung. Die erste kommt mit dem ersten Zahlungseingang eines Ihrer Kunden.</p>
-      )}
-      <a class="btn btn--zweit btn--klein" href="/provision">Aufstellung</a>
-    </section>
-  </div>
+      <section class="kachel" aria-labelledby="k-abschluesse">
+        <h2 id="k-abschluesse">Abschlüsse im {monatsname(z.monat)}</h2>
+        <p class="kachel__wert">{z.abschluesseMonat}<small>{z.neueMonat} neue Betriebe</small></p>
+        <p class="meta">Ein Abschluss zählt in dem Monat, in dem der Status gesetzt wurde.</p>
+        <div class="kachel__fuss">
+          <a class="btn btn--klein" href="/kunden/neu">Betrieb eintragen</a>
+          <a class="btn btn--zweit btn--klein" href="/kunden?status=abschluss">Abschlüsse</a>
+        </div>
+      </section>
 
-  {benutzer.rolle === 'admin' && (
-    <p><a href="/admin">Zum Admin-Bereich</a></p>
+      <section class="kachel" aria-labelledby="k-provision">
+        <h2 id="k-provision">Provision im {quartal.nummer}. Quartal {quartal.jahr}</h2>
+        {benutzer.vertrieblerSlug ? (
+          <>
+            <p class="kachel__wert">{euro(quartal.entstandenCent)}<small>entstanden</small></p>
+            <dl class="kachel__zahlen">
+              <div><dt>Ausgezahlt</dt><dd>{euro(quartal.ausgezahltCent)}</dd></div>
+              <div><dt>Aufgelaufen</dt><dd>{euro(quartal.aufgelaufenCent)}</dd></div>
+              <div><dt>Abrechnungen</dt><dd>{quartal.abrechnungen}</dd></div>
+            </dl>
+            <p class="meta">Abrechnungsmonate {monatsname(quartal.von)} bis {monatsname(quartal.bis)}. Aufgelaufen ist das Hosting bis zur Quartalsauszahlung.</p>
+          </>
+        ) : (
+          <p class="meta">Ihrem Zugang ist noch kein Vertriebler-Kürzel zugeordnet. Sobald es da ist, stehen hier Ihre Zahlen.</p>
+        )}
+        <div class="kachel__fuss"><a class="btn btn--zweit btn--klein" href="/provision">Aufstellung</a></div>
+      </section>
+
+      <section class="kachel" aria-labelledby="k-lernen">
+        <h2 id="k-lernen">Lernfortschritt</h2>
+        <p class="kachel__wert">{erledigt}<small>von {kapitel.length} Kapiteln</small></p>
+        <div class="fortschritt" role="progressbar" aria-valuenow={prozent(erledigt, kapitel.length)} aria-valuemin="0" aria-valuemax="100" aria-label="Kapitel erledigt"><span style={`width:${prozent(erledigt, kapitel.length)}%`}></span></div>
+        {naechstes ? <p class="meta">Als Nächstes: <a href={`/lernen/${naechstes.id}`}>{naechstes.data.titel}</a></p> : <p class="meta">Alle Kapitel sind erledigt.</p>}
+        <div class="kachel__fuss"><a class="btn btn--zweit btn--klein" href="/lernen">Lernbereich</a></div>
+      </section>
+
+      <section class="kachel" aria-labelledby="k-pflicht">
+        <h2 id="k-pflicht">Pflichtsätze</h2>
+        <p class="kachel__wert">{sitzen}<small>von {pflichtIds.length} sitzen</small></p>
+        <div class="fortschritt" role="progressbar" aria-valuenow={prozent(sitzen, pflichtIds.length)} aria-valuemin="0" aria-valuemax="100" aria-label="Pflichtsätze, die sitzen"><span style={`width:${prozent(sitzen, pflichtIds.length)}%`}></span></div>
+        <p class="meta">{sitzen === pflichtIds.length && pflichtIds.length > 0 ? 'Alle Sätze sitzen. Ab und zu auffrischen schadet nicht.' : 'Ein Satz sitzt, wenn der letzte Versuch stimmt.'}</p>
+        <div class="kachel__fuss"><a class="btn btn--zweit btn--klein" href="/gespraech/ueben">Üben</a></div>
+      </section>
+    </div>
+  )}
+
+  {a && (
+    <div class="kacheln">
+      <section class="kachel" aria-labelledby="k-termine">
+        <h2 id="k-termine">Termine diese Woche</h2>
+        <p class="kachel__wert">{a.termineWoche}<small>{wochenText(a.woche.von, a.woche.bis)}</small></p>
+        <p class="meta">Alle Vertriebler zusammen, {a.aktiveVertriebler} aktive Zugänge.</p>
+        <div class="kachel__fuss"><a class="btn btn--zweit btn--klein" href="/admin/kunden?status=termin">Termine</a></div>
+      </section>
+
+      <section class="kachel" aria-labelledby="k-wv">
+        <h2 id="k-wv">Fällige Wiedervorlagen</h2>
+        <p class="kachel__wert">{a.wiedervorlagenFaellig}<small>{a.wiedervorlagenOffen} offen insgesamt</small></p>
+        <p class="meta">Heute oder früher fällig, über alle Vertriebler.</p>
+        <div class="kachel__fuss"><a class="btn btn--zweit btn--klein" href="/admin/kunden">Alle Kunden</a></div>
+      </section>
+
+      <section class="kachel" aria-labelledby="k-abschluesse">
+        <h2 id="k-abschluesse">Abschlüsse im {monatsname(a.monat)}</h2>
+        <p class="kachel__wert">{a.abschluesseMonat}<small>{a.neueMonat} neue Betriebe</small></p>
+        <p class="meta">Status Abschluss in diesem Monat gesetzt.</p>
+        <div class="kachel__fuss"><a class="btn btn--zweit btn--klein" href="/admin/kunden?status=abschluss">Abschlüsse</a></div>
+      </section>
+
+      <section class="kachel" aria-labelledby="k-provision">
+        <h2 id="k-provision">Provision im {quartal.nummer}. Quartal {quartal.jahr}</h2>
+        <p class="kachel__wert">{euro(quartal.entstandenCent)}<small>entstanden</small></p>
+        <dl class="kachel__zahlen">
+          <div><dt>Ausgezahlt</dt><dd>{euro(quartal.ausgezahltCent)}</dd></div>
+          <div><dt>Aufgelaufen</dt><dd>{euro(quartal.aufgelaufenCent)}</dd></div>
+          <div><dt>Abrechnungen</dt><dd>{quartal.abrechnungen}</dd></div>
+        </dl>
+        <p class="meta">Alle importierten Abrechnungen mit Abrechnungsmonat {monatsname(quartal.von)} bis {monatsname(quartal.bis)}.</p>
+        <div class="kachel__fuss"><a class="btn btn--zweit btn--klein" href="/admin/provision">Provision</a></div>
+      </section>
+
+      <section class="kachel" aria-labelledby="k-lernen">
+        <h2 id="k-lernen">Lernfortschritt</h2>
+        <p class="kachel__wert">{prozent(kapitelErledigtGesamt, kapitelMoeglich)} %<small>{kapitelErledigtGesamt} von {kapitelMoeglich} Kapiteln</small></p>
+        <div class="fortschritt" role="progressbar" aria-valuenow={prozent(kapitelErledigtGesamt, kapitelMoeglich)} aria-valuemin="0" aria-valuemax="100" aria-label="Kapitel erledigt, alle Vertriebler"><span style={`width:${prozent(kapitelErledigtGesamt, kapitelMoeglich)}%`}></span></div>
+        <p class="meta">{fertigeVertriebler} von {lernAktiv.length} aktiven Vertrieblern haben alle Kapitel erledigt.</p>
+        <div class="kachel__fuss"><a class="btn btn--zweit btn--klein" href="/admin">Lernstand</a></div>
+      </section>
+
+      <section class="kachel" aria-labelledby="k-pflicht">
+        <h2 id="k-pflicht">Pflichtsätze</h2>
+        <p class="kachel__wert">{prozent(pflichtGesamt, pflichtMoeglich)} %<small>{pflichtGesamt} von {pflichtMoeglich} sitzen</small></p>
+        <div class="fortschritt" role="progressbar" aria-valuenow={prozent(pflichtGesamt, pflichtMoeglich)} aria-valuemin="0" aria-valuemax="100" aria-label="Pflichtsätze, die sitzen, alle Vertriebler"><span style={`width:${prozent(pflichtGesamt, pflichtMoeglich)}%`}></span></div>
+        <p class="meta">{pflichtIds.length} Sätze je Vertriebler, gezählt wird der letzte Versuch.</p>
+        <div class="kachel__fuss"><a class="btn btn--zweit btn--klein" href="/admin/vertriebler">Vertriebler</a></div>
+      </section>
+    </div>
+  )}
+
+  {admin && (
+    <p class="meta">Ihre eigenen Bereiche: <a href="/kunden">Meine Kunden</a>, <a href="/kalender">Kalender</a>, <a href="/einstellungen">Einstellungen</a>.</p>
   )}
 </Layout>

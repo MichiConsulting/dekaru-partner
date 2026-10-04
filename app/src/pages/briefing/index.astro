@@ -1,0 +1,69 @@
+---
+import '../../styles/vertrieb.css';
+import Layout from '../../layouts/Layout.astro';
+import { STATUS_LABEL, listeBriefings } from '../../lib/briefing.ts';
+import { listeKunden } from '../../lib/kunden.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const db = Astro.locals.db;
+const csrf = Astro.locals.csrf ?? '';
+const briefings = await listeBriefings(db, benutzer.id);
+const kunden = await listeKunden(db, benutzer.id);
+const ok = Astro.url.searchParams.get('ok');
+---
+
+<Layout titel="Briefing" aktiv="briefing">
+  <h1>Briefing-Bogen</h1>
+  <p class="meta" style="max-width:var(--measure)">
+    Ausgefüllt im Zweittermin, gemeinsam mit dem Inhaber, nachdem er Ja gesagt hat. Daraus entstehen Angebot, Werkvertrag und
+    Auftragsverarbeitungsvertrag. Was hier fehlt, fehlt auf der Seite oder verzögert sie. Zwischenspeichern geht jederzeit,
+    eingereicht wird einmal.
+  </p>
+  {ok === 'eingereicht' && <div class="meldung meldung--ok" role="status"><p>Der Bogen ist bei Michael Henning. Danach keine Kopie behalten, die Kundendaten liegen ab jetzt bei ihm.</p></div>}
+  {ok === 'geloescht' && <div class="meldung meldung--ok" role="status"><p>Der Entwurf ist gelöscht.</p></div>}
+
+  <h2>Neuer Bogen</h2>
+  {kunden.length === 0 ? (
+    <p>Erst einen Betrieb unter <a href="/kunden/neu">Meine Kunden</a> eintragen, dann hier den Bogen dazu anlegen.</p>
+  ) : (
+    <form method="post" action="/briefing/neu" class="filter">
+      <input type="hidden" name="_csrf" value={csrf} />
+      <div class="feld">
+        <label for="kunde">Betrieb aus Meine Kunden</label>
+        <select id="kunde" name="kunde" required>
+          <option value="">Bitte wählen</option>
+          {kunden.map((k) => <option value={k.id}>{k.name}{k.ort ? `, ${k.ort}` : ''}</option>)}
+        </select>
+      </div>
+      <button type="submit" class="btn">Bogen anlegen</button>
+    </form>
+  )}
+
+  <h2>Meine Bögen</h2>
+  {briefings.length === 0 ? (
+    <p>Noch kein Bogen.</p>
+  ) : (
+    <div class="tabelle-wrap schiebbar">
+      <table class="tabelle--karten" role="table">
+        <thead role="rowgroup">
+          <tr role="row"><th role="columnheader">Betrieb</th><th role="columnheader">Status</th><th role="columnheader">Geändert</th><th role="columnheader"><span class="sr-only">Öffnen</span></th></tr>
+        </thead>
+        <tbody role="rowgroup">
+          {briefings.map((b) => (
+            <tr role="row">
+              <td role="cell" class="zelle--titel"><a href={`/briefing/${b.id}`}>{b.kundeName}</a></td>
+              <td role="cell" data-label="Status"><span class:list={['badge', b.status !== 'entwurf' && 'badge--voll']}>{STATUS_LABEL[b.status]}</span></td>
+              <td role="cell" data-label="Geändert">{b.geaendertAm.toLocaleDateString('de-DE')}</td>
+              <td role="cell" class="zelle--nebensache"><a href={`/briefing/${b.id}`}>{b.status === 'entwurf' ? 'Weiter ausfüllen' : 'Ansehen'}</a></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )}
+
+  <div class="hinweis">
+    <strong>Drei Regeln.</strong> Nur ankreuzen, was auf der Preisliste steht. Keine Passwörter und keine Zugangsdaten auf den Bogen. Was Sie
+    versprochen haben, steht wörtlich in Teil G.
+  </div>
+</Layout>

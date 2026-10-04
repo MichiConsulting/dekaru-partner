@@ -1,0 +1,162 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import '../../styles/admin.css';
+import { MELDUNG_STATUS, dublettenImBestand, ladeMeldungen } from '../../lib/dubletten.ts';
+import { AdminFehler, akteurAus, dubletteEntscheiden, type DublettenEntscheidung } from '../../lib/admin-aktionen.ts';
+import { statusLabel } from '../../lib/kunden.ts';
+import { formular, istPost } from '../../lib/http.ts';
+import { istAdmin } from '../../lib/zugriff.ts';
+
+if (!istAdmin(Astro.locals.benutzer)) return Astro.redirect('/verboten', 303);
+
+const db = Astro.locals.db;
+const ich = Astro.locals.benutzer!;
+const csrf = Astro.locals.csrf ?? '';
+let fehler: string | null = null;
+
+const ERGEBNIS: Record<DublettenEntscheidung, string> = {
+  freigeben: 'Freigegeben. Der Vertriebler kann den Betrieb jetzt eintragen.',
+  zuordnen: 'Zugeordnet. Der bisherige Eintrag ist gelöscht, der Vertriebler kann den Betrieb jetzt eintragen.',
+  ablehnen: 'Der Betrieb bleibt beim bisherigen Vertriebler.',
+};
+
+if (istPost(Astro.request)) {
+  const d = await formular(Astro.request);
+  const e = d.entscheidung;
+  if (e === 'freigeben' || e === 'zuordnen' || e === 'ablehnen') {
+    try {
+      await dubletteEntscheiden(db, akteurAus(ich), String(d.id ?? ''), e);
+      return Astro.redirect(`/admin/dubletten?ok=${e}`, 303);
+    } catch (f) {
+      if (!(f instanceof AdminFehler)) throw f;
+      fehler = f.message;
+    }
+  } else {
+    fehler = 'Unbekannte Entscheidung.';
+  }
+}
+
+const ok = Astro.url.searchParams.get('ok') as DublettenEntscheidung | null;
+const meldung = ok && ok in ERGEBNIS ? ERGEBNIS[ok] : null;
+const meldungen = await ladeMeldungen(db);
+const offen = meldungen.filter((m) => m.status === 'offen');
+const erledigt = meldungen.filter((m) => m.status !== 'offen');
+const bestand = await dublettenImBestand(db);
+const zeit = (d: Date) => d.toLocaleString('de-DE', { timeZone: 'Europe/Berlin', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+---
+
+<Layout titel="Dubletten" aktiv="admin">
+  <p class="meta"><a href="/admin">Admin</a> / Dubletten</p>
+  <h1>Dubletten</h1>
+  <p class="meta">
+    Will ein Vertriebler einen Betrieb speichern, den schon jemand anderes betreut, wird das Speichern blockiert. Er sieht
+    nur den Hinweis, sich bei Ihnen zu melden, keine Daten des anderen. Hier entscheiden Sie.
+  </p>
+
+  {meldung && <div class="meldung meldung--ok" role="status"><p>{meldung}</p></div>}
+  {fehler && <div class="meldung meldung--fehler" role="alert"><p>{fehler}</p></div>}
+
+  <h2>Offene Meldungen ({offen.length})</h2>
+  {offen.length === 0 && <p>Keine offenen Meldungen.</p>}
+  {
+    offen.map((m) => (
+      <article class="dublette dublette--offen" aria-labelledby={`m-${m.id}`}>
+        <div class="dublette__kopf">
+          <h3 id={`m-${m.id}`}>{m.anfrage.name}</h3>
+          <span class="meta">gemeldet {zeit(m.gemeldetAm)}</span>
+        </div>
+        <div class="dublette__seiten">
+          <section class="dublette__seite">
+            <h4>Anfrage von {m.anfrage.vertriebler}</h4>
+            <dl>
+              <dt>Betrieb</dt><dd>{m.anfrage.name}</dd>
+              <dt>Ort</dt><dd>{m.anfrage.ort || 'keiner'}</dd>
+              <dt>Telefon</dt><dd>{m.anfrage.telefon || 'keines'}</dd>
+            </dl>
+          </section>
+          {m.bestand.length === 0 && (
+            <section class="dublette__seite">
+              <h4>Bestehender Eintrag</h4>
+              <p class="meta">Inzwischen gelöscht. Freigeben ist unbedenklich.</p>
+            </section>
+          )}
+          {m.bestand.map((b) => (
+            <section class="dublette__seite">
+              <h4>Bisher bei {b.vertriebler}</h4>
+              <dl>
+                <dt>Betrieb</dt><dd>{b.name}</dd>
+                <dt>Ort</dt><dd>{b.ort || 'keiner'}</dd>
+                <dt>Telefon</dt><dd>{b.telefon || 'keines'}</dd>
+                <dt>Status</dt><dd>{statusLabel(b.status)}</dd>
+              </dl>
+            </section>
+          ))}
+        </div>
+        <div class="aktionen">
+          <form method="post">
+            <input type="hidden" name="_csrf" value={csrf} /><input type="hidden" name="id" value={m.id} />
+            <input type="hidden" name="entscheidung" value="ablehnen" />
+            <button type="submit" class="btn">Bei {m.bestand[0]?.vertriebler ?? 'Bisherigem'} lassen</button>
+          </form>
+          <form method="post">
+            <input type="hidden" name="_csrf" value={csrf} /><input type="hidden" name="id" value={m.id} />
+            <input type="hidden" name="entscheidung" value="zuordnen" />
+            <button type="submit" class="btn btn--zweit">{m.anfrage.vertriebler} zuordnen</button>
+          </form>
+          <form method="post">
+            <input type="hidden" name="_csrf" value={csrf} /><input type="hidden" name="id" value={m.id} />
+            <input type="hidden" name="entscheidung" value="freigeben" />
+            <button type="submit" class="btn btn--zweit">Beide behalten</button>
+          </form>
+        </div>
+        <p class="meta">
+          "Zuordnen" löscht den bisherigen Eintrag, Notiz und Ansprechpartner wandern nicht mit. Danach kann
+          {' '}{m.anfrage.vertriebler} den Betrieb selbst eintragen.
+        </p>
+      </article>
+    ))
+  }
+
+  <h2>Dubletten im Bestand ({bestand.length})</h2>
+  <p class="meta">Betriebe, die bei zwei Vertrieblern stehen, zum Beispiel aus der Zeit vor der Prüfung oder nach einer Freigabe.</p>
+  {bestand.length === 0 ? (
+    <p>Keine.</p>
+  ) : (
+    <div class="tabelle-wrap schiebbar" role="region" aria-label="Dubletten im Bestand" tabindex="0">
+      <table>
+        <thead><tr><th scope="col">Eintrag A</th><th scope="col">Vertriebler A</th><th scope="col">Eintrag B</th><th scope="col">Vertriebler B</th></tr></thead>
+        <tbody>
+          {bestand.map((p) => (
+            <tr>
+              <td>{p.a.name}<span class="meta"><br />{[p.a.ort, p.a.telefon].filter(Boolean).join(', ')}</span></td>
+              <td>{p.a.vertriebler}</td>
+              <td>{p.b.name}<span class="meta"><br />{[p.b.ort, p.b.telefon].filter(Boolean).join(', ')}</span></td>
+              <td>{p.b.vertriebler}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )}
+
+  <h2>Entschieden ({erledigt.length})</h2>
+  {erledigt.length === 0 ? (
+    <p>Noch nichts entschieden.</p>
+  ) : (
+    <div class="tabelle-wrap schiebbar" role="region" aria-label="Entschiedene Meldungen" tabindex="0">
+      <table>
+        <thead><tr><th scope="col">Betrieb</th><th scope="col">Anfrage von</th><th scope="col">Entscheidung</th><th scope="col">Am</th></tr></thead>
+        <tbody>
+          {erledigt.map((m) => (
+            <tr>
+              <td>{m.anfrage.name}</td>
+              <td>{m.anfrage.vertriebler}</td>
+              <td>{MELDUNG_STATUS[m.status]}</td>
+              <td>{m.entschiedenAm ? zeit(m.entschiedenAm) : ''}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )}
+</Layout>

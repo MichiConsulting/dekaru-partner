@@ -1,0 +1,112 @@
+---
+// Einstellungen: Benachrichtigung bei neuer Provisionsabrechnung und der
+// persoenliche Abo-Link fuer den Kalender. Das Token erscheint genau einmal,
+// direkt nach dem Erzeugen; gespeichert ist nur sein Hash, darum laesst es
+// sich spaeter nicht noch einmal anzeigen.
+import Layout from '../layouts/Layout.astro';
+import '../styles/cockpit.css';
+import { erzeugeKalenderToken, kalenderTokenStand, widerrufeKalenderToken } from '../lib/kalender-token.ts';
+import { formular, istPost } from '../lib/http.ts';
+import { provisionMailAn, setzeProvisionMail } from '../lib/provision-import.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const db = Astro.locals.db;
+const csrf = Astro.locals.csrf ?? '';
+
+const ok = Astro.url.searchParams.get('ok');
+let neuerLink: string | null = null;
+let meldung: string | null =
+  ok === 'widerrufen' ? 'Der Abo-Link ist widerrufen. Kalender-Apps bekommen ab jetzt nichts mehr.' : ok === 'mail' ? 'Gespeichert.' : null;
+
+if (istPost(Astro.request)) {
+  const daten = await formular(Astro.request);
+  if (daten.aktion === 'widerrufen') {
+    await widerrufeKalenderToken(db, benutzer.id);
+    return Astro.redirect('/einstellungen?ok=widerrufen', 303);
+  }
+  if (daten.aktion === 'erzeugen') {
+    const token = await erzeugeKalenderToken(db, benutzer.id);
+    neuerLink = new URL(`/kalender/abo/${token}.ics`, Astro.url).toString();
+  }
+  if (daten.aktion === 'benachrichtigung') {
+    await setzeProvisionMail(db, benutzer.id, daten.provision_mail === 'an');
+    return Astro.redirect('/einstellungen?ok=mail', 303);
+  }
+}
+
+const stand = await kalenderTokenStand(db, benutzer.id);
+const mailAn = await provisionMailAn(db, benutzer.id);
+const zeit = (d: Date) => d.toLocaleString('de-DE', { timeZone: 'Europe/Berlin', dateStyle: 'medium', timeStyle: 'short' });
+---
+
+<Layout titel="Einstellungen" aktiv="einstellungen" schmal>
+  <h1>Einstellungen</h1>
+  {meldung && <div class="meldung meldung--ok" role="status"><p>{meldung}</p></div>}
+
+  <h2>Benachrichtigung</h2>
+  <form method="post" class="karte">
+    <input type="hidden" name="_csrf" value={csrf} />
+    <input type="hidden" name="aktion" value="benachrichtigung" />
+    <div class="feld">
+      <label class="auswahl">
+        <input type="checkbox" name="provision_mail" value="an" checked={mailAn} />
+        E-Mail, sobald eine neue Provisionsabrechnung im Portal ist
+      </label>
+      <p class="feld__hilfe">Die Mail nennt nur den Monat und den Link, keine Beträge. Sie geht an {benutzer.email}.</p>
+    </div>
+    <div class="aktionen">
+      <button type="submit" class="btn">Speichern</button>
+    </div>
+  </form>
+
+  <h2>Kalender abonnieren</h2>
+  <p>Mit einem persönlichen Abo-Link holt sich Ihre Kalender-App die Termine und offenen Wiedervorlagen aus dem Portal, etwa stündlich. Enthalten sind nur Betriebsname, Status und Datum. Telefonnummern, Notizen und der Grund einer Wiedervorlage bleiben im Portal.</p>
+
+  {neuerLink && (
+    <div class="karte" role="status">
+      <h3>Ihr neuer Abo-Link</h3>
+      <p>Jetzt kopieren und in der Kalender-App als Abonnement eintragen. Aus Sicherheitsgründen wird er nur dieses eine Mal angezeigt.</p>
+      <code class="abo-link">{neuerLink}</code>
+      <ul class="meta">
+        <li>Apple Kalender: Ablage, Neues Kalenderabonnement, Link einfügen.</li>
+        <li>iPhone: Einstellungen, Apps, Kalender, Accounts, Account hinzufügen, Andere, Kalenderabo hinzufügen.</li>
+        <li>Google Kalender: Weitere Kalender, Per URL.</li>
+        <li>Outlook: Kalender hinzufügen, Aus dem Internet abonnieren.</li>
+      </ul>
+    </div>
+  )}
+
+  <div class="karte">
+    {stand ? (
+      <p>Ein Abo-Link ist aktiv, erzeugt am {zeit(stand.erstelltAm)}. {stand.zuletztAbgerufen ? `Zuletzt abgerufen am ${zeit(stand.zuletztAbgerufen)}.` : 'Noch nie abgerufen.'}</p>
+    ) : (
+      <p>Kein Abo-Link aktiv.</p>
+    )}
+    <p class="meta">Wer den Link kennt, sieht Ihre Termine. Taucht er irgendwo auf, wo er nicht hingehört, widerrufen Sie ihn hier oder erzeugen einen neuen; der alte gilt dann sofort nicht mehr.</p>
+    <div class="aktionen">
+      <form method="post" class="inline">
+        <input type="hidden" name="_csrf" value={csrf} />
+        <input type="hidden" name="aktion" value="erzeugen" />
+        <button type="submit" class="btn">{stand ? 'Neuen Abo-Link erzeugen' : 'Abo-Link erzeugen'}</button>
+      </form>
+      {stand && (
+        <form method="post" class="inline">
+          <input type="hidden" name="_csrf" value={csrf} />
+          <input type="hidden" name="aktion" value="widerrufen" />
+          <button type="submit" class="btn btn--gefahr">Abo-Link widerrufen</button>
+        </form>
+      )}
+    </div>
+  </div>
+
+  <h2>Zugang</h2>
+  <div class="karte">
+    <p>Angemeldet als {benutzer.name}, {benutzer.email}.</p>
+    <div class="aktionen"><a class="btn btn--zweit" href="/passwort">Passwort ändern</a></div>
+  </div>
+</Layout>
+
+<style>
+  .auswahl { display: flex; gap: var(--space-s); align-items: flex-start; font-weight: inherit; }
+  .auswahl input { margin-top: 0.25em; width: 1.1em; height: 1.1em; flex: none; }
+</style>

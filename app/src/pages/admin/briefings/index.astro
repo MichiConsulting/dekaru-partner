@@ -1,0 +1,48 @@
+---
+import '../../../styles/vertrieb.css';
+import Layout from '../../../layouts/Layout.astro';
+import { STATUS_LABEL, alleBriefings } from '../../../lib/briefing.ts';
+import { istAdmin } from '../../../lib/zugriff.ts';
+
+if (!istAdmin(Astro.locals.benutzer)) return Astro.redirect('/verboten', 303);
+
+const db = Astro.locals.db;
+const status = Astro.url.searchParams.get('status') ?? '';
+const liste = await alleBriefings(db, status || undefined);
+const ok = Astro.url.searchParams.get('ok');
+const STATI = ['eingereicht', 'uebernommen'] as const;
+---
+
+<Layout titel="Briefing-Bögen" aktiv="admin">
+  <p class="meta"><a href="/admin">Admin</a> / Briefing-Bögen</p>
+  <h1>Briefing-Bögen</h1>
+  <p class="meta">Hier stehen nur abgeschickte Bögen. Entwürfe sieht allein der Vertriebler.</p>
+  {ok === 'zurueck' && <div class="meldung meldung--ok" role="status"><p>Der Bogen ist wieder ein Entwurf beim Vertriebler und erscheint hier, sobald er ihn erneut abschickt.</p></div>}
+  <form method="get" class="filter">
+    <div class="feld">
+      <label for="status">Status</label>
+      <select id="status" name="status">
+        <option value="">Alle abgeschickten</option>
+        {STATI.map((s) => <option value={s} selected={status === s}>{STATUS_LABEL[s]}</option>)}
+      </select>
+    </div>
+    <button type="submit" class="btn btn--zweit">Filtern</button>
+  </form>
+  <div class="tabelle-wrap schiebbar">
+    <table class="tabelle--karten" role="table">
+      <thead role="rowgroup"><tr role="row"><th role="columnheader">Betrieb</th><th role="columnheader">Vertriebler</th><th role="columnheader">Status</th><th role="columnheader">Eingereicht</th><th role="columnheader">Geändert</th></tr></thead>
+      <tbody role="rowgroup">
+        {liste.length === 0 && <tr role="row"><td role="cell" colspan="5">Keine Bögen.</td></tr>}
+        {liste.map((b) => (
+          <tr role="row">
+            <td role="cell" class="zelle--titel"><a href={`/admin/briefings/${b.id}`}>{b.kundeName}</a></td>
+            <td role="cell" data-label="Vertriebler">{b.vertrieblerName}</td>
+            <td role="cell" data-label="Status"><span class:list={['badge', b.status === 'eingereicht' && 'badge--voll']}>{STATUS_LABEL[b.status]}</span></td>
+            <td role="cell" data-label="Eingereicht">{b.eingereichtAm ? b.eingereichtAm.toLocaleDateString('de-DE') : ''}</td>
+            <td role="cell" data-label="Geändert">{b.geaendertAm.toLocaleDateString('de-DE')}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</Layout>

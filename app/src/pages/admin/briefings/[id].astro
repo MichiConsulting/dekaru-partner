@@ -1,0 +1,98 @@
+---
+import '../../../styles/vertrieb.css';
+import Layout from '../../../layouts/Layout.astro';
+import BriefingAnsicht from '../../../components/BriefingAnsicht.astro';
+import { STATUS_LABEL, holeBriefingAdmin } from '../../../lib/briefing.ts';
+import { erzeugeAngebotYaml } from '../../../lib/angebot-yaml.ts';
+import { AdminFehler, akteurAus, briefingStatusSetzen, briefingYamlExportieren } from '../../../lib/admin-aktionen.ts';
+import { heuteIso } from '../../../lib/kunden.ts';
+import { formular, istPost } from '../../../lib/http.ts';
+import { istAdmin } from '../../../lib/zugriff.ts';
+
+if (!istAdmin(Astro.locals.benutzer)) return Astro.redirect('/verboten', 303);
+
+const db = Astro.locals.db;
+const ich = Astro.locals.benutzer!;
+const csrf = Astro.locals.csrf ?? '';
+const id = String(Astro.params.id ?? '');
+const briefing = await holeBriefingAdmin(db, id);
+if (!briefing) return Astro.rewrite('/404');
+
+let fehler: string | null = null;
+
+if (istPost(Astro.request)) {
+  const d = await formular(Astro.request);
+  if (d.aktion === 'yaml') {
+    try {
+      const yaml = await briefingYamlExportieren(db, akteurAus(ich), briefing);
+      return new Response(yaml.inhalt, {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/yaml; charset=utf-8',
+          'Content-Disposition': `attachment; filename="${yaml.dateiname}"`,
+        },
+      });
+    } catch (e) {
+      fehler = e instanceof Error ? e.message : String(e);
+    }
+  } else if (d.aktion === 'zurueck' || d.aktion === 'uebernommen') {
+    try {
+      await briefingStatusSetzen(db, akteurAus(ich), briefing, d.aktion === 'zurueck' ? 'entwurf' : 'uebernommen');
+      return Astro.redirect(d.aktion === 'zurueck' ? '/admin/briefings?ok=zurueck' : `/admin/briefings/${id}?ok=uebernommen`, 303);
+    } catch (e) {
+      if (!(e instanceof AdminFehler)) throw e;
+      fehler = e.message;
+    }
+  }
+}
+
+const ok = Astro.url.searchParams.get('ok');
+let vorschau: string | null = null;
+let vorschauFehler: string | null = null;
+try {
+  vorschau = erzeugeAngebotYaml(briefing, { vertrieblerName: briefing.vertrieblerName, vertrieblerSlug: briefing.vertrieblerSlug, heute: heuteIso() }).inhalt;
+} catch (e) {
+  vorschauFehler = e instanceof Error ? e.message : String(e);
+}
+---
+
+<Layout titel={`Briefing ${briefing.kundeName}`} aktiv="admin">
+  <p class="meta"><a href="/admin">Admin</a> / <a href="/admin/briefings">Briefing-Bögen</a> / {briefing.kundeName}</p>
+  <h1>{briefing.kundeName}</h1>
+  <p class="meta">
+    Von {briefing.vertrieblerName}{briefing.vertrieblerSlug ? ` (${briefing.vertrieblerSlug})` : ''}.
+    <span class:list={['badge', briefing.status === 'eingereicht' && 'badge--voll']}>{STATUS_LABEL[briefing.status]}</span>
+    {briefing.eingereichtAm && ` Eingereicht am ${briefing.eingereichtAm.toLocaleDateString('de-DE')}.`}
+    {briefing.uebernommenAm && ` Übernommen am ${briefing.uebernommenAm.toLocaleDateString('de-DE')}.`}
+  </p>
+  {ok === 'uebernommen' && <div class="meldung meldung--ok" role="status"><p>Als übernommen markiert.</p></div>}
+  {fehler && <div class="meldung meldung--fehler" role="alert"><p>{fehler}</p></div>}
+
+  <div class="aktionen">
+    <form method="post" class="inline">
+      <input type="hidden" name="_csrf" value={csrf} />
+      <input type="hidden" name="aktion" value="yaml" />
+      <button type="submit" class="btn" disabled={Boolean(vorschauFehler)}>Angebots-Eingabe (YAML) herunterladen</button>
+    </form>
+    {briefing.status === 'eingereicht' && (
+      <form method="post" class="inline">
+        <input type="hidden" name="_csrf" value={csrf} />
+        <input type="hidden" name="aktion" value="uebernommen" />
+        <button type="submit" class="btn btn--zweit">Als übernommen markieren</button>
+      </form>
+    )}
+    <form method="post" class="inline">
+      <input type="hidden" name="_csrf" value={csrf} />
+      <input type="hidden" name="aktion" value="zurueck" />
+      <button type="submit" class="btn btn--zweit">Zur Überarbeitung zurückgeben</button>
+    </form>
+  </div>
+  <p class="meta" style="margin-top:var(--space-m)">
+    Die Datei nach <code>dekaru-rechnungen/angebote/eingang/</code> legen und <code>/angebot</code> aufrufen. Der Download markiert einen eingereichten Bogen als übernommen.
+  </p>
+
+  <BriefingAnsicht briefing={briefing} zeigePreise={true} zeigeProvision={true} />
+
+  <h2>Vorschau der Angebots-Eingabe</h2>
+  {vorschauFehler ? <div class="meldung meldung--fehler" role="alert"><p>{vorschauFehler}</p></div> : <pre class="yaml"><code>{vorschau}</code></pre>}
+</Layout>

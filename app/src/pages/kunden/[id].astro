@@ -1,9 +1,13 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import KundeFormular from '../../components/KundeFormular.astro';
+import WiedervorlageKarte from '../../components/WiedervorlageKarte.astro';
+import { holeWiedervorlage } from '../../lib/wiedervorlage.ts';
 import { aendereKunde, holeKunde, loescheKunde, pruefeKunde, statusLabel, type KundeEingabe } from '../../lib/kunden.ts';
 import { datumDe } from '../../lib/provision.ts';
 import { formular, istPost } from '../../lib/http.ts';
+import { pruefeDublette, type TrefferAdmin } from '../../lib/dubletten.ts';
+import { akteurAus, protokolliereAdminDublette } from '../../lib/admin-aktionen.ts';
 
 const benutzer = Astro.locals.benutzer!;
 const db = Astro.locals.db;
@@ -17,7 +21,12 @@ if (!kunde) return Astro.rewrite('/404');
 
 let werte: Partial<KundeEingabe> = kunde;
 let fehler: string[] = [];
-let gespeichert = Astro.url.searchParams.get('ok') === '1';
+let adminTreffer: TrefferAdmin[] = [];
+const ok = Astro.url.searchParams.get('ok');
+let gespeichert = ok === '1';
+const wiedervorlage = await holeWiedervorlage(db, benutzer.id, id);
+const wvMeldung = { wv: 'Die Wiedervorlage ist gesetzt.', 'wv-erledigt': 'Die Wiedervorlage ist erledigt.', 'wv-entfernt': 'Die Wiedervorlage ist entfernt.' }[ok ?? ''] ?? null;
+const wvFehler = Astro.url.searchParams.get('wv') === 'datum' ? 'Das Datum der Wiedervorlage fehlt oder ist ungültig.' : Astro.url.searchParams.get('wv') === 'fehlt' ? 'Es gibt keine offene Wiedervorlage mehr.' : null;
 
 if (istPost(Astro.request)) {
   const daten = await formular(Astro.request);
@@ -29,8 +38,22 @@ if (istPost(Astro.request)) {
   werte = geprueft.wert;
   fehler = geprueft.fehler;
   if (fehler.length === 0) {
-    await aendereKunde(db, benutzer.id, id, geprueft.wert);
-    return Astro.redirect(`/kunden/${id}?ok=1`, 303);
+    // Geprueft wird nur, wenn Name, Ort oder Telefon sich aendern.
+    const dublette = await pruefeDublette(db, benutzer, geprueft.wert, {
+      kundeId: kunde.id,
+      alt: kunde,
+      adminFreigabe: benutzer.rolle === 'admin' && daten.dublette_freigabe === '1',
+    });
+    if (dublette.blockiert) {
+      fehler = [dublette.meldung ?? ''];
+      if (dublette.rolle === 'admin') adminTreffer = dublette.treffer;
+    } else {
+      await aendereKunde(db, benutzer.id, id, geprueft.wert);
+      if (dublette.rolle === 'admin' && dublette.treffer.length > 0) {
+        await protokolliereAdminDublette(db, akteurAus(benutzer), { id, name: geprueft.wert.name }, dublette.treffer.map((t) => t.id));
+      }
+      return Astro.redirect(`/kunden/${id}?ok=1`, 303);
+    }
   }
 }
 ---
@@ -40,7 +63,9 @@ if (istPost(Astro.request)) {
   <h1>{kunde.name}</h1>
   <p class="meta">Status {statusLabel(kunde.status)} seit {datumDe(kunde.statusSeit)}. Eingetragen am {datumDe(kunde.erstelltAm.toISOString())}.</p>
   {gespeichert && <div class="meldung meldung--ok" role="status"><p>Gespeichert.</p></div>}
-  <KundeFormular werte={werte} csrf={csrf} fehler={fehler} knopf="Speichern" />
+  {wvMeldung && <div class="meldung meldung--ok" role="status"><p>{wvMeldung}</p></div>}
+  <KundeFormular werte={werte} csrf={csrf} fehler={fehler} knopf="Speichern" adminTreffer={adminTreffer} />
+  <WiedervorlageKarte kundeId={kunde.id} wiedervorlage={wiedervorlage} terminDatum={kunde.terminDatum} csrf={csrf} fehler={wvFehler} />
   <form method="post" class="karte">
     <input type="hidden" name="_csrf" value={csrf} />
     <input type="hidden" name="aktion" value="loeschen" />

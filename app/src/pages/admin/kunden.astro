@@ -3,6 +3,9 @@ import Layout from '../../layouts/Layout.astro';
 import { STATUS, alleKunden, statusLabel } from '../../lib/kunden.ts';
 import { alleBenutzer } from '../../lib/auth.ts';
 import { datumDe } from '../../lib/provision.ts';
+import { istAdmin } from '../../lib/zugriff.ts';
+
+if (!istAdmin(Astro.locals.benutzer)) return Astro.redirect('/verboten', 303);
 
 const db = Astro.locals.db;
 const status = Astro.url.searchParams.get('status') ?? '';

@@ -1,0 +1,88 @@
+---
+/**
+ * Der Briefing-Bogen als Formular. Teil B bekommt die Preisauswahl aus dem
+ * Preisrechner, fuer Stufe 1 ohne Zahlen. Zwei Knoepfe: Zwischenspeichern
+ * (Pflichtfelder duerfen fehlen) und Einreichen (alles Pflichtige gefuellt).
+ */
+import BriefingFeld from './BriefingFeld.astro';
+import PreisAuswahl from './PreisAuswahl.astro';
+import PreisSumme from './PreisSumme.astro';
+import { TEILE, type Briefing, type Pruefung } from '../lib/briefing.ts';
+import { berechne } from '../lib/preise.ts';
+
+interface Props {
+  briefing: Briefing;
+  csrf: string;
+  pruefung?: Pruefung | null;
+  zeigePreise: boolean;
+}
+
+const { briefing, csrf, pruefung = null, zeigePreise } = Astro.props;
+const f = briefing.daten.felder;
+const auswahl = briefing.daten.auswahl;
+const ergebnis = zeigePreise ? berechne(auswahl) : null;
+
+const teilB = TEILE.find((t) => t.kennung === 'B')!;
+const vorPreis = teilB.felder.filter((x) => x.name === 'branche');
+const nachPreis = teilB.felder.filter((x) => x.name !== 'branche');
+---
+
+{pruefung && pruefung.sperren.length > 0 && (
+  <div class="meldung meldung--fehler" role="alert">
+    <p><strong>Nicht gespeichert.</strong></p>
+    <ul>{pruefung.sperren.map((s) => <li>{s}</li>)}</ul>
+  </div>
+)}
+{pruefung && pruefung.sperren.length === 0 && pruefung.fehlend.length > 0 && (
+  <div class="meldung meldung--fehler" role="alert">
+    <p><strong>Als Entwurf gespeichert, aber noch nicht eingereicht.</strong> Es fehlt:</p>
+    <ul>{pruefung.fehlend.map((s) => <li>{s}</li>)}</ul>
+  </div>
+)}
+
+<div class="sperre">
+  <strong>Keine Passwörter, keine Zugangsdaten.</strong>
+  Nicht auf den Bogen, nicht per Mail, nicht per Messenger. Die klärt Michael Henning direkt mit dem Kunden. Einträge wie „Passwort:" werden abgelehnt.
+</div>
+
+<form method="post" class="rechner-form" id="briefing-form">
+  <input type="hidden" name="_csrf" value={csrf} />
+
+  {TEILE.map((teil) => (
+    <section class="karte briefing__teil" aria-labelledby={`teil-${teil.kennung}`}>
+      <h2 id={`teil-${teil.kennung}`}><span class="nummer">Teil {teil.kennung}</span>{teil.titel}</h2>
+      {teil.hinweis && <p class="meta">{teil.hinweis}</p>}
+
+      {(teil.kennung === 'B' ? vorPreis : teil.felder).map((feld) => <BriefingFeld feld={feld} wert={f[feld.name]} />)}
+
+      {teil.kennung === 'B' && (
+        <>
+          <PreisAuswahl auswahl={auswahl} zeigePreise={zeigePreise} ueberschriften={false} />
+          {ergebnis ? (
+            <div style="margin-top:var(--space-l)">
+              <h3 class="rechner__schritt">Summe laut Preisrechner</h3>
+              <PreisSumme ergebnis={ergebnis} zeigeProvision={false} />
+            </div>
+          ) : (
+            <p class="hinweis" style="margin-top:var(--space-l)">
+              <strong>Stufe 1.</strong> Die Summe nennt Michael Henning im Zweittermin. Hier nur festhalten, was besprochen ist.
+            </p>
+          )}
+          <p class="meta">Anzahlung ist die Hälfte bei Auftrag, der Rest bei Übergabe. Davon wird im Termin nicht abgewichen.</p>
+          {nachPreis.map((feld) => <BriefingFeld feld={feld} wert={f[feld.name]} />)}
+        </>
+      )}
+    </section>
+  ))}
+
+  <div class="briefing__aktionen">
+    <div class="aktionen">
+      <button type="submit" class="btn btn--zweit" name="aktion" value="speichern">Zwischenspeichern</button>
+      <button type="submit" class="btn" name="aktion" value="einreichen">An Michael Henning schicken</button>
+    </div>
+  </div>
+</form>
+
+<script>
+  import '../scripts/preisrechner.ts';
+</script>

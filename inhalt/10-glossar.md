@@ -25,7 +25,7 @@ kurz: Die Begriffe aus diesem Blatt, kurz erklärt.
 | **Gestaltungsbeispiele** | Die vier erfundenen Beispielseiten auf dekaru.de: Trattoria, Tattoo-Studio, Metallbau, Kanzlei. Zeigen die Machart, sind keine Kunden. |
 | **Gratisquartal** | Genau drei Monate Hosting frei, nur zusammen mit einer neuen Website, danach mindestens sechs bezahlte Monate. Öffentliche Kondition auf dekaru.de, gilt für alle. Die einzige Zusage, die Sie machen dürfen. |
 | **Gebiet** | Ihre Liste aus Städten und Landkreisen. Dort spricht nur ein Vertriebler Betriebe an. Es regelt die Zuordnung, nicht die Entfernung zu mir. |
-| **Handelsvertreter** | Ihre rechtliche Rolle nach § 84 HGB: selbstständig, auf Provision, ohne Weisungen zu Zeiten und Quoten. |
+| **Handelsvertreter** | Ihre rechtliche Rolle nach § 84 HGB: selbstständig, auf Provision, ohne Weisungen zu Zeiten und Quoten. Die Provision ist brutto, Steuern und Abgaben darauf tragen Sie selbst. |
 | **Hosting** | Betrieb und Pflege der Website durch mich: Server, Domain, HTTPS, Updates, gesicherter Quellstand, Änderungen. Drei Stufen: Start, Basis, Plus. |
 | **HTTPS** | Verschlüsselte Verbindung zwischen Besucher und Website. Immer dabei. |
 | **Kleinunternehmer** | Ich rechne nach § 19 UStG ohne Umsatzsteuer ab. Alle Preise sind Endpreise, Ihre Provision wird auf den Rechnungsbetrag gerechnet. |

@@ -1,0 +1,272 @@
+{
+  "_hinweis": "Erzeugt mit scripts/preise-sync.mjs aus dekaru-website (preise.ts, hosting.ts) und dekaru-rechnungen (preise.json). Nicht von Hand aendern. Nach jeder Preisaenderung: npm run preise-sync",
+  "quellen": {
+    "preise": "dekaru-website/site/src/data/preise.ts",
+    "hosting": "dekaru-website/site/src/data/hosting.ts",
+    "zusatzleistungen": "dekaru-rechnungen/preise.json (leistungen.einmalig)"
+  },
+  "grundleistung": [
+    "Darstellung auf Handy, Tablet und Rechner",
+    "Impressum und Datenschutzerklärung",
+    "Kontaktformular mit Einwilligung",
+    "Verschlüsselte Verbindung",
+    "Karte mit Anfahrt, Zwei-Klick-Lösung"
+  ],
+  "funktion": {
+    "titel": "Die Website arbeitet mit",
+    "name": "Online-Terminanfrage",
+    "hinweis": "Nur in Groß. Läuft, solange die Website bei mir gehostet wird, in jeder Hosting-Stufe."
+  },
+  "pakete": [
+    {
+      "schluessel": "klein",
+      "name": "Klein",
+      "preis": 600,
+      "empfohlen": false,
+      "beschreibung": "Eine Seite, die alles Wichtige sagt. Für Betriebe, die vor allem gefunden werden wollen.",
+      "aufbau": "Eine Seite mit Abschnitten",
+      "enthalten": {},
+      "funktion": false
+    },
+    {
+      "schluessel": "mittel",
+      "name": "Mittel",
+      "preis": 1300,
+      "empfohlen": false,
+      "beschreibung": "Eigene Seiten für Leistungen, Referenzen und Anfahrt, dazu zwei Texte von mir.",
+      "aufbau": "Startseite und 4 Unterseiten",
+      "enthalten": {
+        "unterseite": 4,
+        "galerie": true,
+        "leistungsliste": true,
+        "referenzen": true,
+        "seo": true,
+        "texte": 2
+      },
+      "funktion": false
+    },
+    {
+      "schluessel": "gross",
+      "name": "Groß",
+      "preis": 1600,
+      "empfohlen": true,
+      "beschreibung": "Wie Mittel, dazu eine Seite mehr, das Team, aufbereitete Fotos und die Online-Terminanfrage.",
+      "aufbau": "Startseite und 5 Unterseiten",
+      "enthalten": {
+        "unterseite": 5,
+        "galerie": true,
+        "leistungsliste": true,
+        "referenzen": true,
+        "seo": true,
+        "texte": 4,
+        "team": true,
+        "bilder": true
+      },
+      "funktion": true
+    }
+  ],
+  "gruppen": [
+    {
+      "titel": "Seiten",
+      "posten": [
+        {
+          "schluessel": "unterseite",
+          "name": "Weitere Unterseite",
+          "hinweis": "Zum Beispiel Leistungen, Über uns, Stellenangebote",
+          "preis": 75,
+          "art": "anzahl",
+          "max": 15,
+          "einheit": "je Seite"
+        }
+      ]
+    },
+    {
+      "titel": "Sektionen",
+      "posten": [
+        {
+          "schluessel": "galerie",
+          "name": "Bildergalerie",
+          "hinweis": "Bilder im Raster, auf Wunsch mit Großansicht",
+          "preis": 100,
+          "art": "schalter"
+        },
+        {
+          "schluessel": "leistungsliste",
+          "name": "Leistungs- oder Speisekarte",
+          "hinweis": "Strukturierte Liste mit Preisen und Beschreibungen",
+          "preis": 100,
+          "art": "schalter"
+        },
+        {
+          "schluessel": "team",
+          "name": "Team-Seite",
+          "hinweis": "Personen mit Bild, Funktion und kurzem Text",
+          "preis": 100,
+          "art": "schalter"
+        },
+        {
+          "schluessel": "referenzen",
+          "name": "Referenzen und Bewertungen",
+          "hinweis": "Kundenstimmen, gepflegt oder aus Google übernommen",
+          "preis": 100,
+          "art": "schalter"
+        },
+        {
+          "schluessel": "blog",
+          "name": "Ratgeber-Bereich",
+          "hinweis": "Eigener Bereich für Beiträge, später erweiterbar",
+          "preis": 300,
+          "art": "schalter"
+        }
+      ]
+    },
+    {
+      "titel": "Funktionen",
+      "posten": [
+        {
+          "schluessel": "newsletter",
+          "name": "Newsletter-Anmeldung",
+          "hinweis": "Anmeldung mit doppelter Bestätigung",
+          "preis": 150,
+          "art": "schalter"
+        },
+        {
+          "schluessel": "statistik",
+          "name": "Besucherstatistik",
+          "hinweis": "Ohne Cookies, ohne Einwilligungsbanner",
+          "preis": 90,
+          "art": "schalter"
+        },
+        {
+          "schluessel": "sprache",
+          "name": "Weitere Sprache",
+          "hinweis": "Vollständige Übersetzung aller Inhalte",
+          "preis": 200,
+          "art": "anzahl",
+          "max": 3,
+          "einheit": "je Sprache"
+        },
+        {
+          "schluessel": "individuell",
+          "name": "Individuelles Feature",
+          "hinweis": "Alles, was hier nicht steht. Den Preis klären wir im Gespräch",
+          "preis": 0,
+          "art": "anfrage"
+        }
+      ]
+    },
+    {
+      "titel": "Inhalte und Sichtbarkeit",
+      "posten": [
+        {
+          "schluessel": "texte",
+          "name": "Texte von mir",
+          "hinweis": "Je Seite, statt fertige Texte zu liefern",
+          "preis": 50,
+          "art": "anzahl",
+          "max": 15,
+          "einheit": "je Seite"
+        },
+        {
+          "schluessel": "bilder",
+          "name": "Bildaufbereitung",
+          "hinweis": "Bis 20 vorhandene Bilder zuschneiden und optimieren",
+          "preis": 125,
+          "art": "schalter"
+        },
+        {
+          "schluessel": "logo",
+          "name": "Logo-Entwurf",
+          "hinweis": "Nur falls noch keines vorhanden ist",
+          "preis": 250,
+          "art": "schalter"
+        },
+        {
+          "schluessel": "seo",
+          "name": "Suchmaschinen-Grundlagen",
+          "hinweis": "Titel, Beschreibungen, Google-Eintrag, technische Auszeichnung für Google",
+          "preis": 200,
+          "art": "schalter"
+        }
+      ]
+    }
+  ],
+  "hosting": {
+    "ab": 19,
+    "tarife": [
+      {
+        "id": "start",
+        "name": "Start",
+        "monat": 19,
+        "jahr": 190,
+        "aenderungen": 3,
+        "beliebt": false
+      },
+      {
+        "id": "basis",
+        "name": "Basis",
+        "monat": 39,
+        "jahr": 390,
+        "aenderungen": 5,
+        "beliebt": true
+      },
+      {
+        "id": "plus",
+        "name": "Plus",
+        "monat": null,
+        "jahr": 590,
+        "aenderungen": 10,
+        "beliebt": false
+      }
+    ],
+    "einzelaenderung": 25,
+    "bezahlteMonate": 10,
+    "gratisMonate": 3,
+    "mindestBezahlt": 6,
+    "gratisHinweis": "Buchen Sie das Hosting zusammen mit einer neuen Website, sind die ersten drei Monate frei. Danach laufen mindestens sechs bezahlte Monate."
+  },
+  "zusatzleistungen": [
+    {
+      "schluessel": "gbp-einrichtung",
+      "name": "Google-Unternehmensprofil einrichten",
+      "preis": 249,
+      "einheit": "Pauschale",
+      "nutzen": "Ihr Eintrag bei Google Maps und in der Suche wird angelegt oder uebernommen, mit Kategorien, Oeffnungszeiten, Leistungen und Fotos. Fuer Laufkundschaft bringt der Eintrag oft mehr als die Website selbst."
+    },
+    {
+      "schluessel": "gbp-komplett",
+      "name": "Google-Unternehmensprofil einrichten und ausbauen",
+      "preis": 490,
+      "einheit": "Pauschale",
+      "nutzen": "Einrichtung wie oben, dazu die Feinarbeit an Kategorien und Beschreibung sowie vier fertig vorbereitete Beitraege. Danach koennen Sie den Eintrag alleine weiterpflegen."
+    },
+    {
+      "schluessel": "bewertungs-funnel",
+      "name": "Bewertungs-Aufsteller mit QR-Code",
+      "preis": 190,
+      "einheit": "Pauschale",
+      "zusatz": "Druckkosten 15 bis 30 Euro, direkt bei der Druckerei",
+      "nutzen": "Aufsteller fuer den Tresen, Aufkleber und Rechnungsbeileger, jeweils mit QR-Code direkt zum Bewertungsformular. Wer mehr Bewertungen hat, steht bei Google weiter oben."
+    },
+    {
+      "schluessel": "seo-jahrescheck",
+      "name": "Sichtbarkeits-Check",
+      "preis": 390,
+      "einheit": "Jahr",
+      "nutzen": "Einmal im Jahr pruefe ich Auffindbarkeit, Ladezeit, defekte Links und den Google-Eintrag und setze die wichtigsten Punkte um. Sie bekommen einen Bericht in zwei Seiten, ohne Fachbegriffe."
+    },
+    {
+      "schluessel": "aenderung-einzeln",
+      "name": "Einzelne Aenderung",
+      "preis": 25,
+      "einheit": "Aenderung",
+      "voraussetzung": [
+        "hosting-start",
+        "hosting-basis",
+        "hosting-plus"
+      ],
+      "nutzen": "In jeder Hosting-Stufe jede Aenderung ueber das Monatskontingent hinaus. Ein Anliegen an einer Stelle, etwa neue Oeffnungszeiten, ein Preis oder ein Bild, umgesetzt im Rhythmus der gebuchten Stufe."
+    }
+  ],
+  "erzeugt": "2026-10-04"
+}
