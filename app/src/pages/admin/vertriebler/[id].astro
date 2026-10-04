@@ -2,7 +2,7 @@
 import Layout from '../../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { holeBenutzer } from '../../../lib/auth.ts';
-import { AdminFehler, akteurAus, einmalPasswortNeu, slugAendern, zugangAktivieren, zugangDeaktivieren } from '../../../lib/admin-aktionen.ts';
+import { AdminFehler, akteurAus, einmalPasswortNeu, slugAendern, stufeAendern, zugangAktivieren, zugangDeaktivieren } from '../../../lib/admin-aktionen.ts';
 import { fortschritt } from '../../../lib/lernen.ts';
 import { fragenJeKapitel } from '../../../lib/inhalt.ts';
 import { alleKunden, istUuid, statusLabel } from '../../../lib/kunden.ts';
@@ -11,7 +11,7 @@ import { formular, istPost } from '../../../lib/http.ts';
 import { ladeUebungsstand } from '../../../lib/gespraech-fortschritt.ts';
 import { pflichtsatzListe } from '../../../lib/inhalt-gespraech.ts';
 import { istAdmin } from '../../../lib/zugriff.ts';
-import { STUFE_HINWEIS, ladeProtokoll, ladeStufe, pruefeStufe, setzeStufe } from '../../../lib/stufe.ts';
+import { STUFE_HINWEIS, ladeProtokoll, ladeStufe } from '../../../lib/stufe.ts';
 
 if (!istAdmin(Astro.locals.benutzer)) return Astro.redirect('/verboten', 303);
 
@@ -39,12 +39,8 @@ if (istPost(Astro.request)) {
     } else if (d.aktion === 'passwort') {
       einmal = await einmalPasswortNeu(db, akteur, b.id);
     } else if (d.aktion === 'stufe') {
-      const geprueft = pruefeStufe({ stufe: d.stufe, seit: d.stufe_seit, bestaetigtAm: d.stufe_bestaetigt_am });
-      if (geprueft.fehler.length > 0) fehler = geprueft.fehler.join(' ');
-      else {
-        await setzeStufe(db, b.id, geprueft.wert, ich.id);
-        return Astro.redirect(`/admin/vertriebler/${b.id}?ok=stufe`, 303);
-      }
+      await stufeAendern(db, akteur, b.id, { stufe: d.stufe, seit: d.stufe_seit, bestaetigtAm: d.stufe_bestaetigt_am });
+      return Astro.redirect(`/admin/vertriebler/${b.id}?ok=stufe`, 303);
     } else if (d.aktion === 'slug') {
       await slugAendern(db, akteur, b.id, String(d.slug ?? ''));
       return Astro.redirect(`/admin/vertriebler/${b.id}?ok=slug`, 303);

@@ -176,11 +176,16 @@ wer, was, Ziel und kurzen Details, nie mit Passwort, Hash oder Token
 (`bereinigeDetails` filtert solche Schlüssel zusätzlich heraus). Alle
 Aktionen laufen über `src/lib/admin-aktionen.ts`, das nach dem Erfolg
 `protokolliere()` aus `src/lib/admin-protokoll.ts` aufruft: Zugang anlegen,
-deaktivieren, aktivieren, Einmal-Passwort neu, Slug ändern, Provision
-importieren, ausgezahlt markieren und zurücksetzen, Dubletten entscheiden,
-Kunde trotz Dublette speichern. Die Skripte `admin-anlegen` und
-`provision-import` protokollieren ebenso, als "Skript ..." ohne Admin-ID.
-**Neue Admin-Aktionen** (zum Beispiel "Stufe ändern") bekommen einen
+deaktivieren, aktivieren, Einmal-Passwort neu, Slug ändern, Stufe ändern
+(`stufe_geaendert`), Provision hochladen (mit Mailstatus), eine gescheiterte
+Provisionsmail nachholen, ausgezahlt markieren und zurücksetzen, Briefing als
+übernommen markieren oder zurückgeben, die Angebots-Eingabe (YAML)
+herunterladen, Dubletten entscheiden, Kunde trotz Dublette speichern. Die
+Skripte `admin-anlegen` und `provision-import` protokollieren ebenso, als
+"Skript ..." ohne Admin-ID, der Endpunkt `/api/provision-import` als "Import
+per Token". Ein unveränderter Import ohne nachgeholte Mail schreibt nichts
+und bekommt darum keinen Eintrag.
+**Neue Admin-Aktionen** bekommen einen
 Schlüssel in `AKTIONEN` und eine Funktion in `admin-aktionen.ts`;
 `tests/admin-protokoll.test.ts` schlägt fehl, sobald eine Admin-Seite einen
 schreibenden Baustein oder SQL direkt aufruft.
@@ -287,9 +292,8 @@ lieber nodemailer will, tauscht nur `smtpVersender()`. Fehlen die Variablen,
 geht keine Mail raus und der Admin sieht unter Provision einen Hinweis. Was mit
 der Mail geschah, steht je Abrechnung in der Spalte `benachrichtigung`
 (Migration `008-provision-import.sql`). Ein Mailfehler macht den Import nicht
-rückgängig. Ins zentrale Protokoll kommt der Import, sobald `protokolliere()`
-aus dem Branch admin-ausbau da ist (TODO in `provision-import.ts`), bis dahin
-nur eine Zeile ohne Beträge im Vercel-Log.
+rückgängig. Jeder Import steht im Admin-Protokoll, per Token als "Import per
+Token" ohne Admin-ID, dazu eine Zeile ohne Beträge im Vercel-Log.
 
 ## Lokale Entwicklung
 

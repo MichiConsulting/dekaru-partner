@@ -30,6 +30,9 @@ export const AKTIONEN = {
   dublette_zugeordnet: 'Dublette zugeordnet',
   dublette_abgelehnt: 'Dublette beim Bisherigen belassen',
   dublette_admin_gespeichert: 'Kunde trotz Dublette gespeichert',
+  briefing_uebernommen: 'Briefing als übernommen markiert',
+  briefing_zurueckgegeben: 'Briefing zur Überarbeitung zurückgegeben',
+  briefing_yaml_exportiert: 'Angebots-Eingabe heruntergeladen',
 } as const;
 
 export type Aktion = keyof typeof AKTIONEN;
@@ -54,7 +57,7 @@ export function skriptAkteur(skript: string): Akteur {
 
 export interface ProtokollEingabe {
   aktion: Aktion;
-  zielTyp?: 'benutzer' | 'abrechnung' | 'kunde' | 'dublette' | '';
+  zielTyp?: 'benutzer' | 'abrechnung' | 'kunde' | 'dublette' | 'briefing' | '';
   zielId?: string | null;
   zielText?: string;
   details?: Record<string, unknown>;

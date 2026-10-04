@@ -14,6 +14,10 @@ import { istUuid } from './kunden.ts';
 import { protokolliere, type Akteur } from './admin-protokoll.ts';
 import { importiereUndBenachrichtige, protokolliereProvisionsImport, type ImportErgebnis } from './provision-import.ts';
 import type { Versender } from './smtp.ts';
+import { ladeStufe, pruefeStufe, setzeStufe, type StufeEingabe } from './stufe.ts';
+import { setzeStatusAdmin, type BriefingMitVertriebler } from './briefing.ts';
+import { erzeugeAngebotYaml, type YamlErgebnis } from './angebot-yaml.ts';
+import { heuteIso } from './kunden.ts';
 
 export function akteurAus(benutzer: Pick<Benutzer, 'id' | 'name'>): Akteur {
   return { id: benutzer.id, name: benutzer.name };
@@ -103,6 +107,27 @@ export async function slugAendern(db: Db, akteur: Akteur, id: string, slugEingab
   });
 }
 
+/** Stufe 1 oder 2 setzen. Pruefung wie im Formular, Stufe 2 braucht die Bestaetigung in Textform. */
+export async function stufeAendern(db: Db, akteur: Akteur, id: string, eingabe: StufeEingabe): Promise<void> {
+  const b = await zielBenutzer(db, id);
+  const geprueft = pruefeStufe(eingabe);
+  if (geprueft.fehler.length > 0) throw new AdminFehler(geprueft.fehler.join(' '));
+  const alt = await ladeStufe(db, b.id);
+  await setzeStufe(db, b.id, geprueft.wert, akteur.id);
+  await protokolliere(db, akteur, {
+    aktion: 'stufe_geaendert',
+    zielTyp: 'benutzer',
+    zielId: b.id,
+    zielText: b.name,
+    details: {
+      alt: alt.stufe,
+      neu: geprueft.wert.stufe,
+      seit: geprueft.wert.seit ?? '',
+      bestaetigtAm: geprueft.wert.bestaetigtAm ?? '',
+    },
+  });
+}
+
 // ---------------------------------------------------------------------------
 // Provision
 
@@ -160,6 +185,48 @@ export async function auszahlungMarkieren(db: Db, akteur: Akteur, id: string, da
     zielText: `${zeilen[0].vertriebler_slug} ${zeilen[0].monat}`,
     details: datum ? { datum } : {},
   });
+}
+
+// ---------------------------------------------------------------------------
+// Briefing-Boegen
+
+function briefingZiel(b: Pick<BriefingMitVertriebler, 'id' | 'kundeName' | 'vertrieblerName'>) {
+  return { zielTyp: 'briefing' as const, zielId: b.id, zielText: `${b.kundeName} (von ${b.vertrieblerName})` };
+}
+
+/** Als uebernommen markieren oder zur Ueberarbeitung zurueckgeben. */
+export async function briefingStatusSetzen(
+  db: Db,
+  akteur: Akteur,
+  briefing: Pick<BriefingMitVertriebler, 'id' | 'kundeName' | 'vertrieblerName'>,
+  status: 'uebernommen' | 'entwurf',
+): Promise<void> {
+  const geaendert = await setzeStatusAdmin(db, briefing.id, status);
+  if (!geaendert) throw new AdminFehler('Dieser Bogen ist schon wieder ein Entwurf beim Vertriebler.');
+  await protokolliere(db, akteur, {
+    aktion: status === 'uebernommen' ? 'briefing_uebernommen' : 'briefing_zurueckgegeben',
+    ...briefingZiel(briefing),
+  });
+}
+
+/**
+ * Erzeugt die Angebots-Eingabe als YAML. Ein eingereichter Bogen gilt danach
+ * als uebernommen. Der Download selbst ist eine Leseaktion, er steht trotzdem
+ * im Protokoll, weil Kundendaten das Portal verlassen.
+ */
+export async function briefingYamlExportieren(db: Db, akteur: Akteur, briefing: BriefingMitVertriebler): Promise<YamlErgebnis> {
+  const yaml = erzeugeAngebotYaml(briefing, {
+    vertrieblerName: briefing.vertrieblerName,
+    vertrieblerSlug: briefing.vertrieblerSlug,
+    heute: heuteIso(),
+  });
+  const uebernommen = briefing.status === 'eingereicht' && (await setzeStatusAdmin(db, briefing.id, 'uebernommen'));
+  await protokolliere(db, akteur, {
+    aktion: 'briefing_yaml_exportiert',
+    ...briefingZiel(briefing),
+    details: { datei: yaml.dateiname, alsUebernommenMarkiert: uebernommen },
+  });
+  return yaml;
 }
 
 // ---------------------------------------------------------------------------

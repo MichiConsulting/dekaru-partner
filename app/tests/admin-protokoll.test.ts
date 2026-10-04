@@ -192,7 +192,7 @@ describe('Protokoll: unveraenderlich', () => {
 
 describe('Protokoll: Admin-Seiten schreiben nur ueber admin-aktionen.ts', () => {
   // Bausteine, die nur ueber eine protokollierende Funktion aufgerufen werden duerfen.
-  const VERBOTEN = /\b(setzeAktiv|setzePasswort|erstelleBenutzer|importiereAbrechnung|markiereAusgezahlt|beendeAlleSitzungen)\s*\(|\b(UPDATE|INSERT\s+INTO|DELETE\s+FROM)\b/;
+  const VERBOTEN = /\b(setzeAktiv|setzePasswort|erstelleBenutzer|importiereAbrechnung|importiereUndBenachrichtige|markiereAusgezahlt|beendeAlleSitzungen|setzeStufe|setzeStatusAdmin)\s*\(|\b(UPDATE|INSERT\s+INTO|DELETE\s+FROM)\b/;
 
   it('keine Admin-Seite ruft einen schreibenden Baustein direkt auf', () => {
     const ordner = fileURLToPath(new URL('../src/pages/admin', import.meta.url));
@@ -212,7 +212,7 @@ describe('Protokoll: Admin-Seiten schreiben nur ueber admin-aktionen.ts', () => 
   });
 
   it('der Katalog kennt alle geforderten Aktionen', () => {
-    for (const a of ['zugang_angelegt', 'zugang_deaktiviert', 'einmal_passwort_neu', 'slug_geaendert', 'stufe_geaendert', 'provision_importiert', 'provision_ausgezahlt']) {
+    for (const a of ['zugang_angelegt', 'zugang_deaktiviert', 'einmal_passwort_neu', 'slug_geaendert', 'stufe_geaendert', 'provision_importiert', 'provision_ausgezahlt', 'provision_mail_nachgeholt', 'briefing_uebernommen', 'briefing_zurueckgegeben', 'briefing_yaml_exportiert']) {
       expect(Object.keys(AKTIONEN)).toContain(a);
     }
   });

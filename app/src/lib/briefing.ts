@@ -435,9 +435,8 @@ export async function holeBriefingAdmin(db: Db, id: string): Promise<BriefingMit
 
 /**
  * Admin: als uebernommen markieren (YAML erzeugt) oder zur Ueberarbeitung
- * zurueckgeben. Die einzige Stelle, an der der Admin einen Bogen schreibt;
- * ein Protokoll (protokolliere() aus admin-aktionen.ts) laesst sich hier
- * nachruesten.
+ * zurueckgeben. Die einzige Stelle, an der der Admin einen Bogen schreibt.
+ * Admin-Seiten rufen sie nur ueber admin-aktionen.ts auf, das protokolliert.
  */
 export async function setzeStatusAdmin(db: Db, id: string, status: 'uebernommen' | 'entwurf', jetzt = new Date()): Promise<boolean> {
   if (!istUuid(id)) return false;

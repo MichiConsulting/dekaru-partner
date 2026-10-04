@@ -2,8 +2,9 @@
 import '../../../styles/vertrieb.css';
 import Layout from '../../../layouts/Layout.astro';
 import BriefingAnsicht from '../../../components/BriefingAnsicht.astro';
-import { STATUS_LABEL, holeBriefingAdmin, setzeStatusAdmin } from '../../../lib/briefing.ts';
+import { STATUS_LABEL, holeBriefingAdmin } from '../../../lib/briefing.ts';
 import { erzeugeAngebotYaml } from '../../../lib/angebot-yaml.ts';
+import { AdminFehler, akteurAus, briefingStatusSetzen, briefingYamlExportieren } from '../../../lib/admin-aktionen.ts';
 import { heuteIso } from '../../../lib/kunden.ts';
 import { formular, istPost } from '../../../lib/http.ts';
 import { istAdmin } from '../../../lib/zugriff.ts';
@@ -11,9 +12,10 @@ import { istAdmin } from '../../../lib/zugriff.ts';
 if (!istAdmin(Astro.locals.benutzer)) return Astro.redirect('/verboten', 303);
 
 const db = Astro.locals.db;
+const ich = Astro.locals.benutzer!;
 const csrf = Astro.locals.csrf ?? '';
 const id = String(Astro.params.id ?? '');
-let briefing = await holeBriefingAdmin(db, id);
+const briefing = await holeBriefingAdmin(db, id);
 if (!briefing) return Astro.rewrite('/404');
 
 let fehler: string | null = null;
@@ -22,8 +24,7 @@ if (istPost(Astro.request)) {
   const d = await formular(Astro.request);
   if (d.aktion === 'yaml') {
     try {
-      const yaml = erzeugeAngebotYaml(briefing, { vertrieblerName: briefing.vertrieblerName, vertrieblerSlug: briefing.vertrieblerSlug, heute: heuteIso() });
-      if (briefing.status === 'eingereicht') await setzeStatusAdmin(db, id, 'uebernommen');
+      const yaml = await briefingYamlExportieren(db, akteurAus(ich), briefing);
       return new Response(yaml.inhalt, {
         status: 200,
         headers: {
@@ -34,12 +35,14 @@ if (istPost(Astro.request)) {
     } catch (e) {
       fehler = e instanceof Error ? e.message : String(e);
     }
-  } else if (d.aktion === 'zurueck') {
-    await setzeStatusAdmin(db, id, 'entwurf');
-    return Astro.redirect('/admin/briefings?ok=zurueck', 303);
-  } else if (d.aktion === 'uebernommen') {
-    await setzeStatusAdmin(db, id, 'uebernommen');
-    return Astro.redirect(`/admin/briefings/${id}?ok=uebernommen`, 303);
+  } else if (d.aktion === 'zurueck' || d.aktion === 'uebernommen') {
+    try {
+      await briefingStatusSetzen(db, akteurAus(ich), briefing, d.aktion === 'zurueck' ? 'entwurf' : 'uebernommen');
+      return Astro.redirect(d.aktion === 'zurueck' ? '/admin/briefings?ok=zurueck' : `/admin/briefings/${id}?ok=uebernommen`, 303);
+    } catch (e) {
+      if (!(e instanceof AdminFehler)) throw e;
+      fehler = e.message;
+    }
   }
 }
 
