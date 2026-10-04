@@ -383,8 +383,13 @@ Menünamen englisch, wie sie auf dem Mac und bei Vercel erscheinen.
 ### 4. Umgebungsvariablen prüfen
 
 Vercel-Projekt → **Settings** → **Environment Variables**. Dort muss
-`DATABASE_URL` stehen (aus Schritt 3). Weitere Variablen braucht das Portal
-nicht. `PGLITE_PFAD` bleibt lokal in `.env` und wird nie eingetragen.
+`DATABASE_URL` stehen (aus Schritt 3). Für den automatischen
+Provisionsimport und die Mail an die Vertriebler kommen
+`PROVISION_IMPORT_TOKEN` und `PORTAL_SMTP_HOST`, `PORTAL_SMTP_PORT`,
+`PORTAL_SMTP_SECURE`, `PORTAL_SMTP_USER`, `PORTAL_SMTP_PASS`,
+`PORTAL_SMTP_FROM` dazu (Schritt 9). Ohne sie läuft das Portal, nur Import per
+Token und Mail fallen weg. `PGLITE_PFAD` bleibt lokal in `.env` und wird nie
+eingetragen.
 
 ### 5. Schema anlegen und ersten Admin erzeugen
 
