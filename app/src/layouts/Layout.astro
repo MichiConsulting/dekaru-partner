@@ -3,7 +3,7 @@ import '../styles/global.css';
 
 interface Props {
   titel: string;
-  aktiv?: 'start' | 'lernen' | 'gespraech' | 'kunden' | 'kalender' | 'provision' | 'admin' | 'einstellungen' | 'keine';
+  aktiv?: 'start' | 'lernen' | 'gespraech' | 'kunden' | 'kalender' | 'preisrechner' | 'briefing' | 'provision' | 'admin' | 'einstellungen' | 'keine';
   schmal?: boolean;
 }
 
@@ -18,6 +18,8 @@ const punkte = benutzer
       { key: 'gespraech', href: '/gespraech', text: 'Gespräch' },
       { key: 'kunden', href: '/kunden', text: 'Meine Kunden' },
       { key: 'kalender', href: '/kalender', text: 'Kalender' },
+      { key: 'preisrechner', href: '/preisrechner', text: 'Preisrechner' },
+      { key: 'briefing', href: '/briefing', text: 'Briefing' },
       { key: 'provision', href: '/provision', text: 'Meine Provision' },
       ...(benutzer.rolle === 'admin' ? [{ key: 'admin', href: '/admin', text: 'Admin' }] : []),
     ]

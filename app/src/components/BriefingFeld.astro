@@ -1,0 +1,52 @@
+---
+/** Ein Feld des Briefing-Bogens, je nach Typ Eingabe, Auswahl oder Haekchen. */
+import type { Feld } from '../lib/briefing.ts';
+
+interface Props {
+  feld: Feld;
+  wert: string | undefined;
+}
+const { feld, wert } = Astro.props;
+const id = `f-${feld.name}`;
+---
+
+{feld.typ === 'checkbox' ? (
+  <div class="feld">
+    <label class="wahl" for={id}>
+      <input id={id} name={feld.name} type="checkbox" checked={wert === 'on'} />
+      <span class:list={[feld.pflicht && 'pflicht']}>{feld.label}</span>
+    </label>
+    {feld.hilfe && <p class="feld__hilfe">{feld.hilfe}</p>}
+  </div>
+) : feld.typ === 'radio' ? (
+  <fieldset class="feld">
+    <legend class:list={[feld.pflicht && 'pflicht']}>{feld.label}</legend>
+    <div class="wahl" style="flex-direction:column;align-items:flex-start;gap:var(--space-xs)">
+      {feld.optionen?.map((o) => (
+        <label><input type="radio" name={feld.name} value={o.wert} checked={wert === o.wert} /> {o.label}</label>
+      ))}
+    </div>
+    {feld.hilfe && <p class="feld__hilfe">{feld.hilfe}</p>}
+  </fieldset>
+) : feld.typ === 'select' ? (
+  <div class="feld">
+    <label for={id} class:list={[feld.pflicht && 'pflicht']}>{feld.label}</label>
+    <select id={id} name={feld.name}>
+      <option value="">Bitte wählen</option>
+      {feld.optionen?.map((o) => <option value={o.wert} selected={wert === o.wert}>{o.label}</option>)}
+    </select>
+    {feld.hilfe && <p class="feld__hilfe">{feld.hilfe}</p>}
+  </div>
+) : feld.typ === 'textarea' ? (
+  <div class="feld">
+    <label for={id} class:list={[feld.pflicht && 'pflicht']}>{feld.label}</label>
+    <textarea id={id} name={feld.name} maxlength={feld.max ?? 2000} rows="3">{wert ?? ''}</textarea>
+    {feld.hilfe && <p class="feld__hilfe">{feld.hilfe}</p>}
+  </div>
+) : (
+  <div class="feld">
+    <label for={id} class:list={[feld.pflicht && 'pflicht']}>{feld.label}</label>
+    <input id={id} name={feld.name} type={feld.typ} maxlength={feld.max ?? 200} value={wert ?? ''} autocomplete={feld.autocomplete ?? 'off'} inputmode={feld.name === 'plz' ? 'numeric' : undefined} />
+    {feld.hilfe && <p class="feld__hilfe">{feld.hilfe}</p>}
+  </div>
+)}

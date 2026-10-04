@@ -1,0 +1,85 @@
+---
+/**
+ * Der ausgefuellte Bogen zum Lesen: fuer den Vertriebler nach dem Einreichen,
+ * fuer den Admin immer. Zeigt nur gefuellte Felder. Preise nur, wenn die
+ * Person sie sehen darf.
+ */
+import PreisSumme from './PreisSumme.astro';
+import { ALLE_POSTEN, berechne, findePaket, findeTarif, findeZusatzleistung } from '../lib/preise.ts';
+import { TEILE, type Briefing } from '../lib/briefing.ts';
+import { datumDe } from '../lib/provision.ts';
+
+interface Props {
+  briefing: Briefing;
+  zeigePreise: boolean;
+  zeigeProvision?: boolean;
+}
+const { briefing, zeigePreise, zeigeProvision = false } = Astro.props;
+const f = briefing.daten.felder;
+const a = briefing.daten.auswahl;
+const paket = findePaket(a.paket);
+const tarif = findeTarif(a.hosting.tarif);
+const ergebnis = zeigePreise ? berechne(a) : null;
+
+const bausteine = ALLE_POSTEN.filter((p) => {
+  const w = a.bausteine[p.schluessel];
+  if (!w) return false;
+  if (p.art !== 'anzahl' && paket?.enthalten[p.schluessel]) return false;
+  return true;
+}).map((p) => (p.art === 'anzahl' ? `${p.name} × ${a.bausteine[p.schluessel]}` : p.name));
+const zusatz = a.zusatzleistungen.map((s) => findeZusatzleistung(s)?.name).filter(Boolean);
+
+function anzeige(name: string, wert: string | undefined): string {
+  const feld = TEILE.flatMap((t) => t.felder).find((x) => x.name === name);
+  if (!feld || wert === undefined) return '';
+  if (feld.typ === 'checkbox') return wert === 'on' ? 'ja' : '';
+  if (feld.typ === 'date') return datumDe(wert);
+  if (feld.optionen) return feld.optionen.find((o) => o.wert === wert)?.label ?? wert;
+  return wert;
+}
+---
+
+<div class="lesen">
+  {TEILE.map((teil) => {
+    const zeilen = teil.felder.map((feld) => ({ feld, wert: anzeige(feld.name, f[feld.name]) })).filter((z) => z.wert);
+    if (zeilen.length === 0 && teil.kennung !== 'B') return null;
+    return (
+      <section class="karte briefing__teil">
+        <h2><span class="nummer">Teil {teil.kennung}</span>{teil.titel}</h2>
+        <dl>
+          {zeilen.filter((z) => teil.kennung !== 'B' || z.feld.name === 'branche').map((z) => (
+            <>
+              <dt>{z.feld.label}</dt>
+              <dd>{z.wert}</dd>
+            </>
+          ))}
+          {teil.kennung === 'B' && (
+            <>
+              <dt>Paket</dt>
+              <dd>{paket ? paket.name : 'keins'}</dd>
+              <dt>Zusatzbausteine</dt>
+              <dd>{bausteine.length ? bausteine.join(', ') : 'keine'}</dd>
+              <dt>Zusatzleistungen</dt>
+              <dd>{zusatz.length ? zusatz.join(', ') : 'keine'}</dd>
+              <dt>Hosting</dt>
+              <dd>
+                {tarif ? `${tarif.name}, ${tarif.monat === null || a.hosting.zahlweise === 'jaehrlich' ? 'Jahresvertrag' : 'monatlich'}${a.hosting.gratisquartal ? ', Gratisquartal zugesagt' : ''}` : 'kein Hosting'}
+              </dd>
+              {zeilen.filter((z) => z.feld.name !== 'branche').map((z) => (
+                <>
+                  <dt>{z.feld.label}</dt>
+                  <dd>{z.wert}</dd>
+                </>
+              ))}
+            </>
+          )}
+        </dl>
+        {teil.kennung === 'B' && ergebnis && (
+          <div style="margin-top:var(--space-l);max-width:420px">
+            <PreisSumme ergebnis={ergebnis} zeigeProvision={zeigeProvision} />
+          </div>
+        )}
+      </section>
+    );
+  })}
+</div>
