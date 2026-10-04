@@ -1,0 +1,78 @@
+---
+import '../../styles/vertrieb.css';
+import Layout from '../../layouts/Layout.astro';
+import BriefingFormular from '../../components/BriefingFormular.astro';
+import BriefingAnsicht from '../../components/BriefingAnsicht.astro';
+import { STATUS_LABEL, holeBriefing, loescheBriefing, pruefeBriefing, reicheEin, speichereBriefing, type Pruefung } from '../../lib/briefing.ts';
+import { formular, istPost } from '../../lib/http.ts';
+import { darfPreiseSehen, ladeStufe } from '../../lib/stufe.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const db = Astro.locals.db;
+const csrf = Astro.locals.csrf ?? '';
+const id = String(Astro.params.id ?? '');
+
+// Nur eigene Boegen. Fremde IDs enden mit 404, nicht 403.
+let briefing = await holeBriefing(db, benutzer.id, id);
+if (!briefing) return Astro.rewrite('/404');
+
+const stand = await ladeStufe(db, benutzer.id);
+const zeigePreise = darfPreiseSehen(benutzer, stand);
+
+let pruefung: Pruefung | null = null;
+let meldung: string | null = null;
+
+if (istPost(Astro.request) && briefing.status === 'entwurf') {
+  const daten = await formular(Astro.request);
+  if (daten.aktion === 'loeschen') {
+    await loescheBriefing(db, benutzer.id, id);
+    return Astro.redirect('/briefing?ok=geloescht', 303);
+  }
+  pruefung = pruefeBriefing(daten);
+  if (pruefung.sperren.length > 0) {
+    // Nichts speichern, aber die Eingabe im Formular lassen.
+    briefing = { ...briefing, daten: pruefung.daten };
+  } else if (daten.aktion === 'einreichen' && pruefung.fehlend.length === 0) {
+    await reicheEin(db, benutzer.id, id, pruefung.daten);
+    return Astro.redirect('/briefing?ok=eingereicht', 303);
+  } else {
+    briefing = (await speichereBriefing(db, benutzer.id, id, pruefung.daten)) ?? briefing;
+    if (daten.aktion !== 'einreichen') {
+      pruefung = null;
+      return Astro.redirect(`/briefing/${id}?ok=gespeichert`, 303);
+    }
+  }
+}
+if (Astro.url.searchParams.get('ok') === 'gespeichert') meldung = 'Zwischengespeichert.';
+---
+
+<Layout titel={`Briefing ${briefing.kundeName}`} aktiv="briefing">
+  <p class="meta"><a href="/briefing">Briefing</a> / {briefing.kundeName}</p>
+  <h1>Briefing: {briefing.kundeName}</h1>
+  <p class="meta">
+    <span class:list={['badge', briefing.status !== 'entwurf' && 'badge--voll']}>{STATUS_LABEL[briefing.status]}</span>
+    {briefing.eingereichtAm && ` Eingereicht am ${briefing.eingereichtAm.toLocaleDateString('de-DE')}.`}
+    {briefing.status === 'entwurf' && ` Zuletzt gespeichert ${briefing.geaendertAm.toLocaleString('de-DE', { dateStyle: 'short', timeStyle: 'short' })}.`}
+  </p>
+  {meldung && <div class="meldung meldung--ok" role="status"><p>{meldung}</p></div>}
+
+  {briefing.status === 'entwurf' ? (
+    <>
+      <BriefingFormular briefing={briefing} csrf={csrf} pruefung={pruefung} zeigePreise={zeigePreise} />
+      <form method="post" class="karte" style="margin-top:var(--space-l)">
+        <input type="hidden" name="_csrf" value={csrf} />
+        <input type="hidden" name="aktion" value="loeschen" />
+        <p class="meta">Entwurf verwerfen. Das lässt sich nicht rückgängig machen.</p>
+        <button type="submit" class="btn btn--gefahr btn--klein">Entwurf löschen</button>
+      </form>
+    </>
+  ) : (
+    <>
+      <div class="hinweis">
+        Der Bogen ist eingereicht und lässt sich nicht mehr ändern. Fehlt etwas, sagen Sie es Michael Henning direkt; er kann den Bogen zur
+        Überarbeitung zurückgeben.
+      </div>
+      <BriefingAnsicht briefing={briefing} zeigePreise={zeigePreise} />
+    </>
+  )}
+</Layout>

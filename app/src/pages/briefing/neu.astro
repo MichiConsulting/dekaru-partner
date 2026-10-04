@@ -1,0 +1,15 @@
+---
+// Legt einen Bogen zu einem eigenen Kunden an und leitet zum Formular weiter.
+// Nur POST, das Formular steht auf /briefing.
+import { erstelleBriefing } from '../../lib/briefing.ts';
+import { formular, istPost } from '../../lib/http.ts';
+
+const benutzer = Astro.locals.benutzer!;
+if (!istPost(Astro.request)) return Astro.redirect('/briefing', 303);
+
+const daten = await formular(Astro.request);
+const briefing = await erstelleBriefing(Astro.locals.db, benutzer.id, String(daten.kunde ?? ''));
+// Fremde oder unbekannte Kunden enden ohne Hinweis in der Uebersicht.
+if (!briefing) return Astro.redirect('/briefing', 303);
+return Astro.redirect(`/briefing/${briefing.id}`, 303);
+---
