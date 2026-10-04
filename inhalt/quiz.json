@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "stand": "2026-10-01",
+  "stand": "2026-10-04",
   "titel": "Lernfragen zum Informationsblatt für dekaru-Vertriebler",
   "typen": {
     "multiple-choice": "Eine Frage, mehrere Optionen. 'richtig' ist eine Liste von Indizes (0-basiert) in 'optionen'. Enthält sie mehr als einen Index, sind mehrere Antworten richtig und 'mehrfach' ist true.",
@@ -809,6 +809,23 @@
       "aussage": "Zwischen dem ersten Anruf und dem ersten Geld liegen realistisch sechs bis zehn Wochen.",
       "richtig": true,
       "erklaerung": "Erstgespräch, Vorschau, Zweittermin, Entscheidung, Anzahlung, Abrechnung zum Fünften. Wer den Anlauf wegrechnet, hat im zweiten Monat ein Problem."
+    },
+    {
+      "id": "q61",
+      "typ": "multiple-choice",
+      "kapitel": "08-provision",
+      "frage": "Sie sind umsatzsteuerpflichtig und vermitteln das Paket Mittel für 1.300 €. Was gilt für Ihre Provision?",
+      "optionen": [
+        "Sie bekommen 455 € plus 19 % Umsatzsteuer, also 541,45 €.",
+        "Sie bekommen 455 €, die Umsatzsteuer ist darin enthalten. Ihnen bleiben 382,35 €, rund 29,4 %.",
+        "Auf die Provision fällt keine Umsatzsteuer an, weil Michael Henning Kleinunternehmer ist.",
+        "Michael Henning führt Ihre Steuern und Abgaben direkt ab."
+      ],
+      "richtig": [
+        1
+      ],
+      "mehrfach": false,
+      "erklaerung": "Die 35 % sind brutto. 455 € geteilt durch 1,19 sind 382,35 €, dazu 72,65 € Umsatzsteuer, die Sie abführen. Als Kleinunternehmer behalten Sie die vollen 455 €. Steuern und Abgaben tragen Sie selbst."
     },
     {
       "id": "q44",
