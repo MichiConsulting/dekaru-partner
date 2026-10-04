@@ -19,6 +19,17 @@ kurz: 35 Prozent auf Einmaliges und auf die ersten zwölf bezahlten Hosting-Mona
 
 Ich bin Kleinunternehmer und weise keine Umsatzsteuer aus. Rechnungsbetrag und Umsatz sind dieselbe Zahl. Steht auf der Rechnung 1.300 €, sind das 455 € für Sie. Es gibt keine Grundlage für Streit darüber, worauf gerechnet wird.
 
+## Steuern auf Ihre Provision
+
+Die 35 % sind ein Bruttobetrag. Sind Sie umsatzsteuerpflichtig, ist die Umsatzsteuer darin enthalten, sie kommt nicht obendrauf. Alle Steuern und Abgaben auf Ihre Provision tragen Sie selbst: Einkommensteuer, Gewerbesteuer, Umsatzsteuer, Sozialabgaben. Der Grund: Ich kann als Kleinunternehmer keine Vorsteuer abziehen, Umsatzsteuer obendrauf wäre für mich ein Aufschlag von 19 %.
+
+| Ihre Lage, Paket Mittel für 1.300 € | Provision | davon Umsatzsteuer | bleibt Ihnen |
+|---|---|---|---|
+| Kleinunternehmer nach § 19 UStG | 455 € | 0 € | 455 €, also 35 % |
+| umsatzsteuerpflichtig | 455 € | 72,65 € | 382,35 €, rund 29,4 % |
+
+Rund 29,4 % sind 35 geteilt durch 1,19. Von dem, was Ihnen bleibt, gehen noch Einkommensteuer und gegebenenfalls Gewerbesteuer ab. Ob Sie Kleinunternehmer sind, sagen Sie mir vor der ersten Abrechnung. Wie Sie steuerlich richtig dastehen, klärt Ihr Steuerberater.
+
 ## Worauf gerechnet wird
 
 Auf alles Einmalige, das auf der Rechnung steht: das Website-Paket, die gebuchten Zusatzbausteine **und die Zusatzleistungen** Google-Profil und Aufsteller. Der Sichtbarkeits-Check zählt nur, wenn er im Erstauftrag mitverkauft wird. Später gebucht ist er Folgegeschäft ohne Provision.

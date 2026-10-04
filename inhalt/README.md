@@ -3,7 +3,7 @@
 Quelle für das Informationsblatt (PDF unter `pdf/`) und für das Partner-Portal
 (`app/`). Beides liest dieselben Dateien, damit es keine zwei Wahrheiten gibt.
 
-Stand der Inhalte: 01.10.2026 (Entscheidungen von Michi vom 01.10.2026 eingearbeitet). Fachliche Quellen sind die Blätter unter
+Stand der Inhalte: 04.10.2026 (Entscheidungen von Michi vom 01.10.2026 und zur Steuer auf die Provision vom 04.10.2026 eingearbeitet). Fachliche Quellen sind die Blätter unter
 `~/dekaru/brain/projekte/vertrieb-partner/` (Blatt 13 für Hosting, 04 für
 Provision, 06 für Do und Don't, 14 für die Website-Pakete),
 `dekaru-website/site/src/data/preise.ts` (Paket- und Bausteinpreise), `hosting.ts` (Hosting-Tarife) und

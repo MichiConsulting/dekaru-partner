@@ -24,7 +24,8 @@
           ["Abrechnung", "monatlich zum Fünften für den Vormonat, mit Aufstellung je Abschluss"],
           ["Teilzahlungen", "anteilig, in derselben Aufteilung"],
           ["Hosting", "35 % auf die ersten zwölf bezahlten Monate, vierteljährlich ausgezahlt"],
-          ["Zuordnung", "ein Abschluss zählt zu dem, der das Erstgespräch geführt hat, auch Monate später"]
+          ["Zuordnung", "ein Abschluss zählt zu dem, der das Erstgespräch geführt hat, auch Monate später"],
+          ["Steuern", "35 % sind brutto, eine etwaige Umsatzsteuer ist enthalten. Steuern und Abgaben tragen Sie selbst, umsatzsteuerpflichtig bleiben rund 29,4 %"]
         ]
       },
       "merke": "Später gebuchter Sichtbarkeits-Check ist Folgegeschäft ohne Provision."
