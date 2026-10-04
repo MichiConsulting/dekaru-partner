@@ -35,7 +35,13 @@ async function tabellen(db: Db): Promise<string[]> {
   return zeilen.map((z) => z.table_name);
 }
 
-const NEUE_TABELLEN = ['pflichtsatz_antworten', 'lernkarten_stand', 'abfrage_durchlaeufe'];
+const NEUE_TABELLEN = ['pflichtsatz_antworten', 'lernkarten_stand', 'abfrage_durchlaeufe', 'stufen_protokoll', 'briefings'];
+
+/** Alle Versionsnummern aus db/migrationen, aufsteigend. Luecken sind erlaubt, Zweige bringen eigene Nummern mit. */
+const ALLE_VERSIONEN = readdirSync(MIGRATIONEN_ORDNER)
+  .filter((n) => /^\d{3}-.*\.sql$/.test(n))
+  .map((n) => Number(n.slice(0, 3)))
+  .sort((a, b) => a - b);
 
 describe('Migrationen', () => {
   let db: Db | null = null;
@@ -51,22 +57,22 @@ describe('Migrationen', () => {
     const dateien = readdirSync(MIGRATIONEN_ORDNER).filter((n) => /^\d{3}-.*\.sql$/.test(n)).sort();
     const nummern = dateien.map((n) => Number(n.slice(0, 3)));
     expect(new Set(nummern).size).toBe(nummern.length);
-    expect(nummern).toEqual([1, 2, 3, 4]);
+    expect(nummern).toEqual(expect.arrayContaining([1, 2, 3, 4, 6]));
     for (const datei of dateien) {
       const sql = readFileSync(join(MIGRATIONEN_ORDNER, datei), 'utf8');
       expect(sql).toContain(`INSERT INTO schema_version (version) VALUES (${Number(datei.slice(0, 3))})`);
     }
   });
 
-  it('wendet auf eine frische Datenbank 1, 2 und 3 an', async () => {
+  it('wendet auf eine frische Datenbank alle Versionen an', async () => {
     db = await leereDb();
-    expect(await migriere(db)).toEqual([1, 2, 3, 4]);
-    expect(await versionen(db)).toEqual([1, 2, 3, 4]);
+    expect(await migriere(db)).toEqual(ALLE_VERSIONEN);
+    expect(await versionen(db)).toEqual(ALLE_VERSIONEN);
     expect(await tabellen(db)).toEqual(expect.arrayContaining(NEUE_TABELLEN));
     expect(await migriere(db)).toEqual([]);
   });
 
-  it('wendet auf eine Datenbank mit nur Version 1 genau 2, 3 und 4 an', async () => {
+  it('wendet auf eine Datenbank mit nur Version 1 genau die uebrigen an', async () => {
     ordner = mkdtempSync(join(tmpdir(), 'migration-'));
     copyFileSync(join(MIGRATIONEN_ORDNER, '001-schema.sql'), join(ordner, '001-schema.sql'));
     db = await leereDb();
@@ -74,9 +80,28 @@ describe('Migrationen', () => {
     expect(await versionen(db)).toEqual([1]);
     expect(await tabellen(db)).not.toEqual(expect.arrayContaining(['pflichtsatz_antworten']));
 
-    expect(await migriere(db)).toEqual([2, 3, 4]);
-    expect(await versionen(db)).toEqual([1, 2, 3, 4]);
+    expect(await migriere(db)).toEqual(ALLE_VERSIONEN.filter((v) => v !== 1));
+    expect(await versionen(db)).toEqual(ALLE_VERSIONEN);
     expect(await tabellen(db)).toEqual(expect.arrayContaining(NEUE_TABELLEN));
+  });
+
+  it('Version 6 gibt bestehenden Vertrieblern Stufe 1 und laesst sich wiederholen', async () => {
+    ordner = mkdtempSync(join(tmpdir(), 'migration-'));
+    copyFileSync(join(MIGRATIONEN_ORDNER, '001-schema.sql'), join(ordner, '001-schema.sql'));
+    db = await leereDb();
+    await migriere(db, ordner);
+    await db.query(
+      `INSERT INTO benutzer (email, name, rolle, passwort_hash) VALUES ('alt@example.test', 'Alt', 'vertriebler', 'scrypt$1$1$1$a$a')`,
+    );
+    await migriere(db);
+    const zeilen = await db.query<{ stufe: number; stufe_seit: string | null }>(
+      "SELECT stufe, stufe_seit FROM benutzer WHERE email = 'alt@example.test'",
+    );
+    expect(Number(zeilen[0].stufe)).toBe(1);
+    expect(zeilen[0].stufe_seit).toBeNull();
+    // Ein zweiter Lauf derselben Datei aendert nichts und wirft nicht.
+    await db.exec(readFileSync(join(MIGRATIONEN_ORDNER, '006-stufe-briefing.sql'), 'utf8'));
+    await expect(db.query("INSERT INTO benutzer (email, name, rolle, passwort_hash, stufe) VALUES ('x@example.test', 'X', 'vertriebler', 'h', 3)")).rejects.toThrow();
   });
 
   it('befristet beim Nachziehen von Version 4 auch laengst bestehende offene Einladungen', async () => {
