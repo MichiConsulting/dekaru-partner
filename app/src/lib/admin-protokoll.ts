@@ -197,6 +197,21 @@ const DETAIL_NAMEN: Record<string, string> = {
   datum: 'Datum',
   treffer: 'Treffer',
   geloeschteEintraege: 'gelöschte Einträge',
+  seit: 'gilt ab',
+  bestaetigtAm: 'bestätigt am',
+  benachrichtigung: 'Mail',
+  alsUebernommenMarkiert: 'als übernommen markiert',
+};
+
+/** Lesbare Werte fuer den Mailstatus. Gleiche Schluessel wie BENACHRICHTIGUNG_TEXT in provision-import.ts. */
+const MAIL_STATUS: Record<string, string> = {
+  gesendet: 'gesendet',
+  abgeschaltet: 'vom Vertriebler abgeschaltet',
+  kein_smtp: 'nicht gesendet, SMTP fehlt',
+  kein_konto: 'kein aktiver Zugang',
+  fehler: 'fehlgeschlagen',
+  ausstehend: 'nicht abgeschlossen',
+  keine: 'keine',
 };
 
 const EURO = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' });
@@ -208,6 +223,8 @@ export function detailsText(details: Record<string, unknown>): string {
       if (k === 'ersetzt') return v ? 'vorhandene ersetzt' : 'neu';
       const name = DETAIL_NAMEN[k] ?? k;
       if (k.endsWith('Cent') && typeof v === 'number') return `${name}: ${EURO.format(v / 100)}`;
+      if (k === 'benachrichtigung') return `${name}: ${MAIL_STATUS[String(v)] ?? String(v)}`;
+      if (typeof v === 'boolean') return `${name}: ${v ? 'ja' : 'nein'}`;
       const text = typeof v === 'object' && v !== null ? JSON.stringify(v) : String(v);
       return `${name}: ${text === '' ? 'leer' : text}`;
     })

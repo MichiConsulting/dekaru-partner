@@ -350,6 +350,7 @@ code {
 
 /* Unterpunkte eines Bereichs (Kunden, Admin): eine ruhige zweite Zeile. */
 .unternav {
+  position: relative;
   max-width: 1080px;
   margin: 0 auto;
   padding: 0 16px var(--space-xs);
@@ -1113,6 +1114,32 @@ tfoot td {
 @media (max-width: 640px) {
   .nav a {
     padding: var(--space-s) 10px;
+  }
+  /* Unterpunkte auf dem Handy in einer Zeile, seitlich schiebbar statt
+     vier Zeilen hoch. Der Rand rechts zeigt, dass es weitergeht. */
+  .unternav {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: var(--space-s);
+  }
+  .unternav.schiebt {
+    mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
+  }
+  .unternav.schiebt::after {
+    content: '';
+    flex: none;
+    width: 16px;
+  }
+  .unternav::-webkit-scrollbar {
+    display: none;
+  }
+  .unternav {
+    gap: 2px;
+  }
+  .unternav a {
+    flex: none;
+    padding: 6px 9px;
   }
 }
 @media (max-width: 480px) {
