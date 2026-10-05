@@ -61,11 +61,11 @@ Für Sie heißt das: Groß bringt fast immer Hosting mit, und Hosting bringt Ihn
 
 ## Was es noch nicht gibt
 
-**Ein Redaktionssystem zum Selbst-Ändern gibt es noch nicht.** Der Kunde kann seine Öffnungszeiten nicht selbst eintragen. Er schreibt mir, und ich ändere. Das Redaktionssystem ist das nächste Produkt, das ich baue, und bis es steht, wird es nicht versprochen. Nicht am Telefon, nicht im Termin, nicht als "kommt bald".
+**Ein Redaktionssystem zum Selbst-Ändern gibt es nicht.** Der Kunde kann seine Öffnungszeiten nicht selbst eintragen. Er schreibt mir, und ich ändere. Es wird auch nicht in Aussicht gestellt. Nicht am Telefon, nicht im Termin, nicht als "kommt bald".
 
 Wenn ein Kunde fragt:
 
-> "Im Moment schicken Sie ihm die Änderung per Mail, und er setzt sie um, das ist in jeder Stufe drin. Ein System, in dem Sie selbst ändern, ist in Arbeit. Wann es kommt, kann ich Ihnen nicht zusagen."
+> "Im Moment schicken Sie ihm die Änderung per Mail, und er setzt sie um, das ist in jeder Stufe drin. Selbst ändern müssen Sie nichts, Sie müssen sich in kein System einarbeiten."
 
 ## Werktage und Urlaub
 

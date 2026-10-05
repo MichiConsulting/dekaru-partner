@@ -66,7 +66,7 @@ Keine Bauzeit nennen, weder Tage noch Wochen.
 
 **"Kann ich die Seite dann selbst ändern?"**
 
-> "Im Moment schicken Sie Herrn Henning eine Mail, und er ändert es. Das ist bei jeder Hosting-Stufe drin, je nach Stufe drei, fünf oder zehn Änderungen im Monat. Ein System, in dem Sie selbst ändern, ist in Arbeit. Wann es kommt, kann ich Ihnen nicht zusagen."
+> "Im Moment schicken Sie Herrn Henning eine Mail, und er ändert es. Das ist bei jeder Hosting-Stufe drin, je nach Stufe drei, fünf oder zehn Änderungen im Monat. Selbst ändern müssen Sie nichts, Sie müssen sich in kein System einarbeiten."
 
 **"Was ist eine Änderung? Was, wenn ich mehr brauche?"**
 

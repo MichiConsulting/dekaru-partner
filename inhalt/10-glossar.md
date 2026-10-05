@@ -35,7 +35,7 @@ kurz: Die Begriffe aus diesem Blatt, kurz erklärt.
 | **Paket** | Eine der drei festen Website-Größen: Klein 600 €, Mittel 1.300 €, Groß 1.600 €. Fester Inhalt, fester Preis. Groß ist empfohlen. |
 | **Preisrechner** | Das Werkzeug, aus dem jeder Website-Preis entsteht: Paket plus Zusatzbausteine. Was er ausgibt, ist der Preis. |
 | **Quellstand** | Der vollständige, versionierte Bauplan der Website, aus dem sie jederzeit neu bereitgestellt werden kann. Ersetzt das klassische Backup. |
-| **Redaktionssystem** | Ein System, mit dem der Kunde Inhalte selbst ändern könnte. Gibt es bei dekaru noch nicht, wird nicht versprochen. |
+| **Redaktionssystem** | Ein System, mit dem der Kunde Inhalte selbst ändern könnte. Gibt es bei dekaru nicht, wird nicht in Aussicht gestellt. |
 | **Schema** | Das animierte Schaubild im Portal, das Sie im Erstgespräch zeigen, auf Laptop, Tablet oder per Bildschirmfreigabe. Zeigt die Bausteine der Website, was die mitarbeitende Funktion abnimmt, den Weg der Daten und wie es weitergeht. Keine Demo, keine Vorschau, und nur, was heute verkauft wird. |
 | **Stichtag** | Der 25. eines Monats. Bei Start werden alle Änderungen, die bis dahin da sind, in den letzten Werktagen des Monats gesammelt umgesetzt. |
 | **Stufe 1 / Stufe 2** | Stufe 1: die ersten fünf Zweittermine gemeinsam mit mir, ich nenne den Preis. Stufe 2: Sie allein, Sie nennen Paketpreis und Bausteine aus dem Preisrechner. |

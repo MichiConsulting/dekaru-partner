@@ -253,7 +253,7 @@
         2
       ],
       "mehrfach": true,
-      "erklaerung": "Arbeitszeit, Reaktionszeit und Umbauten. Plus ist reiner Service. Die Terminanfrage gehört zum Paket Groß, nicht zu einer Hosting-Stufe. Ein Redaktionssystem gibt es noch nicht, und Backups gibt es in keiner Stufe, sondern den gesicherten Quellstand."
+      "erklaerung": "Arbeitszeit, Reaktionszeit und Umbauten. Plus ist reiner Service. Die Terminanfrage gehört zum Paket Groß, nicht zu einer Hosting-Stufe. Ein Redaktionssystem gibt es nicht, und Backups gibt es in keiner Stufe, sondern den gesicherten Quellstand."
     },
     {
       "id": "q14",
@@ -263,14 +263,14 @@
       "optionen": [
         "Ja, jede Stufe hat ein Redaktionssystem.",
         "Ja, ab Basis.",
-        "Im Moment schickt er eine Mail an Michael Henning, der ändert es. Ein System zum Selbst-Ändern ist in Arbeit, ohne Termin.",
+        "Im Moment schickt er eine Mail an Michael Henning, der ändert es. Ein System zum Selbst-Ändern gibt es nicht.",
         "Nein, das geht bei dekaru grundsätzlich nicht."
       ],
       "richtig": [
         2
       ],
       "mehrfach": false,
-      "erklaerung": "Das Redaktionssystem gibt es noch nicht und wird nicht versprochen, auch nicht als 'kommt bald'. Änderungen per Mail sind in jeder Stufe enthalten."
+      "erklaerung": "Ein Redaktionssystem gibt es nicht und wird nicht in Aussicht gestellt, auch nicht als 'kommt bald'. Änderungen per Mail sind in jeder Stufe enthalten."
     },
     {
       "id": "q15",

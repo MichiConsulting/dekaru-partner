@@ -47,7 +47,7 @@ Die eine Ausnahme ist das **Gratisquartal**: drei Monate Hosting frei, wenn der 
 
 **Nichts versprechen, was es nicht gibt.** Kein Redaktionssystem zum Selbst-Ändern. Keine Tischreservierung, keine Terminbuchung mit Kalender. Keine "Backups", sondern ein gesicherter Quellstand. Keine Referenzkunden. Keine Muster vom Aufsteller. Keine Filterung, dass nur zufriedene Kunden bei Google landen. Und nichts Unfertiges: keine Funktion und kein Software-Baustein, der erst geplant ist oder gerade entsteht, auch nicht als "kommt bald".
 
-**Schema ja, Demo nein.** Im Erstgespräch zeigen Sie das Schema im Portal. Es veranschaulicht, was der Betrieb bekommt, es ist keine Demo und keine Vorschau. Es zeigt nur, was heute verkauft wird, und mehr als dort steht, sagen Sie nicht zu. Den Weg der Daten erklären Sie so, wie er heute ist: Formular, Formulardienst von dekaru, Mail an den Betrieb, gespeichert wird nichts. Die gebaute Seite mit seinen Daten sieht der Betrieb erst im Zweittermin.
+**Schema ja, Demo nein.** Im Erstgespräch zeigen Sie das Schema im Portal. Es veranschaulicht, was der Betrieb bekommt, es ist keine Demo und keine Vorschau. Es zeigt nur, was heute verkauft wird, und mehr als dort steht, sagen Sie nicht zu. Den Weg der Daten erklären Sie so, wie er heute ist: Formular, Formulardienst von dekaru, Mail an den Betrieb, gespeichert wird nichts. Die gebaute Seite mit seinen Daten sieht der Betrieb erst im Zweittermin. Das Schema gibt es wie die Vorschau nur gemeinsam im Termin: kein Link, kein Screenshot, kein Nachschicken per Mail oder Messenger.
 
 **Kein Vertrag durch Sie.** Angebot, Werkvertrag und AVV kommen von mir, der Kunde unterschreibt bei mir. Sie sagen nicht zu, dass eine Leistung enthalten ist, die nicht auf der Preisliste steht, dass etwas bis zu einem Datum fertig ist, oder ob ein Kunde nach dem Termin noch aussteigen kann. Sagt ein Betrieb "eigentlich können wir das gleich machen": "Umso besser, dann geht der Zweittermin schnell. Sie sehen Ihre Seite, und dann machen wir es fest."
 
@@ -70,7 +70,7 @@ Die eine Ausnahme ist das **Gratisquartal**: drei Monate Hosting frei, wenn der 
 | "gesicherter Quellstand" | "Backups" |
 | Gestaltungsbeispiele als erfunden benennen | Kundenprojekte behaupten |
 | Widerspruch sofort umsetzen | später nochmal probieren |
-| Vorschau nur im Termin | Vorschau per Mail |
+| Vorschau und Schema nur im Termin | Vorschau oder Schema per Mail, Link oder Screenshot |
 | sagen, dass per Video, Telefon und Mail abgestimmt wird | Nähe zu Michael Henning oder einem Ort behaupten |
 | ehrlich sagen, was man nicht weiß | Vermutungen als Auskunft |
 | ein Soft-Versuch nach dem Nein | nachhaken, bis es unangenehm wird |

@@ -73,4 +73,4 @@ Ein Umbau ist mehr als eine Änderung: bis zu drei Stunden Arbeit, etwa ein Bere
 
 > "Sie schreiben Herrn Henning eine Mail, was sich ändern soll. Bei Basis ist das innerhalb von drei Werktagen online, bei Start gesammelt zum Monatsende. Drei, fünf oder zehn solcher Änderungen im Monat sind im Preis drin, jede weitere kostet 25 €. Eine Änderung ist ein Anliegen an einer Stelle, also die Öffnungszeiten, ein Preis, ein Bild. Etwas Größeres wie eine neue Seite ist ein eigener kleiner Auftrag mit Festpreis vorher."
 
-Was Sie **nicht** sagen: dass er selbst ändern kann (gibt es noch nicht), dass es "unbegrenzt" ist (keine Stufe ist unbegrenzt), oder eine konkrete Uhrzeit oder einen Tag, an dem ich etwas umsetze.
+Was Sie **nicht** sagen: dass er selbst ändern kann (gibt es nicht), dass es "unbegrenzt" ist (keine Stufe ist unbegrenzt), oder eine konkrete Uhrzeit oder einen Tag, an dem ich etwas umsetze.
