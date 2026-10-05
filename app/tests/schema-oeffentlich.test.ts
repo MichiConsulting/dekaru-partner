@@ -177,7 +177,7 @@ describe('Seite /schema', () => {
   it('verlinkt Impressum und Datenschutz von dekaru.de', async () => {
     const html = await rendere('handwerk');
     expect(html).toContain('href="https://dekaru.de/impressum"');
-    expect(html).toContain('href="https://dekaru.de/datenschutz"');
+    expect(html).toContain('href="/datenschutz"');
   });
 
   it('zeigt keine Namen und keine Sitzungsdaten', async () => {
