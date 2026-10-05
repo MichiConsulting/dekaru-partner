@@ -1,7 +1,7 @@
 ---
 nummer: 6
 titel: Ablauf und Rollen
-kurz: Vom ersten Anruf bis zur Rechnung, wer was macht, Stufe 1 und Stufe 2, Warteschlange statt Bauzeit.
+kurz: Vom ersten Anruf bis zur Rechnung, das Schema im Erstgespräch, wer was macht, Stufe 1 und Stufe 2, Warteschlange statt Bauzeit.
 ---
 
 # Ablauf und Rollen
@@ -14,7 +14,20 @@ Sie sind **Vertriebler**, kein Terminierer. Sie sprechen Betriebe an, erklären,
 
 **1. Anruf oder Cold Visit.** Nur Gewerbetreibende, nur unter der geschäftlichen Nummer, mit klarem Anlass (Kapitel 7). Cold Visits, also unangemeldete Besuche im Betrieb, sind in Ihrem ganzen Gebiet erlaubt. Ziel ist das Erstgespräch mit dem Inhaber.
 
-**2. Erstgespräch, Sie allein.** Sie erklären, was der Betrieb bekommt, welche Zusatzleistungen es gibt und welcher Preisrahmen gilt: "ab 600 €". Sie nehmen auf, was ihn an seiner jetzigen Lage stört. Ein Zweittermin wird nur vereinbart, wenn das Interesse echt ist, denn für jeden Zweittermin baue ich eine Vorschau. Echt heißt:
+**2. Erstgespräch, Sie allein.** Sie erklären, was der Betrieb bekommt, welche Zusatzleistungen es gibt und welcher Preisrahmen gilt: "ab 600 €". Sie nehmen auf, was ihn an seiner jetzigen Lage stört.
+
+Zum Erklären gibt es **das Schema im Portal**: ein animiertes, farbiges Schaubild, das Sie vor Ort auf Laptop oder Tablet zeigen oder per Video über die Bildschirmfreigabe. Es ist keine Demo und keine Vorschau, sondern eine Veranschaulichung. Es zeigt:
+
+- die Bausteine der Website
+- was die mitarbeitende Funktion, heute die Online-Terminanfrage im Paket Groß, dem Betrieb abnimmt
+- den Weg der Daten: Formular auf der Website, Formulardienst von dekaru, Mail an den Betrieb, gespeichert wird nichts
+- wie es nach dem Erstgespräch weitergeht
+
+Das Schema zeigt nur, was heute verkauft wird. Mehr als dort steht, versprechen Sie nicht, auch keine Funktion, die es erst später geben soll. An den Preisen ändert es nichts: im Erstgespräch bleibt es bei "ab 600 €", beim Hosting bei "ab 19 € im Monat" und dem Gratisquartal.
+
+Ob und wie weit Sie das Schema zeigen, entscheiden Sie im Gespräch.
+
+Ein Zweittermin wird nur vereinbart, wenn das Interesse echt ist, denn für jeden Zweittermin baue ich eine Vorschau. Echt heißt:
 
 - Der Inhaber hat selbst gesagt, was ihn stört.
 - Er kennt den Preisrahmen und hat nicht abgewunken.
@@ -50,7 +63,7 @@ Für Sie heißt das: **keine Bauzeit zusagen, weder Tage noch Wochen.** Nicht "d
 | Sie | Michael Henning |
 |---|---|
 | Betriebe recherchieren, anrufen, besuchen | Vorschau bauen |
-| Erstgespräch führen, Bedarf und Entscheider klären | Angebot, Werkvertrag, AVV |
+| Erstgespräch führen, Schema zeigen, Bedarf und Entscheider klären | Angebot, Werkvertrag, AVV |
 | Zweittermin führen, Vorschau zeigen | Preis nennen (Stufe 1) |
 | Briefing-Bogen ausfüllen und übergeben | Website bauen, Abnahme |
 | Wochenbericht schreiben | Hosting und Betreuung über Jahre |
