@@ -19,12 +19,22 @@ const OEFFENTLICHE_PRAEFIXE = ['/_astro/', '/favicon', '/kalender/abo/'];
 // Sie brauchen weder Login noch CSRF-Feld, pruefen aber selbst ein Bearer-Token.
 const TOKEN_PFADE = ['/api/provision-import'];
 
+// Die oeffentliche Fassung des Schemas fuer das Erstgespraech. Genau dieser
+// Pfad, kein Praefix: "/schema/", "/schema-x" oder "/schemas" bleiben hinter
+// dem Login. Die Middleware laedt dafuer weder Datenbank noch Sitzung.
+export const SCHEMA_PFAD = '/schema';
+
+export function istOeffentlichesSchema(pfad: string): boolean {
+  return pfad === SCHEMA_PFAD;
+}
+
 export function istTokenPfad(pfad: string): boolean {
   return TOKEN_PFADE.includes(pfad);
 }
 
 export function istOeffentlich(pfad: string): boolean {
   if (istTokenPfad(pfad)) return true;
+  if (istOeffentlichesSchema(pfad)) return true;
   if (OEFFENTLICH.includes(pfad)) return true;
   return OEFFENTLICHE_PRAEFIXE.some((p) => pfad.startsWith(p));
 }
