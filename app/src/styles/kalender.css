@@ -233,6 +233,9 @@
 
 /* ── Woche und Tag ── */
 .kal-zeit-rahmen {
+  /* Bezugspunkt fuer absolut gesetzte Screenreader-Texte, sonst ragen sie
+     aus dem Scrollrahmen heraus und die Seite scrollt seitlich. */
+  position: relative;
   overflow: auto;
   max-height: min(78vh, 820px);
   background: var(--surface);
@@ -241,8 +244,9 @@
   overscroll-behavior: contain;
 }
 .kal-zeit {
+  position: relative;
   --stunde: 48px;
-  --achse: 56px;
+  --achse: 60px;
   display: grid;
   grid-template-columns: var(--achse) repeat(var(--tage), minmax(var(--spalte-min, 0px), 1fr));
 }
@@ -270,6 +274,7 @@
 .kal-zeit__kopf h3 {
   margin: 0;
   min-width: 0;
+  white-space: nowrap;
   font: 500 var(--text-small) var(--font-body);
 }
 .kal-zeit__kopf h3 a,
@@ -323,6 +328,7 @@
   color: var(--text-muted);
   font-size: 12px;
   text-align: right;
+  white-space: nowrap;
   border-bottom: 1px solid var(--border-strong);
 }
 .kal-zeit__ganz {
@@ -405,7 +411,6 @@
 }
 .kal-balken--block .kal-balken__name {
   white-space: normal;
-  overflow-wrap: anywhere;
 }
 .kal-block--kurz .kal-balken--block {
   flex-direction: row;
@@ -551,11 +556,25 @@
     border: 1.5px solid var(--kal-wv-rand);
   }
   .kal-zeit {
-    --achse: 44px;
+    --achse: 48px;
     --stunde: 44px;
   }
+  .kal-zeit__ganz-label {
+    font-size: 11px;
+    white-space: normal;
+  }
+  /* Sieben Spalten passen nicht auf 375 px: die Woche scrollt im Rahmen
+     seitlich, die Seite selbst nicht. */
   .kal-zeit--woche {
-    --spalte-min: 92px;
+    --spalte-min: 112px;
+  }
+  /* Im Raster stehen nur Termine, der Rand zeigt die Art schon. */
+  .kal-balken--block .kal-symbol {
+    display: none;
+  }
+  .kal-balken--block {
+    padding: 2px 3px;
+    font-size: 11.5px;
   }
   .kal-zeit__kopf {
     padding-left: var(--space-xs);
