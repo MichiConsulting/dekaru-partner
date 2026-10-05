@@ -10,6 +10,7 @@ import type { Benutzer } from '../src/lib/auth.ts';
 import { HOSTING, HOSTING_TARIFE, PAKETE, PREIS_AB, euro } from '../src/lib/preise.ts';
 import { BRANCHEN, BRANCHEN_IDS, anzahlBausteine, bausteine, findeBranche } from '../src/lib/schema.ts';
 import { SCHEMA_MODULE, verfuegbareModule, type SchemaModul } from '../src/lib/schema-module.ts';
+import { ALLE_PALETTEN, SCHEMA_ZU_TEMPLATE, palettenBranche, paletteFuerSchema, probeStil } from '../src/lib/paletten.ts';
 import { neueDb, vertriebler } from './helfer.ts';
 
 const lies = (pfad: string) => readFileSync(fileURLToPath(new URL(pfad, import.meta.url)), 'utf8');
@@ -22,9 +23,9 @@ beforeAll(async () => {
 });
 afterAll(() => db.close());
 
-async function rendere(branche: string): Promise<{ html: string; schema: string }> {
+async function rendere(branche: string, extra = ''): Promise<{ html: string; schema: string }> {
   const container = await AstroContainer.create();
-  const request = new Request(`http://localhost/erstgespraech?branche=${branche}`);
+  const request = new Request(`http://localhost/erstgespraech?branche=${branche}${extra}`);
   const antwort = await container.renderToResponse(Seite, { request, locals: { db, benutzer: anna, csrf: 'x', sitzungId: 's' } });
   const html = await antwort.text();
   const start = html.indexOf('data-schema');
@@ -92,7 +93,59 @@ describe('Seite /erstgespraech', () => {
   });
 });
 
+describe('Schritt Farben', () => {
+  it.each(BRANCHEN_IDS)('Branche %s: zeigt die Paletten der passenden Template-Branche mit Code und Name', async (id) => {
+    const { schema } = await rendere(id);
+    const farben = palettenBranche(SCHEMA_ZU_TEMPLATE[id])!;
+    expect(farben, `keine Template-Branche fuer ${id}`).not.toBeNull();
+    const text = nurText(schema);
+    expect(text).toContain('In welchen Farben?');
+    for (const p of farben.paletten) {
+      expect(schema).toContain(`href="/erstgespraech?branche=${id}&amp;palette=${p.code}#schritt-3"`);
+      expect(text).toContain(p.code);
+      expect(text).toContain(p.name);
+    }
+    expect(text).toContain('Noch keine Palette gewählt');
+    expect(schema).not.toMatch(/aria-current="true"[^>]*data-palette-wahl|data-palette-wahl[^>]*aria-current="true"/);
+  });
+
+  it('uebernimmt eine passende Palette aus der Adresse und zeigt den Code gross', async () => {
+    const { schema } = await rendere('handwerk', '&palette=HW-2');
+    expect(schema).toMatch(/data-palette="HW-2"/);
+    expect(schema).toMatch(/data-palette-wahl="HW-2"[^>]*aria-current="true"/);
+    expect(nurText(schema)).toContain('Palette HW-2 Petrol');
+    expect(nurText(schema)).toContain('Diesen Namen bitte nennen.');
+    // Die Vorschau traegt die Farben der gewaehlten Palette.
+    expect(schema).toContain(`style="${probeStil(paletteFuerSchema('handwerk', 'HW-2')!)}" data-farb-vorschau`);
+  });
+
+  it('ignoriert eine Palette aus einer anderen Branche und Unsinn', async () => {
+    for (const extra of ['&palette=GA-2', '&palette=quatsch', '&palette=']) {
+      const { schema } = await rendere('handwerk', extra);
+      expect(schema).not.toMatch(/data-palette="[A-Z]/);
+      expect(schema).not.toMatch(/aria-current="true"[^>]*>\s*<span class="palette__probe/);
+    }
+    expect(paletteFuerSchema('friseur', 'DL-4')?.name).toBe('Lavendel');
+    expect(paletteFuerSchema('praxis', 'DL-4')).toBeNull();
+    expect(paletteFuerSchema('praxis', 'ge-2')?.code).toBe('GE-2');
+  });
+
+  it('hat sechs Schritte, in der richtigen Reihenfolge', async () => {
+    const { schema } = await rendere('gastro');
+    const ids = [...schema.matchAll(/id="schritt-(\d)" data-schritt="(\d)"/g)].map((m) => [Number(m[1]), Number(m[2])]);
+    expect(ids).toEqual([0, 1, 2, 3, 4, 5, 6].map((n) => [n, n]));
+    for (let n = 1; n <= 6; n++) expect(nurText(schema)).toContain(`Schritt ${n} von 6`);
+    expect(nurText(schema)).toContain('in sechs Schritten');
+  });
+});
+
 describe('Link zum Nachschicken', () => {
+  it('nimmt eine gewaehlte Palette mit', async () => {
+    const { schema } = await rendere('praxis', '&palette=GE-3');
+    expect(schema).toMatch(/<input[^>]*value="http:\/\/localhost\/schema\?branche=praxis&amp;palette=GE-3"/);
+    expect(lies('../src/scripts/schema-link.ts')).toContain("url.searchParams.set('palette', schema.dataset.palette)");
+  });
+
   it('bietet den oeffentlichen Link mit der gewaehlten Branche und den Hinweis', async () => {
     const { schema } = await rendere('friseur');
     expect(schema).toContain('data-link-kopieren');
@@ -206,7 +259,9 @@ describe('schema.css', () => {
   });
 
   it('benutzt nur Variablen, die es gibt', () => {
-    const bekannt = new Set([...hell.keys(), ...gHell.keys(), '--fl-flaeche', '--fl-text', '--fl-rand', '--i']);
+    // --pl-* setzt src/lib/paletten.ts als style-Attribut der Palettenproben.
+    const proben = [...probeStil(ALLE_PALETTEN[0]).matchAll(/(--pl-[a-z-]+):/g)].map((t) => t[1]);
+    const bekannt = new Set([...hell.keys(), ...gHell.keys(), '--fl-flaeche', '--fl-text', '--fl-rand', '--i', ...proben]);
     // Auch die Seite selbst (SVG-Attribute).
     const seite = lies('../src/components/SchemaErstgespraech.astro');
     for (const quelle of [css, seite]) {

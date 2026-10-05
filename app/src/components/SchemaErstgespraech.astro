@@ -15,6 +15,7 @@ import '../styles/schema.css';
 import { BRANCHEN, BRANCHEN_IDS, PAKETE_MIT_FUNKTION, PAKET_REIHE, PREISANGABEN, anzahlBausteine, bausteine, type Branche } from '../lib/schema.ts';
 import { PAKETE } from '../lib/preise.ts';
 import { verfuegbareModule } from '../lib/schema-module.ts';
+import { SCHEMA_ZU_TEMPLATE, farbfelder, paletteFuerSchema, paletteTitel, palettenBranche, probeStil } from '../lib/paletten.ts';
 
 interface Props {
   branche: Branche;
@@ -23,9 +24,12 @@ interface Props {
 }
 
 const { branche, basis } = Astro.props;
+// Gewaehlte Farbpalette aus der Adresse (?palette=HW-2). Nur gueltig, wenn
+// sie zur gewaehlten Branche gehoert. Gespeichert wird nichts.
+const gewaehlt = paletteFuerSchema(branche.id, Astro.url.searchParams.get('palette'));
 const PAKET_START = 'gross';
 
-const SCHRITTE = ['Überblick', 'Heute', 'Bausteine', 'Funktion', 'Datenweg', 'Weiter'];
+const SCHRITTE = ['Überblick', 'Heute', 'Bausteine', 'Farben', 'Funktion', 'Datenweg', 'Weiter'];
 
 // Kurzzeilen je Paket. Bewusst eigene Saetze: die Beschreibungen in
 // preise.json sind teils in Michis Ich-Form.
@@ -48,13 +52,13 @@ const varianten = BRANCHEN_IDS.map((id) => {
     }
     return { ...k, in: PAKET_REIHE.filter((p) => k.je[p] !== null).join(' '), texte: [...gruppen].map(([text, pakete]) => ({ text, fuer: pakete.join(' ') })) };
   });
-  return { b, kacheln, module: verfuegbareModule(id) };
+  return { b, kacheln, module: verfuegbareModule(id), farben: palettenBranche(SCHEMA_ZU_TEMPLATE[id]) };
 });
 const anzahl = Object.fromEntries(PAKET_REIHE.map((p) => [p, anzahlBausteine(varianten[0].kacheln, p)]));
 const paketMitFunktion = PAKETE_MIT_FUNKTION.join(' und ');
 ---
 
-<div class="schema" data-schema data-branche={branche.id} data-paket={PAKET_START}>
+<div class="schema" data-schema data-branche={branche.id} data-paket={PAKET_START} data-palette={gewaehlt?.code ?? ''}>
   <div class="schema__leiste">
     <slot name="leiste" />
   </div>
@@ -80,7 +84,7 @@ const paketMitFunktion = PAKETE_MIT_FUNKTION.join(' und ');
     <section class="schritt schritt--start" id="schritt-0" data-schritt="0" aria-labelledby="t-0">
       <p class="schritt__marke">Ihre Website im Überblick</p>
       <h1 id="t-0" class="schritt__titel" tabindex="-1">Was eine Website Ihrem Betrieb abnehmen kann</h1>
-      <p class="schritt__lead">Ein kurzer Überblick in fünf Schritten. Keine fertige Seite, sondern eine Skizze: woraus Ihre Website besteht, was sie Ihnen abnimmt und wie es danach weitergeht.</p>
+      <p class="schritt__lead">Ein kurzer Überblick in sechs Schritten. Keine fertige Seite, sondern eine Skizze: woraus Ihre Website besteht, in welchen Farben sie erscheinen kann, was sie Ihnen abnimmt und wie es danach weitergeht.</p>
       <p class="schritt__frage" id="branche-frage">Für welche Art von Betrieb?</p>
       <ul class="branchen" aria-labelledby="branche-frage">
         {
@@ -103,7 +107,7 @@ const paketMitFunktion = PAKETE_MIT_FUNKTION.join(' und ');
 
     <!-- 1: Der Betrieb heute -->
     <section class="schritt schritt--heute" id="schritt-1" data-schritt="1" aria-labelledby="t-1">
-      <p class="schritt__marke">Schritt 1 von 5</p>
+      <p class="schritt__marke">Schritt 1 von 6</p>
       <h2 id="t-1" class="schritt__titel" tabindex="-1">Ihr Betrieb heute</h2>
       {
         varianten.map(({ b }) => (
@@ -134,7 +138,7 @@ const paketMitFunktion = PAKETE_MIT_FUNKTION.join(' und ');
 
     <!-- 2: Bausteine -->
     <section class="schritt schritt--bausteine" id="schritt-2" data-schritt="2" aria-labelledby="t-2">
-      <p class="schritt__marke">Schritt 2 von 5</p>
+      <p class="schritt__marke">Schritt 2 von 6</p>
       <h2 id="t-2" class="schritt__titel" tabindex="-1">Die Website setzt sich zusammen</h2>
       <p class="schritt__lead">Jede Website besteht aus Bausteinen. Drei Pakete, jedes mit festem Inhalt. Je größer das Paket, desto mehr Bausteine.</p>
       <div class="pakete-wahl nur-js" role="group" aria-label="Paket zeigen">
@@ -176,10 +180,86 @@ const paketMitFunktion = PAKETE_MIT_FUNKTION.join(' und ');
       </ul>
     </section>
 
-    <!-- 3: Die mitarbeitende Funktion -->
-    <section class="schritt schritt--funktion" id="schritt-3" data-schritt="3" aria-labelledby="t-3">
-      <p class="schritt__marke">Schritt 3 von 5</p>
-      <h2 id="t-3" class="schritt__titel" tabindex="-1">Die Website arbeitet mit</h2>
+    <!-- 3: Farben -->
+    <section class="schritt schritt--farben" id="schritt-3" data-schritt="3" aria-labelledby="t-3">
+      <p class="schritt__marke">Schritt 3 von 6</p>
+      <h2 id="t-3" class="schritt__titel" tabindex="-1">In welchen Farben?</h2>
+      {
+        varianten.map(({ b, farben }) => {
+          if (!farben) return null;
+          const aktiv = b.id === branche.id ? gewaehlt : null;
+          const vorschau = aktiv ?? farben.paletten[0];
+          return (
+            <div data-fuer-branche={b.id} hidden={b.id !== branche.id} data-farb-branche>
+              <p class="schritt__lead">{farben.paletten.length} fertige Farbwelten für Ihren Betrieb. Jede ist auf gute Lesbarkeit geprüft, auf dem Handy wie am Rechner. Tippen Sie eine an.</p>
+              <div class="farbwahl">
+                <div class="farbprobe" style={probeStil(vorschau)} data-farb-vorschau aria-hidden="true">
+                  <div class="farbprobe__kopf">
+                    <span class="farbprobe__marke">Ihr Betrieb</span>
+                    <span class="farbprobe__nav"><span>Leistungen</span><span>Kontakt</span></span>
+                  </div>
+                  <div class="farbprobe__inhalt">
+                    <span class="farbprobe__titel">So wirkt Ihre Startseite</span>
+                    <span class="farbprobe__text">Ein Absatz Fließtext, wie er auf der Seite steht. Dazu ein <span class="farbprobe__link">Link zum Weiterlesen</span>.</span>
+                    <span class="farbprobe__knoepfe">
+                      <span class="probe-knopf probe-knopf--haupt">Anfrage senden</span>
+                      <span class="probe-knopf probe-knopf--zweit">Mehr erfahren</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="farbwahl__name" data-farb-anzeige>
+                  <p class="farbwahl__code" data-farb-titel>{aktiv ? paletteTitel(aktiv) : 'Noch keine Palette gewählt'}</p>
+                  <p class="farbwahl__hinweis" data-farb-hinweis>{aktiv ? 'Diesen Namen bitte nennen.' : `Die Vorschau zeigt ${paletteTitel(vorschau)}. Tippen Sie unten eine Palette an.`}</p>
+                </div>
+              </div>
+              <ul class="paletten" aria-label={`Farbpaletten für ${b.name}`}>
+                {farben.paletten.map((p, i) => (
+                  <li style={`--i:${i}`}>
+                    <a
+                      class="palette"
+                      href={`${basis}?branche=${b.id}&palette=${p.code}#schritt-3`}
+                      data-palette-wahl={p.code}
+                      data-titel={paletteTitel(p)}
+                      data-stil={probeStil(p)}
+                      aria-current={aktiv?.code === p.code ? 'true' : undefined}
+                    >
+                      <span class="palette__probe" style={probeStil(p)} aria-hidden="true">
+                        <span class="palette__felder">
+                          {farbfelder(p).map((f) => (
+                            <span class="palette__feld" style={`background:${f.farbe}`} title={f.name} />
+                          ))}
+                        </span>
+                        <span class="palette__muster">
+                          <span class="palette__ueberschrift">Überschrift</span>
+                          <span class="palette__zeile">Text auf der Fläche</span>
+                          <span class="palette__knoepfe">
+                            <span class="probe-knopf probe-knopf--haupt">Anfragen</span>
+                            <span class="probe-knopf probe-knopf--zweit">Mehr</span>
+                          </span>
+                        </span>
+                      </span>
+                      <span class="palette__fuss">
+                        <span class="palette__code">{p.code}</span>
+                        <span class="palette__name">{p.name}</span>
+                        <span class="palette__charakter">{p.charakter}</span>
+                        <span class="palette__gewaehlt">Gewählt</span>
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })
+      }
+      <p class="sr-only" aria-live="polite" data-farb-ansage></p>
+      <p class="schritt__klein">Sie müssen sich heute nicht festlegen. Hat Ihr Betrieb schon feste Farben, etwa im Logo, sprechen Sie das im Termin an.</p>
+    </section>
+
+    <!-- 4: Die mitarbeitende Funktion -->
+    <section class="schritt schritt--funktion" id="schritt-4" data-schritt="4" aria-labelledby="t-4">
+      <p class="schritt__marke">Schritt 4 von 6</p>
+      <h2 id="t-4" class="schritt__titel" tabindex="-1">Die Website arbeitet mit</h2>
       {
         varianten.map(({ b, module }) => (
           <div data-fuer-branche={b.id} hidden={b.id !== branche.id}>
@@ -236,10 +316,10 @@ const paketMitFunktion = PAKETE_MIT_FUNKTION.join(' und ');
       <p class="schritt__klein">Eine Anfrage ist keine feste Buchung: Sie entscheiden und melden sich zurück. Die Funktion gibt es nur im Paket {paketMitFunktion} und solange die Website bei Michael Henning gehostet wird.</p>
     </section>
 
-    <!-- 4: Der Weg der Daten -->
-    <section class="schritt schritt--weg" id="schritt-4" data-schritt="4" aria-labelledby="t-4">
-      <p class="schritt__marke">Schritt 4 von 5</p>
-      <h2 id="t-4" class="schritt__titel" tabindex="-1">Welchen Weg eine Anfrage nimmt</h2>
+    <!-- 5: Der Weg der Daten -->
+    <section class="schritt schritt--weg" id="schritt-5" data-schritt="5" aria-labelledby="t-5">
+      <p class="schritt__marke">Schritt 5 von 6</p>
+      <h2 id="t-5" class="schritt__titel" tabindex="-1">Welchen Weg eine Anfrage nimmt</h2>
       <p class="schritt__lead">Wohin gehen die Angaben, die jemand ins Formular schreibt? Genau diesen Weg, verschlüsselt:</p>
       <ol class="weg">
         <li class="weg__station weg__station--besucher" style="--i:0">
@@ -279,10 +359,10 @@ const paketMitFunktion = PAKETE_MIT_FUNKTION.join(' und ');
       }
     </section>
 
-    <!-- 5: Wie es weitergeht -->
-    <section class="schritt schritt--weiter" id="schritt-5" data-schritt="5" aria-labelledby="t-5">
-      <p class="schritt__marke">Schritt 5 von 5</p>
-      <h2 id="t-5" class="schritt__titel" tabindex="-1">Wie es weitergeht</h2>
+    <!-- 6: Wie es weitergeht -->
+    <section class="schritt schritt--weiter" id="schritt-6" data-schritt="6" aria-labelledby="t-6">
+      <p class="schritt__marke">Schritt 6 von 6</p>
+      <h2 id="t-6" class="schritt__titel" tabindex="-1">Wie es weitergeht</h2>
       <ol class="zeitstrahl">
         <li style="--i:0"><strong>Heute</strong><span>Sie erzählen, was Ihr Betrieb braucht und was Sie schon haben: Fotos, Texte, Logo.</span></li>
         <li style="--i:1"><strong>Die Vorschau</strong><span>Michael Henning baut eine Vorschau Ihrer Website, mit Ihren echten Daten.</span></li>

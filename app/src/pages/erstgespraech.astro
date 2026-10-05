@@ -10,11 +10,13 @@
 import Layout from '../layouts/Layout.astro';
 import SchemaErstgespraech from '../components/SchemaErstgespraech.astro';
 import { findeBranche } from '../lib/schema.ts';
+import { paletteFuerSchema } from '../lib/paletten.ts';
 
 const branche = findeBranche(Astro.url.searchParams.get('branche'));
+const palette = paletteFuerSchema(branche.id, Astro.url.searchParams.get('palette'));
 // Ohne JavaScript steht der Link fertig da. Mit JavaScript baut ihn
-// scripts/schema-link.ts beim Klick neu, mit der dann gewaehlten Branche.
-const oeffentlicherLink = new URL(`/schema?branche=${branche.id}`, Astro.url.origin).href;
+// scripts/schema-link.ts beim Klick neu, mit der dann gewaehlten Branche und Palette.
+const oeffentlicherLink = new URL(`/schema?branche=${branche.id}${palette ? `&palette=${palette.code}` : ''}`, Astro.url.origin).href;
 ---
 
 <Layout titel="Erstgespräch" aktiv="erstgespraech">

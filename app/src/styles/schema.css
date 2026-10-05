@@ -835,6 +835,212 @@ html.praesentation .schema__buehne {
   min-height: calc(100vh - 12em);
 }
 
+/* ── 3: Farben ── Die Proben zeigen bewusst die Farben der Kundenpalette
+   (--pl-*, als style-Attribut aus src/lib/paletten.ts), nicht die des
+   Portals. Rahmen, Schrift unter den Proben und Auswahlzustand nutzen die
+   Portal-Tokens und passen sich hell und dunkel an. ── */
+.farbwahl {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 1em 1.4em;
+  align-items: center;
+  margin: 0 0 1.2em;
+}
+@media (max-width: 719px) {
+  .farbwahl {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.farbprobe {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--pl-bg);
+  color: var(--pl-ink-soft);
+}
+.farbprobe__kopf {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.3em 1em;
+  padding: 0.7em 1em;
+  background: var(--pl-surface);
+  border-bottom: 1px solid var(--pl-border);
+}
+.farbprobe__marke {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--pl-ink);
+}
+.farbprobe__nav {
+  display: inline-flex;
+  gap: 1em;
+  font-size: 0.9em;
+  color: var(--pl-ink-soft);
+}
+.farbprobe__inhalt {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+  padding: 1.1em 1em 1.3em;
+}
+.farbprobe__titel {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.45em;
+  line-height: 1.15;
+  color: var(--pl-ink);
+}
+.farbprobe__text {
+  line-height: 1.5;
+}
+.farbprobe__link {
+  color: var(--pl-link);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+.farbprobe__knoepfe,
+.palette__knoepfe {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  margin-top: 0.3em;
+}
+.probe-knopf {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.4em;
+  padding: 0 1em;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95em;
+  white-space: nowrap;
+}
+.probe-knopf--haupt {
+  background: var(--pl-accent);
+  color: var(--pl-on-accent);
+}
+.probe-knopf--zweit {
+  border: 1px solid var(--pl-ink);
+  color: var(--pl-ink);
+}
+.farbwahl__name {
+  min-width: 0;
+}
+.farbwahl__code {
+  margin: 0 0 0.3em;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.9em;
+  line-height: 1.2;
+  color: var(--text);
+}
+.farbwahl__hinweis {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.paletten {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13.5em), 1fr));
+  gap: 0.8em;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.paletten li {
+  min-width: 0;
+}
+.palette {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+}
+.palette:hover {
+  color: var(--text);
+  border-color: var(--text);
+}
+.palette[aria-current='true'] {
+  border-color: var(--text);
+  box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--text);
+}
+.palette__probe {
+  display: flex;
+  flex-direction: column;
+  background: var(--pl-bg);
+}
+.palette__felder {
+  display: flex;
+  height: 1.6em;
+}
+.palette__feld {
+  flex: 1;
+}
+.palette__muster {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+  padding: 0.8em 0.9em 0.9em;
+}
+.palette__ueberschrift {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1em;
+  color: var(--pl-ink);
+}
+.palette__zeile {
+  font-size: 0.9em;
+  color: var(--pl-ink-soft);
+}
+.palette__knoepfe .probe-knopf {
+  min-height: 2.1em;
+  padding: 0 0.8em;
+  font-size: 0.85em;
+}
+.palette__fuss {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.1em 0.5em;
+  padding: 0.7em 0.9em 0.8em;
+  border-top: 1px solid var(--border);
+}
+.palette__code {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15em;
+}
+.palette__name {
+  font-weight: 600;
+}
+.palette__charakter {
+  flex-basis: 100%;
+  font-size: 0.85em;
+  color: var(--text-muted);
+}
+.palette__gewaehlt {
+  display: none;
+  margin-top: 0.3em;
+  padding: 0.1em 0.6em;
+  border-radius: 999px;
+  background: var(--text);
+  color: var(--bg);
+  font-size: 0.8em;
+  font-weight: 600;
+}
+.palette[aria-current='true'] .palette__gewaehlt {
+  display: inline-block;
+}
+
 /* ── Bewegung. Nur mit Skript und nur im aktiven Schritt. Die Endzustaende
    sind der normale Zustand, ohne Bewegung ist also alles sichtbar. ── */
 @keyframes sc-rein {
@@ -956,6 +1162,7 @@ html.praesentation .schema__buehne {
     animation-delay: 0.1s;
   }
   .schema--js .ist-aktiv .branchen li,
+  .schema--js .ist-aktiv .paletten li,
   .schema--js .ist-aktiv .karte-sc,
   .schema--js .ist-aktiv .ablauf__kasten,
   .schema--js .ist-aktiv .weg__station,
@@ -990,6 +1197,11 @@ html.praesentation .schema__buehne {
   }
   .branche {
     transition: transform 0.15s;
+  }
+  .farbprobe,
+  .farbprobe *,
+  .palette {
+    transition: background-color 0.35s, color 0.35s, border-color 0.35s;
   }
 }
 @media (prefers-reduced-motion: no-preference) and (max-width: 719px) {
