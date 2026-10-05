@@ -99,7 +99,7 @@
           ["das Gratisquartal, genau drei Monate", "andere Gratismonate, Rabatt auf die Website"],
           ["\"Der Termin steht im Angebot\"", "eine Bauzeit in Tagen oder Wochen"],
           ["\"gesicherter Quellstand\"", "\"Backups\""],
-          ["Vorschau und Schema nur im Termin", "Vorschau oder Schema per Mail, Link oder Screenshot"],
+          ["Vorschau nur im Termin, Schema-Link nach dem Termin", "Vorschau per Mail, Link oder Screenshot"],
           ["ehrlich sagen, was man nicht weiß", "Vermutungen als Auskunft"]
         ]
       },

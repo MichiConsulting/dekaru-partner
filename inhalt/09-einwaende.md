@@ -14,7 +14,7 @@ Die Antworten sind ein Gerüst, kein Text zum Ablesen. Wer sie vorliest, klingt 
 
 > "Kann ich machen, bringt Ihnen aber wenig. Ich zeige Ihnen lieber in zwanzig Minuten an einem Schaubild, was Sie bekommen und wie es abläuft. Passt es, baut Herr Henning eine Vorschau mit Ihren Daten, und die schauen wir uns dann zusammen an. Wann hätten Sie zwanzig Minuten?"
 
-Das Schaubild ist das Schema im Portal, die Vorschau kommt erst im Zweittermin. Bleibt es bei der Mail: Wiedervorlage in vier Wochen, nichts verschicken.
+Das Schaubild ist das Schema im Portal, die Vorschau kommt erst im Zweittermin. Bleibt es bei der Mail: Wiedervorlage in vier Wochen, nichts verschicken. Den Link zum Schema gibt es erst nach dem Erstgespräch, vorher wäre es eine Werbemail ohne Einwilligung.
 
 **"Was kostet das?"**
 

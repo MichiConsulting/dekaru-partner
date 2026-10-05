@@ -25,7 +25,7 @@ Zum Erklären gibt es **das Schema im Portal**: ein animiertes, farbiges Schaubi
 
 Das Schema zeigt nur, was heute verkauft wird. Mehr als dort steht, versprechen Sie nicht, auch keine Funktion, die es erst später geben soll. An den Preisen ändert es nichts: im Erstgespräch bleibt es bei "ab 600 €", beim Hosting bei "ab 19 € im Monat" und dem Gratisquartal.
 
-Ob und wie weit Sie das Schema zeigen, entscheiden Sie im Gespräch. Es wird nur gemeinsam angeschaut und nie weitergegeben, auch nicht als Link oder Screenshot.
+Ob und wie weit Sie das Schema zeigen, entscheiden Sie im Gespräch. Nach dem Termin dürfen Sie dem Betrieb den Link zum Schema schicken, damit er es in Ruhe noch einmal ansehen kann. Die Vorschau dagegen wird nie verschickt.
 
 Ein Zweittermin wird nur vereinbart, wenn das Interesse echt ist, denn für jeden Zweittermin baue ich eine Vorschau. Echt heißt:
 
