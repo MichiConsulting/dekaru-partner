@@ -14,7 +14,9 @@
     "admin:anlegen": "node scripts/admin-anlegen.mjs",
     "provision:import": "node scripts/provision-import.mjs",
     "preise-sync": "node scripts/preise-sync.mjs",
-    "preise-pruefen": "node scripts/preise-sync.mjs --pruefen"
+    "preise-pruefen": "node scripts/preise-sync.mjs --pruefen",
+    "paletten-sync": "node scripts/paletten-sync.mjs",
+    "paletten-pruefen": "node scripts/paletten-sync.mjs --pruefen"
   },
   "dependencies": {
     "@astrojs/vercel": "^10.0.8",

@@ -23,8 +23,10 @@ const auswahl = briefing.daten.auswahl;
 const ergebnis = zeigePreise ? berechne(auswahl) : null;
 
 const teilB = TEILE.find((t) => t.kennung === 'B')!;
-const vorPreis = teilB.felder.filter((x) => x.name === 'branche');
-const nachPreis = teilB.felder.filter((x) => x.name !== 'branche');
+// Branche und Farbpalette stehen vor der Preisauswahl.
+const VOR_PREIS = ['branche', 'farbpalette'];
+const vorPreis = teilB.felder.filter((x) => VOR_PREIS.includes(x.name));
+const nachPreis = teilB.felder.filter((x) => !VOR_PREIS.includes(x.name));
 ---
 
 {pruefung && pruefung.sperren.length > 0 && (

@@ -8,6 +8,7 @@ import { AdminFehler, akteurAus, briefingStatusSetzen, briefingYamlExportieren }
 import { heuteIso } from '../../../lib/kunden.ts';
 import { formular, istPost } from '../../../lib/http.ts';
 import { istAdmin } from '../../../lib/zugriff.ts';
+import { PALETTE_OFFEN, findePalette } from '../../../lib/paletten.ts';
 
 if (!istAdmin(Astro.locals.benutzer)) return Astro.redirect('/verboten', 303);
 
@@ -47,6 +48,7 @@ if (istPost(Astro.request)) {
 }
 
 const ok = Astro.url.searchParams.get('ok');
+const palette = findePalette(briefing.farbpalette ?? briefing.daten.felder.farbpalette);
 let vorschau: string | null = null;
 let vorschauFehler: string | null = null;
 try {
@@ -64,6 +66,18 @@ try {
     <span class:list={['badge', briefing.status === 'eingereicht' && 'badge--voll']}>{STATUS_LABEL[briefing.status]}</span>
     {briefing.eingereichtAm && ` Eingereicht am ${briefing.eingereichtAm.toLocaleDateString('de-DE')}.`}
     {briefing.uebernommenAm && ` Übernommen am ${briefing.uebernommenAm.toLocaleDateString('de-DE')}.`}
+  </p>
+  <p class="hinweis">
+    <strong>Farbpalette für den Bau:</strong>
+    {palette ? (
+      <>
+        {` ${palette.code} ${palette.name}. In site.config.ts: `}<code>{`palette: "${palette.code}"`}</code>
+      </>
+    ) : (briefing.farbpalette ?? briefing.daten.felder.farbpalette) === PALETTE_OFFEN ? (
+      ' noch offen, Standardpalette der Branche oder im Zweittermin klären.'
+    ) : (
+      ' nicht angegeben.'
+    )}
   </p>
   {ok === 'uebernommen' && <div class="meldung meldung--ok" role="status"><p>Als übernommen markiert.</p></div>}
   {fehler && <div class="meldung meldung--fehler" role="alert"><p>{fehler}</p></div>}

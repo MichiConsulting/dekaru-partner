@@ -197,10 +197,20 @@ describe('Seite /schema', () => {
 
   it('enthaelt alle Schritte und die Branchen-Links auf /schema', async () => {
     const html = await rendere('praxis');
-    for (let i = 0; i <= 5; i++) expect(html).toContain(`id="schritt-${i}"`);
+    for (let i = 0; i <= 6; i++) expect(html).toContain(`id="schritt-${i}"`);
     for (const id of BRANCHEN_IDS) expect(html).toContain(`href="/schema?branche=${id}#schritt-1"`);
     expect(html).not.toContain('href="/erstgespraech');
     expect(html).toMatch(/data-branche="praxis"/);
+  });
+
+  it('zeigt die Farbpaletten und uebernimmt eine Wahl aus der Adresse, ohne etwas zu speichern', async () => {
+    const vorher = dbAufrufe.anzahl;
+    const html = await rendere('gastro&palette=GA-3');
+    expect(html).toMatch(/data-palette-wahl="GA-3"[^>]*aria-current="true"/);
+    expect(nurText(html)).toContain('Palette GA-3 Nachtblau');
+    expect(html).toContain('href="/schema?branche=gastro&amp;palette=GA-2#schritt-3"');
+    expect(html).not.toMatch(/<form/);
+    expect(dbAufrufe.anzahl).toBe(vorher);
   });
 
   it.each(BRANCHEN_IDS)('Branche %s: nur die erlaubten Preise, auf der ganzen Seite', async (id) => {

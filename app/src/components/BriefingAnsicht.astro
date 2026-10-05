@@ -7,6 +7,7 @@
 import PreisSumme from './PreisSumme.astro';
 import { ALLE_POSTEN, berechne, findePaket, findeTarif, findeZusatzleistung } from '../lib/preise.ts';
 import { TEILE, type Briefing } from '../lib/briefing.ts';
+import { PALETTE_OFFEN, farbfelder, findePalette } from '../lib/paletten.ts';
 import { datumDe } from '../lib/provision.ts';
 
 interface Props {
@@ -27,6 +28,9 @@ const bausteine = ALLE_POSTEN.filter((p) => {
   if (p.art !== 'anzahl' && paket?.enthalten[p.schluessel]) return false;
   return true;
 }).map((p) => (p.art === 'anzahl' ? `${p.name} × ${a.bausteine[p.schluessel]}` : p.name));
+// Spalte aus Migration 010, sonst der Wert im JSON.
+const paletteWert = briefing.farbpalette ?? f.farbpalette ?? null;
+const palette = findePalette(paletteWert);
 const zusatz = a.zusatzleistungen.map((s) => findeZusatzleistung(s)?.name).filter(Boolean);
 
 function anzeige(name: string, wert: string | undefined): string {
@@ -55,6 +59,23 @@ function anzeige(name: string, wert: string | undefined): string {
           ))}
           {teil.kennung === 'B' && (
             <>
+              <dt>Farbpalette</dt>
+              <dd class="palette-anzeige">
+                {palette ? (
+                  <>
+                    <span class="palette-anzeige__felder" aria-hidden="true">
+                      {farbfelder(palette).map((x) => (
+                        <span style={`background:${x.farbe}`} />
+                      ))}
+                    </span>
+                    <span><strong>{palette.code}</strong> {palette.name}</span>
+                  </>
+                ) : paletteWert === PALETTE_OFFEN ? (
+                  'noch offen'
+                ) : (
+                  'nicht angegeben'
+                )}
+              </dd>
               <dt>Paket</dt>
               <dd>{paket ? paket.name : 'keins'}</dd>
               <dt>Zusatzbausteine</dt>
@@ -65,7 +86,7 @@ function anzeige(name: string, wert: string | undefined): string {
               <dd>
                 {tarif ? `${tarif.name}, ${tarif.monat === null || a.hosting.zahlweise === 'jaehrlich' ? 'Jahresvertrag' : 'monatlich'}${a.hosting.gratisquartal ? ', Gratisquartal zugesagt' : ''}` : 'kein Hosting'}
               </dd>
-              {zeilen.filter((z) => z.feld.name !== 'branche').map((z) => (
+              {zeilen.filter((z) => z.feld.name !== 'branche' && z.feld.name !== 'farbpalette').map((z) => (
                 <>
                   <dt>{z.feld.label}</dt>
                   <dd>{z.wert}</dd>
@@ -83,3 +104,23 @@ function anzeige(name: string, wert: string | undefined): string {
     );
   })}
 </div>
+
+<style>
+  .palette-anzeige {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-s);
+  }
+  .palette-anzeige__felder {
+    display: inline-flex;
+    border: 1px solid var(--border-strong);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .palette-anzeige__felder span {
+    display: block;
+    width: 14px;
+    height: 22px;
+  }
+</style>

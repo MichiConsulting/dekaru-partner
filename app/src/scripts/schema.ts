@@ -57,6 +57,11 @@ if (wurzel) {
     const url = new URL(location.href);
     url.searchParams.set('branche', id);
     history.replaceState(null, '', url);
+    // Eine Palette gehoert immer zu genau einer Branche. Passt sie nicht
+    // mehr, ist die Wahl weg; die neue Branche zeigt wieder ihren Standard.
+    const gewaehlt = schema.dataset.palette ?? '';
+    const passt = gewaehlt !== '' && schema.querySelector(`[data-fuer-branche="${id}"] [data-palette-wahl="${gewaehlt}"]`);
+    if (gewaehlt && !passt) setzePalette(null);
   }
   for (const a of branchenWahl) {
     a.addEventListener('click', (e) => {
@@ -75,6 +80,44 @@ if (wurzel) {
       schema.dataset.paket = k.dataset.paketWahl ?? 'gross';
       for (const andere of paketKnoepfe) andere.setAttribute('aria-pressed', String(andere === k));
       if (paketAnsage) paketAnsage.textContent = `Paket ${k.querySelector('.pakete-wahl__name')?.textContent ?? ''}: ${k.dataset.anzahl} Bausteine`;
+    });
+  }
+
+  // ── Farbpalette. Die Farben stehen fertig in data-stil (vom Server),
+  // dieses Skript kennt keine Palette selbst. Gespeichert wird nur in der
+  // Adresse (?palette=HW-2), damit der Link zum Nachschicken sie mitnimmt.
+  const farbAnsage = schema.querySelector<HTMLElement>('[data-farb-ansage]');
+  function setzePalette(karte: HTMLAnchorElement | null): void {
+    const code = karte?.dataset.paletteWahl ?? '';
+    schema.dataset.palette = code;
+    for (const a of schema.querySelectorAll<HTMLAnchorElement>('[data-palette-wahl]')) {
+      if (karte && a === karte) a.setAttribute('aria-current', 'true');
+      else a.removeAttribute('aria-current');
+    }
+    for (const bereich of schema.querySelectorAll<HTMLElement>('[data-farb-branche]')) {
+      const vorschau = bereich.querySelector<HTMLElement>('[data-farb-vorschau]');
+      const titel = bereich.querySelector<HTMLElement>('[data-farb-titel]');
+      const hinweis = bereich.querySelector<HTMLElement>('[data-farb-hinweis]');
+      const eigene = karte && bereich.contains(karte) ? karte : null;
+      const standard = bereich.querySelector<HTMLAnchorElement>('[data-palette-wahl]');
+      const zeige = eigene ?? standard;
+      if (vorschau && zeige?.dataset.stil) vorschau.setAttribute('style', zeige.dataset.stil);
+      if (titel) titel.textContent = eigene ? (eigene.dataset.titel ?? '') : 'Noch keine Palette gewählt';
+      if (hinweis) {
+        hinweis.textContent = eigene ? 'Diesen Namen bitte nennen.' : `Die Vorschau zeigt ${standard?.dataset.titel ?? ''}. Tippen Sie unten eine Palette an.`;
+      }
+    }
+    const url = new URL(location.href);
+    if (code) url.searchParams.set('palette', code);
+    else url.searchParams.delete('palette');
+    history.replaceState(null, '', url);
+    if (farbAnsage) farbAnsage.textContent = karte ? `${karte.dataset.titel ?? ''} gewählt. Diesen Namen bitte nennen.` : '';
+  }
+  for (const a of schema.querySelectorAll<HTMLAnchorElement>('[data-palette-wahl]')) {
+    a.addEventListener('click', (e) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      setzePalette(a);
     });
   }
 

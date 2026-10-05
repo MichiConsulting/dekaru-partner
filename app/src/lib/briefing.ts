@@ -6,10 +6,17 @@
 // Betreuungsvertrag und AVV brauchen. Die Inhalte fuer die Website selbst
 // (Oeffnungszeiten, Leistungen, Geschichte) fragt Michi direkt beim Kunden
 // ab, sie gehoeren nicht in das Portal eines Vertrieblers.
+//
+// Ausnahme seit 05.10.2026: die Farbpalette (Teil B). Sie ist kein Inhalt,
+// sondern ein Code aus dem Template-System (HW-2 ...), den der Betrieb im
+// Schema des Erstgespraechs selbst gewaehlt hat, ohne personenbezogene Daten.
+// Michi braucht ihn beim Bau; er steht zusaetzlich in der Spalte
+// briefings.farbpalette (Migration 010).
 
 import type { Db } from './db.ts';
 import { holeKunde, isoDatum, istUuid } from './kunden.ts';
 import { auswahlAusFeldern, findePaket, leereAuswahl, type Auswahl } from './preise.ts';
+import { ALLE_PALETTEN, BRIEFING_ZU_TEMPLATE, PALETTE_OFFEN, brancheVonPalette, palettenBranche } from './paletten.ts';
 
 export type BriefingStatus = 'entwurf' | 'eingereicht' | 'uebernommen';
 
@@ -19,7 +26,7 @@ export const STATUS_LABEL: Record<BriefingStatus, string> = {
   uebernommen: 'Übernommen',
 };
 
-export type FeldTyp = 'text' | 'email' | 'tel' | 'date' | 'textarea' | 'checkbox' | 'select' | 'radio';
+export type FeldTyp = 'text' | 'email' | 'tel' | 'date' | 'textarea' | 'checkbox' | 'select' | 'radio' | 'palette';
 
 export interface Feld {
   name: string;
@@ -69,6 +76,16 @@ export const TEILE: Teil[] = [
     hinweis: 'Nur, was auf der Preisliste steht. Alles andere kommt unter Teil G als Sonderwunsch, ohne Zusage und ohne Preis.',
     felder: [
       { name: 'branche', label: 'Branche', typ: 'select', pflicht: true, optionen: optionen(BRANCHEN) },
+      {
+        name: 'farbpalette',
+        label: 'Farbpalette',
+        typ: 'palette',
+        hilfe: 'Die Palette, die der Betrieb im Schema gewählt hat (Schritt Farben). Ohne Wahl: noch offen.',
+        optionen: [
+          { wert: PALETTE_OFFEN, label: 'Noch offen' },
+          ...ALLE_PALETTEN.map((p) => ({ wert: p.code, label: `${p.code} ${p.name}` })),
+        ],
+      },
       { name: 'seiten_namen', label: 'Seiten, mit Namen', typ: 'textarea', max: 600, hilfe: 'Zum Beispiel Leistungen, Über uns, Referenzen. Eine je Zeile.' },
       { name: 'sprache_welche', label: 'Weitere Sprache, welche', typ: 'text', max: 80 },
       { name: 'individuell_beschreibung', label: 'Individuelles Feature, Beschreibung', typ: 'textarea', max: 800, hilfe: 'Nur die Beschreibung. Den Preis nennt nur Michael Henning.' },
@@ -241,7 +258,7 @@ export function pruefeBriefing(eingabe: Record<string, unknown>): Pruefung {
       sperren.push(`${feld.label}: keine gültige E-Mail-Adresse.`);
       continue;
     }
-    if ((feld.typ === 'select' || feld.typ === 'radio') && feld.optionen && !feld.optionen.some((o) => o.wert === wert)) continue;
+    if ((feld.typ === 'select' || feld.typ === 'radio' || feld.typ === 'palette') && feld.optionen && !feld.optionen.some((o) => o.wert === wert)) continue;
     if (enthaeltPasswort(wert)) {
       sperren.push(`${feld.label}: ${PASSWORT_SPERRE}`);
       continue;
@@ -262,8 +279,29 @@ export function pruefeBriefing(eingabe: Record<string, unknown>): Pruefung {
   }
   if ((auswahl.bausteine.sprache ?? 0) && !felder.sprache_welche) fehlend.push('Weitere Sprache, welche');
   if (auswahl.bausteine.individuell && !felder.individuell_beschreibung) fehlend.push('Individuelles Feature, Beschreibung');
+  const palettenFehler = paletteZurBranche(felder.branche, felder.farbpalette);
+  if (palettenFehler) fehlend.push(palettenFehler);
 
   return { daten: { felder, auswahl }, sperren, fehlend };
+}
+
+/**
+ * Passt die gewaehlte Palette zur Branche? Jede Briefing-Branche entspricht
+ * einem Template (BRIEFING_ZU_TEMPLATE). Liefert eine Meldung oder null.
+ */
+export function paletteZurBranche(branche: string | undefined, code: string | undefined): string | null {
+  if (!code || code === PALETTE_OFFEN || !branche) return null;
+  const soll = palettenBranche(BRIEFING_ZU_TEMPLATE[branche]);
+  if (!soll) return null;
+  if (brancheVonPalette(code)?.id === soll.id) return null;
+  return `Farbpalette ${code} gehört nicht zur Branche ${branche}. Passend sind ${soll.paletten.map((p) => p.code).join(', ')} oder noch offen.`;
+}
+
+/** Wert fuer die Spalte briefings.farbpalette. */
+export function farbpaletteSpalte(daten: BriefingDaten): string | null {
+  const wert = daten.felder.farbpalette;
+  if (wert === PALETTE_OFFEN) return PALETTE_OFFEN;
+  return ALLE_PALETTEN.some((p) => p.code === wert) ? wert : null;
 }
 
 // ---------------------------------------------------------------------------
@@ -276,6 +314,8 @@ export interface Briefing {
   kundeName: string;
   status: BriefingStatus;
   daten: BriefingDaten;
+  /** Palettencode, 'offen' oder null (Spalte aus Migration 010). */
+  farbpalette: string | null;
   erstelltAm: Date;
   geaendertAm: Date;
   eingereichtAm: Date | null;
@@ -294,6 +334,7 @@ interface Zeile {
   kunde_name: string | null;
   status: BriefingStatus;
   daten: unknown;
+  farbpalette: string | null;
   erstellt_am: string | Date;
   geaendert_am: string | Date;
   eingereicht_am: string | Date | null;
@@ -302,7 +343,7 @@ interface Zeile {
   vertriebler_slug?: string | null;
 }
 
-const FELDER_SQL = `b.id, b.benutzer_id, b.kunde_id, k.name AS kunde_name, b.status, b.daten, b.erstellt_am, b.geaendert_am, b.eingereicht_am, b.uebernommen_am`;
+const FELDER_SQL = `b.id, b.benutzer_id, b.kunde_id, k.name AS kunde_name, b.status, b.daten, b.farbpalette, b.erstellt_am, b.geaendert_am, b.eingereicht_am, b.uebernommen_am`;
 
 function zuDaten(roh: unknown): BriefingDaten {
   const o = roh && typeof roh === 'object' ? (roh as Partial<BriefingDaten>) : {};
@@ -320,6 +361,7 @@ function zuBriefing(z: Zeile): Briefing {
     kundeName: z.kunde_name ?? daten.felder.firmenname ?? '(Kunde gelöscht)',
     status: z.status,
     daten,
+    farbpalette: z.farbpalette ?? null,
     erstelltAm: new Date(z.erstellt_am),
     geaendertAm: new Date(z.geaendert_am),
     eingereichtAm: z.eingereicht_am ? new Date(z.eingereicht_am) : null,
@@ -364,8 +406,8 @@ export async function listeBriefings(db: Db, benutzerId: string): Promise<Briefi
 export async function speichereBriefing(db: Db, benutzerId: string, id: string, daten: BriefingDaten): Promise<Briefing | null> {
   if (!istUuid(id)) return null;
   const zeilen = await db.query<{ id: string }>(
-    `UPDATE briefings SET daten = $3, geaendert_am = now() WHERE id = $1 AND benutzer_id = $2 AND status = 'entwurf' RETURNING id`,
-    [id, benutzerId, JSON.stringify(daten)],
+    `UPDATE briefings SET daten = $3, farbpalette = $4, geaendert_am = now() WHERE id = $1 AND benutzer_id = $2 AND status = 'entwurf' RETURNING id`,
+    [id, benutzerId, JSON.stringify(daten), farbpaletteSpalte(daten)],
   );
   return zeilen[0] ? holeBriefing(db, benutzerId, id) : null;
 }
@@ -374,9 +416,9 @@ export async function speichereBriefing(db: Db, benutzerId: string, id: string, 
 export async function reicheEin(db: Db, benutzerId: string, id: string, daten: BriefingDaten, jetzt = new Date()): Promise<Briefing | null> {
   if (!istUuid(id)) return null;
   const zeilen = await db.query<{ id: string }>(
-    `UPDATE briefings SET daten = $3, status = 'eingereicht', eingereicht_am = $4, geaendert_am = now()
+    `UPDATE briefings SET daten = $3, status = 'eingereicht', eingereicht_am = $4, farbpalette = $5, geaendert_am = now()
      WHERE id = $1 AND benutzer_id = $2 AND status = 'entwurf' RETURNING id`,
-    [id, benutzerId, JSON.stringify(daten), jetzt],
+    [id, benutzerId, JSON.stringify(daten), jetzt, farbpaletteSpalte(daten)],
   );
   return zeilen[0] ? holeBriefing(db, benutzerId, id) : null;
 }

@@ -1,0 +1,138 @@
+---
+/**
+ * Feld "Farbpalette" im Briefing-Bogen (Teil B): die Paletten aus dem
+ * Template-System als Auswahl mit Farbfeldern, dazu "Noch offen".
+ * Mit JavaScript sind nur die Paletten der gewaehlten Branche sichtbar
+ * (scripts/briefing-palette.ts), ohne stehen alle Gruppen untereinander.
+ */
+import type { Feld } from '../lib/briefing.ts';
+import { BRIEFING_ZU_TEMPLATE, PALETTE_OFFEN, PALETTEN_BRANCHEN, farbfelder } from '../lib/paletten.ts';
+
+interface Props {
+  feld: Feld;
+  wert: string | undefined;
+}
+const { feld, wert } = Astro.props;
+const gewaehlt = wert || PALETTE_OFFEN;
+// Briefing-Branche je Template-Branche, fuer das Ein- und Ausblenden.
+const briefingName = Object.fromEntries(Object.entries(BRIEFING_ZU_TEMPLATE).map(([name, id]) => [id, name]));
+---
+
+<fieldset class="feld bp" data-briefing-palette>
+  <legend>{feld.label}</legend>
+  {feld.hilfe && <p class="feld__hilfe">{feld.hilfe}</p>}
+  <label class="bp__offen">
+    <input type="radio" name={feld.name} value={PALETTE_OFFEN} checked={gewaehlt === PALETTE_OFFEN} />
+    Noch offen
+  </label>
+  {
+    PALETTEN_BRANCHEN.map((b) => (
+      <div class="bp__gruppe" data-palette-gruppe={briefingName[b.id] ?? ''}>
+        <p class="bp__branche">{briefingName[b.id] ?? b.label}</p>
+        <ul class="bp__liste">
+          {b.paletten.map((p) => (
+            <li>
+              <label class="bp__wahl">
+                <input type="radio" name={feld.name} value={p.code} checked={gewaehlt === p.code} />
+                <span class="bp__felder" aria-hidden="true">
+                  {farbfelder(p).map((f) => (
+                    <span style={`background:${f.farbe}`} />
+                  ))}
+                </span>
+                <span class="bp__text">
+                  <strong>{p.code}</strong> {p.name}
+                  <span class="bp__charakter">{p.charakter}</span>
+                </span>
+              </label>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))
+  }
+</fieldset>
+
+<style>
+  .bp {
+    border: 0;
+    padding: 0;
+    margin: 0 0 var(--space-l);
+    min-width: 0;
+  }
+  .bp legend {
+    font-weight: 600;
+    margin-bottom: var(--space-xs);
+  }
+  .bp__offen {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-s);
+    min-height: 32px;
+    font-weight: 400;
+  }
+  .bp__gruppe {
+    margin-top: var(--space-m);
+  }
+  .bp__gruppe[hidden] {
+    display: none;
+  }
+  .bp__branche {
+    margin: 0 0 var(--space-xs);
+    font-size: var(--text-small);
+    color: var(--text-muted);
+  }
+  .bp__liste {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr));
+    gap: var(--space-s);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: none;
+  }
+  .bp__liste li {
+    margin: 0;
+    min-width: 0;
+  }
+  .bp__wahl {
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-s);
+    height: 100%;
+    padding: var(--space-s) var(--space-m);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    font-weight: 400;
+    cursor: pointer;
+  }
+  .bp__wahl:has(input:checked) {
+    border-color: var(--text);
+    box-shadow: inset 0 0 0 1px var(--text);
+  }
+  .bp__felder {
+    display: inline-flex;
+    border: 1px solid var(--border-strong);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .bp__felder span {
+    display: block;
+    width: 14px;
+    height: 28px;
+  }
+  .bp__text {
+    min-width: 0;
+    line-height: 1.35;
+  }
+  .bp__charakter {
+    display: block;
+    font-size: var(--text-small);
+    color: var(--text-muted);
+  }
+</style>
+
+<script>
+  import '../scripts/briefing-palette.ts';
+</script>

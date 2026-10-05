@@ -1,0 +1,1483 @@
+{
+  "_hinweis": "Erzeugt mit scripts/paletten-sync.mjs aus dekaru-templates/_system/paletten.json (dort aus paletten.mjs). Nicht von Hand aendern. Nach jeder Palettenaenderung: npm run paletten-sync",
+  "quelle": "dekaru-templates/_system/paletten.mjs",
+  "feld": "palette",
+  "tokens": [
+    {
+      "token": "--tx-bg",
+      "rolle": "Seitenfläche"
+    },
+    {
+      "token": "--tx-surface",
+      "rolle": "Karten und Panels"
+    },
+    {
+      "token": "--tx-sand",
+      "rolle": "Zwischenflächen, Bild-Platzhalter"
+    },
+    {
+      "token": "--tx-border",
+      "rolle": "Rahmen und Trennlinien"
+    },
+    {
+      "token": "--tx-ink",
+      "rolle": "Überschriften und Haupttext"
+    },
+    {
+      "token": "--tx-ink-soft",
+      "rolle": "Fließtext"
+    },
+    {
+      "token": "--tx-muted",
+      "rolle": "Bildunterschriften, Nebentext"
+    },
+    {
+      "token": "--tx-accent",
+      "rolle": "Hauptbutton, Akzent"
+    },
+    {
+      "token": "--tx-accent-deep",
+      "rolle": "Hover des Hauptbuttons, Links"
+    },
+    {
+      "token": "--tx-on-accent",
+      "rolle": "Schrift auf dem Hauptbutton"
+    },
+    {
+      "token": "--tx-accent-on-dark",
+      "rolle": "Links und Fokus auf dunklem Grund"
+    },
+    {
+      "token": "--tx-success",
+      "rolle": "Erfolgsmeldung"
+    },
+    {
+      "token": "--tx-danger",
+      "rolle": "Fehlermeldung"
+    }
+  ],
+  "branchen": [
+    {
+      "id": "handwerk",
+      "kuerzel": "HW",
+      "label": "Handwerk",
+      "modus": "hell",
+      "standard": "HW-1",
+      "paletten": [
+        {
+          "code": "HW-1",
+          "name": "Orange",
+          "charakter": "Anthrazit und gebranntes Orange",
+          "standard": true,
+          "farben": {
+            "bg": "#f3f2ef",
+            "surface": "#fafaf8",
+            "sand": "#e8e5df",
+            "border": "#e0ddd8",
+            "ink": "#1a1d22",
+            "ink-soft": "#4a505c",
+            "muted": "#666b78",
+            "accent": "#ac5516",
+            "accent-deep": "#7e3e10",
+            "on-accent": "#ffffff",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#7e3e10",
+          "kontrast": {
+            "button": 5.17,
+            "text": 15.09,
+            "link": 7.26
+          }
+        },
+        {
+          "code": "HW-2",
+          "name": "Petrol",
+          "charakter": "Petrol auf kühlem Hellgrau",
+          "standard": false,
+          "farben": {
+            "bg": "#ecf6f9",
+            "surface": "#fafeff",
+            "sand": "#d6e4e9",
+            "border": "#ccdde2",
+            "ink": "#0f1517",
+            "ink-soft": "#43494b",
+            "muted": "#696e70",
+            "accent": "#007083",
+            "accent-deep": "#005566",
+            "on-accent": "#f4fcfd",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#005566",
+          "kontrast": {
+            "button": 5.54,
+            "text": 16.77,
+            "link": 7.67
+          }
+        },
+        {
+          "code": "HW-3",
+          "name": "Tanne",
+          "charakter": "Tannengrün auf warmem Hellgrau",
+          "standard": false,
+          "farben": {
+            "bg": "#f7f4ea",
+            "surface": "#fefdf9",
+            "sand": "#e6e1d4",
+            "border": "#dfd9ca",
+            "ink": "#16140e",
+            "ink-soft": "#494842",
+            "muted": "#706e69",
+            "accent": "#23643f",
+            "accent-deep": "#0a4929",
+            "on-accent": "#f6fcf8",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#0a4929",
+          "kontrast": {
+            "button": 6.81,
+            "text": 16.73,
+            "link": 9.55
+          }
+        },
+        {
+          "code": "HW-4",
+          "name": "Stahlblau",
+          "charakter": "Stahlblau auf neutralem Grau",
+          "standard": false,
+          "farben": {
+            "bg": "#eff4fa",
+            "surface": "#fbfdff",
+            "sand": "#dbe2eb",
+            "border": "#d2dae5",
+            "ink": "#111418",
+            "ink-soft": "#45484b",
+            "muted": "#6b6d71",
+            "accent": "#286099",
+            "accent-deep": "#134679",
+            "on-accent": "#f6fbff",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#134679",
+          "kontrast": {
+            "button": 6.25,
+            "text": 16.7,
+            "link": 8.71
+          }
+        },
+        {
+          "code": "HW-5",
+          "name": "Graphit",
+          "charakter": "Graphit, fast ohne Farbe",
+          "standard": false,
+          "farben": {
+            "bg": "#f2f4f8",
+            "surface": "#fcfdff",
+            "sand": "#dee1e7",
+            "border": "#d6dae0",
+            "ink": "#131416",
+            "ink-soft": "#46484a",
+            "muted": "#6c6d6f",
+            "accent": "#363e4b",
+            "accent-deep": "#202732",
+            "on-accent": "#f7faff",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#202732",
+          "kontrast": {
+            "button": 10.31,
+            "text": 16.74,
+            "link": 13.64
+          }
+        }
+      ]
+    },
+    {
+      "id": "gastro",
+      "kuerzel": "GA",
+      "label": "Gastronomie",
+      "modus": "hell",
+      "standard": "GA-1",
+      "paletten": [
+        {
+          "code": "GA-1",
+          "name": "Waldgrün",
+          "charakter": "Warme Creme und Waldgrün",
+          "standard": true,
+          "farben": {
+            "bg": "#faf6ee",
+            "surface": "#fffdf8",
+            "sand": "#ede6d8",
+            "border": "#e5dfd0",
+            "ink": "#1c1a15",
+            "ink-soft": "#524e44",
+            "muted": "#797064",
+            "accent": "#2e5e3a",
+            "accent-deep": "#1f4229",
+            "on-accent": "#f5f9f0",
+            "success": "#2e5e3a",
+            "danger": "#b84040"
+          },
+          "link": "#1f4229",
+          "kontrast": {
+            "button": 7.09,
+            "text": 16.13,
+            "link": 10.42
+          }
+        },
+        {
+          "code": "GA-2",
+          "name": "Senf",
+          "charakter": "Senfgelb auf Creme",
+          "standard": false,
+          "farben": {
+            "bg": "#faf3e5",
+            "surface": "#fffdf7",
+            "sand": "#eae0cd",
+            "border": "#e4d8c1",
+            "ink": "#17130b",
+            "ink-soft": "#4b473f",
+            "muted": "#716d65",
+            "accent": "#886100",
+            "accent-deep": "#6b4900",
+            "on-accent": "#fdfaf4",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#6b4900",
+          "kontrast": {
+            "button": 5.37,
+            "text": 16.76,
+            "link": 7.38
+          }
+        },
+        {
+          "code": "GA-3",
+          "name": "Nachtblau",
+          "charakter": "Nachtblau auf Leinen",
+          "standard": false,
+          "farben": {
+            "bg": "#f9f3ea",
+            "surface": "#fffdf9",
+            "sand": "#e8e0d3",
+            "border": "#e2d8c8",
+            "ink": "#17130e",
+            "ink-soft": "#4b4742",
+            "muted": "#716e69",
+            "accent": "#274172",
+            "accent-deep": "#132954",
+            "on-accent": "#f7faff",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#132954",
+          "kontrast": {
+            "button": 9.63,
+            "text": 16.76,
+            "link": 12.92
+          }
+        },
+        {
+          "code": "GA-4",
+          "name": "Ocker",
+          "charakter": "Ocker auf Creme",
+          "standard": false,
+          "farben": {
+            "bg": "#fbf2e8",
+            "surface": "#fffdf8",
+            "sand": "#ebdfd0",
+            "border": "#e5d7c5",
+            "ink": "#18130d",
+            "ink-soft": "#4c4741",
+            "muted": "#716c66",
+            "accent": "#925b0c",
+            "accent-deep": "#734300",
+            "on-accent": "#fef9f4",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#734300",
+          "kontrast": {
+            "button": 5.39,
+            "text": 16.67,
+            "link": 7.49
+          }
+        },
+        {
+          "code": "GA-5",
+          "name": "Olive",
+          "charakter": "Olivgrün auf Leinen",
+          "standard": false,
+          "farben": {
+            "bg": "#f7f4e7",
+            "surface": "#fefdf8",
+            "sand": "#e6e1d0",
+            "border": "#dfdac5",
+            "ink": "#16140c",
+            "ink-soft": "#4a4841",
+            "muted": "#6f6d66",
+            "accent": "#5a642c",
+            "accent-deep": "#424a17",
+            "on-accent": "#f9fbf5",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#424a17",
+          "kontrast": {
+            "button": 6.12,
+            "text": 16.72,
+            "link": 8.57
+          }
+        }
+      ]
+    },
+    {
+      "id": "dienstleister",
+      "kuerzel": "DL",
+      "label": "Dienstleister und Beauty",
+      "modus": "hell",
+      "standard": "DL-1",
+      "paletten": [
+        {
+          "code": "DL-1",
+          "name": "Mauve",
+          "charakter": "Zartes Rosé und Mauve",
+          "standard": true,
+          "farben": {
+            "bg": "#faf5f5",
+            "surface": "#fffcfc",
+            "sand": "#ede3e5",
+            "border": "#e8dde0",
+            "ink": "#1f1a1c",
+            "ink-soft": "#574e52",
+            "muted": "#7c6e73",
+            "accent": "#a84568",
+            "accent-deep": "#8b3555",
+            "on-accent": "#fff8fa",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#8b3555",
+          "kontrast": {
+            "button": 5.4,
+            "text": 15.9,
+            "link": 7.1
+          }
+        },
+        {
+          "code": "DL-2",
+          "name": "Salbei",
+          "charakter": "Salbeigrün auf hellem Grau",
+          "standard": false,
+          "farben": {
+            "bg": "#f0f5f1",
+            "surface": "#fbfefc",
+            "sand": "#dce4dd",
+            "border": "#d3dcd4",
+            "ink": "#121512",
+            "ink-soft": "#454946",
+            "muted": "#6b6e6b",
+            "accent": "#446b51",
+            "accent-deep": "#2e513b",
+            "on-accent": "#f6fcf8",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#2e513b",
+          "kontrast": {
+            "button": 5.82,
+            "text": 16.67,
+            "link": 8.08
+          }
+        },
+        {
+          "code": "DL-3",
+          "name": "Taupe",
+          "charakter": "Taupe auf Sand",
+          "standard": false,
+          "farben": {
+            "bg": "#faf2eb",
+            "surface": "#fffcf9",
+            "sand": "#eadfd5",
+            "border": "#e4d7cb",
+            "ink": "#17130f",
+            "ink-soft": "#4b4743",
+            "muted": "#716c68",
+            "accent": "#675845",
+            "accent-deep": "#4d402f",
+            "on-accent": "#fdf9f4",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#4d402f",
+          "kontrast": {
+            "button": 6.55,
+            "text": 16.69,
+            "link": 9.07
+          }
+        },
+        {
+          "code": "DL-4",
+          "name": "Lavendel",
+          "charakter": "Lavendel auf kühlem Weiß",
+          "standard": false,
+          "farben": {
+            "bg": "#f4f3fa",
+            "surface": "#fdfdff",
+            "sand": "#e2e0ea",
+            "border": "#dad7e4",
+            "ink": "#141317",
+            "ink-soft": "#48474b",
+            "muted": "#6d6c71",
+            "accent": "#685796",
+            "accent-deep": "#4e3f77",
+            "on-accent": "#faf9ff",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#4e3f77",
+          "kontrast": {
+            "button": 5.91,
+            "text": 16.78,
+            "link": 8.28
+          }
+        },
+        {
+          "code": "DL-5",
+          "name": "Nachtblau",
+          "charakter": "Nachtblau auf Weiß",
+          "standard": false,
+          "farben": {
+            "bg": "#f1f4fa",
+            "surface": "#fcfdff",
+            "sand": "#dde1ea",
+            "border": "#d4dae3",
+            "ink": "#121417",
+            "ink-soft": "#46484b",
+            "muted": "#6b6d70",
+            "accent": "#2c4678",
+            "accent-deep": "#182e5a",
+            "on-accent": "#f7faff",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#182e5a",
+          "kontrast": {
+            "button": 8.9,
+            "text": 16.75,
+            "link": 12.08
+          }
+        },
+        {
+          "code": "DL-6",
+          "name": "Messing",
+          "charakter": "Messing auf Creme",
+          "standard": false,
+          "farben": {
+            "bg": "#faf3e7",
+            "surface": "#fffdf8",
+            "sand": "#eae0d0",
+            "border": "#e4d8c5",
+            "ink": "#17130c",
+            "ink-soft": "#4b4741",
+            "muted": "#716d66",
+            "accent": "#7b5f1b",
+            "accent-deep": "#5f4602",
+            "on-accent": "#fdfaf4",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#5f4602",
+          "kontrast": {
+            "button": 5.77,
+            "text": 16.78,
+            "link": 8.06
+          }
+        }
+      ]
+    },
+    {
+      "id": "gesundheit",
+      "kuerzel": "GE",
+      "label": "Gesundheit und Praxis",
+      "modus": "hell",
+      "standard": "GE-1",
+      "paletten": [
+        {
+          "code": "GE-1",
+          "name": "Seegrün",
+          "charakter": "Salbeiweiß und Seegrün",
+          "standard": true,
+          "farben": {
+            "bg": "#f3f7f5",
+            "surface": "#fafcfb",
+            "sand": "#e0eae5",
+            "border": "#d8e8e2",
+            "ink": "#182220",
+            "ink-soft": "#3e5450",
+            "muted": "#5f7671",
+            "accent": "#1f6b58",
+            "accent-deep": "#145445",
+            "on-accent": "#eef8f5",
+            "success": "#1f6b58",
+            "danger": "#b84040"
+          },
+          "link": "#145445",
+          "kontrast": {
+            "button": 5.87,
+            "text": 15.08,
+            "link": 8.15
+          }
+        },
+        {
+          "code": "GE-2",
+          "name": "Ozeanblau",
+          "charakter": "Ozeanblau auf kühlem Weiß",
+          "standard": false,
+          "farben": {
+            "bg": "#eef5fa",
+            "surface": "#fafeff",
+            "sand": "#d9e3e9",
+            "border": "#cfdbe3",
+            "ink": "#101417",
+            "ink-soft": "#44484b",
+            "muted": "#6b6f72",
+            "accent": "#046093",
+            "accent-deep": "#004773",
+            "on-accent": "#f6fbff",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#004773",
+          "kontrast": {
+            "button": 6.5,
+            "text": 16.82,
+            "link": 8.88
+          }
+        },
+        {
+          "code": "GE-3",
+          "name": "Salbei",
+          "charakter": "Salbeigrün auf warmem Weiß",
+          "standard": false,
+          "farben": {
+            "bg": "#f3f5ee",
+            "surface": "#fdfefa",
+            "sand": "#e0e3d9",
+            "border": "#d8dbcf",
+            "ink": "#131410",
+            "ink-soft": "#474844",
+            "muted": "#6e6f6b",
+            "accent": "#466747",
+            "accent-deep": "#304e31",
+            "on-accent": "#f7fcf7",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#304e31",
+          "kontrast": {
+            "button": 6.14,
+            "text": 16.83,
+            "link": 8.46
+          }
+        },
+        {
+          "code": "GE-4",
+          "name": "Lavendel",
+          "charakter": "Lavendel auf hellem Grau",
+          "standard": false,
+          "farben": {
+            "bg": "#f3f3f9",
+            "surface": "#fdfdff",
+            "sand": "#e1e0e9",
+            "border": "#d9d8e3",
+            "ink": "#141317",
+            "ink-soft": "#47474b",
+            "muted": "#6d6d70",
+            "accent": "#635a93",
+            "accent-deep": "#4a4274",
+            "on-accent": "#faf9ff",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#4a4274",
+          "kontrast": {
+            "button": 5.87,
+            "text": 16.74,
+            "link": 8.18
+          }
+        },
+        {
+          "code": "GE-5",
+          "name": "Schiefer",
+          "charakter": "Schieferblau, ruhig",
+          "standard": false,
+          "farben": {
+            "bg": "#eff4f9",
+            "surface": "#fbfdff",
+            "sand": "#dbe2e9",
+            "border": "#d2dbe3",
+            "ink": "#111417",
+            "ink-soft": "#45484b",
+            "muted": "#6b6e70",
+            "accent": "#40586d",
+            "accent-deep": "#2a4052",
+            "on-accent": "#f6fbff",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#2a4052",
+          "kontrast": {
+            "button": 7.11,
+            "text": 16.7,
+            "link": 9.71
+          }
+        }
+      ]
+    },
+    {
+      "id": "garten",
+      "kuerzel": "GT",
+      "label": "Garten und Landschaft",
+      "modus": "hell",
+      "standard": "GT-1",
+      "paletten": [
+        {
+          "code": "GT-1",
+          "name": "Laubgrün",
+          "charakter": "Natürliches Laubgrün",
+          "standard": true,
+          "farben": {
+            "bg": "#f4f6f0",
+            "surface": "#fafbf8",
+            "sand": "#e2e8da",
+            "border": "#d8e2d0",
+            "ink": "#1c2118",
+            "ink-soft": "#465040",
+            "muted": "#68755f",
+            "accent": "#4a7a28",
+            "accent-deep": "#376018",
+            "on-accent": "#f0f8e8",
+            "success": "#4a7a28",
+            "danger": "#b84040"
+          },
+          "link": "#376018",
+          "kontrast": {
+            "button": 4.7,
+            "text": 15.07,
+            "link": 6.77
+          }
+        },
+        {
+          "code": "GT-2",
+          "name": "Tanne",
+          "charakter": "Tannengrün auf hellem Grau",
+          "standard": false,
+          "farben": {
+            "bg": "#eef6f1",
+            "surface": "#fbfefc",
+            "sand": "#dae4de",
+            "border": "#d1ddd6",
+            "ink": "#111512",
+            "ink-soft": "#454946",
+            "muted": "#6a6e6c",
+            "accent": "#135b42",
+            "accent-deep": "#00412c",
+            "on-accent": "#f5fcf9",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#00412c",
+          "kontrast": {
+            "button": 7.75,
+            "text": 16.75,
+            "link": 10.65
+          }
+        },
+        {
+          "code": "GT-3",
+          "name": "Lehm",
+          "charakter": "Lehmbraun auf Leinen",
+          "standard": false,
+          "farben": {
+            "bg": "#fbf2e8",
+            "surface": "#fffdf8",
+            "sand": "#ebdfd0",
+            "border": "#e5d7c5",
+            "ink": "#18130d",
+            "ink-soft": "#4c4741",
+            "muted": "#716c66",
+            "accent": "#6d5331",
+            "accent-deep": "#523b1d",
+            "on-accent": "#fef9f4",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#523b1d",
+          "kontrast": {
+            "button": 6.85,
+            "text": 16.67,
+            "link": 9.47
+          }
+        },
+        {
+          "code": "GT-4",
+          "name": "Moos",
+          "charakter": "Moosgrün auf Creme",
+          "standard": false,
+          "farben": {
+            "bg": "#f6f4e8",
+            "surface": "#fefdf8",
+            "sand": "#e5e2d0",
+            "border": "#dddac5",
+            "ink": "#15140d",
+            "ink-soft": "#494841",
+            "muted": "#6e6d66",
+            "accent": "#62691b",
+            "accent-deep": "#495002",
+            "on-accent": "#fafbf5",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#495002",
+          "kontrast": {
+            "button": 5.68,
+            "text": 16.72,
+            "link": 7.82
+          }
+        },
+        {
+          "code": "GT-5",
+          "name": "Himmel",
+          "charakter": "Himmelblau auf Weiß",
+          "standard": false,
+          "farben": {
+            "bg": "#edf5f9",
+            "surface": "#fafeff",
+            "sand": "#d8e3e9",
+            "border": "#cfdce3",
+            "ink": "#101517",
+            "ink-soft": "#44484b",
+            "muted": "#6a6e70",
+            "accent": "#12648f",
+            "accent-deep": "#004b70",
+            "on-accent": "#f5fbff",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#004b70",
+          "kontrast": {
+            "button": 6.2,
+            "text": 16.67,
+            "link": 8.49
+          }
+        }
+      ]
+    },
+    {
+      "id": "reinigung",
+      "kuerzel": "RE",
+      "label": "Reinigung",
+      "modus": "hell",
+      "standard": "RE-1",
+      "paletten": [
+        {
+          "code": "RE-1",
+          "name": "Türkis",
+          "charakter": "Klares Türkis auf kühlem Weiß",
+          "standard": true,
+          "farben": {
+            "bg": "#f0f4f6",
+            "surface": "#fafcfd",
+            "sand": "#dce8ec",
+            "border": "#d4e4e8",
+            "ink": "#15211f",
+            "ink-soft": "#3a4f52",
+            "muted": "#5f7477",
+            "accent": "#1e7a8c",
+            "accent-deep": "#155e6e",
+            "on-accent": "#eef8fa",
+            "success": "#1e7a8c",
+            "danger": "#b84040"
+          },
+          "link": "#155e6e",
+          "kontrast": {
+            "button": 4.61,
+            "text": 14.95,
+            "link": 6.64
+          }
+        },
+        {
+          "code": "RE-2",
+          "name": "Frischblau",
+          "charakter": "Frisches Blau auf Weiß",
+          "standard": false,
+          "farben": {
+            "bg": "#f0f4f9",
+            "surface": "#fbfdff",
+            "sand": "#dbe2e9",
+            "border": "#d3dae3",
+            "ink": "#111417",
+            "ink-soft": "#45484b",
+            "muted": "#6b6d70",
+            "accent": "#2863ab",
+            "accent-deep": "#124a89",
+            "on-accent": "#f7faff",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#124a89",
+          "kontrast": {
+            "button": 5.8,
+            "text": 16.73,
+            "link": 8.03
+          }
+        },
+        {
+          "code": "RE-3",
+          "name": "Mint",
+          "charakter": "Mintgrün auf kühlem Weiß",
+          "standard": false,
+          "farben": {
+            "bg": "#edf6f4",
+            "surface": "#fafefd",
+            "sand": "#d8e4e1",
+            "border": "#ceddda",
+            "ink": "#101514",
+            "ink-soft": "#444948",
+            "muted": "#696e6d",
+            "accent": "#2c725a",
+            "accent-deep": "#155743",
+            "on-accent": "#f5fcf9",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#155743",
+          "kontrast": {
+            "button": 5.51,
+            "text": 16.75,
+            "link": 7.71
+          }
+        },
+        {
+          "code": "RE-4",
+          "name": "Schiefer",
+          "charakter": "Schiefergrau, sachlich",
+          "standard": false,
+          "farben": {
+            "bg": "#f0f4f8",
+            "surface": "#fbfdff",
+            "sand": "#dce2e8",
+            "border": "#d3dae1",
+            "ink": "#121416",
+            "ink-soft": "#45484a",
+            "muted": "#6b6d70",
+            "accent": "#425565",
+            "accent-deep": "#2c3c4a",
+            "on-accent": "#f6fbff",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#2c3c4a",
+          "kontrast": {
+            "button": 7.42,
+            "text": 16.71,
+            "link": 10.26
+          }
+        },
+        {
+          "code": "RE-5",
+          "name": "Limette",
+          "charakter": "Limettengrün auf Weiß",
+          "standard": false,
+          "farben": {
+            "bg": "#f2f5ef",
+            "surface": "#fcfefb",
+            "sand": "#dfe3db",
+            "border": "#d6dbd2",
+            "ink": "#131411",
+            "ink-soft": "#474845",
+            "muted": "#6c6e6b",
+            "accent": "#55751d",
+            "accent-deep": "#3e5a03",
+            "on-accent": "#f8fbf6",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#3e5a03",
+          "kontrast": {
+            "button": 5.1,
+            "text": 16.8,
+            "link": 7.15
+          }
+        }
+      ]
+    },
+    {
+      "id": "umzug",
+      "kuerzel": "UM",
+      "label": "Umzug und Transport",
+      "modus": "hell",
+      "standard": "UM-1",
+      "paletten": [
+        {
+          "code": "UM-1",
+          "name": "Blau",
+          "charakter": "Verlässliches Blau auf Grau",
+          "standard": true,
+          "farben": {
+            "bg": "#f1f3f6",
+            "surface": "#fafbfd",
+            "sand": "#dee4ec",
+            "border": "#d6dee8",
+            "ink": "#161a22",
+            "ink-soft": "#3c4658",
+            "muted": "#65707f",
+            "accent": "#2b5c8a",
+            "accent-deep": "#1e456a",
+            "on-accent": "#eef4fa",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#1e456a",
+          "kontrast": {
+            "button": 6.32,
+            "text": 15.68,
+            "link": 8.93
+          }
+        },
+        {
+          "code": "UM-2",
+          "name": "Signalorange",
+          "charakter": "Signalorange auf Grau",
+          "standard": false,
+          "farben": {
+            "bg": "#f0f4f8",
+            "surface": "#fcfdff",
+            "sand": "#dce2e8",
+            "border": "#d4dae1",
+            "ink": "#121416",
+            "ink-soft": "#46484a",
+            "muted": "#6b6d70",
+            "accent": "#a95800",
+            "accent-deep": "#884000",
+            "on-accent": "#fef9f5",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#884000",
+          "kontrast": {
+            "button": 4.92,
+            "text": 16.71,
+            "link": 6.83
+          }
+        },
+        {
+          "code": "UM-3",
+          "name": "Petrol",
+          "charakter": "Petrol auf kühlem Grau",
+          "standard": false,
+          "farben": {
+            "bg": "#edf6f8",
+            "surface": "#fafeff",
+            "sand": "#d7e4e7",
+            "border": "#cedde0",
+            "ink": "#101516",
+            "ink-soft": "#44494a",
+            "muted": "#696e6f",
+            "accent": "#076675",
+            "accent-deep": "#004c59",
+            "on-accent": "#f4fcfd",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#004c59",
+          "kontrast": {
+            "button": 6.38,
+            "text": 16.78,
+            "link": 8.79
+          }
+        },
+        {
+          "code": "UM-4",
+          "name": "Anthrazit",
+          "charakter": "Anthrazit, ganz sachlich",
+          "standard": false,
+          "farben": {
+            "bg": "#f1f4f8",
+            "surface": "#fcfdff",
+            "sand": "#dee2e7",
+            "border": "#d5dae0",
+            "ink": "#121416",
+            "ink-soft": "#46484a",
+            "muted": "#6c6d6f",
+            "accent": "#2f3640",
+            "accent-deep": "#192028",
+            "on-accent": "#f7faff",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#192028",
+          "kontrast": {
+            "button": 11.65,
+            "text": 16.74,
+            "link": 14.89
+          }
+        },
+        {
+          "code": "UM-5",
+          "name": "Tanne",
+          "charakter": "Tannengrün auf hellem Grau",
+          "standard": false,
+          "farben": {
+            "bg": "#f0f5f1",
+            "surface": "#fbfefc",
+            "sand": "#dce4dd",
+            "border": "#d3dcd4",
+            "ink": "#121512",
+            "ink-soft": "#454946",
+            "muted": "#6b6e6b",
+            "accent": "#1e5a3c",
+            "accent-deep": "#054026",
+            "on-accent": "#f6fcf8",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#054026",
+          "kontrast": {
+            "button": 7.82,
+            "text": 16.67,
+            "link": 10.77
+          }
+        }
+      ]
+    },
+    {
+      "id": "tierbetreuung",
+      "kuerzel": "TB",
+      "label": "Tierbetreuung",
+      "modus": "hell",
+      "standard": "TB-1",
+      "paletten": [
+        {
+          "code": "TB-1",
+          "name": "Gold",
+          "charakter": "Warmes Gold auf Sand",
+          "standard": true,
+          "farben": {
+            "bg": "#f5f2eb",
+            "surface": "#fdfbf6",
+            "sand": "#e8e0d2",
+            "border": "#e4dccc",
+            "ink": "#221e16",
+            "ink-soft": "#544d40",
+            "muted": "#776e5f",
+            "accent": "#b07a2e",
+            "accent-deep": "#8e6120",
+            "on-accent": "#1a1208",
+            "success": "#5e7a52",
+            "danger": "#b84040"
+          },
+          "link": "#8e6120",
+          "kontrast": {
+            "button": 5,
+            "text": 14.84,
+            "link": 4.84
+          }
+        },
+        {
+          "code": "TB-2",
+          "name": "Waldgrün",
+          "charakter": "Waldgrün auf Creme",
+          "standard": false,
+          "farben": {
+            "bg": "#f8f4e7",
+            "surface": "#fffdf8",
+            "sand": "#e7e1d0",
+            "border": "#e1d9c4",
+            "ink": "#16140c",
+            "ink-soft": "#4a4740",
+            "muted": "#716e68",
+            "accent": "#2b6339",
+            "accent-deep": "#154924",
+            "on-accent": "#f6fcf7",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#154924",
+          "kontrast": {
+            "button": 6.85,
+            "text": 16.75,
+            "link": 9.49
+          }
+        },
+        {
+          "code": "TB-3",
+          "name": "Himmelblau",
+          "charakter": "Himmelblau auf Weiß",
+          "standard": false,
+          "farben": {
+            "bg": "#edf5fa",
+            "surface": "#fafeff",
+            "sand": "#d7e4ea",
+            "border": "#cddce4",
+            "ink": "#101517",
+            "ink-soft": "#43494b",
+            "muted": "#696e71",
+            "accent": "#12648f",
+            "accent-deep": "#004b70",
+            "on-accent": "#f5fbff",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#004b70",
+          "kontrast": {
+            "button": 6.2,
+            "text": 16.68,
+            "link": 8.5
+          }
+        },
+        {
+          "code": "TB-4",
+          "name": "Haselnuss",
+          "charakter": "Haselnussbraun auf Leinen",
+          "standard": false,
+          "farben": {
+            "bg": "#fbf2e8",
+            "surface": "#fffcf8",
+            "sand": "#ecdfd1",
+            "border": "#e6d7c6",
+            "ink": "#18130d",
+            "ink-soft": "#4c4741",
+            "muted": "#716c67",
+            "accent": "#765328",
+            "accent-deep": "#5a3b13",
+            "on-accent": "#fef9f4",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#5a3b13",
+          "kontrast": {
+            "button": 6.61,
+            "text": 16.67,
+            "link": 9.16
+          }
+        },
+        {
+          "code": "TB-5",
+          "name": "Petrol",
+          "charakter": "Petrol auf warmem Weiß",
+          "standard": false,
+          "farben": {
+            "bg": "#f8f3eb",
+            "surface": "#fffdf9",
+            "sand": "#e8e0d4",
+            "border": "#e1d8ca",
+            "ink": "#16130e",
+            "ink-soft": "#4a4742",
+            "muted": "#706d68",
+            "accent": "#016770",
+            "accent-deep": "#004d55",
+            "on-accent": "#f4fcfd",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#004d55",
+          "kontrast": {
+            "button": 6.36,
+            "text": 16.77,
+            "link": 8.67
+          }
+        }
+      ]
+    },
+    {
+      "id": "fitness",
+      "kuerzel": "FI",
+      "label": "Fitness und Yoga",
+      "modus": "hell",
+      "standard": "FI-1",
+      "paletten": [
+        {
+          "code": "FI-1",
+          "name": "Olive",
+          "charakter": "Ruhiges Olivgrün",
+          "standard": true,
+          "farben": {
+            "bg": "#f4f3f0",
+            "surface": "#fbfaf7",
+            "sand": "#e5e3da",
+            "border": "#dedcd0",
+            "ink": "#1e1f18",
+            "ink-soft": "#4a4c40",
+            "muted": "#6f7162",
+            "accent": "#6b7a45",
+            "accent-deep": "#525e33",
+            "on-accent": "#f4f6ec",
+            "success": "#6b7a45",
+            "danger": "#b84040"
+          },
+          "link": "#525e33",
+          "kontrast": {
+            "button": 4.28,
+            "text": 14.97,
+            "link": 6.29
+          }
+        },
+        {
+          "code": "FI-2",
+          "name": "Kobalt",
+          "charakter": "Kobaltblau auf kühlem Grau",
+          "standard": false,
+          "farben": {
+            "bg": "#f0f4fa",
+            "surface": "#fcfdff",
+            "sand": "#dde2e9",
+            "border": "#d4dae3",
+            "ink": "#121417",
+            "ink-soft": "#46484b",
+            "muted": "#6b6d70",
+            "accent": "#3054ae",
+            "accent-deep": "#1d3b8a",
+            "on-accent": "#f7faff",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#1d3b8a",
+          "kontrast": {
+            "button": 6.68,
+            "text": 16.72,
+            "link": 9.3
+          }
+        },
+        {
+          "code": "FI-3",
+          "name": "Petrol",
+          "charakter": "Petrol auf hellem Grau",
+          "standard": false,
+          "farben": {
+            "bg": "#eef5f7",
+            "surface": "#fafefe",
+            "sand": "#d9e4e6",
+            "border": "#cfdcdf",
+            "ink": "#101516",
+            "ink-soft": "#444949",
+            "muted": "#6a6e6f",
+            "accent": "#0c6a76",
+            "accent-deep": "#004f5b",
+            "on-accent": "#f4fcfd",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#004f5b",
+          "kontrast": {
+            "button": 6.05,
+            "text": 16.69,
+            "link": 8.39
+          }
+        },
+        {
+          "code": "FI-4",
+          "name": "Graphit",
+          "charakter": "Graphit, sportlich schlicht",
+          "standard": false,
+          "farben": {
+            "bg": "#f1f4f8",
+            "surface": "#fcfdff",
+            "sand": "#dee2e7",
+            "border": "#d5dae0",
+            "ink": "#121416",
+            "ink-soft": "#46484a",
+            "muted": "#6c6d6f",
+            "accent": "#313942",
+            "accent-deep": "#1c222a",
+            "on-accent": "#f7faff",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#1c222a",
+          "kontrast": {
+            "button": 11.19,
+            "text": 16.74,
+            "link": 14.51
+          }
+        },
+        {
+          "code": "FI-5",
+          "name": "Eukalyptus",
+          "charakter": "Eukalyptus auf warmem Weiß",
+          "standard": false,
+          "farben": {
+            "bg": "#f6f4ec",
+            "surface": "#fefdfa",
+            "sand": "#e4e1d6",
+            "border": "#dddacc",
+            "ink": "#15140f",
+            "ink-soft": "#494843",
+            "muted": "#6e6d69",
+            "accent": "#386c5e",
+            "accent-deep": "#235146",
+            "on-accent": "#f5fcfa",
+            "success": "#3a6b50",
+            "danger": "#b84040"
+          },
+          "link": "#235146",
+          "kontrast": {
+            "button": 5.81,
+            "text": 16.75,
+            "link": 8.16
+          }
+        }
+      ]
+    },
+    {
+      "id": "tattoo",
+      "kuerzel": "TA",
+      "label": "Tattoo",
+      "modus": "dunkel",
+      "standard": "TA-1",
+      "paletten": [
+        {
+          "code": "TA-1",
+          "name": "Rost",
+          "charakter": "Dunkel mit kräftigem Rost",
+          "standard": true,
+          "farben": {
+            "bg": "#17171a",
+            "surface": "#1f1f23",
+            "sand": "#2a2a30",
+            "border": "#2e2e34",
+            "ink": "#f0ede8",
+            "ink-soft": "#b0aba2",
+            "muted": "#7e7a72",
+            "accent": "#c8503c",
+            "accent-deep": "#a83e2c",
+            "on-accent": "#ffffff",
+            "accent-on-dark": "#d4796a",
+            "success": "#6b9a55",
+            "danger": "#d85a48"
+          },
+          "link": "#d4796a",
+          "kontrast": {
+            "button": 4.5,
+            "text": 15.32,
+            "link": 5.74
+          }
+        },
+        {
+          "code": "TA-2",
+          "name": "Messing",
+          "charakter": "Messing auf Schwarz",
+          "standard": false,
+          "farben": {
+            "bg": "#110f0c",
+            "surface": "#1c1915",
+            "sand": "#27241f",
+            "border": "#2f2b24",
+            "ink": "#eeece9",
+            "ink-soft": "#b3b1ad",
+            "muted": "#94928d",
+            "accent": "#d1ac5a",
+            "accent-deep": "#c19c49",
+            "on-accent": "#120f08",
+            "accent-on-dark": "#d1ac5a",
+            "success": "#6b9a55",
+            "danger": "#e06a58"
+          },
+          "link": "#d1ac5a",
+          "kontrast": {
+            "button": 8.89,
+            "text": 16.23,
+            "link": 8.89
+          }
+        },
+        {
+          "code": "TA-3",
+          "name": "Eisblau",
+          "charakter": "Eisblau auf Blauschwarz",
+          "standard": false,
+          "farben": {
+            "bg": "#0c1014",
+            "surface": "#151a1f",
+            "sand": "#1f252b",
+            "border": "#242c35",
+            "ink": "#e9edf1",
+            "ink-soft": "#adb2b6",
+            "muted": "#8e9398",
+            "accent": "#71bcdf",
+            "accent-deep": "#62accf",
+            "on-accent": "#091115",
+            "accent-on-dark": "#71bcdf",
+            "success": "#6b9a55",
+            "danger": "#e06a58"
+          },
+          "link": "#71bcdf",
+          "kontrast": {
+            "button": 9.03,
+            "text": 16.23,
+            "link": 9.06
+          }
+        },
+        {
+          "code": "TA-4",
+          "name": "Smaragd",
+          "charakter": "Smaragdgrün auf Schwarz",
+          "standard": false,
+          "farben": {
+            "bg": "#0c110f",
+            "surface": "#151b19",
+            "sand": "#1f2623",
+            "border": "#252e2a",
+            "ink": "#eaeeec",
+            "ink-soft": "#adb2b0",
+            "muted": "#8e9491",
+            "accent": "#5dc291",
+            "accent-deep": "#4cb281",
+            "on-accent": "#0a110d",
+            "accent-on-dark": "#5dc291",
+            "success": "#6b9a55",
+            "danger": "#e06a58"
+          },
+          "link": "#5dc291",
+          "kontrast": {
+            "button": 8.73,
+            "text": 16.27,
+            "link": 8.7
+          }
+        },
+        {
+          "code": "TA-5",
+          "name": "Knochen",
+          "charakter": "Knochenweiß, ganz schwarz-weiß",
+          "standard": false,
+          "farben": {
+            "bg": "#100f0e",
+            "surface": "#1a1918",
+            "sand": "#252422",
+            "border": "#2d2b28",
+            "ink": "#ededeb",
+            "ink-soft": "#b2b1af",
+            "muted": "#939290",
+            "accent": "#dcd7cd",
+            "accent-deep": "#ccc7bd",
+            "on-accent": "#120f08",
+            "accent-on-dark": "#dcd7cd",
+            "success": "#6b9a55",
+            "danger": "#e06a58"
+          },
+          "link": "#dcd7cd",
+          "kontrast": {
+            "button": 13.34,
+            "text": 16.33,
+            "link": 13.35
+          }
+        }
+      ]
+    }
+  ],
+  "erzeugt": "2026-10-05"
+}

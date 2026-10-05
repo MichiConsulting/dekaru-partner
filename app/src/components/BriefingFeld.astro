@@ -1,6 +1,7 @@
 ---
 /** Ein Feld des Briefing-Bogens, je nach Typ Eingabe, Auswahl oder Haekchen. */
 import type { Feld } from '../lib/briefing.ts';
+import BriefingPalette from './BriefingPalette.astro';
 
 interface Props {
   feld: Feld;
@@ -10,7 +11,9 @@ const { feld, wert } = Astro.props;
 const id = `f-${feld.name}`;
 ---
 
-{feld.typ === 'checkbox' ? (
+{feld.typ === 'palette' ? (
+  <BriefingPalette feld={feld} wert={wert} />
+) : feld.typ === 'checkbox' ? (
   <div class="feld">
     <label class="wahl" for={id}>
       <input id={id} name={feld.name} type="checkbox" checked={wert === 'on'} />
