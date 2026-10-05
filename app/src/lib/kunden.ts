@@ -2,6 +2,7 @@
 // die Benutzer-ID, niemand sieht fremde Eintraege.
 
 import type { Db } from './db.ts';
+import { istIsoDatum } from './datum.ts';
 
 export const STATUS = [
   { wert: 'angerufen', label: 'Angerufen' },
@@ -27,6 +28,10 @@ export interface KundeEingabe {
   telefon: string;
   status: Status;
   terminDatum: string | null;
+  /** Beginn als Wanduhrzeit in Europe/Berlin, HH:MM. Ohne Beginn ist der Termin ganztaegig. */
+  terminBeginn?: string | null;
+  /** Dauer in Minuten, nur zusammen mit terminBeginn. */
+  terminDauer?: number | null;
   notiz: string;
 }
 
@@ -48,12 +53,14 @@ interface KundeZeile {
   status: Status;
   status_seit: string | Date;
   termin_datum: string | Date | null;
+  termin_beginn: string | null;
+  termin_dauer_minuten: number | string | null;
   notiz: string;
   erstellt_am: string | Date;
   geaendert_am: string | Date;
 }
 
-const FELDER = 'id, benutzer_id, name, ort, ansprechpartner, telefon, status, status_seit, termin_datum, notiz, erstellt_am, geaendert_am';
+const FELDER = 'id, benutzer_id, name, ort, ansprechpartner, telefon, status, status_seit, termin_datum, termin_beginn, termin_dauer_minuten, notiz, erstellt_am, geaendert_am';
 
 /** Datumswerte kommen je nach Treiber als Date oder Text. Hier wird alles zu JJJJ-MM-TT. */
 export function isoDatum(wert: string | Date | null | undefined): string | null {
@@ -78,10 +85,36 @@ function zuKunde(z: KundeZeile): Kunde {
     status: z.status,
     statusSeit: isoDatum(z.status_seit) ?? '',
     terminDatum: isoDatum(z.termin_datum),
+    terminBeginn: uhrzeit(z.termin_beginn),
+    terminDauer: z.termin_dauer_minuten == null ? null : Number(z.termin_dauer_minuten),
     notiz: z.notiz,
     erstelltAm: new Date(z.erstellt_am),
     geaendertAm: new Date(z.geaendert_am),
   };
+}
+
+/** Standarddauer eines Termins mit Uhrzeit, wenn keine angegeben ist. */
+export const STANDARD_DAUER = 60;
+export const DAUER_MIN = 5;
+export const DAUER_MAX = 720;
+/** Auswahl im Formular. Andere Werte aus der Datenbank bleiben erhalten. */
+export const DAUER_AUSWAHL = [15, 30, 45, 60, 90, 120, 180, 240] as const;
+
+/**
+ * Uhrzeit aus Datenbank oder Formular als HH:MM. Beide Treiber liefern time
+ * als HH:MM:SS, das Formular HH:MM. Alles andere ergibt null.
+ */
+export function uhrzeit(wert: unknown): string | null {
+  const t = /^([01]\d|2[0-3]):([0-5]\d)(?::[0-5]\d(?:\.\d+)?)?$/.exec(String(wert ?? '').trim());
+  return t ? `${t[1]}:${t[2]}` : null;
+}
+
+/** "90 Min." wird "1 Std. 30 Min.", fuer die Anzeige. */
+export function dauerText(minuten: number): string {
+  const h = Math.floor(minuten / 60);
+  const m = minuten % 60;
+  if (h === 0) return `${m} Min.`;
+  return m === 0 ? `${h} Std.` : `${h} Std. ${m} Min.`;
 }
 
 function text(wert: unknown, max: number): string {
@@ -109,6 +142,9 @@ export function pruefeKunde(eingabe: Record<string, unknown>): { wert: KundeEing
     fehler.push('Zu einem Termin gehört ein Datum.');
   }
 
+  const zeit = pruefeUhrzeit(eingabe, terminDatum);
+  fehler.push(...zeit.fehler);
+
   return {
     wert: {
       name,
@@ -117,10 +153,44 @@ export function pruefeKunde(eingabe: Record<string, unknown>): { wert: KundeEing
       telefon: text(eingabe.telefon, 40),
       status: status as Status,
       terminDatum,
+      terminBeginn: zeit.beginn,
+      terminDauer: zeit.dauer,
       notiz: text(eingabe.notiz, 2000),
     },
     fehler,
   };
+}
+
+/**
+ * Uhrzeit und Dauer eines Termins. Ohne Datum gibt es keine Uhrzeit, ohne
+ * Uhrzeit keine Dauer (das Auswahlfeld schickt immer eine mit, sie faellt
+ * dann still weg). Fehlt die Dauer, gilt STANDARD_DAUER.
+ */
+export function pruefeUhrzeit(
+  eingabe: Record<string, unknown>,
+  terminDatum: string | null,
+): { beginn: string | null; dauer: number | null; fehler: string[] } {
+  const fehler: string[] = [];
+  const roh = text(eingabe.terminBeginn ?? eingabe.termin_beginn, 12);
+  let beginn = roh ? uhrzeit(roh) : null;
+  if (roh && !beginn) fehler.push('Die Uhrzeit muss im Format HH:MM vorliegen, zum Beispiel 14:30.');
+  if (beginn && !terminDatum) {
+    fehler.push('Zu einer Uhrzeit gehört ein Datum.');
+    beginn = null;
+  }
+  if (!beginn) return { beginn: null, dauer: null, fehler };
+
+  const dauerRoh = text(eingabe.terminDauer ?? eingabe.termin_dauer_minuten, 6);
+  let dauer = STANDARD_DAUER;
+  if (dauerRoh) {
+    const zahl = /^\d+$/.test(dauerRoh) ? Number(dauerRoh) : NaN;
+    if (!Number.isInteger(zahl) || zahl < DAUER_MIN || zahl > DAUER_MAX) {
+      fehler.push(`Die Dauer muss zwischen ${DAUER_MIN} Minuten und ${DAUER_MAX / 60} Stunden liegen.`);
+    } else {
+      dauer = zahl;
+    }
+  }
+  return { beginn, dauer, fehler };
 }
 
 export interface KundenFilter {
@@ -159,10 +229,12 @@ export async function holeKunde(db: Db, benutzerId: string, id: string): Promise
 
 export async function erstelleKunde(db: Db, benutzerId: string, daten: KundeEingabe, heute = heuteIso()): Promise<Kunde> {
   const zeilen = await db.query<KundeZeile>(
-    `INSERT INTO kunden (benutzer_id, name, ort, ansprechpartner, telefon, status, status_seit, termin_datum, notiz)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+    `INSERT INTO kunden (benutzer_id, name, ort, ansprechpartner, telefon, status, status_seit, termin_datum, notiz,
+                         termin_beginn, termin_dauer_minuten)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
      RETURNING ${FELDER}`,
-    [benutzerId, daten.name, daten.ort, daten.ansprechpartner, daten.telefon, daten.status, heute, daten.terminDatum, daten.notiz],
+    [benutzerId, daten.name, daten.ort, daten.ansprechpartner, daten.telefon, daten.status, heute, daten.terminDatum, daten.notiz,
+      ...zeitWerte(daten)],
   );
   return zuKunde(zeilen[0]);
 }
@@ -181,10 +253,71 @@ export async function aendereKunde(
   const zeilen = await db.query<KundeZeile>(
     `UPDATE kunden
      SET name = $3, ort = $4, ansprechpartner = $5, telefon = $6, status = $7, status_seit = $8,
-         termin_datum = $9, notiz = $10, geaendert_am = now()
+         termin_datum = $9, notiz = $10, termin_beginn = $11, termin_dauer_minuten = $12, geaendert_am = now()
      WHERE id = $1 AND benutzer_id = $2
      RETURNING ${FELDER}`,
-    [id, benutzerId, daten.name, daten.ort, daten.ansprechpartner, daten.telefon, daten.status, statusSeit, daten.terminDatum, daten.notiz],
+    [id, benutzerId, daten.name, daten.ort, daten.ansprechpartner, daten.telefon, daten.status, statusSeit, daten.terminDatum, daten.notiz,
+      ...zeitWerte(daten)],
+  );
+  return zeilen[0] ? zuKunde(zeilen[0]) : null;
+}
+
+/** Beginn und Dauer fuer die Datenbank: nur mit Datum und Beginn, sonst beide NULL. */
+function zeitWerte(daten: Pick<KundeEingabe, 'terminDatum' | 'terminBeginn' | 'terminDauer'>): [string | null, number | null] {
+  const beginn = daten.terminDatum ? uhrzeit(daten.terminBeginn) : null;
+  return [beginn, beginn ? (daten.terminDauer ?? STANDARD_DAUER) : null];
+}
+
+export interface TerminEingabe {
+  kundeId: string;
+  /** null heisst automatisch: aus "Angerufen" wird "Termin vereinbart", sonst bleibt der Status. */
+  status: Status | null;
+  datum: string;
+  beginn: string | null;
+  dauer: number | null;
+}
+
+/**
+ * Prueft das Formular "Neuer Termin" im Kalender: ein eigener Betrieb, ein
+ * Datum, wahlweise Uhrzeit und Dauer, dazu der Status. Der Status steht
+ * ausdruecklich im Formular, weil ein Wechsel in die Monatszahlen eingeht;
+ * leer heisst automatisch (siehe TerminEingabe).
+ */
+export function pruefeTermin(eingabe: Record<string, unknown>): { wert: TerminEingabe; fehler: string[] } {
+  const fehler: string[] = [];
+  const kundeId = text(eingabe.kundeId, 40);
+  if (!istUuid(kundeId)) fehler.push('Bitte einen Betrieb auswählen.');
+  const status = String(eingabe.status ?? '');
+  if (status && !STATUS_WERTE.includes(status as Status)) fehler.push('Der Status ist unbekannt.');
+  let datum: string | null = text(eingabe.terminDatum ?? eingabe.datum, 10);
+  if (!istIsoDatum(datum)) {
+    fehler.push('Das Datum fehlt oder ist ungültig.');
+    datum = null;
+  }
+  const zeit = pruefeUhrzeit(eingabe, datum);
+  fehler.push(...zeit.fehler);
+  return {
+    wert: { kundeId, status: status ? (status as Status) : null, datum: datum ?? '', beginn: zeit.beginn, dauer: zeit.dauer },
+    fehler,
+  };
+}
+
+/**
+ * Setzt den Termin eines eigenen Betriebs, ein vorhandener wird ersetzt.
+ * Ein neuer Status setzt status_seit auf heute, wie beim Bearbeiten.
+ */
+export async function setzeTermin(db: Db, benutzerId: string, termin: TerminEingabe, heute = heuteIso()): Promise<Kunde | null> {
+  const alt = await holeKunde(db, benutzerId, termin.kundeId);
+  if (!alt) return null;
+  const status: Status = termin.status ?? (alt.status === 'angerufen' ? 'termin' : alt.status);
+  const statusSeit = alt.status === status ? alt.statusSeit : heute;
+  const [beginn, dauer] = zeitWerte({ terminDatum: termin.datum, terminBeginn: termin.beginn, terminDauer: termin.dauer });
+  const zeilen = await db.query<KundeZeile>(
+    `UPDATE kunden
+     SET status = $3, status_seit = $4, termin_datum = $5, termin_beginn = $6, termin_dauer_minuten = $7, geaendert_am = now()
+     WHERE id = $1 AND benutzer_id = $2
+     RETURNING ${FELDER}`,
+    [termin.kundeId, benutzerId, status, statusSeit, termin.datum, beginn, dauer],
   );
   return zeilen[0] ? zuKunde(zeilen[0]) : null;
 }
@@ -241,7 +374,7 @@ export async function alleKunden(db: Db, filter: KundenFilter & { benutzerId?: s
   }
   const zeilen = await db.query<KundeZeile & { vertriebler_name: string }>(
     `SELECT k.id, k.benutzer_id, k.name, k.ort, k.ansprechpartner, k.telefon, k.status, k.status_seit, k.termin_datum,
-            k.notiz, k.erstellt_am, k.geaendert_am, b.name AS vertriebler_name
+            k.termin_beginn, k.termin_dauer_minuten, k.notiz, k.erstellt_am, k.geaendert_am, b.name AS vertriebler_name
      FROM kunden k JOIN benutzer b ON b.id = k.benutzer_id
      WHERE ${bedingungen.join(' AND ')}
      ORDER BY k.geaendert_am DESC`,

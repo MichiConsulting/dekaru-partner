@@ -62,7 +62,7 @@ const wochenText = (von: string, bis: string) => `${datumDe(von)} bis ${datumDe(
         {z.naechsteTermine.length > 0 ? (
           <ul class="kachel__liste">
             {z.naechsteTermine.map((t) => (
-              <li><time datetime={t.datum}>{datumKurz(t.datum)}</time><a href={`/kunden/${t.kundeId}`}>{t.kundeName}</a></li>
+              <li><time datetime={t.beginn ? `${t.datum}T${t.beginn}` : t.datum}>{datumKurz(t.datum)}{t.beginn && `, ${t.beginn}`}</time><a href={`/kunden/${t.kundeId}`}>{t.kundeName}</a></li>
             ))}
           </ul>
         ) : (

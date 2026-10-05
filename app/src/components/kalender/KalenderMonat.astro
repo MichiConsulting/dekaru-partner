@@ -1,0 +1,87 @@
+---
+// Monatsraster wie in Apple Kalender oder Outlook: Mo bis So, heute
+// hervorgehoben, Eintraege als Balken, bei Ueberlauf "+n weitere".
+// Eine echte Tabelle mit Spaltenkoepfen, damit Screenreader Wochentag und
+// Woche kennen. Auf dem Handy (CSS) werden aus den Balken Punkte, und ein
+// Tipp auf den Tag zeigt seine Eintraege in der Liste darunter.
+import type { KalenderEintrag } from '../../lib/kalender.ts';
+import { kalenderUrl, monatsRaster, neuUrl, sichtbareBalken } from '../../lib/kalender-ansicht.ts';
+import { datumLang, monatVon, wochentagName } from '../../lib/datum.ts';
+import KalenderBalken from './KalenderBalken.astro';
+
+interface Props {
+  datum: string;
+  heute: string;
+  titelId: string;
+  eintraegeJeTag: Map<string, KalenderEintrag[]>;
+}
+
+const { datum, heute, titelId, eintraegeJeTag } = Astro.props;
+const wochen = monatsRaster(datum);
+const aktuellerMonat = monatVon(datum);
+const KOEPFE = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
+const LANG = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
+
+function zaehle(liste: KalenderEintrag[]): string {
+  const t = liste.filter((e) => e.typ === 'termin').length;
+  const w = liste.length - t;
+  const teile = [t ? `${t} ${t === 1 ? 'Termin' : 'Termine'}` : '', w ? `${w} ${w === 1 ? 'Wiedervorlage' : 'Wiedervorlagen'}` : ''].filter(Boolean);
+  return teile.length ? teile.join(', ') : 'keine Einträge';
+}
+---
+
+<table class="kal-monat" aria-labelledby={titelId}>
+  <thead>
+    <tr>
+      {KOEPFE.map((k, i) => (
+        <th scope="col" abbr={LANG[i]}>{k}</th>
+      ))}
+    </tr>
+  </thead>
+  <tbody>
+    {wochen.map((woche) => (
+      <tr>
+        {woche.map((tag) => {
+          const liste = eintraegeJeTag.get(tag) ?? [];
+          const { zeigen, weitere } = sichtbareBalken(liste);
+          const fremd = monatVon(tag) !== aktuellerMonat;
+          const istHeute = tag === heute;
+          const gewaehlt = tag === datum;
+          const name = `${wochentagName(tag)}, ${datumLang(tag, fremd)}${istHeute ? ', heute' : ''}`;
+          return (
+            <td
+              class:list={['kal-zelle', fremd && 'kal-zelle--fremd', istHeute && 'kal-zelle--heute', gewaehlt && 'kal-zelle--gewaehlt', liste.length > 0 && 'kal-zelle--belegt']}
+              aria-current={istHeute ? 'date' : undefined}
+            >
+              {/* Freie Flaeche der Zelle: neuer Termin an diesem Tag. Nur Maus,
+                  fuer die Tastatur gibt es "Neuer Termin" oben und in der Tagesansicht. */}
+              <a class="kal-zelle__neu" href={neuUrl(tag)} tabindex="-1" aria-hidden="true" title={`Neuer Termin am ${datumLang(tag, false)}`}></a>
+              <div class="kal-zelle__kopf">
+                <a class="kal-zelle__nr kal-gross" href={kalenderUrl('tag', tag)} aria-label={`${name}: ${zaehle(liste)}. Tagesansicht`}>{Number(tag.slice(8, 10))}</a>
+                <a
+                  class="kal-zelle__nr kal-zelle__waehlen kal-klein"
+                  href={kalenderUrl('monat', tag)}
+                  aria-label={`${name}: ${zaehle(liste)}`}
+                  aria-current={gewaehlt ? 'true' : undefined}
+                >{Number(tag.slice(8, 10))}</a>
+              </div>
+              {zeigen.length > 0 && (
+                <ul class="kal-zelle__liste kal-gross" aria-label={`Einträge am ${datumLang(tag, false)}`}>
+                  {zeigen.map((e) => <li><KalenderBalken eintrag={e} /></li>)}
+                </ul>
+              )}
+              {weitere > 0 && (
+                <a class="kal-mehr kal-gross" href={kalenderUrl('tag', tag)}>+{weitere} weitere<span class="sr-only"> am {datumLang(tag, false)}</span></a>
+              )}
+              {liste.length > 0 && (
+                <span class="kal-punkte kal-klein" aria-hidden="true">
+                  {liste.slice(0, 3).map((e) => <span class:list={['kal-punkt', e.typ === 'termin' ? 'kal-punkt--termin' : 'kal-punkt--wv']}></span>)}
+                </span>
+              )}
+            </td>
+          );
+        })}
+      </tr>
+    ))}
+  </tbody>
+</table>

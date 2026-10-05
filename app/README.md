@@ -18,9 +18,10 @@ Jeder Vertriebler hat einen eigenen Login und sieht vier Bereiche:
    Termine und Abschlüsse des Monats sehen. Niemand sieht fremde Einträge.
 4. **Meine Provision**: die Monatsaufstellungen aus `dekaru-rechnungen`, mit
    entstandener, ausgezahlter und aufgelaufener Provision und den Regeln.
-5. **Kalender**: eigene Termine und offene Wiedervorlagen als Wochen- oder
-   Monatsliste, jeder Eintrag als `.ics`, dazu ein persönlicher Abo-Link für
-   die Kalender-App (unter Einstellungen).
+5. **Kalender**: eigene Termine und offene Wiedervorlagen wie in einer
+   Kalender-App, als Monat, Woche, Tag oder Liste, Termine optional mit
+   Uhrzeit und Dauer, jeder Eintrag als `.ics`, dazu ein persönlicher
+   Abo-Link für die Kalender-App (unter Einstellungen).
 
 Die **Startseite ist ein Cockpit**: Termine diese Woche, fällige
 Wiedervorlagen, Abschlüsse im Monat, Provision im laufenden Quartal,
@@ -125,12 +126,34 @@ Platzhalter `{{Ihr Name}}` wird mit dem Namen der angemeldeten Person gefüllt.
 später; "heute" kommt aus Europe/Berlin (`src/lib/datum.ts`), weil der Server
 auf Vercel in UTC läuft.
 
-**Kalender und Abo.** `/kalender` zeigt Termine (`termin_datum`) und offene
-Wiedervorlagen als Liste je Tag, Woche (`?von=JJJJ-MM-TT`) oder Monat
-(`?ansicht=monat&monat=JJJJ-MM`), ohne Widget und ohne JavaScript.
+**Kalender und Abo.** `/kalender` zeigt Termine (`termin_datum`, optional
+`termin_beginn` und `termin_dauer_minuten`, Migration `009-termin-uhrzeit.sql`)
+und offene Wiedervorlagen wie eine Kalender-App: **Monat** (Standard) als
+Tabelle Mo bis So mit Balken und "+n weitere", **Woche** und **Tag** mit
+Stundenraster (7 bis 20 Uhr, bei früheren oder späteren Terminen breiter,
+scrollbar), Ganztags-Zeile und Linie für die aktuelle Uhrzeit, dazu die
+**Liste** je Monat. Ansicht und Datum stehen in der URL
+(`?ansicht=monat|woche|tag|liste&datum=JJJJ-MM-TT`), alte Links mit `?von=`
+und `?monat=` gelten weiter. Auf dem Handy wird der Monat ein kompaktes Raster
+mit Punkten, ein Tipp auf den Tag zeigt seine Einträge darunter; die Woche
+scrollt im Rahmen seitlich. Termine und Wiedervorlagen unterscheiden sich in
+Farbe, Symbol, Randlinie und Text. Klick auf einen freien Tag oder eine Stunde
+führt zu `/kalender/neu` (Datum und Uhrzeit vorbelegt): dort einen eigenen
+Betrieb wählen (jeder hat genau einen Termin, ein vorhandener wird ersetzt)
+oder über `/kunden/neu` einen neuen mit diesem Termin eintragen. Der Status
+steht im Formular, "Automatisch" macht aus Angerufen "Termin vereinbart".
+Alles wird auf dem Server gerendert und geht ohne JavaScript; das Skript
+`src/scripts/kalender.ts` schiebt nur die Linie "jetzt" weiter. Logik ohne
+Astro in `src/lib/kalender-ansicht.ts`, Styles in `styles/kalender.css`
+(Farben `--kal-*` in `global.css` für hell und dunkel,
+`tests/kalender-css.test.ts` prüft, dass jede benutzte Variable existiert, und
+die Kontraste). Uhrzeiten sind Wanduhrzeit Europe/Berlin, ohne Uhrzeit bleibt
+ein Termin ganztägig; Wiedervorlagen sind immer ganztägig.
 `src/lib/kalender.ts` schreibt iCalendar nach RFC 5545: CRLF, Faltung bei 75
 Oktetten, Maskierung von Komma, Semikolon und Backslash, ganztägige Einträge
-mit stabiler UID, VTIMEZONE Europe/Berlin. Einzelne Einträge kommen von
+mit `VALUE=DATE`, Termine mit Uhrzeit mit `DTSTART`/`DTEND;TZID=Europe/Berlin`
+(Ende über Mitternacht auf dem Folgetag), stabile UID, eine VTIMEZONE
+Europe/Berlin. Einzelne Einträge kommen von
 `/kalender/eintrag/<termin|wiedervorlage>/<id>.ics` (angemeldet, nur eigene).
 Der Abo-Link `/kalender/abo/<token>.ics` ist ohne Login erreichbar; das
 Token (32 Zufallsbytes) erzeugt und widerruft jede Person selbst unter
@@ -138,7 +161,7 @@ Token (32 Zufallsbytes) erzeugt und widerruft jede Person selbst unter
 (Tabelle `kalender_token`, `src/lib/kalender-token.ts`). Je IP-Adresse gelten
 fünf unbekannte Tokens in 15 Minuten und höchstens 60 Abrufe in 15 Minuten,
 danach 429 für 15 Minuten (`src/lib/rate.ts`, dieselbe Tabelle wie der
-Login). Der Feed enthält nur Betriebsname, Status und Datum, keine
+Login). Der Feed enthält nur Betriebsname, Status, Datum und Uhrzeit, keine
 Telefonnummern, Notizen oder Gründe. Deaktivierte Zugänge liefern nichts.
 
 **Cockpit.** `src/lib/cockpit.ts` liefert die Zahlen der Startseite:
@@ -442,6 +465,24 @@ aktuell.". `tests/migration.test.ts` prüft genau diesen Weg (Stand 1 bis 3
 mit Bestand auf 8). Bestehende Vertriebler bekommen Stufe 1 und die
 Provisionsmail eingeschaltet, alte Abrechnungen bleiben ohne Mailstatus und
 lösen keine Mail aus.
+
+**Version 9, Uhrzeit am Termin** (`009-termin-uhrzeit.sql`, Zweig
+`kalender-ansicht`): zwei Spalten an `kunden` (`termin_beginn`,
+`termin_dauer_minuten`) und drei Prüfregeln, bestehende Termine bleiben
+ganztägig. Startseite, Kunden und Kalender lesen die Spalten, also auch hier
+**vor** dem Deploy. Derselbe Weg, nur mit dem lokalen Zweig:
+
+```
+cd ~/dekaru/dekaru-partner
+git worktree add ~/dekaru/_ablage/portal-migration kalender-ansicht
+cd ~/dekaru/_ablage/portal-migration/app
+ln -s ~/dekaru/dekaru-partner/app/node_modules node_modules
+read -s "DATABASE_URL?Neon-URL: "; echo; export DATABASE_URL
+npm run db:migrate        # meldet "Angewendet: 9", oder "4, 5, 6, 7, 8, 9", wenn 4 bis 8 noch fehlen
+unset DATABASE_URL
+cd ~/dekaru/dekaru-partner
+git worktree remove --force ~/dekaru/_ablage/portal-migration
+```
 
 ### 6. Deployen und Region prüfen
 

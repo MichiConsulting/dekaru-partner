@@ -1,5 +1,5 @@
 ---
-import { STATUS, type KundeEingabe } from '../lib/kunden.ts';
+import { DAUER_AUSWAHL, STANDARD_DAUER, STATUS, dauerText, type KundeEingabe } from '../lib/kunden.ts';
 import type { TrefferAdmin } from '../lib/dubletten.ts';
 
 interface Props {
@@ -9,9 +9,14 @@ interface Props {
   knopf: string;
   /** Nur fuer Admins: Treffer der Dublettenpruefung, mit Freigabe zum Speichern. */
   adminTreffer?: TrefferAdmin[];
+  /** Nach dem Speichern dorthin zurueck, z.B. in den Kalender. */
+  zurueck?: string;
 }
 
-const { werte, csrf, fehler = [], knopf, adminTreffer = [] } = Astro.props;
+const { werte, csrf, fehler = [], knopf, adminTreffer = [], zurueck } = Astro.props;
+// Eine Dauer aus der Datenbank, die nicht in der Auswahl steht, bleibt waehlbar.
+const dauer = werte.terminDauer ?? STANDARD_DAUER;
+const dauern = DAUER_AUSWAHL.includes(dauer as (typeof DAUER_AUSWAHL)[number]) ? [...DAUER_AUSWAHL] : [...DAUER_AUSWAHL, dauer].sort((a, b) => a - b);
 ---
 
 {fehler.length > 0 && (
@@ -21,6 +26,7 @@ const { werte, csrf, fehler = [], knopf, adminTreffer = [] } = Astro.props;
 )}
 <form method="post" class="karte">
   <input type="hidden" name="_csrf" value={csrf} />
+  {zurueck && <input type="hidden" name="zurueck" value={zurueck} />}
   <div class="feld--zeile">
     <div class="feld">
       <label for="name">Betrieb</label>
@@ -54,6 +60,20 @@ const { werte, csrf, fehler = [], knopf, adminTreffer = [] } = Astro.props;
       <p class="feld__hilfe">Pflicht bei Termin und Zweittermin.</p>
     </div>
   </div>
+  <div class="feld--zeile">
+    <div class="feld">
+      <label for="terminBeginn">Uhrzeit (optional)</label>
+      <input id="terminBeginn" name="terminBeginn" type="time" step="300" value={werte.terminBeginn ?? ''} aria-describedby="terminBeginn-hilfe" />
+      <p class="feld__hilfe" id="terminBeginn-hilfe">Leer lassen für einen ganztägigen Termin.</p>
+    </div>
+    <div class="feld">
+      <label for="terminDauer">Dauer</label>
+      <select id="terminDauer" name="terminDauer" aria-describedby="terminDauer-hilfe">
+        {dauern.map((d) => <option value={d} selected={d === dauer}>{dauerText(d)}</option>)}
+      </select>
+      <p class="feld__hilfe" id="terminDauer-hilfe">Gilt nur mit Uhrzeit.</p>
+    </div>
+  </div>
   <div class="feld">
     <label for="notiz">Notiz</label>
     <textarea id="notiz" name="notiz" maxlength="2000">{werte.notiz ?? ''}</textarea>
@@ -70,6 +90,6 @@ const { werte, csrf, fehler = [], knopf, adminTreffer = [] } = Astro.props;
   )}
   <div class="aktionen">
     <button type="submit" class="btn">{knopf}</button>
-    <a href="/kunden" class="btn btn--zweit">Abbrechen</a>
+    <a href={zurueck ?? '/kunden'} class="btn btn--zweit">Abbrechen</a>
   </div>
 </form>
