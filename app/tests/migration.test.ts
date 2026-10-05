@@ -35,6 +35,13 @@ async function tabellen(db: Db): Promise<string[]> {
   return zeilen.map((z) => z.table_name);
 }
 
+/** Alle Versionen laut Dateien im Ordner, aufsteigend. */
+const ALLE = readdirSync(MIGRATIONEN_ORDNER)
+  .filter((n) => /^\d{3}-.*\.sql$/.test(n))
+  .map((n) => Number(n.slice(0, 3)))
+  .sort((a, b) => a - b);
+const ab = (n: number) => ALLE.filter((v) => v >= n);
+
 const NEUE_TABELLEN = [
   'pflichtsatz_antworten',
   'lernkarten_stand',
@@ -61,7 +68,8 @@ describe('Migrationen', () => {
     const dateien = readdirSync(MIGRATIONEN_ORDNER).filter((n) => /^\d{3}-.*\.sql$/.test(n)).sort();
     const nummern = dateien.map((n) => Number(n.slice(0, 3)));
     expect(new Set(nummern).size).toBe(nummern.length);
-    expect(nummern).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+    // Version 9 entsteht parallel im Zweig des Portal-Kalenders.
+    expect(nummern).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 10]);
     for (const datei of dateien) {
       const sql = readFileSync(join(MIGRATIONEN_ORDNER, datei), 'utf8');
       expect(sql).toContain(`INSERT INTO schema_version (version) VALUES (${Number(datei.slice(0, 3))})`);
@@ -70,8 +78,8 @@ describe('Migrationen', () => {
 
   it('wendet auf eine frische Datenbank alle Versionen an', async () => {
     db = await leereDb();
-    expect(await migriere(db)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
-    expect(await versionen(db)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+    expect(await migriere(db)).toEqual(ALLE);
+    expect(await versionen(db)).toEqual(ALLE);
     expect(await tabellen(db)).toEqual(expect.arrayContaining(NEUE_TABELLEN));
     expect(await migriere(db)).toEqual([]);
   });
@@ -84,8 +92,8 @@ describe('Migrationen', () => {
     expect(await versionen(db)).toEqual([1]);
     expect(await tabellen(db)).not.toEqual(expect.arrayContaining(['pflichtsatz_antworten']));
 
-    expect(await migriere(db)).toEqual([2, 3, 4, 5, 6, 7, 8]);
-    expect(await versionen(db)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+    expect(await migriere(db)).toEqual(ab(2));
+    expect(await versionen(db)).toEqual(ALLE);
     expect(await tabellen(db)).toEqual(expect.arrayContaining(NEUE_TABELLEN));
   });
 
@@ -138,8 +146,8 @@ describe('Migrationen', () => {
       `INSERT INTO provision_abrechnungen (vertriebler_slug, monat, daten) VALUES ('live', '2026-09', '{"format":1}'::jsonb)`,
     );
 
-    expect(await migriere(db)).toEqual([4, 5, 6, 7, 8]);
-    expect(await versionen(db)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+    expect(await migriere(db)).toEqual(ab(4));
+    expect(await versionen(db)).toEqual(ALLE);
     expect(await tabellen(db)).toEqual(expect.arrayContaining(NEUE_TABELLEN));
 
     const [b] = await db.query<{ stufe: number; provision_mail: boolean; einmal_passwort_bis: string | null }>(
@@ -156,6 +164,27 @@ describe('Migrationen', () => {
     expect(wechsel.map((w) => w.status)).toEqual(['termin']);
     // Ein zweiter Lauf aendert nichts.
     expect(await migriere(db)).toEqual([]);
+  });
+
+  it('Version 10 ergaenzt die Farbpalette am Bogen, uebernimmt Werte aus dem JSON und prueft das Format', async () => {
+    ordner = mkdtempSync(join(tmpdir(), 'migration-'));
+    for (const datei of readdirSync(MIGRATIONEN_ORDNER).filter((n) => /^\d{3}-.*\.sql$/.test(n) && Number(n.slice(0, 3)) < 10)) {
+      copyFileSync(join(MIGRATIONEN_ORDNER, datei), join(ordner, datei));
+    }
+    db = await leereDb();
+    await migriere(db, ordner);
+    const [v] = await db.query<{ id: string }>(
+      `INSERT INTO benutzer (email, name, rolle, passwort_hash) VALUES ('p@example.test', 'P', 'vertriebler', 'scrypt$1$1$1$a$a') RETURNING id`,
+    );
+    await db.query(`INSERT INTO briefings (benutzer_id, daten) VALUES ($1, '{"felder":{"farbpalette":"HW-2"}}'::jsonb)`, [v.id]);
+    await db.query(`INSERT INTO briefings (benutzer_id, daten) VALUES ($1, '{"felder":{"farbpalette":"<b>"}}'::jsonb)`, [v.id]);
+    expect(await migriere(db)).toEqual([10]);
+    const werte = await db.query<{ farbpalette: string | null }>('SELECT farbpalette FROM briefings ORDER BY farbpalette NULLS LAST');
+    expect(werte.map((w) => w.farbpalette)).toEqual(['HW-2', null]);
+    await db.query(`UPDATE briefings SET farbpalette = 'offen' WHERE farbpalette IS NULL`);
+    await expect(db.query(`UPDATE briefings SET farbpalette = 'Petrol'`)).rejects.toThrow();
+    // Wiederholbar.
+    await db.exec(readFileSync(join(MIGRATIONEN_ORDNER, '010-briefing-farbpalette.sql'), 'utf8'));
   });
 
   it('befristet beim Nachziehen von Version 4 auch laengst bestehende offene Einladungen', async () => {
