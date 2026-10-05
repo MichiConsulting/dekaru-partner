@@ -3,308 +3,39 @@
 // Vertriebler und Michi im ersten Termin zeigen, vor Ort oder per
 // Bildschirmfreigabe. Keine Demo-Website, sondern eine Veranschaulichung.
 //
-// Alle Texte entstehen hier auf dem Server. Das Skript im Browser schaltet nur
-// um (Schritt, Branche, Paket, Praesentation) und kennt keine Preise.
-// Ohne JavaScript stehen alle Schritte untereinander.
-import '../styles/schema.css';
+// Der Inhalt steckt in components/SchemaErstgespraech.astro und wird mit der
+// oeffentlichen Fassung /schema geteilt. Hier kommen nur die Hinweise fuer
+// Vertriebler, der Praesentationsmodus und der Link zum Nachschicken dazu:
+// das Schema darf nach dem Termin an den Betrieb, die Vorschau nie.
 import Layout from '../layouts/Layout.astro';
-import { BRANCHEN, BRANCHEN_IDS, PAKETE_MIT_FUNKTION, PAKET_REIHE, PREISANGABEN, anzahlBausteine, bausteine, findeBranche } from '../lib/schema.ts';
-import { PAKETE } from '../lib/preise.ts';
-import { verfuegbareModule } from '../lib/schema-module.ts';
+import SchemaErstgespraech from '../components/SchemaErstgespraech.astro';
+import { findeBranche } from '../lib/schema.ts';
 
 const branche = findeBranche(Astro.url.searchParams.get('branche'));
-const PAKET_START = 'gross';
-
-const SCHRITTE = ['Überblick', 'Heute', 'Bausteine', 'Funktion', 'Datenweg', 'Weiter'];
-
-// Kurzzeilen je Paket. Bewusst eigene Saetze: die Beschreibungen in
-// preise.json sind teils in Michis Ich-Form.
-const PAKET_ZEILE: Record<string, string> = {
-  klein: 'Eine Seite, die alles Wichtige sagt.',
-  mittel: 'Eigene Seiten für Leistungen, Bilder und Bewertungen, dazu geschriebene Texte.',
-  gross: 'Wie Mittel, dazu mehr Seiten, Ihr Team, aufbereitete Fotos und die mitarbeitende Funktion.',
-};
-
-const varianten = BRANCHEN_IDS.map((id) => {
-  const b = BRANCHEN[id];
-  const liste = bausteine(b);
-  // Gleiche Beschriftungen mehrerer Pakete zusammenfassen: eine Zeile mit data-fuer="mittel gross".
-  const kacheln = liste.map((k) => {
-    const gruppen = new Map<string, string[]>();
-    for (const p of PAKET_REIHE) {
-      const text = k.je[p];
-      if (text === null) continue;
-      gruppen.set(text, [...(gruppen.get(text) ?? []), p]);
-    }
-    return { ...k, in: PAKET_REIHE.filter((p) => k.je[p] !== null).join(' '), texte: [...gruppen].map(([text, pakete]) => ({ text, fuer: pakete.join(' ') })) };
-  });
-  return { b, kacheln, module: verfuegbareModule(id) };
-});
-const anzahl = Object.fromEntries(PAKET_REIHE.map((p) => [p, anzahlBausteine(varianten[0].kacheln, p)]));
-const paketMitFunktion = PAKETE_MIT_FUNKTION.join(' und ');
+// Ohne JavaScript steht der Link fertig da. Mit JavaScript baut ihn
+// scripts/schema-link.ts beim Klick neu, mit der dann gewaehlten Branche.
+const oeffentlicherLink = new URL(`/schema?branche=${branche.id}`, Astro.url.origin).href;
 ---
 
 <Layout titel="Erstgespräch" aktiv="erstgespraech">
-  <div class="schema" data-schema data-branche={branche.id} data-paket={PAKET_START}>
-    <div class="schema__leiste">
+  <SchemaErstgespraech branche={branche} basis="/erstgespraech">
+    <Fragment slot="leiste">
       <p class="schema__hinweis nur-ohne-praes">Zum Zeigen im ersten Termin. Mit den Pfeiltasten oder durch Wischen blättern.</p>
       <button type="button" class="btn btn--zweit btn--klein nur-js" data-praesentation aria-pressed="false">
         <span class="nur-ohne-praes">Präsentieren</span><span class="nur-praes">Präsentation beenden</span>
       </button>
-    </div>
-
-    <nav class="schema__punkte nur-js" aria-label="Schritte">
-      <ol>
-        {
-          SCHRITTE.map((s, i) => (
-            <li>
-              <button type="button" data-gehe={i} aria-label={`Schritt ${i + 1}: ${s}`}>
-                <span class="schema__nr" aria-hidden="true">{i + 1}</span>
-                <span class="schema__punkt-text" aria-hidden="true">{s}</span>
-              </button>
-            </li>
-          ))
-        }
-      </ol>
-    </nav>
-    <p class="sr-only" aria-live="polite" data-ansage></p>
-
-    <div class="schema__buehne" data-buehne>
-      <!-- 0: Start und Branche -->
-      <section class="schritt schritt--start" id="schritt-0" data-schritt="0" aria-labelledby="t-0">
-        <p class="schritt__marke">Ihre Website im Überblick</p>
-        <h1 id="t-0" class="schritt__titel" tabindex="-1">Was eine Website Ihrem Betrieb abnehmen kann</h1>
-        <p class="schritt__lead">Ein kurzer Überblick in fünf Schritten. Keine fertige Seite, sondern eine Skizze: woraus Ihre Website besteht, was sie Ihnen abnimmt und wie es danach weitergeht.</p>
-        <p class="schritt__frage" id="branche-frage">Für welche Art von Betrieb?</p>
-        <ul class="branchen" aria-labelledby="branche-frage">
-          {
-            BRANCHEN_IDS.map((id, i) => (
-              <li style={`--i:${i}`}>
-                <a
-                  class:list={['branche', `branche--${id}`]}
-                  href={`/erstgespraech?branche=${id}#schritt-1`}
-                  data-branche-wahl={id}
-                  aria-current={id === branche.id ? 'true' : undefined}
-                >
-                  <span class="branche__name">{BRANCHEN[id].name}</span>
-                  <span class="branche__bsp">{BRANCHEN[id].beispiele}</span>
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
-
-      <!-- 1: Der Betrieb heute -->
-      <section class="schritt schritt--heute" id="schritt-1" data-schritt="1" aria-labelledby="t-1">
-        <p class="schritt__marke">Schritt 1 von 5</p>
-        <h2 id="t-1" class="schritt__titel" tabindex="-1">Ihr Betrieb heute</h2>
-        {
-          varianten.map(({ b }) => (
-            <div data-fuer-branche={b.id} hidden={b.id !== branche.id}>
-              <p class="schritt__lead">Ein ganz normaler Arbeitstag. Kommt Ihnen etwas davon bekannt vor?</p>
-              <div class="heute">
-                <div class="heute__telefon" aria-hidden="true">
-                  <svg viewBox="0 0 64 64" width="64" height="64" focusable="false">
-                    <rect x="18" y="6" width="28" height="52" rx="5" fill="var(--sc-orange-flaeche)" stroke="var(--sc-orange-rand)" stroke-width="3" />
-                    <rect x="24" y="14" width="16" height="26" rx="1.5" fill="var(--sc-orange-rand)" opacity=".35" />
-                    <circle cx="32" cy="49" r="3" fill="var(--sc-orange-rand)" />
-                    <path class="heute__welle" d="M8 22c-3 6-3 14 0 20M56 22c3 6 3 14 0 20" fill="none" stroke="var(--sc-orange-rand)" stroke-width="3" stroke-linecap="round" />
-                  </svg>
-                </div>
-                <ul class="karten karten--orange">
-                  {b.heute.map((p, i) => (
-                    <li class="karte-sc" style={`--i:${i}`}>
-                      <strong>{p.titel}</strong>
-                      <span>{p.text}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          ))
-        }
-      </section>
-
-      <!-- 2: Bausteine -->
-      <section class="schritt schritt--bausteine" id="schritt-2" data-schritt="2" aria-labelledby="t-2">
-        <p class="schritt__marke">Schritt 2 von 5</p>
-        <h2 id="t-2" class="schritt__titel" tabindex="-1">Die Website setzt sich zusammen</h2>
-        <p class="schritt__lead">Jede Website besteht aus Bausteinen. Drei Pakete, jedes mit festem Inhalt. Je größer das Paket, desto mehr Bausteine.</p>
-        <div class="pakete-wahl nur-js" role="group" aria-label="Paket zeigen">
-          {
-            PAKETE.map((p) => (
-              <button type="button" data-paket-wahl={p.schluessel} data-anzahl={anzahl[p.schluessel]} aria-pressed={p.schluessel === PAKET_START ? 'true' : 'false'}>
-                <span class="pakete-wahl__name">{p.name}</span>
-                <span class="pakete-wahl__zahl">{anzahl[p.schluessel]} Bausteine</span>
-              </button>
-            ))
-          }
-        </div>
-        {
-          PAKETE.map((p) => (
-            <p class="pakete-zeile" data-fuer-paket={p.schluessel}>
-              <strong>{p.name}:</strong> {PAKET_ZEILE[p.schluessel] ?? p.beschreibung}
-            </p>
-          ))
-        }
-        <p class="sr-only" aria-live="polite" data-paket-ansage></p>
-        {
-          varianten.map(({ b, kacheln }) => (
-            <ul class="bausteine" data-fuer-branche={b.id} hidden={b.id !== branche.id}>
-              {kacheln.map((k, i) => (
-                <li class:list={['baustein', `baustein--${k.gruppe}`]} data-in={k.in} style={`--i:${i}`}>
-                  {k.texte.map((t) => (
-                    <span data-fuer={t.fuer}>{t.text}</span>
-                  ))}
-                </li>
-              ))}
-            </ul>
-          ))
-        }
-        <ul class="legende" aria-label="Farben der Bausteine">
-          <li><span class="legende__farbe baustein--grund" aria-hidden="true"></span>In jedem Paket</li>
-          <li><span class="legende__farbe baustein--inhalt" aria-hidden="true"></span>Mehr Inhalt</li>
-          <li><span class="legende__farbe baustein--sichtbar" aria-hidden="true"></span>Besser gefunden werden</li>
-          <li><span class="legende__farbe baustein--funktion" aria-hidden="true"></span>Arbeitet mit</li>
-        </ul>
-      </section>
-
-      <!-- 3: Die mitarbeitende Funktion -->
-      <section class="schritt schritt--funktion" id="schritt-3" data-schritt="3" aria-labelledby="t-3">
-        <p class="schritt__marke">Schritt 3 von 5</p>
-        <h2 id="t-3" class="schritt__titel" tabindex="-1">Die Website arbeitet mit</h2>
-        {
-          varianten.map(({ b, module }) => (
-            <div data-fuer-branche={b.id} hidden={b.id !== branche.id}>
-              <p class="schritt__lead">
-                Im Paket {paketMitFunktion} nimmt Ihnen die Website eine Aufgabe ab: die <strong>{b.funktion}</strong>.
-              </p>
-              <div class="ablauf">
-                <div class="ablauf__kasten ablauf__kasten--formular" style="--i:0">
-                  <p class="ablauf__kopf">{b.besucher} trägt ein</p>
-                  <ul class="formular-skizze">
-                    {b.felder.map((f) => (
-                      <li>{f}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div class="ablauf__pfeil" aria-hidden="true">
-                  <svg viewBox="0 0 48 24" width="48" height="24" focusable="false">
-                    <path d="M2 12h40M34 4l8 8-8 8" fill="none" stroke="var(--sc-gruen-rand)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </div>
-                <div class="ablauf__kasten ablauf__kasten--mail" style="--i:1">
-                  <p class="ablauf__kopf">Bei Ihnen kommt eine Mail an</p>
-                  <p class="mail-skizze">
-                    <span class="mail-skizze__zeit">{b.beispielAnfrage.zeit}</span>
-                    <span>{b.beispielAnfrage.text}</span>
-                  </p>
-                  <p class="ablauf__fuss">Sie antworten und bestätigen, wann es passt.</p>
-                </div>
-              </div>
-              <ul class="karten karten--gruen">
-                {b.abnahme.map((p, i) => (
-                  <li class="karte-sc" style={`--i:${i + 2}`}>
-                    <strong>{p.titel}</strong>
-                    <span>{p.text}</span>
-                  </li>
-                ))}
-              </ul>
-              {module.length > 0 && (
-                <div class="module">
-                  <p class="ablauf__kopf">Weitere Funktionen für Ihren Betrieb</p>
-                  <ul class="karten karten--blau">
-                    {module.map((m, i) => (
-                      <li class="karte-sc" style={`--i:${i + 5}`}>
-                        <strong>{m.name}</strong>
-                        <span>{m.kurz}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          ))
-        }
-        <p class="schritt__klein">Eine Anfrage ist keine feste Buchung: Sie entscheiden und melden sich zurück. Die Funktion gibt es nur im Paket {paketMitFunktion} und solange die Website bei Michael Henning gehostet wird.</p>
-      </section>
-
-      <!-- 4: Der Weg der Daten -->
-      <section class="schritt schritt--weg" id="schritt-4" data-schritt="4" aria-labelledby="t-4">
-        <p class="schritt__marke">Schritt 4 von 5</p>
-        <h2 id="t-4" class="schritt__titel" tabindex="-1">Welchen Weg eine Anfrage nimmt</h2>
-        <p class="schritt__lead">Wohin gehen die Angaben, die jemand ins Formular schreibt? Genau diesen Weg, verschlüsselt:</p>
-        <ol class="weg">
-          <li class="weg__station weg__station--besucher" style="--i:0">
-            <span class="weg__nr" aria-hidden="true">1</span>
-            <strong>Formular auf Ihrer Website</strong>
-            <span>Ein Besucher schreibt seine Anfrage und schickt sie ab.</span>
-          </li>
-          <li class="weg__linie weg__linie--1" aria-hidden="true"><span class="weg__brief"></span></li>
-          <li class="weg__station weg__station--dienst" style="--i:1">
-            <span class="weg__nr" aria-hidden="true">2</span>
-            <strong>Formulardienst von dekaru</strong>
-            <span>Server in Frankfurt. Prüft die Anfrage auf Spam und leitet sie weiter.</span>
-          </li>
-          <li class="weg__linie weg__linie--2" aria-hidden="true"><span class="weg__brief"></span></li>
-          <li class="weg__station weg__station--postfach" style="--i:2">
-            <span class="weg__nr" aria-hidden="true">3</span>
-            <strong>Mail in Ihrem Postfach</strong>
-            <span>Sie antworten direkt an den Absender.</span>
-          </li>
-        </ol>
-        <div class="weg__nichts" style="--i:3">
-          <svg viewBox="0 0 40 40" width="40" height="40" aria-hidden="true" focusable="false">
-            <ellipse cx="20" cy="10" rx="12" ry="5" fill="none" stroke="var(--sc-gelb-rand)" stroke-width="2.5" />
-            <path d="M8 10v20c0 2.8 5.4 5 12 5s12-2.2 12-5V10" fill="none" stroke="var(--sc-gelb-rand)" stroke-width="2.5" />
-            <path d="M4 36 36 4" stroke="var(--sc-gelb-text)" stroke-width="3" stroke-linecap="round" />
-          </svg>
-          <p><strong>Beim Formulardienst wird der Inhalt der Anfrage nicht gespeichert.</strong> Keine Datenbank, keine Kopie an dekaru. Die Anfrage liegt danach nur in Ihrem Postfach.</p>
-        </div>
-        {
-          varianten.map(({ b }) =>
-            b.datenHinweis ? (
-              <p class="schritt__klein" data-fuer-branche={b.id} hidden={b.id !== branche.id}>
-                {b.datenHinweis}
-              </p>
-            ) : null,
-          )
-        }
-      </section>
-
-      <!-- 5: Wie es weitergeht -->
-      <section class="schritt schritt--weiter" id="schritt-5" data-schritt="5" aria-labelledby="t-5">
-        <p class="schritt__marke">Schritt 5 von 5</p>
-        <h2 id="t-5" class="schritt__titel" tabindex="-1">Wie es weitergeht</h2>
-        <ol class="zeitstrahl">
-          <li style="--i:0"><strong>Heute</strong><span>Sie erzählen, was Ihr Betrieb braucht und was Sie schon haben: Fotos, Texte, Logo.</span></li>
-          <li style="--i:1"><strong>Die Vorschau</strong><span>Michael Henning baut eine Vorschau Ihrer Website, mit Ihren echten Daten.</span></li>
-          <li style="--i:2"><strong>Zweiter Termin</strong><span>Wir schauen die Vorschau gemeinsam an. Sie sagen, was passt und was nicht.</span></li>
-          <li style="--i:3"><strong>Angebot</strong><span>Mit festem Preis und Fertigstellungstermin. Erst dann entscheiden Sie.</span></li>
-        </ol>
-        <div class="preise">
-          <div class="preis preis--website" style="--i:4">
-            <span class="preis__was">Website, einmalig</span>
-            <span class="preis__zahl">{PREISANGABEN.website}</span>
-          </div>
-          <div class="preis preis--hosting" style="--i:5">
-            <span class="preis__was">Hosting und Pflege, optional</span>
-            <span class="preis__zahl">{PREISANGABEN.hosting}</span>
-          </div>
-          <p class="preis preis--quartal" style="--i:6"><strong>Gratisquartal.</strong> {PREISANGABEN.gratisquartal}</p>
-        </div>
-        <p class="schritt__klein">Den genauen Preis für Ihren Betrieb erfahren Sie im zweiten Termin, zusammen mit der Vorschau.</p>
-      </section>
-    </div>
-
-    <div class="schema__steuer nur-js">
-      <button type="button" class="btn btn--zweit" data-zurueck>Zurück</button>
-      <button type="button" class="schema__nochmal" data-nochmal>Noch einmal abspielen</button>
-      <button type="button" class="btn" data-weiter>Weiter</button>
-    </div>
-  </div>
+      <div class="schema__teilen nur-ohne-praes" data-teilen>
+        <button type="button" class="btn btn--zweit btn--klein nur-js" data-link-kopieren>Link zum Nachschicken kopieren</button>
+        <p class="schema__hinweis">Erst nach dem Termin schicken. Die Vorschau der Website wird nie verschickt.</p>
+        <p class="schema__teilen-status" role="status" data-link-status></p>
+        <label class="schema__teilen-feld" data-link-feld>
+          <span class="sr-only">Link zum Nachschicken</span>
+          <input type="text" readonly value={oeffentlicherLink} data-link-text />
+        </label>
+      </div>
+    </Fragment>
+  </SchemaErstgespraech>
   <script>
-    import '../scripts/schema.ts';
+    import '../scripts/schema-link.ts';
   </script>
 </Layout>

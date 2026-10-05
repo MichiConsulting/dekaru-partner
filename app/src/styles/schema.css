@@ -123,6 +123,35 @@ html.modus-bereit .schema:not(.schema--js) .schritt:not(#schritt-0) {
   color: var(--text-muted);
 }
 
+/* Link zum Nachschicken (nur /erstgespraech). Eigene Zeile unter der Leiste.
+   Ohne JavaScript steht der Link im Feld, mit JavaScript erst, wenn die
+   Zwischenablage nicht geht. */
+.schema__teilen {
+  flex-basis: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4em 1em;
+}
+.schema__teilen-status {
+  margin: 0;
+  font-size: 0.85em;
+}
+.schema__teilen-status:empty {
+  display: none;
+}
+.schema__teilen-feld {
+  flex-basis: 100%;
+  margin: 0;
+}
+.schema__teilen-feld input {
+  width: 100%;
+  max-width: 40em;
+}
+.schema--js .schema__teilen-feld:not(.ist-offen) {
+  display: none;
+}
+
 /* Schrittpunkte */
 .schema__punkte ol {
   display: flex;

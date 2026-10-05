@@ -1,0 +1,47 @@
+---
+// Rahmen fuer die einzige oeffentliche Inhaltsseite des Portals (/schema).
+// Kein Portal-Kopf, keine Navigation, kein Konto-Menue, kein Umschalter fuer
+// hell und dunkel: es gilt die Systemeinstellung. Liest bewusst nichts aus
+// Astro.locals, die Middleware laedt fuer /schema weder Datenbank noch Sitzung.
+//
+// theme-init.js liest nur eine frueher getroffene Wahl aus localStorage und
+// setzt die Klasse, an der schema.css erkennt, dass JavaScript laeuft.
+// Geschrieben wird auf dieser Seite nichts.
+import '../styles/global.css';
+
+interface Props {
+  titel: string;
+}
+
+const { titel } = Astro.props;
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="color-scheme" content="light dark" />
+    <title>{titel} | dekaru</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline src="/theme-init.js"></script>
+  </head>
+  <body>
+    <header class="kopf">
+      <div class="kopf__zeile">
+        <span class="marke">dekaru</span>
+      </div>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="fuss">
+      <div class="fuss__zeile">
+        <span>dekaru, Michael Henning Consulting</span>
+        <a href="https://dekaru.de/impressum">Impressum</a>
+        <a href="/datenschutz">Datenschutz</a>
+      </div>
+    </footer>
+  </body>
+</html>

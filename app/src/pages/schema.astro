@@ -1,0 +1,22 @@
+---
+// Oeffentliche Fassung des Schemas fuer das Erstgespraech. Darf dem Betrieb
+// nach dem Termin geschickt werden (Entscheidung vom 05.10.2026), die
+// Vorschau der Website dagegen nie.
+//
+// Ohne Login erreichbar, aber nur genau dieser Pfad (src/lib/zugriff.ts,
+// istOeffentlichesSchema). Die Middleware laedt hier weder Datenbank noch
+// Sitzung, es entsteht kein Cookie, und die Seite liest nichts aus
+// Astro.locals. Darum steht hier nie ein Name aus dem Portal.
+// Gleicher Inhalt wie /erstgespraech, ohne Hinweise fuer Vertriebler.
+import OeffentlichLayout from '../layouts/OeffentlichLayout.astro';
+import SchemaErstgespraech from '../components/SchemaErstgespraech.astro';
+import { findeBranche } from '../lib/schema.ts';
+
+const branche = findeBranche(Astro.url.searchParams.get('branche'));
+---
+
+<OeffentlichLayout titel="Ihre Website im Überblick">
+  <SchemaErstgespraech branche={branche} basis="/schema">
+    <p slot="leiste" class="schema__hinweis nur-js">Mit „Weiter“, den Pfeiltasten oder durch Wischen blättern.</p>
+  </SchemaErstgespraech>
+</OeffentlichLayout>

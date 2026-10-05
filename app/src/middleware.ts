@@ -4,7 +4,7 @@
 import { defineMiddleware } from 'astro:middleware';
 import { getDb } from './lib/db.ts';
 import { COOKIE_NAME, ladeSitzung } from './lib/auth.ts';
-import { entscheideZugriff, istIsrAnfrage, istTokenPfad } from './lib/zugriff.ts';
+import { entscheideZugriff, istIsrAnfrage, istOeffentlichesSchema, istTokenPfad } from './lib/zugriff.ts';
 
 const CSP = [
   "default-src 'self'",
@@ -29,6 +29,10 @@ function sicherheitsHeader(antwort: Response, pathname: string): Response {
   kopf.set('X-Frame-Options', 'DENY');
   kopf.set('Referrer-Policy', 'same-origin');
   kopf.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+  // Das ganze Portal gehoert in keine Suchmaschine, auch die oeffentliche
+  // Seite /schema nicht. Zusaetzlich zum Meta-Tag, damit es auch fuer
+  // Antworten ohne HTML gilt.
+  kopf.set('X-Robots-Tag', 'noindex, nofollow');
   if (import.meta.env.PROD) {
     kopf.set('Content-Security-Policy', CSP);
     // Nur in Produktion, wo immer HTTPS gilt. Zwei Jahre, inklusive Subdomains.
@@ -46,6 +50,19 @@ export const onRequest = defineMiddleware(async (context, next) => {
   // angefasst wird.
   if (istIsrAnfrage(context.request)) {
     return sicherheitsHeader(new Response('Ungueltige Anfrage.', { status: 400 }), pathname);
+  }
+
+  // Oeffentliche Fassung des Schemas: keine Datenbank, keine Sitzung, kein
+  // Cookie. Ein mitgeschicktes Sitzungs-Cookie wird gar nicht erst gelesen,
+  // die Seite rendert fuer alle gleich. Nur lesen, sonst nichts.
+  if (istOeffentlichesSchema(pathname)) {
+    if (context.request.method !== 'GET' && context.request.method !== 'HEAD') {
+      return sicherheitsHeader(new Response('Nicht erlaubt.', { status: 405, headers: { Allow: 'GET, HEAD' } }), pathname);
+    }
+    context.locals.benutzer = null;
+    context.locals.csrf = null;
+    context.locals.sitzungId = null;
+    return sicherheitsHeader(await next(), pathname);
   }
 
   const db = await getDb();

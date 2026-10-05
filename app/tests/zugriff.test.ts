@@ -8,9 +8,12 @@ const vertriebler: Benutzer = {
 const admin: Benutzer = { ...vertriebler, id: '2', rolle: 'admin' };
 
 describe('Zugriff', () => {
-  it('laesst nur Login und Datenschutz ohne Anmeldung zu', () => {
+  it('laesst nur Login, Datenschutz und das oeffentliche Schema ohne Anmeldung zu', () => {
     expect(entscheideZugriff('/login', null)).toEqual({ typ: 'ok' });
     expect(entscheideZugriff('/datenschutz', null)).toEqual({ typ: 'ok' });
+    expect(entscheideZugriff('/schema', null)).toEqual({ typ: 'ok' });
+    expect(entscheideZugriff('/schema-irgendwas', null)).toEqual({ typ: 'login' });
+    expect(entscheideZugriff('/erstgespraech', null)).toEqual({ typ: 'login' });
     expect(entscheideZugriff('/', null)).toEqual({ typ: 'login' });
     expect(entscheideZugriff('/kunden', null)).toEqual({ typ: 'login' });
     expect(entscheideZugriff('/grafiken/x.svg', null)).toEqual({ typ: 'login' });
