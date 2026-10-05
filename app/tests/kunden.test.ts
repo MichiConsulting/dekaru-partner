@@ -11,6 +11,10 @@ import {
   loescheKunde,
   monatszahlen,
   pruefeKunde,
+  pruefeTermin,
+  setzeTermin,
+  uhrzeit,
+  dauerText,
 } from '../src/lib/kunden.ts';
 
 let db: Db;
@@ -86,5 +90,88 @@ describe('Kunden anlegen, aendern, sehen', () => {
     const k = await erstelleKunde(db, bert.id, pruefeKunde({ name: 'Weg damit', status: 'absage' }).wert);
     expect(await loescheKunde(db, bert.id, k.id)).toBe(true);
     expect(await holeKunde(db, bert.id, k.id)).toBeNull();
+  });
+});
+
+describe('Termine mit Uhrzeit und Dauer', () => {
+  it('liest Uhrzeiten aus Formular und Datenbank als HH:MM', () => {
+    expect(uhrzeit('14:30')).toBe('14:30');
+    expect(uhrzeit('09:05:00')).toBe('09:05');
+    expect(uhrzeit('23:59:59.5')).toBe('23:59');
+    expect(uhrzeit('24:00')).toBeNull();
+    expect(uhrzeit('9:5')).toBeNull();
+    expect(uhrzeit('')).toBeNull();
+    expect(uhrzeit(null)).toBeNull();
+    expect(dauerText(45)).toBe('45 Min.');
+    expect(dauerText(60)).toBe('1 Std.');
+    expect(dauerText(90)).toBe('1 Std. 30 Min.');
+  });
+
+  it('setzt ohne Angabe 60 Minuten und laesst ohne Uhrzeit den Termin ganztaegig', () => {
+    const mit = pruefeKunde({ name: 'X', status: 'termin', terminDatum: '2026-10-07', terminBeginn: '14:30' });
+    expect(mit.fehler).toEqual([]);
+    expect(mit.wert.terminBeginn).toBe('14:30');
+    expect(mit.wert.terminDauer).toBe(60);
+
+    const ohne = pruefeKunde({ name: 'X', status: 'termin', terminDatum: '2026-10-07', terminBeginn: '', terminDauer: '90' });
+    expect(ohne.fehler).toEqual([]);
+    expect(ohne.wert.terminBeginn).toBeNull();
+    // Das Auswahlfeld schickt immer eine Dauer mit, ohne Uhrzeit faellt sie weg.
+    expect(ohne.wert.terminDauer).toBeNull();
+  });
+
+  it('lehnt falsche Uhrzeiten, Dauern und eine Uhrzeit ohne Datum ab', () => {
+    expect(pruefeKunde({ name: 'X', status: 'angerufen', terminDatum: '2026-10-07', terminBeginn: '25:00' }).fehler.some((f) => /Uhrzeit/.test(f))).toBe(true);
+    expect(pruefeKunde({ name: 'X', status: 'angerufen', terminBeginn: '10:00' }).fehler).toContain('Zu einer Uhrzeit gehört ein Datum.');
+    for (const d of ['0', '4', '721', 'abc', '-30', '1.5']) {
+      expect(pruefeKunde({ name: 'X', status: 'termin', terminDatum: '2026-10-07', terminBeginn: '10:00', terminDauer: d }).fehler.some((f) => /Dauer/.test(f))).toBe(true);
+    }
+    const ok = pruefeKunde({ name: 'X', status: 'termin', terminDatum: '2026-10-07', terminBeginn: '10:00', terminDauer: '720' });
+    expect(ok.fehler).toEqual([]);
+    expect(ok.wert.terminDauer).toBe(720);
+  });
+
+  it('speichert Uhrzeit und Dauer und entfernt beide mit dem Datum', async () => {
+    const k = await erstelleKunde(db, anna.id, pruefeKunde({ name: 'Zeit GmbH', status: 'termin', terminDatum: '2026-10-07', terminBeginn: '09:15', terminDauer: '45' }).wert);
+    expect(k.terminBeginn).toBe('09:15');
+    expect(k.terminDauer).toBe(45);
+    const gelesen = await holeKunde(db, anna.id, k.id);
+    expect(gelesen?.terminBeginn).toBe('09:15');
+    expect(gelesen?.terminDauer).toBe(45);
+    expect((await alleKunden(db)).find((x) => x.id === k.id)?.terminBeginn).toBe('09:15');
+
+    // Status auf Angebot, Datum geleert: Uhrzeit und Dauer fallen mit weg,
+    // sonst wuerde die Datenbank das Speichern ablehnen.
+    const ohne = await aendereKunde(db, anna.id, k.id, pruefeKunde({ name: 'Zeit GmbH', status: 'angebot', terminDatum: '', terminBeginn: '09:15', terminDauer: '45' }).wert);
+    // Die Pruefung meldet die Uhrzeit ohne Datum, gespeichert wird trotzdem nur ohne.
+    expect(ohne?.terminDatum).toBeNull();
+    expect(ohne?.terminBeginn).toBeNull();
+    expect(ohne?.terminDauer).toBeNull();
+  });
+
+  it('setzt einen Termin aus dem Kalender nur bei eigenen Betrieben', async () => {
+    const k = await erstelleKunde(db, anna.id, pruefeKunde({ name: 'Kalender KG', status: 'angerufen' }).wert);
+    const geprueft = pruefeTermin({ kundeId: k.id, status: 'termin', terminDatum: '2026-10-08', terminBeginn: '11:00', terminDauer: '30' });
+    expect(geprueft.fehler).toEqual([]);
+    expect(await setzeTermin(db, bert.id, geprueft.wert)).toBeNull();
+    const neu = await setzeTermin(db, anna.id, geprueft.wert, '2026-10-05');
+    expect(neu?.status).toBe('termin');
+    expect(neu?.statusSeit).toBe('2026-10-05');
+    expect(neu?.terminDatum).toBe('2026-10-08');
+    expect(neu?.terminBeginn).toBe('11:00');
+    expect(neu?.terminDauer).toBe(30);
+
+    // Ganztaegig ersetzen, Status bleibt, status_seit bleibt.
+    const ganz = await setzeTermin(db, anna.id, pruefeTermin({ kundeId: k.id, status: 'termin', terminDatum: '2026-10-09', terminDauer: '60' }).wert, '2026-10-06');
+    expect(ganz?.terminDatum).toBe('2026-10-09');
+    expect(ganz?.terminBeginn).toBeNull();
+    expect(ganz?.terminDauer).toBeNull();
+    expect(ganz?.statusSeit).toBe('2026-10-05');
+  });
+
+  it('prueft das Termin-Formular', () => {
+    expect(pruefeTermin({ status: 'termin', terminDatum: '2026-10-08' }).fehler).toContain('Bitte einen Betrieb auswählen.');
+    expect(pruefeTermin({ kundeId: '11111111-2222-4333-8444-555555555555', status: 'termin', terminDatum: '2026-02-30' }).fehler).toContain('Das Datum fehlt oder ist ungültig.');
+    expect(pruefeTermin({ kundeId: '11111111-2222-4333-8444-555555555555', status: 'quatsch', terminDatum: '2026-02-03' }).fehler).toContain('Der Status ist unbekannt.');
   });
 });

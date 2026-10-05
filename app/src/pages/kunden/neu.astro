@@ -1,14 +1,26 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import KundeFormular from '../../components/KundeFormular.astro';
-import { erstelleKunde, pruefeKunde, type KundeEingabe } from '../../lib/kunden.ts';
+import { STATUS_WERTE, erstelleKunde, pruefeKunde, uhrzeit, type KundeEingabe, type Status } from '../../lib/kunden.ts';
+import { istIsoDatum } from '../../lib/datum.ts';
 import { formular, istPost } from '../../lib/http.ts';
 import { pruefeDublette, type TrefferAdmin } from '../../lib/dubletten.ts';
 import { akteurAus, protokolliereAdminDublette } from '../../lib/admin-aktionen.ts';
 
 const benutzer = Astro.locals.benutzer!;
 const csrf = Astro.locals.csrf ?? '';
-let werte: Partial<KundeEingabe> = {};
+// Aus dem Kalender kommt man mit vorbelegtem Datum und Uhrzeit hierher
+// (/kunden/neu?terminDatum=JJJJ-MM-TT&terminBeginn=HH:MM&status=termin).
+const q = Astro.url.searchParams;
+const vorDatum = q.get('terminDatum');
+const vorStatus = q.get('status');
+let werte: Partial<KundeEingabe> = istIsoDatum(vorDatum)
+  ? {
+      terminDatum: vorDatum,
+      terminBeginn: uhrzeit(q.get('terminBeginn')),
+      status: STATUS_WERTE.includes(vorStatus as Status) ? (vorStatus as Status) : 'termin',
+    }
+  : {};
 let fehler: string[] = [];
 let adminTreffer: TrefferAdmin[] = [];
 
