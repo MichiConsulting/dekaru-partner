@@ -1,0 +1,973 @@
+/*
+ * Schema fuer das Erstgespraech (/erstgespraech). Bewusst farbig, weil es
+ * einem Betrieb gezeigt wird, nicht der Vertrieblerin. Eigene Farbtoken
+ * --sc-*, in denselben drei Bloecken wie global.css: hell, dunkel nach
+ * Systemeinstellung, dunkel nach Wahl. tests/schema.test.ts prueft, dass
+ * alle drei Bloecke dieselben Variablen haben, dass jede benutzte Variable
+ * existiert und dass Text auf Flaeche mindestens 4.5:1 erreicht.
+ *
+ * Masse in em: der Praesentationsmodus vergroessert nur die Grundschrift.
+ */
+
+:root {
+  --sc-orange-flaeche: #fde9d9;
+  --sc-orange-text: #6b2d00;
+  --sc-orange-rand: #d9772e;
+  --sc-blau-flaeche: #dde9fb;
+  --sc-blau-text: #12386b;
+  --sc-blau-rand: #4a7fc9;
+  --sc-tuerkis-flaeche: #d6f1ea;
+  --sc-tuerkis-text: #0b4a40;
+  --sc-tuerkis-rand: #2f9b88;
+  --sc-violett-flaeche: #ece3fb;
+  --sc-violett-text: #43207a;
+  --sc-violett-rand: #8a64cf;
+  --sc-gruen-flaeche: #e0f3d9;
+  --sc-gruen-text: #1d4a12;
+  --sc-gruen-rand: #4f9a3a;
+  --sc-gelb-flaeche: #fbf0c8;
+  --sc-gelb-text: #574000;
+  --sc-gelb-rand: #c9a227;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --sc-orange-flaeche: #3a2213;
+    --sc-orange-text: #ffcfaa;
+    --sc-orange-rand: #e08a48;
+    --sc-blau-flaeche: #15263e;
+    --sc-blau-text: #bcd6ff;
+    --sc-blau-rand: #5d8fd6;
+    --sc-tuerkis-flaeche: #0f2f2a;
+    --sc-tuerkis-text: #a2e6d8;
+    --sc-tuerkis-rand: #3cae99;
+    --sc-violett-flaeche: #281b3e;
+    --sc-violett-text: #d8c6ff;
+    --sc-violett-rand: #9a78dc;
+    --sc-gruen-flaeche: #172f19;
+    --sc-gruen-text: #b8e7a9;
+    --sc-gruen-rand: #62ad4c;
+    --sc-gelb-flaeche: #32290d;
+    --sc-gelb-text: #f2d77e;
+    --sc-gelb-rand: #c9a227;
+  }
+}
+:root[data-theme='dark'] {
+  --sc-orange-flaeche: #3a2213;
+  --sc-orange-text: #ffcfaa;
+  --sc-orange-rand: #e08a48;
+  --sc-blau-flaeche: #15263e;
+  --sc-blau-text: #bcd6ff;
+  --sc-blau-rand: #5d8fd6;
+  --sc-tuerkis-flaeche: #0f2f2a;
+  --sc-tuerkis-text: #a2e6d8;
+  --sc-tuerkis-rand: #3cae99;
+  --sc-violett-flaeche: #281b3e;
+  --sc-violett-text: #d8c6ff;
+  --sc-violett-rand: #9a78dc;
+  --sc-gruen-flaeche: #172f19;
+  --sc-gruen-text: #b8e7a9;
+  --sc-gruen-rand: #62ad4c;
+  --sc-gelb-flaeche: #32290d;
+  --sc-gelb-text: #f2d77e;
+  --sc-gelb-rand: #c9a227;
+}
+
+/* ── Grundgeruest ── */
+.schema {
+  font-size: 16px;
+  touch-action: pan-y;
+}
+.schema [hidden] {
+  display: none !important;
+}
+.schema:not(.schema--js) .nur-js {
+  display: none !important;
+}
+.nur-praes {
+  display: none;
+}
+html.praesentation .nur-praes {
+  display: inline;
+}
+html.praesentation .nur-ohne-praes {
+  display: none;
+}
+/* Bis das Skript laeuft, nur den ersten Schritt zeigen, damit nichts
+   aufblitzt. modus-bereit setzt public/theme-init.js vor dem ersten Zeichnen,
+   ist also ein sicheres Zeichen, dass JavaScript laeuft. */
+html.modus-bereit .schema:not(.schema--js) .schritt:not(#schritt-0) {
+  display: none;
+}
+
+.schema__leiste {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5em 1em;
+  margin-bottom: 1em;
+}
+.schema__hinweis {
+  margin: 0;
+  font-size: 0.85em;
+  color: var(--text-muted);
+}
+
+/* Schrittpunkte */
+.schema__punkte ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em;
+  list-style: none;
+  margin: 0 0 1.4em;
+  padding: 0;
+}
+.schema__punkte button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  min-height: 2.5em;
+  min-width: 2.5em;
+  padding: 0.2em 0.7em 0.2em 0.25em;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text-muted);
+  font: 500 0.85em var(--font-body);
+  cursor: pointer;
+}
+.schema__punkte button:hover {
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+.schema__punkte button[aria-current='step'] {
+  border-color: var(--text);
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px var(--text);
+}
+.schema__nr {
+  display: inline-grid;
+  place-items: center;
+  width: 1.8em;
+  height: 1.8em;
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--text);
+}
+.schema__punkte button[aria-current='step'] .schema__nr {
+  background: var(--text);
+  color: var(--bg);
+}
+@media (max-width: 639px) {
+  .schema__punkt-text {
+    display: none;
+  }
+  .schema__punkte button {
+    padding: 0.2em;
+  }
+}
+
+/* Steuerung unten */
+.schema__steuer {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6em;
+  margin-top: 1.6em;
+  padding: 0.8em 0;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+}
+.schema__steuer .btn {
+  min-height: 2.75em;
+  font-size: 1em;
+  padding: 0 1.3em;
+}
+.schema__steuer .btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.schema__nochmal {
+  min-height: 2.75em;
+  padding: 0 0.6em;
+  border: 0;
+  background: none;
+  color: var(--text-muted);
+  font: 400 0.85em var(--font-body);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+.schema__nochmal:hover {
+  color: var(--text);
+}
+
+/* ── Schritt ── */
+.schritt {
+  min-width: 0;
+}
+.schema:not(.schema--js) .schritt + .schritt {
+  margin-top: 3em;
+  padding-top: 2em;
+  border-top: 1px solid var(--border);
+}
+.schritt__marke {
+  margin: 0 0 0.3em;
+  font-size: 0.85em;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.schritt__titel {
+  font-family: var(--font-display);
+  font-size: 2em;
+  font-weight: 700;
+  line-height: 1.12;
+  margin: 0 0 0.5em;
+  max-width: 24ch;
+}
+.schritt__titel:focus {
+  outline: none;
+}
+.schritt__lead {
+  font-size: 1.15em;
+  line-height: 1.5;
+  max-width: 46ch;
+  margin: 0 0 1.2em;
+}
+.schritt__frage {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.2em;
+  margin: 1.4em 0 0.6em;
+}
+.schritt__klein {
+  font-size: 0.9em;
+  color: var(--text-muted);
+  margin: 1.2em 0 0;
+  max-width: 62ch;
+}
+
+/* ── 0: Branchen ── */
+.branchen {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13em), 1fr));
+  gap: 0.8em;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.branchen li {
+  min-width: 0;
+}
+.branche {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  height: 100%;
+  padding: 1em 1.1em;
+  border: 2px solid var(--fl-rand);
+  border-radius: 10px;
+  background: var(--fl-flaeche);
+  color: var(--fl-text);
+  text-decoration: none;
+}
+.branche:hover {
+  color: var(--fl-text);
+  transform: translateY(-2px);
+}
+.branche[aria-current='true'] {
+  box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--fl-rand);
+}
+.branche__name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.2em;
+}
+.branche__bsp {
+  font-size: 0.9em;
+}
+.branche--handwerk {
+  --fl-flaeche: var(--sc-orange-flaeche);
+  --fl-text: var(--sc-orange-text);
+  --fl-rand: var(--sc-orange-rand);
+}
+.branche--gastro {
+  --fl-flaeche: var(--sc-gruen-flaeche);
+  --fl-text: var(--sc-gruen-text);
+  --fl-rand: var(--sc-gruen-rand);
+}
+.branche--friseur {
+  --fl-flaeche: var(--sc-violett-flaeche);
+  --fl-text: var(--sc-violett-text);
+  --fl-rand: var(--sc-violett-rand);
+}
+.branche--praxis {
+  --fl-flaeche: var(--sc-blau-flaeche);
+  --fl-text: var(--sc-blau-text);
+  --fl-rand: var(--sc-blau-rand);
+}
+
+/* ── Karten (Schritt 1 und 3) ── */
+.karten {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14em), 1fr));
+  gap: 0.8em;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.karte-sc {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35em;
+  min-width: 0;
+  padding: 1em 1.1em;
+  border-radius: 10px;
+  border-left: 5px solid var(--fl-rand);
+  background: var(--fl-flaeche);
+  color: var(--fl-text);
+}
+.karte-sc strong {
+  font-family: var(--font-display);
+  font-size: 1.1em;
+  line-height: 1.25;
+}
+.karte-sc span {
+  line-height: 1.45;
+}
+.karten--orange {
+  --fl-flaeche: var(--sc-orange-flaeche);
+  --fl-text: var(--sc-orange-text);
+  --fl-rand: var(--sc-orange-rand);
+}
+.karten--gruen {
+  --fl-flaeche: var(--sc-gruen-flaeche);
+  --fl-text: var(--sc-gruen-text);
+  --fl-rand: var(--sc-gruen-rand);
+  margin-top: 1.2em;
+}
+.karten--blau {
+  --fl-flaeche: var(--sc-blau-flaeche);
+  --fl-text: var(--sc-blau-text);
+  --fl-rand: var(--sc-blau-rand);
+}
+
+.heute {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1.2em;
+  align-items: start;
+}
+.heute__telefon svg {
+  display: block;
+  width: 4em;
+  height: 4em;
+}
+@media (max-width: 539px) {
+  .heute {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .heute__telefon svg {
+    width: 3em;
+    height: 3em;
+  }
+}
+
+/* ── 2: Bausteine ── */
+.pakete-wahl {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.4em;
+  margin: 0 0 0.8em;
+}
+.pakete-wahl button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 2.75em;
+  padding: 0.4em 1em;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font: 400 1em var(--font-body);
+  line-height: 1.25;
+  cursor: pointer;
+}
+.pakete-wahl button:hover {
+  border-color: var(--text);
+}
+.pakete-wahl button[aria-pressed='true'] {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--bg);
+}
+.pakete-wahl__name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1em;
+}
+.pakete-wahl__zahl {
+  font-size: 0.8em;
+}
+.pakete-zeile {
+  margin: 0 0 1em;
+  max-width: 60ch;
+}
+.schema--js .pakete-zeile {
+  display: none;
+}
+.schema--js[data-paket='klein'] .pakete-zeile[data-fuer-paket='klein'],
+.schema--js[data-paket='mittel'] .pakete-zeile[data-fuer-paket='mittel'],
+.schema--js[data-paket='gross'] .pakete-zeile[data-fuer-paket='gross'] {
+  display: block;
+}
+
+.bausteine {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 11em), 1fr));
+  gap: 0.6em;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.baustein {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  min-height: 3.6em;
+  padding: 0.6em 0.8em;
+  border: 2px solid var(--fl-rand);
+  border-radius: 8px;
+  background: var(--fl-flaeche);
+  color: var(--fl-text);
+  font-weight: 500;
+  line-height: 1.3;
+  hyphens: auto;
+}
+.baustein--grund {
+  --fl-flaeche: var(--sc-blau-flaeche);
+  --fl-text: var(--sc-blau-text);
+  --fl-rand: var(--sc-blau-rand);
+}
+.baustein--inhalt {
+  --fl-flaeche: var(--sc-tuerkis-flaeche);
+  --fl-text: var(--sc-tuerkis-text);
+  --fl-rand: var(--sc-tuerkis-rand);
+}
+.baustein--sichtbar {
+  --fl-flaeche: var(--sc-violett-flaeche);
+  --fl-text: var(--sc-violett-text);
+  --fl-rand: var(--sc-violett-rand);
+}
+.baustein--funktion {
+  --fl-flaeche: var(--sc-gruen-flaeche);
+  --fl-text: var(--sc-gruen-text);
+  --fl-rand: var(--sc-gruen-rand);
+  border-style: dashed;
+}
+/* Nur die Bausteine des gewaehlten Pakets, mit dessen Beschriftung. */
+.schema[data-paket='klein'] .baustein:not([data-in~='klein']),
+.schema[data-paket='mittel'] .baustein:not([data-in~='mittel']),
+.schema[data-paket='gross'] .baustein:not([data-in~='gross']),
+.schema[data-paket='klein'] .baustein [data-fuer]:not([data-fuer~='klein']),
+.schema[data-paket='mittel'] .baustein [data-fuer]:not([data-fuer~='mittel']),
+.schema[data-paket='gross'] .baustein [data-fuer]:not([data-fuer~='gross']) {
+  display: none;
+}
+
+.legende {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em 1.2em;
+  list-style: none;
+  margin: 1em 0 0;
+  padding: 0;
+  font-size: 0.85em;
+  color: var(--text-muted);
+}
+.legende li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+}
+.legende__farbe {
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+  min-height: 0;
+  padding: 0;
+  border: 2px solid var(--fl-rand);
+  border-radius: 3px;
+  background: var(--fl-flaeche);
+}
+
+/* ── 3: Funktion ── */
+.ablauf {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 1em;
+  align-items: center;
+}
+.ablauf__kasten {
+  min-width: 0;
+  height: 100%;
+  padding: 1em 1.1em;
+  border-radius: 10px;
+  border: 2px solid var(--fl-rand);
+  background: var(--fl-flaeche);
+  color: var(--fl-text);
+}
+.ablauf__kasten--formular {
+  --fl-flaeche: var(--sc-blau-flaeche);
+  --fl-text: var(--sc-blau-text);
+  --fl-rand: var(--sc-blau-rand);
+}
+.ablauf__kasten--mail {
+  --fl-flaeche: var(--sc-gruen-flaeche);
+  --fl-text: var(--sc-gruen-text);
+  --fl-rand: var(--sc-gruen-rand);
+}
+.ablauf__kopf {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1em;
+  margin: 0 0 0.6em;
+}
+.ablauf__fuss {
+  margin: 0.6em 0 0;
+  font-size: 0.9em;
+}
+.ablauf__pfeil svg {
+  display: block;
+  width: 3em;
+  height: 1.5em;
+}
+@media (max-width: 639px) {
+  .ablauf {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ablauf__pfeil {
+    justify-self: center;
+  }
+  .ablauf__pfeil svg {
+    transform: rotate(90deg);
+  }
+}
+.formular-skizze {
+  display: grid;
+  gap: 0.4em;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.formular-skizze li {
+  padding: 0.35em 0.6em;
+  border: 1px solid var(--fl-rand);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.95em;
+}
+.mail-skizze {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  margin: 0;
+  padding: 0.7em 0.8em;
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  max-width: none;
+}
+.mail-skizze__zeit {
+  font-size: 0.85em;
+  color: var(--text-muted);
+}
+.module {
+  margin-top: 1.4em;
+}
+
+/* ── 4: Datenweg ── */
+.weg {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 4em minmax(0, 1fr) 4em minmax(0, 1fr);
+  align-items: stretch;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.weg__station {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35em;
+  min-width: 0;
+  padding: 1em 1.1em;
+  border-radius: 10px;
+  border: 2px solid var(--fl-rand);
+  background: var(--fl-flaeche);
+  color: var(--fl-text);
+}
+.weg__station strong {
+  font-family: var(--font-display);
+  font-size: 1.1em;
+  line-height: 1.25;
+}
+.weg__station--besucher {
+  --fl-flaeche: var(--sc-blau-flaeche);
+  --fl-text: var(--sc-blau-text);
+  --fl-rand: var(--sc-blau-rand);
+}
+.weg__station--dienst {
+  --fl-flaeche: var(--sc-violett-flaeche);
+  --fl-text: var(--sc-violett-text);
+  --fl-rand: var(--sc-violett-rand);
+}
+.weg__station--postfach {
+  --fl-flaeche: var(--sc-gruen-flaeche);
+  --fl-text: var(--sc-gruen-text);
+  --fl-rand: var(--sc-gruen-rand);
+}
+.weg__nr {
+  display: inline-grid;
+  place-items: center;
+  width: 1.8em;
+  height: 1.8em;
+  border-radius: 50%;
+  background: var(--fl-text);
+  color: var(--fl-flaeche);
+  font-weight: 700;
+  font-size: 0.85em;
+}
+.weg__linie {
+  position: relative;
+  align-self: center;
+  height: 4px;
+  margin: 0 0.4em;
+  border-radius: 2px;
+  background: var(--border-strong);
+}
+.weg__brief {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 1.1em;
+  height: 0.8em;
+  margin-top: -0.4em;
+  border-radius: 2px;
+  background: var(--sc-gelb-rand);
+  opacity: 0;
+}
+@media (max-width: 719px) {
+  .weg {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .weg__linie {
+    justify-self: center;
+    width: 4px;
+    height: 2.4em;
+    margin: 0.3em 0;
+  }
+  .weg__brief {
+    top: 0;
+    left: 50%;
+    margin: 0 0 0 -0.55em;
+  }
+}
+.weg__nichts {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.9em;
+  align-items: center;
+  margin-top: 1.4em;
+  padding: 1em 1.1em;
+  border-radius: 10px;
+  border: 2px solid var(--sc-gelb-rand);
+  background: var(--sc-gelb-flaeche);
+  color: var(--sc-gelb-text);
+}
+.weg__nichts svg {
+  width: 2.5em;
+  height: 2.5em;
+}
+.weg__nichts p {
+  margin: 0;
+}
+
+/* ── 5: Weiter ── */
+.zeitstrahl {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12em), 1fr));
+  gap: 0.8em;
+  list-style: none;
+  counter-reset: zs;
+  margin: 0 0 1.4em;
+  padding: 0;
+}
+.zeitstrahl li {
+  counter-increment: zs;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  min-width: 0;
+  padding: 1em 1.1em;
+  border-top: 5px solid var(--sc-tuerkis-rand);
+  border-radius: 10px;
+  background: var(--sc-tuerkis-flaeche);
+  color: var(--sc-tuerkis-text);
+}
+.zeitstrahl li:first-child {
+  border-top-color: var(--sc-orange-rand);
+  background: var(--sc-orange-flaeche);
+  color: var(--sc-orange-text);
+}
+.zeitstrahl strong {
+  font-family: var(--font-display);
+  font-size: 1.1em;
+}
+.zeitstrahl strong::before {
+  content: counter(zs) '. ';
+}
+.preise {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14em), 1fr));
+  gap: 0.8em;
+}
+.preis {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+  min-width: 0;
+  margin: 0;
+  padding: 1em 1.1em;
+  border-radius: 10px;
+  border: 2px solid var(--fl-rand);
+  background: var(--fl-flaeche);
+  color: var(--fl-text);
+  max-width: none;
+}
+.preis--website {
+  --fl-flaeche: var(--sc-blau-flaeche);
+  --fl-text: var(--sc-blau-text);
+  --fl-rand: var(--sc-blau-rand);
+}
+.preis--hosting {
+  --fl-flaeche: var(--sc-violett-flaeche);
+  --fl-text: var(--sc-violett-text);
+  --fl-rand: var(--sc-violett-rand);
+}
+.preis--quartal {
+  display: block;
+  grid-column: 1 / -1;
+  --fl-flaeche: var(--sc-gruen-flaeche);
+  --fl-text: var(--sc-gruen-text);
+  --fl-rand: var(--sc-gruen-rand);
+}
+.preis__was {
+  font-size: 0.9em;
+}
+.preis__zahl {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.8em;
+  line-height: 1.15;
+}
+
+/* ── Praesentationsmodus: nur das Schema, grosse Schrift ── */
+html.praesentation .kopf,
+html.praesentation .fuss {
+  display: none;
+}
+html.praesentation main {
+  max-width: 1400px;
+  padding-top: 1.2em;
+  padding-bottom: 0;
+}
+html.praesentation .schema {
+  font-size: clamp(18px, 0.9vw + 11px, 26px);
+}
+html.praesentation .schema__buehne {
+  min-height: calc(100vh - 12em);
+}
+
+/* ── Bewegung. Nur mit Skript und nur im aktiven Schritt. Die Endzustaende
+   sind der normale Zustand, ohne Bewegung ist also alles sichtbar. ── */
+@keyframes sc-rein {
+  from {
+    opacity: 0;
+    transform: translateY(0.8em);
+  }
+}
+@keyframes sc-einrasten {
+  0% {
+    opacity: 0;
+    transform: translate(-0.6em, -1.4em) rotate(-4deg) scale(0.9);
+  }
+  70% {
+    opacity: 1;
+    transform: translate(0, 0.15em) rotate(0) scale(1.02);
+  }
+}
+@keyframes sc-klingeln {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  10%,
+  30% {
+    transform: rotate(-10deg);
+  }
+  20%,
+  40% {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(0);
+  }
+}
+@keyframes sc-welle {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  15%,
+  45% {
+    opacity: 1;
+  }
+}
+@keyframes sc-reise-quer-1 {
+  0% {
+    left: 0;
+    opacity: 1;
+  }
+  45% {
+    left: calc(100% - 1.1em);
+    opacity: 1;
+  }
+  50%,
+  100% {
+    left: calc(100% - 1.1em);
+    opacity: 0;
+  }
+}
+@keyframes sc-reise-quer-2 {
+  0%,
+  50% {
+    left: 0;
+    opacity: 0;
+  }
+  52% {
+    opacity: 1;
+  }
+  95% {
+    left: calc(100% - 1.1em);
+    opacity: 1;
+  }
+  100% {
+    left: calc(100% - 1.1em);
+    opacity: 0;
+  }
+}
+@keyframes sc-reise-hoch-1 {
+  0% {
+    top: 0;
+    opacity: 1;
+  }
+  45% {
+    top: calc(100% - 0.8em);
+    opacity: 1;
+  }
+  50%,
+  100% {
+    top: calc(100% - 0.8em);
+    opacity: 0;
+  }
+}
+@keyframes sc-reise-hoch-2 {
+  0%,
+  50% {
+    top: 0;
+    opacity: 0;
+  }
+  52% {
+    opacity: 1;
+  }
+  95% {
+    top: calc(100% - 0.8em);
+    opacity: 1;
+  }
+  100% {
+    top: calc(100% - 0.8em);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .schema--js .ist-aktiv .schritt__titel,
+  .schema--js .ist-aktiv .schritt__lead {
+    animation: sc-rein 0.45s ease-out both;
+  }
+  .schema--js .ist-aktiv .schritt__lead {
+    animation-delay: 0.1s;
+  }
+  .schema--js .ist-aktiv .branchen li,
+  .schema--js .ist-aktiv .karte-sc,
+  .schema--js .ist-aktiv .ablauf__kasten,
+  .schema--js .ist-aktiv .weg__station,
+  .schema--js .ist-aktiv .weg__nichts,
+  .schema--js .ist-aktiv .zeitstrahl li,
+  .schema--js .ist-aktiv .preis {
+    animation: sc-rein 0.5s ease-out both;
+    animation-delay: calc(0.25s + var(--i, 0) * 0.18s);
+  }
+  .schema--js .ist-aktiv .weg__nichts {
+    animation-delay: 1.6s;
+  }
+  .schema--js .ist-aktiv .baustein {
+    animation: sc-einrasten 0.55s cubic-bezier(0.2, 0.7, 0.3, 1.2) both;
+    animation-delay: calc(0.2s + var(--i, 0) * 0.07s);
+  }
+  .schema--js .ist-aktiv .heute__telefon svg {
+    animation: sc-klingeln 1.2s ease-in-out 0.3s 3;
+    transform-origin: 50% 90%;
+  }
+  .schema--js .ist-aktiv .heute__welle {
+    animation: sc-welle 1.2s ease-in-out 0.3s 3 both;
+  }
+  .schema--js .ist-aktiv .weg__linie--1 .weg__brief {
+    animation: sc-reise-quer-1 2.8s ease-in-out 0.9s 3 both;
+  }
+  .schema--js .ist-aktiv .weg__linie--2 .weg__brief {
+    animation: sc-reise-quer-2 2.8s ease-in-out 0.9s 3 both;
+  }
+  .schema--js .ist-aktiv .ablauf__pfeil {
+    animation: sc-rein 0.5s ease-out 0.45s both;
+  }
+  .branche {
+    transition: transform 0.15s;
+  }
+}
+@media (prefers-reduced-motion: no-preference) and (max-width: 719px) {
+  .schema--js .ist-aktiv .weg__linie--1 .weg__brief {
+    animation-name: sc-reise-hoch-1;
+  }
+  .schema--js .ist-aktiv .weg__linie--2 .weg__brief {
+    animation-name: sc-reise-hoch-2;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .branche {
+    transition: none;
+  }
+  .branche:hover {
+    transform: none;
+  }
+  .schema__nochmal {
+    display: none;
+  }
+}
