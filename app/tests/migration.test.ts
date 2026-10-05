@@ -61,7 +61,7 @@ describe('Migrationen', () => {
     const dateien = readdirSync(MIGRATIONEN_ORDNER).filter((n) => /^\d{3}-.*\.sql$/.test(n)).sort();
     const nummern = dateien.map((n) => Number(n.slice(0, 3)));
     expect(new Set(nummern).size).toBe(nummern.length);
-    expect(nummern).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+    expect(nummern).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
     for (const datei of dateien) {
       const sql = readFileSync(join(MIGRATIONEN_ORDNER, datei), 'utf8');
       expect(sql).toContain(`INSERT INTO schema_version (version) VALUES (${Number(datei.slice(0, 3))})`);
@@ -70,8 +70,8 @@ describe('Migrationen', () => {
 
   it('wendet auf eine frische Datenbank alle Versionen an', async () => {
     db = await leereDb();
-    expect(await migriere(db)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
-    expect(await versionen(db)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+    expect(await migriere(db)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    expect(await versionen(db)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
     expect(await tabellen(db)).toEqual(expect.arrayContaining(NEUE_TABELLEN));
     expect(await migriere(db)).toEqual([]);
   });
@@ -84,8 +84,8 @@ describe('Migrationen', () => {
     expect(await versionen(db)).toEqual([1]);
     expect(await tabellen(db)).not.toEqual(expect.arrayContaining(['pflichtsatz_antworten']));
 
-    expect(await migriere(db)).toEqual([2, 3, 4, 5, 6, 7, 8]);
-    expect(await versionen(db)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+    expect(await migriere(db)).toEqual([2, 3, 4, 5, 6, 7, 8, 9]);
+    expect(await versionen(db)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
     expect(await tabellen(db)).toEqual(expect.arrayContaining(NEUE_TABELLEN));
   });
 
@@ -119,7 +119,7 @@ describe('Migrationen', () => {
     await expect(db.query("INSERT INTO benutzer (email, name, rolle, passwort_hash, stufe) VALUES ('x@example.test', 'X', 'vertriebler', 'h', 3)")).rejects.toThrow();
   });
 
-  it('bringt eine Datenbank mit Stand 1 bis 3 und Bestand auf 8, so wie die Live-Datenbank', async () => {
+  it('bringt eine Datenbank mit Stand 1 bis 3 und Bestand auf 9, so wie die Live-Datenbank', async () => {
     ordner = mkdtempSync(join(tmpdir(), 'migration-'));
     for (const datei of ['001-schema.sql', '002-pflichtsaetze.sql', '003-lernen.sql']) {
       copyFileSync(join(MIGRATIONEN_ORDNER, datei), join(ordner, datei));
@@ -138,8 +138,8 @@ describe('Migrationen', () => {
       `INSERT INTO provision_abrechnungen (vertriebler_slug, monat, daten) VALUES ('live', '2026-09', '{"format":1}'::jsonb)`,
     );
 
-    expect(await migriere(db)).toEqual([4, 5, 6, 7, 8]);
-    expect(await versionen(db)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+    expect(await migriere(db)).toEqual([4, 5, 6, 7, 8, 9]);
+    expect(await versionen(db)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
     expect(await tabellen(db)).toEqual(expect.arrayContaining(NEUE_TABELLEN));
 
     const [b] = await db.query<{ stufe: number; provision_mail: boolean; einmal_passwort_bis: string | null }>(
@@ -156,6 +156,37 @@ describe('Migrationen', () => {
     expect(wechsel.map((w) => w.status)).toEqual(['termin']);
     // Ein zweiter Lauf aendert nichts.
     expect(await migriere(db)).toEqual([]);
+  });
+
+  it('Version 9 ergaenzt Uhrzeit und Dauer am Termin, alte Termine bleiben ganztaegig', async () => {
+    ordner = mkdtempSync(join(tmpdir(), 'migration-'));
+    for (const datei of readdirSync(MIGRATIONEN_ORDNER).filter((n) => /^00[1-8]-.*\.sql$/.test(n))) {
+      copyFileSync(join(MIGRATIONEN_ORDNER, datei), join(ordner, datei));
+    }
+    db = await leereDb();
+    await migriere(db, ordner);
+    const [v] = await db.query<{ id: string }>(
+      `INSERT INTO benutzer (email, name, rolle, passwort_hash) VALUES ('t@example.test', 'T', 'vertriebler', 'h') RETURNING id`,
+    );
+    await db.query(
+      `INSERT INTO kunden (benutzer_id, name, status, status_seit, termin_datum) VALUES ($1, 'Alt', 'termin', '2026-10-01', '2026-10-07')`,
+      [v.id],
+    );
+    expect(await migriere(db)).toEqual([9]);
+    const [k] = await db.query<{ termin_beginn: string | null; termin_dauer_minuten: number | null }>(
+      'SELECT termin_beginn, termin_dauer_minuten FROM kunden',
+    );
+    expect(k.termin_beginn).toBeNull();
+    expect(k.termin_dauer_minuten).toBeNull();
+
+    // Uhrzeit nur mit Datum, Dauer nur mit Uhrzeit, Dauer 5 bis 720 Minuten.
+    await expect(db.query("UPDATE kunden SET termin_datum = NULL, termin_beginn = '10:00'")).rejects.toThrow();
+    await expect(db.query('UPDATE kunden SET termin_dauer_minuten = 60')).rejects.toThrow();
+    await expect(db.query("UPDATE kunden SET termin_beginn = '10:00', termin_dauer_minuten = 721")).rejects.toThrow();
+    await db.query("UPDATE kunden SET termin_beginn = '10:00', termin_dauer_minuten = 90");
+
+    // Ein zweiter Lauf derselben Datei wirft nicht.
+    await db.exec(readFileSync(join(MIGRATIONEN_ORDNER, '009-termin-uhrzeit.sql'), 'utf8'));
   });
 
   it('befristet beim Nachziehen von Version 4 auch laengst bestehende offene Einladungen', async () => {
