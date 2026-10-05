@@ -3,13 +3,18 @@
 // Vertriebler und Michi im ersten Termin zeigen, vor Ort oder per
 // Bildschirmfreigabe. Keine Demo-Website, sondern eine Veranschaulichung.
 //
-// Der Inhalt steckt in components/SchemaErstgespraech.astro. Hier kommen nur
-// die Hinweise fuer Vertriebler und der Praesentationsmodus dazu.
+// Der Inhalt steckt in components/SchemaErstgespraech.astro und wird mit der
+// oeffentlichen Fassung /schema geteilt. Hier kommen nur die Hinweise fuer
+// Vertriebler, der Praesentationsmodus und der Link zum Nachschicken dazu:
+// das Schema darf nach dem Termin an den Betrieb, die Vorschau nie.
 import Layout from '../layouts/Layout.astro';
 import SchemaErstgespraech from '../components/SchemaErstgespraech.astro';
 import { findeBranche } from '../lib/schema.ts';
 
 const branche = findeBranche(Astro.url.searchParams.get('branche'));
+// Ohne JavaScript steht der Link fertig da. Mit JavaScript baut ihn
+// scripts/schema-link.ts beim Klick neu, mit der dann gewaehlten Branche.
+const oeffentlicherLink = new URL(`/schema?branche=${branche.id}`, Astro.url.origin).href;
 ---
 
 <Layout titel="Erstgespräch" aktiv="erstgespraech">
@@ -19,6 +24,18 @@ const branche = findeBranche(Astro.url.searchParams.get('branche'));
       <button type="button" class="btn btn--zweit btn--klein nur-js" data-praesentation aria-pressed="false">
         <span class="nur-ohne-praes">Präsentieren</span><span class="nur-praes">Präsentation beenden</span>
       </button>
+      <div class="schema__teilen nur-ohne-praes" data-teilen>
+        <button type="button" class="btn btn--zweit btn--klein nur-js" data-link-kopieren>Link zum Nachschicken kopieren</button>
+        <p class="schema__hinweis">Erst nach dem Termin schicken. Die Vorschau der Website wird nie verschickt.</p>
+        <p class="schema__teilen-status" role="status" data-link-status></p>
+        <label class="schema__teilen-feld" data-link-feld>
+          <span class="sr-only">Link zum Nachschicken</span>
+          <input type="text" readonly value={oeffentlicherLink} data-link-text />
+        </label>
+      </div>
     </Fragment>
   </SchemaErstgespraech>
+  <script>
+    import '../scripts/schema-link.ts';
+  </script>
 </Layout>

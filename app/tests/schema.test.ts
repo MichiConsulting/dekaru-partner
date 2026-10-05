@@ -92,6 +92,24 @@ describe('Seite /erstgespraech', () => {
   });
 });
 
+describe('Link zum Nachschicken', () => {
+  it('bietet den oeffentlichen Link mit der gewaehlten Branche und den Hinweis', async () => {
+    const { schema } = await rendere('friseur');
+    expect(schema).toContain('data-link-kopieren');
+    expect(nurText(schema)).toContain('Link zum Nachschicken kopieren');
+    expect(nurText(schema)).toContain('Erst nach dem Termin schicken. Die Vorschau der Website wird nie verschickt.');
+    expect(schema).toMatch(/<input[^>]*value="http:\/\/localhost\/schema\?branche=friseur"/);
+    expect(schema).toMatch(/<input[^>]*readonly/);
+  });
+
+  it('Skript importiert nichts aus lib/ und baut nur /schema', () => {
+    const skript = lies('../src/scripts/schema-link.ts');
+    expect(skript).not.toMatch(/from\s+['"][^'"]*lib\//);
+    expect(skript).not.toMatch(/preise/);
+    expect(skript).toContain("new URL('/schema', location.origin)");
+  });
+});
+
 describe('Bausteine', () => {
   it('wachsen von Klein ueber Mittel zu Gross', () => {
     for (const id of BRANCHEN_IDS) {
