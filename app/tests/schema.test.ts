@@ -190,7 +190,7 @@ describe('schema.css', () => {
   it('benutzt nur Variablen, die es gibt', () => {
     const bekannt = new Set([...hell.keys(), ...gHell.keys(), '--fl-flaeche', '--fl-text', '--fl-rand', '--i']);
     // Auch die Seite selbst (SVG-Attribute).
-    const seite = lies('../src/pages/erstgespraech.astro');
+    const seite = lies('../src/components/SchemaErstgespraech.astro');
     for (const quelle of [css, seite]) {
       for (const t of quelle.matchAll(/var\((--[a-z0-9-]+)/g)) expect(bekannt.has(t[1]), `${t[1]} ist nirgends definiert`).toBe(true);
     }
