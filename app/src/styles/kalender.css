@@ -245,6 +245,10 @@
 }
 .kal-zeit {
   position: relative;
+  /* So breit wie die Spalten, damit die klebende Zeitachse beim seitlichen
+     Scrollen mitwandern kann; mindestens so breit wie der Rahmen. */
+  width: fit-content;
+  min-width: 100%;
   --stunde: 48px;
   --achse: 60px;
   display: grid;
@@ -326,7 +330,7 @@
   padding: 6px 6px 0 0;
   background: var(--surface);
   color: var(--text-muted);
-  font-size: 12px;
+  font-size: 11px;
   text-align: right;
   white-space: nowrap;
   border-bottom: 1px solid var(--border-strong);
