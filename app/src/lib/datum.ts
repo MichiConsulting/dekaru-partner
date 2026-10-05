@@ -124,3 +124,39 @@ export function icsZeitstempel(d: Date): string {
 export function icsDatum(iso: string): string {
   return iso.replace(/-/g, '');
 }
+
+const BERLIN_UHR = new Intl.DateTimeFormat('en-GB', {
+  timeZone: ZEITZONE,
+  hour: '2-digit',
+  minute: '2-digit',
+  hourCycle: 'h23',
+});
+
+/** Minuten seit Mitternacht in Europe/Berlin, fuer die Linie "jetzt" im Kalender. */
+export function minutenBerlin(jetzt = new Date()): number {
+  const teile = BERLIN_UHR.formatToParts(jetzt);
+  const h = Number(teile.find((t) => t.type === 'hour')?.value ?? 0);
+  const m = Number(teile.find((t) => t.type === 'minute')?.value ?? 0);
+  return h * 60 + m;
+}
+
+/** Kalenderwoche nach ISO 8601 (Woche mit dem ersten Donnerstag ist KW 1). */
+export function kalenderwoche(iso: string): number {
+  const donnerstag = plusTage(iso, 4 - wochentag(iso));
+  const jahr = donnerstag.slice(0, 4);
+  return Math.floor(tageZwischen(`${jahr}-01-01`, donnerstag) / 7) + 1;
+}
+
+const MONATE = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+
+/** "5. Oktober 2026", ohne Jahr "5. Oktober". */
+export function datumLang(iso: string, mitJahr = true): string {
+  const t = ISO.exec(iso);
+  if (!t) return iso;
+  return `${Number(t[3])}. ${MONATE[Number(t[2]) - 1]}${mitJahr ? ` ${t[1]}` : ''}`;
+}
+
+/** "Oktober 2026" aus JJJJ-MM. */
+export function monatsTitel(jjjjmm: string): string {
+  return `${MONATE[Number(jjjjmm.slice(5, 7)) - 1]} ${jjjjmm.slice(0, 4)}`;
+}
