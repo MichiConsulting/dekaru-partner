@@ -13,7 +13,9 @@ import {
   icsText,
   icsUid,
   nachTag,
+  terminEnde,
   termineImZeitraum,
+  vergleicheEintraege,
   type KalenderEintrag,
 } from '../src/lib/kalender.ts';
 import {
@@ -43,6 +45,8 @@ function eintrag(extra: Partial<KalenderEintrag> = {}): KalenderEintrag {
   return {
     typ: 'termin',
     datum: '2026-10-07',
+    beginn: null,
+    dauerMinuten: null,
     kundeId: '11111111-2222-4333-8444-555555555555',
     kundeName: 'Bäckerei Muster',
     ort: 'Horb',
@@ -111,6 +115,55 @@ describe('ICS-Format (RFC 5545)', () => {
     expect(zeilen.some((z) => z.startsWith('LOCATION'))).toBe(false);
   });
 
+  it('schreibt Termine mit Uhrzeit mit TZID Europe/Berlin und lokaler Zeit', () => {
+    const jetzt = new Date('2026-10-04T16:05:09Z');
+    const ics = erzeugeIcs(
+      [
+        eintrag({ beginn: '14:30', dauerMinuten: 90 }),
+        eintrag({ kundeId: '22222222-2222-4333-8444-555555555555', datum: '2026-10-08', beginn: '23:30', dauerMinuten: 60 }),
+        eintrag({ kundeId: '33333333-2222-4333-8444-555555555555', datum: '2026-10-09' }),
+      ],
+      'dekaru Termine',
+      jetzt,
+    );
+    const zeilen = ics.split('\r\n');
+    expect(zeilen).toContain('DTSTART;TZID=Europe/Berlin:20261007T143000');
+    expect(zeilen).toContain('DTEND;TZID=Europe/Berlin:20261007T160000');
+    // Ueber Mitternacht: Ende am Folgetag.
+    expect(zeilen).toContain('DTSTART;TZID=Europe/Berlin:20261008T233000');
+    expect(zeilen).toContain('DTEND;TZID=Europe/Berlin:20261009T003000');
+    // Ganztaegig unveraendert.
+    expect(zeilen).toContain('DTSTART;VALUE=DATE:20261009');
+    expect(zeilen).toContain('DTEND;VALUE=DATE:20261010');
+    // Lokale Zeit ohne Z, jede TZID hat ihre VTIMEZONE, genau eine.
+    expect(zeilen.filter((z) => /^DT(START|END);TZID=/.test(z)).every((z) => !z.endsWith('Z'))).toBe(true);
+    expect(zeilen.filter((z) => z === 'BEGIN:VTIMEZONE').length).toBe(1);
+    expect(zeilen).toContain('TZID:Europe/Berlin');
+    expect(zeilen.filter((z) => z === 'TRANSP:OPAQUE').length).toBe(2);
+    expect(zeilen.filter((z) => z === 'TRANSP:TRANSPARENT').length).toBe(1);
+    // Datenschutz: auch mit Uhrzeit nur Name und Status.
+    expect(zeilen.some((z) => /^(DESCRIPTION|LOCATION)/.test(z))).toBe(false);
+    expect(ics).not.toContain('Horb');
+  });
+
+  it('rechnet das Ende in Wanduhrzeit, auch ueber Mitternacht und Monatsende', () => {
+    expect(terminEnde('2026-10-07', '09:00', 60)).toEqual({ datum: '2026-10-07', zeit: '10:00' });
+    expect(terminEnde('2026-10-07', '09:45', 30)).toEqual({ datum: '2026-10-07', zeit: '10:15' });
+    expect(terminEnde('2026-10-31', '22:00', 180)).toEqual({ datum: '2026-11-01', zeit: '01:00' });
+    expect(terminEnde('2026-10-07', '12:00', 720)).toEqual({ datum: '2026-10-08', zeit: '00:00' });
+  });
+
+  it('sortiert je Tag ganztaegige zuerst, dann nach Uhrzeit', () => {
+    const liste = [
+      eintrag({ kundeName: 'C', beginn: '15:00', dauerMinuten: 60 }),
+      eintrag({ kundeName: 'B', typ: 'wiedervorlage' }),
+      eintrag({ kundeName: 'A', beginn: '09:00', dauerMinuten: 60 }),
+      eintrag({ kundeName: 'D' }),
+      eintrag({ kundeName: 'E', datum: '2026-10-06', beginn: '18:00', dauerMinuten: 60 }),
+    ].sort(vergleicheEintraege);
+    expect(liste.map((e) => e.kundeName)).toEqual(['E', 'D', 'B', 'A', 'C']);
+  });
+
   it('bildet stabile UIDs und saubere Dateinamen', () => {
     expect(icsUid({ typ: 'termin', kundeId: 'abc' })).toBe('termin-abc@partner.dekaru.de');
     expect(icsDateiname(eintrag())).toBe('termin-2026-10-07-backerei-muster.ics');
@@ -147,6 +200,22 @@ describe('Kalender-Eintraege je Benutzer', () => {
     expect(await holeEintrag(db, anna.id, 'termin', kb.id)).toBeNull();
     expect(await holeEintrag(db, bert.id, 'termin', ka.id)).toBeNull();
     expect(await holeEintrag(db, anna.id, 'notiz', ka.id)).toBeNull();
+  });
+
+  it('liefert Uhrzeit und Dauer bei Terminen, Wiedervorlagen bleiben ganztaegig', async () => {
+    const k = await erstelleKunde(
+      db,
+      anna.id,
+      pruefeKunde({ name: 'Anna Uhrzeit', status: 'termin', terminDatum: '2026-12-03', terminBeginn: '10:30', terminDauer: '45' }).wert,
+    );
+    await setzeWiedervorlage(db, anna.id, k.id, { datum: '2026-12-03', grund: 'nachfassen' });
+    const tag = await eintraegeImZeitraum(db, anna.id, '2026-12-03', '2026-12-03');
+    expect(tag.map((e) => [e.typ, e.beginn, e.dauerMinuten])).toEqual([
+      ['wiedervorlage', null, null],
+      ['termin', '10:30', 45],
+    ]);
+    expect(await holeEintrag(db, anna.id, 'termin', k.id)).toMatchObject({ beginn: '10:30', dauerMinuten: 45 });
+    expect(await holeEintrag(db, anna.id, 'wiedervorlage', k.id)).toMatchObject({ beginn: null, dauerMinuten: null });
   });
 });
 
