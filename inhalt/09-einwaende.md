@@ -12,9 +12,9 @@ Die Antworten sind ein Gerüst, kein Text zum Ablesen. Wer sie vorliest, klingt 
 
 **"Schicken Sie mir was per Mail."**
 
-> "Kann ich machen, bringt Ihnen aber wenig. Das Interessante ist die gebaute Vorschau mit Ihren Daten, und die zeige ich Ihnen lieber gemeinsam, damit Sie gleich sagen können, was Ihnen nicht passt. Wann hätten Sie zwanzig Minuten?"
+> "Kann ich machen, bringt Ihnen aber wenig. Ich zeige Ihnen lieber in zwanzig Minuten an einem Schaubild, was Sie bekommen und wie es abläuft. Passt es, baut Herr Henning eine Vorschau mit Ihren Daten, und die schauen wir uns dann zusammen an. Wann hätten Sie zwanzig Minuten?"
 
-Bleibt es bei der Mail: Wiedervorlage in vier Wochen, nichts verschicken.
+Das Schaubild ist das Schema im Portal, die Vorschau kommt erst im Zweittermin. Bleibt es bei der Mail: Wiedervorlage in vier Wochen, nichts verschicken.
 
 **"Was kostet das?"**
 

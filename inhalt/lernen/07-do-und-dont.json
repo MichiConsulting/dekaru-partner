@@ -37,7 +37,7 @@
       "titel": "Marke: Ton und Preise",
       "icon": "sprechblase",
       "saetze": [
-        "Trocken und ehrlich, nicht schleimig, keine Ausrufezeichen in der Stimme. Am Telefon und im Erstgespräch ist \"ab 600 €\" die einzige Zahl, nie verhandeln. Im Zweittermin nennt in Stufe 1 Michael Henning den Preis, in Stufe 2 Sie."
+        "Trocken und ehrlich, nie verhandeln. Für die Website am Telefon und im Erstgespräch nur \"ab 600 €\", im Erstgespräch dazu Hosting \"ab 19 € im Monat\". Im Zweittermin nennt in Stufe 1 Michael Henning den Preis, in Stufe 2 Sie."
       ],
       "liste": [
         "Nie zusagen: ein Festpreis am Telefon für einen konkreten Betrieb",
@@ -68,7 +68,8 @@
         "Keine Tischreservierung, keine Terminbuchung mit Kalender",
         "Keine \"Backups\", sondern ein gesicherter Quellstand",
         "Keine Referenzkunden, keine Muster vom Aufsteller",
-        "Keine Filterung, dass nur zufriedene Kunden bei Google landen"
+        "Keine Filterung, dass nur zufriedene Kunden bei Google landen",
+        "Nichts Unfertiges, auch nicht als \"kommt bald\". Das Schema im Portal zeigt nur, was heute verkauft wird"
       ],
       "zitat": "Umso besser, dann geht der Zweittermin schnell. Sie sehen Ihre Seite, und dann machen wir es fest.",
       "merke": "Das ist die Antwort, wenn ein Betrieb sagt: \"Eigentlich können wir das gleich machen.\""
@@ -86,7 +87,7 @@
       "titel": "Auf einen Blick",
       "icon": "liste",
       "saetze": [
-        "Die Tabelle aus dem Kapitel, gekürzt auf die acht häufigsten Fälle. Die vollständige Liste steht im ausführlichen Kapitel."
+        "Die Tabelle aus dem Kapitel, gekürzt auf die neun häufigsten Fälle. Die vollständige Liste steht im ausführlichen Kapitel."
       ],
       "tabelle": {
         "kopf": ["Immer", "Nie"],
@@ -94,6 +95,7 @@
           ["Name und \"für Michael Henning\" im ersten Satz", "im eigenen Namen als dekaru auftreten"],
           ["nur geschäftliche Nummern", "Privatnummern, auch aus dem Impressum"],
           ["\"ab 600 €\" am Telefon", "Festpreis oder Rabatt am Telefon"],
+          ["im Erstgespräch das Schema im Portal", "eine Demo oder eine Funktion, die es noch nicht gibt"],
           ["das Gratisquartal, genau drei Monate", "andere Gratismonate, Rabatt auf die Website"],
           ["\"Der Termin steht im Angebot\"", "eine Bauzeit in Tagen oder Wochen"],
           ["\"gesicherter Quellstand\"", "\"Backups\""],

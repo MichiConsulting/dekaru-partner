@@ -87,6 +87,6 @@ Bewertungs-Aufsteller: die Druckkosten von etwa 15 bis 30 € zahlt der Betrieb 
 | Situation | Was Sie sagen |
 |---|---|
 | Telefon | "ab 600 €", sonst keine Zahl |
-| Erstgespräch | "ab 600 €", Hosting "ab 19 € im Monat", das Gratisquartal |
+| Erstgespräch, auch mit dem Schema im Portal | "ab 600 €", Hosting "ab 19 € im Monat", das Gratisquartal |
 | Zweittermin, Stufe 1 | Michael Henning nennt die Zahl |
 | Zweittermin, Stufe 2 | die drei Pakete mit Preis, die Zusatzbausteine, die Summe aus dem Preisrechner, die Hosting-Stufe, die Zusatzleistungen. Ohne Nachlass |

@@ -1,7 +1,7 @@
 ---
 nummer: 7
 titel: Was Sie sagen dürfen und was nie
-kurz: Recht (UWG, nur Gewerbe, Widerspruch) und Marke (Preise, Nähe, Zusagen, Ton).
+kurz: Recht (UWG, nur Gewerbe, Widerspruch) und Marke (Preise, Nähe, Zusagen, Schema, Ton).
 ---
 
 # Was Sie sagen dürfen und was nie
@@ -30,7 +30,7 @@ Zwei Bereiche: was rechtlich gilt, und was die Marke trägt. Der erste Teil ist 
 
 **dekaru wird kleingeschrieben.** Auch am Satzanfang, auch in Mails.
 
-**Preise.** Am Telefon und im Erstgespräch ist "ab 600 €" die einzige Zahl. Nie verhandeln, nie eine zweite Zahl nennen. Im Zweittermin nennt in Stufe 1 Michael Henning den Preis, in Stufe 2 Sie, und zwar Paketpreis und Zusatzbausteine aus dem Preisrechner. Nie zusagen:
+**Preise.** Am Telefon und im Erstgespräch ist "ab 600 €" die einzige Zahl für die Website. Im Erstgespräch kommen beim Hosting "ab 19 € im Monat" und das Gratisquartal dazu, mehr nicht. Nie verhandeln, nie eine weitere Zahl nennen. Im Zweittermin nennt in Stufe 1 Michael Henning den Preis, in Stufe 2 Sie, und zwar Paketpreis und Zusatzbausteine aus dem Preisrechner. Nie zusagen:
 
 - ein Festpreis am Telefon für einen konkreten Betrieb
 - ein Rabatt, ein Nachlass, ein Sonderpreis, ein Preis "nur diese Woche"
@@ -45,7 +45,9 @@ Die eine Ausnahme ist das **Gratisquartal**: drei Monate Hosting frei, wenn der 
 
 **Keine Bauzeit.** Weder Tage noch Wochen, auch nicht ungefähr. Der Termin steht im Angebot.
 
-**Nichts versprechen, was es nicht gibt.** Kein Redaktionssystem zum Selbst-Ändern. Keine Tischreservierung, keine Terminbuchung mit Kalender. Keine "Backups", sondern ein gesicherter Quellstand. Keine Referenzkunden. Keine Muster vom Aufsteller. Keine Filterung, dass nur zufriedene Kunden bei Google landen.
+**Nichts versprechen, was es nicht gibt.** Kein Redaktionssystem zum Selbst-Ändern. Keine Tischreservierung, keine Terminbuchung mit Kalender. Keine "Backups", sondern ein gesicherter Quellstand. Keine Referenzkunden. Keine Muster vom Aufsteller. Keine Filterung, dass nur zufriedene Kunden bei Google landen. Und nichts Unfertiges: keine Funktion und kein Software-Baustein, der erst geplant ist oder gerade entsteht, auch nicht als "kommt bald".
+
+**Schema ja, Demo nein.** Im Erstgespräch zeigen Sie das Schema im Portal. Es veranschaulicht, was der Betrieb bekommt, es ist keine Demo und keine Vorschau. Es zeigt nur, was heute verkauft wird, und mehr als dort steht, sagen Sie nicht zu. Den Weg der Daten erklären Sie so, wie er heute ist: Formular, Formulardienst von dekaru, Mail an den Betrieb, gespeichert wird nichts. Die gebaute Seite mit seinen Daten sieht der Betrieb erst im Zweittermin.
 
 **Kein Vertrag durch Sie.** Angebot, Werkvertrag und AVV kommen von mir, der Kunde unterschreibt bei mir. Sie sagen nicht zu, dass eine Leistung enthalten ist, die nicht auf der Preisliste steht, dass etwas bis zu einem Datum fertig ist, oder ob ein Kunde nach dem Termin noch aussteigen kann. Sagt ein Betrieb "eigentlich können wir das gleich machen": "Umso besser, dann geht der Zweittermin schnell. Sie sehen Ihre Seite, und dann machen wir es fest."
 
@@ -60,6 +62,7 @@ Die eine Ausnahme ist das **Gratisquartal**: drei Monate Hosting frei, wenn der 
 | Name und "für Michael Henning" im ersten Satz | im eigenen Namen als dekaru auftreten |
 | nur geschäftliche Nummern | Privatnummern, auch aus dem Impressum |
 | "ab 600 €" am Telefon | Festpreis oder Rabatt am Telefon |
+| im Erstgespräch das Schema im Portal | eine Demo oder eine Funktion, die es noch nicht gibt |
 | Paketpreis und Bausteine aus dem Preisrechner (Stufe 2) | Nachlass, Sonderpreis, "nur diese Woche" |
 | das Gratisquartal beim Hosting, genau drei Monate | andere Gratismonate, Rabatt auf die Website |
 | "Der Termin steht im Angebot" | eine Bauzeit in Tagen oder Wochen |

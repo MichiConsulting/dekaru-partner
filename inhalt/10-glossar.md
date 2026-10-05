@@ -20,7 +20,7 @@ kurz: Die Begriffe aus diesem Blatt, kurz erklärt.
 | **DSGVO** | Datenschutz-Grundverordnung. Für die Website heißt das unter anderem: keine Schriften von Google-Servern, keine Karte ohne Zustimmung, kein Tracking ohne Einwilligung. |
 | **Domain** | Die Adresse der Website, etwa metallbau-beispiel.de. Wird auf den Namen des Kunden registriert und gehört ihm. |
 | **Entscheider** | Wer über das Geld entscheidet. Inhaber, Geschäftsführer, bei größeren Betrieben der, der unterschreibt. Muss beim Zweittermin dabei sein. |
-| **Erstgespräch** | Ihr erstes Gespräch mit dem Inhaber: was dekaru macht, Zusatzleistungen, Preisrahmen, was ihn stört. Sie allein. |
+| **Erstgespräch** | Ihr erstes Gespräch mit dem Inhaber: was dekaru macht, Zusatzleistungen, Preisrahmen, was ihn stört. Sie allein, vor Ort oder per Video, zum Erklären mit dem Schema im Portal. |
 | **Fertigstellungstermin** | Das Datum, an dem die Website fertig ist. Steht im Angebot und ist im Werkvertrag verbindlich. Ersetzt jede pauschale Bauzeit. |
 | **Gestaltungsbeispiele** | Die vier erfundenen Beispielseiten auf dekaru.de: Trattoria, Tattoo-Studio, Metallbau, Kanzlei. Zeigen die Machart, sind keine Kunden. |
 | **Gratisquartal** | Genau drei Monate Hosting frei, nur zusammen mit einer neuen Website, danach mindestens sechs bezahlte Monate. Öffentliche Kondition auf dekaru.de, gilt für alle. Die einzige Zusage, die Sie machen dürfen. |
@@ -36,6 +36,7 @@ kurz: Die Begriffe aus diesem Blatt, kurz erklärt.
 | **Preisrechner** | Das Werkzeug, aus dem jeder Website-Preis entsteht: Paket plus Zusatzbausteine. Was er ausgibt, ist der Preis. |
 | **Quellstand** | Der vollständige, versionierte Bauplan der Website, aus dem sie jederzeit neu bereitgestellt werden kann. Ersetzt das klassische Backup. |
 | **Redaktionssystem** | Ein System, mit dem der Kunde Inhalte selbst ändern könnte. Gibt es bei dekaru noch nicht, wird nicht versprochen. |
+| **Schema** | Das animierte Schaubild im Portal, das Sie im Erstgespräch zeigen, auf Laptop, Tablet oder per Bildschirmfreigabe. Zeigt die Bausteine der Website, was die mitarbeitende Funktion abnimmt, den Weg der Daten und wie es weitergeht. Keine Demo, keine Vorschau, und nur, was heute verkauft wird. |
 | **Stichtag** | Der 25. eines Monats. Bei Start werden alle Änderungen, die bis dahin da sind, in den letzten Werktagen des Monats gesammelt umgesetzt. |
 | **Stufe 1 / Stufe 2** | Stufe 1: die ersten fünf Zweittermine gemeinsam mit mir, ich nenne den Preis. Stufe 2: Sie allein, Sie nennen Paketpreis und Bausteine aus dem Preisrechner. |
 | **Umbau** | Bis zu drei Stunden Arbeit an der Website, etwa ein Bereich neu gestaltet. Bei Plus zwei im Jahr, mit Grenzen. Sonst ein eigener Auftrag. |
