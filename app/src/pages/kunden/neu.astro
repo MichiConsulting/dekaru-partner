@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import KundeFormular from '../../components/KundeFormular.astro';
 import { STATUS_WERTE, erstelleKunde, pruefeKunde, uhrzeit, type KundeEingabe, type Status } from '../../lib/kunden.ts';
 import { istIsoDatum } from '../../lib/datum.ts';
+import { kalenderUrl } from '../../lib/kalender-ansicht.ts';
 import { formular, istPost } from '../../lib/http.ts';
 import { pruefeDublette, type TrefferAdmin } from '../../lib/dubletten.ts';
 import { akteurAus, protokolliereAdminDublette } from '../../lib/admin-aktionen.ts';
@@ -21,11 +22,15 @@ let werte: Partial<KundeEingabe> = istIsoDatum(vorDatum)
       status: STATUS_WERTE.includes(vorStatus as Status) ? (vorStatus as Status) : 'termin',
     }
   : {};
+// Rueckweg in den Kalender, nur in genau dieser Form (kein offener Redirect).
+const KALENDER_ZURUECK = /^\/kalender\?ansicht=(monat|woche)&datum=\d{4}-\d{2}-\d{2}$/;
+let zurueck: string | undefined = istIsoDatum(vorDatum) ? kalenderUrl(uhrzeit(q.get('terminBeginn')) ? 'woche' : 'monat', vorDatum) : undefined;
 let fehler: string[] = [];
 let adminTreffer: TrefferAdmin[] = [];
 
 if (istPost(Astro.request)) {
   const daten = await formular(Astro.request);
+  zurueck = KALENDER_ZURUECK.test(daten.zurueck ?? '') ? daten.zurueck : undefined;
   const geprueft = pruefeKunde(daten);
   werte = geprueft.wert;
   fehler = geprueft.fehler;
@@ -42,7 +47,7 @@ if (istPost(Astro.request)) {
       if (dublette.rolle === 'admin' && dublette.treffer.length > 0) {
         await protokolliereAdminDublette(Astro.locals.db, akteurAus(benutzer), k, dublette.treffer.map((t) => t.id));
       }
-      return Astro.redirect('/kunden?ok=neu', 303);
+      return Astro.redirect(zurueck && geprueft.wert.terminDatum ? `${zurueck}&ok=termin` : '/kunden?ok=neu', 303);
     }
   }
 }
@@ -51,5 +56,5 @@ if (istPost(Astro.request)) {
 <Layout titel="Betrieb eintragen" aktiv="kunden" schmal>
   <p class="meta"><a href="/kunden">Meine Kunden</a> / Neu</p>
   <h1>Betrieb eintragen</h1>
-  <KundeFormular werte={werte} csrf={csrf} fehler={fehler} knopf="Eintragen" adminTreffer={adminTreffer} />
+  <KundeFormular werte={werte} csrf={csrf} fehler={fehler} knopf="Eintragen" adminTreffer={adminTreffer} zurueck={zurueck} />
 </Layout>

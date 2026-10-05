@@ -169,6 +169,15 @@ describe('Termine mit Uhrzeit und Dauer', () => {
     expect(ganz?.statusSeit).toBe('2026-10-05');
   });
 
+  it('setzt den Status automatisch: aus Angerufen wird Termin, alles andere bleibt', async () => {
+    const neu = await erstelleKunde(db, anna.id, pruefeKunde({ name: 'Auto A', status: 'angerufen' }).wert);
+    const weiter = await erstelleKunde(db, anna.id, pruefeKunde({ name: 'Auto B', status: 'zweittermin', terminDatum: '2026-10-01' }).wert, '2026-09-20');
+    const a = await setzeTermin(db, anna.id, pruefeTermin({ kundeId: neu.id, status: '', terminDatum: '2026-10-12' }).wert, '2026-10-05');
+    const b = await setzeTermin(db, anna.id, pruefeTermin({ kundeId: weiter.id, status: '', terminDatum: '2026-10-13' }).wert, '2026-10-05');
+    expect([a?.status, a?.statusSeit]).toEqual(['termin', '2026-10-05']);
+    expect([b?.status, b?.statusSeit]).toEqual(['zweittermin', '2026-09-20']);
+  });
+
   it('prueft das Termin-Formular', () => {
     expect(pruefeTermin({ status: 'termin', terminDatum: '2026-10-08' }).fehler).toContain('Bitte einen Betrieb auswählen.');
     expect(pruefeTermin({ kundeId: '11111111-2222-4333-8444-555555555555', status: 'termin', terminDatum: '2026-02-30' }).fehler).toContain('Das Datum fehlt oder ist ungültig.');

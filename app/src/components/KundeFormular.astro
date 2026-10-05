@@ -9,9 +9,11 @@ interface Props {
   knopf: string;
   /** Nur fuer Admins: Treffer der Dublettenpruefung, mit Freigabe zum Speichern. */
   adminTreffer?: TrefferAdmin[];
+  /** Nach dem Speichern dorthin zurueck, z.B. in den Kalender. */
+  zurueck?: string;
 }
 
-const { werte, csrf, fehler = [], knopf, adminTreffer = [] } = Astro.props;
+const { werte, csrf, fehler = [], knopf, adminTreffer = [], zurueck } = Astro.props;
 // Eine Dauer aus der Datenbank, die nicht in der Auswahl steht, bleibt waehlbar.
 const dauer = werte.terminDauer ?? STANDARD_DAUER;
 const dauern = DAUER_AUSWAHL.includes(dauer as (typeof DAUER_AUSWAHL)[number]) ? [...DAUER_AUSWAHL] : [...DAUER_AUSWAHL, dauer].sort((a, b) => a - b);
@@ -24,6 +26,7 @@ const dauern = DAUER_AUSWAHL.includes(dauer as (typeof DAUER_AUSWAHL)[number]) ?
 )}
 <form method="post" class="karte">
   <input type="hidden" name="_csrf" value={csrf} />
+  {zurueck && <input type="hidden" name="zurueck" value={zurueck} />}
   <div class="feld--zeile">
     <div class="feld">
       <label for="name">Betrieb</label>
@@ -87,6 +90,6 @@ const dauern = DAUER_AUSWAHL.includes(dauer as (typeof DAUER_AUSWAHL)[number]) ?
   )}
   <div class="aktionen">
     <button type="submit" class="btn">{knopf}</button>
-    <a href="/kunden" class="btn btn--zweit">Abbrechen</a>
+    <a href={zurueck ?? '/kunden'} class="btn btn--zweit">Abbrechen</a>
   </div>
 </form>

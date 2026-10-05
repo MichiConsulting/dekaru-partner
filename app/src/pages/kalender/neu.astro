@@ -1,0 +1,123 @@
+---
+// Neuer Termin aus dem Kalender: Klick auf einen Tag oder eine Uhrzeit
+// fuehrt hierher, Datum und Uhrzeit sind vorbelegt
+// (/kalender/neu?datum=JJJJ-MM-TT&beginn=HH:MM). Ein Termin gehoert immer zu
+// einem Betrieb aus "Meine Kunden"; jeder Betrieb hat genau einen, ein
+// vorhandener wird ersetzt. Fuer einen neuen Betrieb geht es mit denselben
+// Angaben zu /kunden/neu.
+import Layout from '../../layouts/Layout.astro';
+import { DAUER_AUSWAHL, STANDARD_DAUER, STATUS, dauerText, listeKunden, pruefeTermin, setzeTermin, uhrzeit } from '../../lib/kunden.ts';
+import { datumLang, heuteBerlin, istIsoDatum, wochentagName } from '../../lib/datum.ts';
+import { datumDe } from '../../lib/provision.ts';
+import { formular, istPost } from '../../lib/http.ts';
+import { kalenderUrl } from '../../lib/kalender-ansicht.ts';
+
+const benutzer = Astro.locals.benutzer!;
+const db = Astro.locals.db;
+const csrf = Astro.locals.csrf ?? '';
+const q = Astro.url.searchParams;
+
+let werte = {
+  kundeId: q.get('kunde') ?? '',
+  status: '',
+  datum: istIsoDatum(q.get('datum')) ? q.get('datum')! : heuteBerlin(),
+  beginn: uhrzeit(q.get('beginn')) ?? '',
+  dauer: STANDARD_DAUER,
+};
+let fehler: string[] = [];
+
+if (istPost(Astro.request)) {
+  const daten = await formular(Astro.request);
+  const geprueft = pruefeTermin(daten);
+  fehler = geprueft.fehler;
+  werte = {
+    kundeId: geprueft.wert.kundeId,
+    status: daten.status ?? '',
+    datum: geprueft.wert.datum || String(daten.terminDatum ?? ''),
+    beginn: geprueft.wert.beginn ?? String(daten.terminBeginn ?? ''),
+    dauer: geprueft.wert.dauer ?? STANDARD_DAUER,
+  };
+  if (fehler.length === 0) {
+    const kunde = await setzeTermin(db, benutzer.id, geprueft.wert);
+    if (!kunde) {
+      // Fremde oder geloeschte Betriebe: dieselbe Meldung wie "nichts gewaehlt".
+      fehler = ['Bitte einen Betrieb auswählen.'];
+    } else {
+      const ziel = geprueft.wert.beginn ? 'woche' : 'monat';
+      return Astro.redirect(`${kalenderUrl(ziel, geprueft.wert.datum)}&ok=termin`, 303);
+    }
+  }
+}
+
+const kunden = (await listeKunden(db, benutzer.id)).sort((a, b) => a.name.localeCompare(b.name, 'de'));
+const tagText = istIsoDatum(werte.datum) ? `${wochentagName(werte.datum)}, ${datumLang(werte.datum)}` : '';
+const neuerBetrieb = `/kunden/neu?terminDatum=${werte.datum}${werte.beginn ? `&terminBeginn=${encodeURIComponent(werte.beginn)}` : ''}&status=termin`;
+const dauern = DAUER_AUSWAHL.includes(werte.dauer as (typeof DAUER_AUSWAHL)[number]) ? [...DAUER_AUSWAHL] : [...DAUER_AUSWAHL, werte.dauer].sort((a, b) => a - b);
+---
+
+<Layout titel="Neuer Termin" aktiv="kalender" schmal>
+  <p class="meta"><a href={kalenderUrl('monat', istIsoDatum(werte.datum) ? werte.datum : heuteBerlin())}>Kalender</a> / Neuer Termin</p>
+  <h1>Neuer Termin</h1>
+  {tagText && <p class="meta">{tagText}{werte.beginn && `, ${werte.beginn} Uhr`}</p>}
+
+  {fehler.length > 0 && (
+    <div class="meldung meldung--fehler" role="alert">
+      <ul>{fehler.map((f) => <li>{f}</li>)}</ul>
+    </div>
+  )}
+
+  {kunden.length === 0 ? (
+    <div class="karte">
+      <p>Ein Termin gehört zu einem Betrieb aus Meine Kunden. Noch ist keiner eingetragen.</p>
+      <a class="btn" href={neuerBetrieb}>Betrieb mit diesem Termin eintragen</a>
+    </div>
+  ) : (
+    <form method="post" class="karte">
+      <input type="hidden" name="_csrf" value={csrf} />
+      <div class="feld">
+        <label for="kundeId">Betrieb</label>
+        <select id="kundeId" name="kundeId" required aria-describedby="kundeId-hilfe">
+          <option value="" selected={!werte.kundeId}>Bitte wählen</option>
+          {kunden.map((k) => (
+            <option value={k.id} selected={k.id === werte.kundeId}>
+              {k.name}{k.ort && `, ${k.ort}`}{k.terminDatum && ` (Termin am ${datumDe(k.terminDatum)}${k.terminBeginn ? `, ${k.terminBeginn}` : ''})`}
+            </option>
+          ))}
+        </select>
+        <p class="feld__hilfe" id="kundeId-hilfe">Jeder Betrieb hat einen Termin. Hat er schon einen, wird er ersetzt. Neu? <a href={neuerBetrieb}>Betrieb mit diesem Termin eintragen</a>.</p>
+      </div>
+      <div class="feld--zeile">
+        <div class="feld">
+          <label for="terminDatum">Datum</label>
+          <input id="terminDatum" name="terminDatum" type="date" required value={werte.datum} />
+        </div>
+        <div class="feld">
+          <label for="terminBeginn">Uhrzeit (optional)</label>
+          <input id="terminBeginn" name="terminBeginn" type="time" step="300" value={werte.beginn} aria-describedby="terminBeginn-hilfe" />
+          <p class="feld__hilfe" id="terminBeginn-hilfe">Leer lassen für einen ganztägigen Termin.</p>
+        </div>
+      </div>
+      <div class="feld--zeile">
+        <div class="feld">
+          <label for="terminDauer">Dauer</label>
+          <select id="terminDauer" name="terminDauer" aria-describedby="terminDauer-hilfe">
+            {dauern.map((d) => <option value={d} selected={d === werte.dauer}>{dauerText(d)}</option>)}
+          </select>
+          <p class="feld__hilfe" id="terminDauer-hilfe">Gilt nur mit Uhrzeit.</p>
+        </div>
+        <div class="feld">
+          <label for="status">Status</label>
+          <select id="status" name="status">
+            <option value="" selected={!werte.status}>Automatisch</option>
+            {STATUS.map((s) => <option value={s.wert} selected={werte.status === s.wert}>{s.label}</option>)}
+          </select>
+          <p class="feld__hilfe">Automatisch: aus Angerufen wird Termin vereinbart, sonst bleibt der Status.</p>
+        </div>
+      </div>
+      <div class="aktionen">
+        <button type="submit" class="btn">Termin speichern</button>
+        <a href={kalenderUrl('monat', istIsoDatum(werte.datum) ? werte.datum : heuteBerlin())} class="btn btn--zweit">Abbrechen</a>
+      </div>
+    </form>
+  )}
+</Layout>

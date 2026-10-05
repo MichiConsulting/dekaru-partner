@@ -270,7 +270,8 @@ function zeitWerte(daten: Pick<KundeEingabe, 'terminDatum' | 'terminBeginn' | 't
 
 export interface TerminEingabe {
   kundeId: string;
-  status: Status;
+  /** null heisst automatisch: aus "Angerufen" wird "Termin vereinbart", sonst bleibt der Status. */
+  status: Status | null;
   datum: string;
   beginn: string | null;
   dauer: number | null;
@@ -279,14 +280,15 @@ export interface TerminEingabe {
 /**
  * Prueft das Formular "Neuer Termin" im Kalender: ein eigener Betrieb, ein
  * Datum, wahlweise Uhrzeit und Dauer, dazu der Status. Der Status steht
- * ausdruecklich im Formular, weil ein Wechsel in die Monatszahlen eingeht.
+ * ausdruecklich im Formular, weil ein Wechsel in die Monatszahlen eingeht;
+ * leer heisst automatisch (siehe TerminEingabe).
  */
 export function pruefeTermin(eingabe: Record<string, unknown>): { wert: TerminEingabe; fehler: string[] } {
   const fehler: string[] = [];
   const kundeId = text(eingabe.kundeId, 40);
   if (!istUuid(kundeId)) fehler.push('Bitte einen Betrieb auswählen.');
   const status = String(eingabe.status ?? '');
-  if (!STATUS_WERTE.includes(status as Status)) fehler.push('Der Status ist unbekannt.');
+  if (status && !STATUS_WERTE.includes(status as Status)) fehler.push('Der Status ist unbekannt.');
   let datum: string | null = text(eingabe.terminDatum ?? eingabe.datum, 10);
   if (!istIsoDatum(datum)) {
     fehler.push('Das Datum fehlt oder ist ungültig.');
@@ -295,7 +297,7 @@ export function pruefeTermin(eingabe: Record<string, unknown>): { wert: TerminEi
   const zeit = pruefeUhrzeit(eingabe, datum);
   fehler.push(...zeit.fehler);
   return {
-    wert: { kundeId, status: status as Status, datum: datum ?? '', beginn: zeit.beginn, dauer: zeit.dauer },
+    wert: { kundeId, status: status ? (status as Status) : null, datum: datum ?? '', beginn: zeit.beginn, dauer: zeit.dauer },
     fehler,
   };
 }
@@ -307,14 +309,15 @@ export function pruefeTermin(eingabe: Record<string, unknown>): { wert: TerminEi
 export async function setzeTermin(db: Db, benutzerId: string, termin: TerminEingabe, heute = heuteIso()): Promise<Kunde | null> {
   const alt = await holeKunde(db, benutzerId, termin.kundeId);
   if (!alt) return null;
-  const statusSeit = alt.status === termin.status ? alt.statusSeit : heute;
+  const status: Status = termin.status ?? (alt.status === 'angerufen' ? 'termin' : alt.status);
+  const statusSeit = alt.status === status ? alt.statusSeit : heute;
   const [beginn, dauer] = zeitWerte({ terminDatum: termin.datum, terminBeginn: termin.beginn, terminDauer: termin.dauer });
   const zeilen = await db.query<KundeZeile>(
     `UPDATE kunden
      SET status = $3, status_seit = $4, termin_datum = $5, termin_beginn = $6, termin_dauer_minuten = $7, geaendert_am = now()
      WHERE id = $1 AND benutzer_id = $2
      RETURNING ${FELDER}`,
-    [termin.kundeId, benutzerId, termin.status, statusSeit, termin.datum, beginn, dauer],
+    [termin.kundeId, benutzerId, status, statusSeit, termin.datum, beginn, dauer],
   );
   return zeilen[0] ? zuKunde(zeilen[0]) : null;
 }
