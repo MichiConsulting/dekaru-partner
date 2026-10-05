@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "stand": "2026-10-02",
+  "stand": "2026-10-05",
   "titel": "Gesprächshilfe für Vertriebler",
   "einleitung": "Sechs Sätze lernen Sie wortgleich, alles andere sagen Sie in eigenen Worten.",
   "themen": ["Preis", "Ablauf", "Hosting", "Vertrauen", "Kein Interesse", "Recht und Datenschutz"],
@@ -156,9 +156,9 @@
       "id": "g14",
       "thema": "Ablauf",
       "frage": "Und wie geht es dann weiter?",
-      "antwort": "Wir sprechen kurz darüber, was Sie brauchen. Passt es, baut Herr Henning eine Vorschau mit Ihren echten Daten, und die schauen wir uns zusammen an. Danach entscheiden Sie.",
+      "antwort": "Ich zeige Ihnen an einem Schaubild, was Sie bekommen und wie es abläuft, und wir sprechen darüber, was Sie brauchen. Passt es, baut Herr Henning eine Vorschau mit Ihren echten Daten, und die schauen wir uns zusammen an. Danach entscheiden Sie.",
       "pflicht": false,
-      "hinweis": "Einen Zweittermin gibt es nur bei echtem Interesse: der Inhaber hat selbst gesagt, was ihn stört, kennt \"ab 600 €\", weiß, welche Zusatzleistungen ihn interessieren, und der Entscheider sitzt mit am Tisch. Für jeden Zweittermin baut Michael Henning eine Vorschau."
+      "hinweis": "Einen Zweittermin gibt es nur bei echtem Interesse: der Inhaber hat selbst gesagt, was ihn stört, kennt \"ab 600 €\", weiß, welche Zusatzleistungen ihn interessieren, und der Entscheider sitzt mit am Tisch. Für jeden Zweittermin baut Michael Henning eine Vorschau. Das Schaubild ist das Schema im Portal: keine Demo, nur was heute verkauft wird."
     },
     {
       "id": "g15",
@@ -349,6 +349,14 @@
       "antwort": "Das Gesetz heißt BFSG und gilt seit Juni 2025, viele Baukasten-Seiten erfüllen es nicht. Jede Seite von Herrn Henning ist barrierefrei gebaut. Was es im Einzelnen für Ihren Betrieb bedeutet, klärt er mit Ihnen.",
       "pflicht": false,
       "hinweis": "Nicht raten, welche Pflichten den Betrieb genau treffen. Das klärt Michael Henning."
+    },
+    {
+      "id": "g39",
+      "thema": "Recht und Datenschutz",
+      "frage": "Und wo landen die Anfragen, die über die Website kommen?",
+      "antwort": "Das Formular auf Ihrer Seite schickt die Anfrage an den Formulardienst von Herrn Henning, und der leitet sie als Mail an Sie weiter. Gespeichert wird dabei nichts.",
+      "pflicht": false,
+      "hinweis": "So zeigt es auch das Schema im Portal. Den Weg so erklären, wie er heute ist, und nichts von Funktionen erzählen, die es noch nicht gibt. Den Auftragsverarbeitungsvertrag dazu schickt Michael Henning."
     }
   ]
 }

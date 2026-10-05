@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "stand": "2026-10-04",
+  "stand": "2026-10-05",
   "titel": "Lernfragen zum Informationsblatt für dekaru-Vertriebler",
   "typen": {
     "multiple-choice": "Eine Frage, mehrere Optionen. 'richtig' ist eine Liste von Indizes (0-basiert) in 'optionen'. Enthält sie mehr als einen Index, sind mehrere Antworten richtig und 'mehrfach' ist true.",
@@ -653,7 +653,7 @@
         0
       ],
       "mehrfach": false,
-      "erklaerung": "Am Telefon und im Erstgespräch ist 'ab 600 €' die einzige Zahl. Nie verhandeln, nie eine zweite Zahl. Im Zweittermin nennt in Stufe 1 Michael Henning die Preise, in Stufe 2 der Vertriebler Paket und Bausteine aus dem Preisrechner."
+      "erklaerung": "Am Telefon und im Erstgespräch ist 'ab 600 €' die einzige Zahl für die Website, im Erstgespräch kommt beim Hosting 'ab 19 € im Monat' mit dem Gratisquartal dazu. Nie verhandeln. Im Zweittermin nennt in Stufe 1 Michael Henning die Preise, in Stufe 2 der Vertriebler Paket und Bausteine aus dem Preisrechner."
     },
     {
       "id": "q36",
@@ -1035,7 +1035,7 @@
       "kapitel": "07-do-und-dont",
       "aussage": "Am Telefon dürfen Sie die drei Paketpreise nennen, wenn der Betrieb danach fragt.",
       "richtig": false,
-      "erklaerung": "Am Telefon und im Erstgespräch ist 'ab 600 €' die einzige Zahl. Die Pakete mit Preis kommen erst im Zweittermin, in Stufe 1 von Michael Henning."
+      "erklaerung": "Am Telefon und im Erstgespräch ist 'ab 600 €' die einzige Zahl für die Website. Die Pakete mit Preis kommen erst im Zweittermin, in Stufe 1 von Michael Henning."
     },
     {
       "id": "q58",
@@ -1086,6 +1086,31 @@
       "aussage": "Zu einem Paket werden nur Bausteine dazugebucht, die im Paket nicht schon enthalten sind.",
       "richtig": true,
       "erklaerung": "Mittel bekommt keine Bildergalerie dazu, Groß keine Team-Seite, weil beides schon drin ist. Eine weitere Unterseite für 75 € geht dagegen bei jedem Paket."
+    },
+    {
+      "id": "q62",
+      "typ": "multiple-choice",
+      "kapitel": "06-ablauf",
+      "frage": "Was zeigen Sie dem Betrieb im Erstgespräch?",
+      "optionen": [
+        "Die fertig gebaute Vorschau mit seinen Daten.",
+        "Das Schema im Portal: die Bausteine der Website, was die mitarbeitende Funktion abnimmt, den Weg der Daten und wie es weitergeht.",
+        "Eine Demo mit den Funktionen, die als Nächstes kommen sollen.",
+        "Die drei Pakete mit ihren Preisen."
+      ],
+      "richtig": [
+        1
+      ],
+      "mehrfach": false,
+      "erklaerung": "Im Erstgespräch veranschaulicht das Schema, was der Betrieb bekommt. Es ist keine Demo und zeigt nur, was heute verkauft wird. Die Vorschau kommt erst im Zweittermin, die Paketpreise ebenfalls."
+    },
+    {
+      "id": "q63",
+      "typ": "wahr-falsch",
+      "kapitel": "07-do-und-dont",
+      "aussage": "Fragt ein Betrieb im Erstgespräch nach einer Funktion, die geplant, aber noch nicht fertig ist, dürfen Sie sie als 'kommt bald' mit anbieten.",
+      "richtig": false,
+      "erklaerung": "Nichts Unfertiges versprechen, auch nicht als 'kommt bald'. Das Schema im Portal zeigt nur, was heute verkauft wird, und mehr als dort steht, sagen Sie nicht zu."
     }
   ]
 }
