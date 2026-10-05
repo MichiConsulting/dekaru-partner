@@ -2,7 +2,7 @@
   "kapitel": "10-glossar",
   "karten": [
     {
-      "titel": "Vierzig Begriffe in fünf Gruppen",
+      "titel": "41 Begriffe in fünf Gruppen",
       "icon": "buch",
       "saetze": [
         "Die Begriffe aus dem Informationsblatt, hier nach Themen sortiert und auf einen Satz gekürzt. Die vollständigen Erklärungen stehen im ausführlichen Kapitel."
@@ -79,7 +79,8 @@
       "tabelle": {
         "kopf": ["Begriff", "Bedeutung"],
         "zeilen": [
-          ["Erstgespräch", "Ihr erstes Gespräch mit dem Inhaber: was dekaru macht, Zusatzleistungen, Preisrahmen, was ihn stört"],
+          ["Erstgespräch", "Ihr erstes Gespräch mit dem Inhaber: was dekaru macht, Zusatzleistungen, Preisrahmen, was ihn stört. Mit dem Schema im Portal"],
+          ["Schema", "Animiertes Schaubild im Portal für das Erstgespräch: Bausteine, mitarbeitende Funktion, Weg der Daten. Keine Demo, nur was heute verkauft wird"],
           ["Zweittermin", "Der Termin mit der Vorschau, vor Ort oder per Video. Hier fällt die Entscheidung"],
           ["Vorschau", "Die gebaute Website mit den echten Daten des Betriebs. Nie per Mail"],
           ["Entscheider", "Wer über das Geld entscheidet. Muss beim Zweittermin dabei sein"],

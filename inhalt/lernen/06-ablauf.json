@@ -19,10 +19,11 @@
       "merke": "Ab dem Auftrag laufen Rückfragen, Freigabe und Abnahme direkt zwischen ihm und dem Kunden. Sie bekommen den Ausgang gemeldet, Sie müssen nicht mehr vermitteln."
     },
     {
-      "titel": "Erstgespräch und echter Zweittermin",
+      "titel": "Erstgespräch mit dem Schema",
       "icon": "sprechblase",
       "saetze": [
-        "Im Erstgespräch erklären Sie, was der Betrieb bekommt, welche Zusatzleistungen es gibt und den Rahmen \"ab 600 €\". Ein Zweittermin wird nur vereinbart, wenn das Interesse echt ist, denn für jeden baut Michael Henning eine Vorschau."
+        "Im Erstgespräch erklären Sie Website, Zusatzleistungen und den Rahmen \"ab 600 €\", gern mit dem Schema im Portal. Es zeigt nur, was heute verkauft wird.",
+        "Ein Zweittermin nur bei echtem Interesse, denn für jeden baut Michael Henning eine Vorschau."
       ],
       "liste": [
         "Der Inhaber hat selbst gesagt, was ihn stört",
@@ -59,7 +60,7 @@
         "kopf": ["Sie", "Michael Henning"],
         "zeilen": [
           ["Betriebe recherchieren, anrufen, besuchen", "Vorschau bauen"],
-          ["Erstgespräch führen, Bedarf und Entscheider klären", "Angebot, Werkvertrag, AVV"],
+          ["Erstgespräch führen, Schema zeigen, Bedarf und Entscheider klären", "Angebot, Werkvertrag, AVV"],
           ["Zweittermin führen, Vorschau zeigen", "Preis nennen (Stufe 1)"],
           ["Briefing-Bogen ausfüllen und übergeben", "Website bauen, Abnahme"],
           ["Wochenbericht schreiben", "Hosting und Betreuung über Jahre"],
