@@ -256,13 +256,13 @@ export function jetztLage(minutenSeitMitternacht: number, bereich: { von: number
   return ((minutenSeitMitternacht - start) / (ende - start)) * 100;
 }
 
-/** Text fuer Screenreader und Tooltip: "Termin, 14:30 bis 15:30: Baeckerei Muster, Termin vereinbart". */
-export function eintragBeschreibung(e: Pick<KalenderEintrag, 'typ' | 'beginn' | 'dauerMinuten' | 'kundeName'>, statusText: string): string {
+/** Art und Zeit: "Termin, 14:30 bis 15:30 Uhr" oder "Wiedervorlage, ganztägig". */
+export function eintragArtZeit(e: Pick<KalenderEintrag, 'typ' | 'beginn' | 'dauerMinuten'>): string {
   const art = e.typ === 'termin' ? 'Termin' : 'Wiedervorlage';
-  let zeit = 'ganztägig';
-  if (e.beginn) {
-    const ende = hhmm(endeMinuten(e));
-    zeit = `${e.beginn} bis ${ende} Uhr`;
-  }
-  return `${art}, ${zeit}: ${e.kundeName}, ${statusText}`;
+  return `${art}, ${e.beginn ? `${e.beginn} bis ${hhmm(endeMinuten(e))} Uhr` : 'ganztägig'}`;
+}
+
+/** Text fuer Screenreader und Tooltip: "Termin, 14:30 bis 15:30 Uhr: Baeckerei Muster, Termin vereinbart". */
+export function eintragBeschreibung(e: Pick<KalenderEintrag, 'typ' | 'beginn' | 'dauerMinuten' | 'kundeName'>, statusText: string): string {
+  return `${eintragArtZeit(e)}: ${e.kundeName}, ${statusText}`;
 }
