@@ -60,6 +60,13 @@
   --grafik-papier: #ffffff;
   /* Schatten am Rand schiebbarer Tabellen, zeigt: hier geht es weiter. */
   --schatten: rgba(0, 0, 0, 0.16);
+  /* Kalender: Termine mit Bordeaux-Rand auf zartem Grund, Wiedervorlagen
+     sandfarben mit gestricheltem Rand. Text darauf immer --text. */
+  --kal-termin-bg: #f1e3e5;
+  --kal-termin-rand: #6e1a26;
+  --kal-wv-bg: #ece6da;
+  --kal-wv-rand: #5f5f5f;
+  --kal-linie: #e8e8e5;
   color-scheme: light;
 }
 
@@ -98,6 +105,11 @@
     --lk-warn: #e0b24a;
     --grafik-papier: #ffffff;
     --schatten: rgba(0, 0, 0, 0.6);
+    --kal-termin-bg: #3a2327;
+    --kal-termin-rand: #cc7079;
+    --kal-wv-bg: #2d2823;
+    --kal-wv-rand: #a3a3a3;
+    --kal-linie: #262626;
     color-scheme: dark;
   }
 }
@@ -129,6 +141,11 @@
   --lk-warn: #e0b24a;
   --grafik-papier: #ffffff;
   --schatten: rgba(0, 0, 0, 0.6);
+  --kal-termin-bg: #3a2327;
+  --kal-termin-rand: #cc7079;
+  --kal-wv-bg: #2d2823;
+  --kal-wv-rand: #a3a3a3;
+  --kal-linie: #262626;
   color-scheme: dark;
 }
 

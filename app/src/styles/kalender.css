@@ -1,0 +1,567 @@
+/*
+ * Kalender: Monat, Woche, Tag. Nur Variablen aus global.css, jede mit
+ * Gegenstueck im dunklen Modus; tests/kalender-css.test.ts prueft das.
+ * Ab 641 px Breite die volle Ansicht, darunter das Handy-Raster mit Punkten.
+ */
+
+/* ── Leiste ── */
+.kal-leiste {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-s) var(--space-m);
+  margin-bottom: var(--space-s);
+}
+.kal-leiste__zeit,
+.kal-leiste__rechts,
+.kal-leiste__nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+}
+.kal-leiste__zeit {
+  gap: var(--space-s) var(--space-m);
+}
+.kal-leiste h2 {
+  margin: 0;
+  font-size: var(--text-h2);
+}
+.kal-pfeil {
+  width: 36px;
+  padding: 0;
+}
+.kal-pfeil svg,
+.kal-zeit__neu svg {
+  stroke: currentColor;
+}
+.kal-tabs {
+  display: flex;
+  gap: 0;
+}
+.kal-tabs .btn {
+  border-radius: 0;
+  margin-left: -1px;
+}
+.kal-tabs .btn:first-child {
+  border-radius: var(--radius) 0 0 var(--radius);
+  margin-left: 0;
+}
+.kal-tabs .btn:last-child {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+.kal-tabs .btn[aria-current='page'] {
+  position: relative;
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+}
+
+/* ── Legende ── */
+.kal-legende {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-m);
+  align-items: center;
+  max-width: none;
+  margin-bottom: var(--space-s);
+}
+.kal-legende__eintrag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+.kal-legende__muster {
+  display: inline-block;
+  width: 18px;
+  height: 12px;
+  border-radius: 2px;
+  border-left: 3px solid var(--kal-termin-rand);
+  background: var(--kal-termin-bg);
+}
+.kal-legende__muster--wv {
+  border-left: 3px dashed var(--kal-wv-rand);
+  background: var(--kal-wv-bg);
+}
+
+/* ── Balken (Monat, Ganztags-Zeile, Tagesliste) ── */
+.kal-balken {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  min-width: 0;
+  padding: 1px 6px 1px 5px;
+  border-radius: 3px;
+  border-left: 3px solid var(--kal-termin-rand);
+  background: var(--kal-termin-bg);
+  color: var(--text);
+  font-size: var(--text-small);
+  line-height: 1.45;
+  text-decoration: none;
+}
+.kal-balken:hover {
+  color: var(--text);
+  text-decoration: underline;
+}
+.kal-balken--wv {
+  border-left-style: dashed;
+  border-left-color: var(--kal-wv-rand);
+  background: var(--kal-wv-bg);
+}
+.kal-balken__kopf {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+}
+.kal-balken__zeit {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+.kal-balken__name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.kal-symbol {
+  flex: none;
+  align-self: center;
+}
+.kal-symbol--termin {
+  fill: var(--kal-termin-rand);
+}
+.kal-symbol--wv {
+  stroke: var(--kal-wv-rand);
+}
+
+/* ── Monat ── */
+.kal-monat {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.kal-monat th {
+  padding: var(--space-xs) var(--space-s);
+  font: 500 var(--text-small) var(--font-body);
+  color: var(--text-muted);
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.kal-zelle {
+  position: relative;
+  height: 122px;
+  padding: 4px;
+  vertical-align: top;
+  border: 1px solid var(--border);
+}
+.kal-zelle--fremd {
+  background: var(--bg);
+}
+.kal-zelle__neu {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.kal-zelle__neu:hover {
+  background: var(--surface-2);
+}
+.kal-zelle__kopf,
+.kal-zelle__liste,
+.kal-mehr {
+  position: relative;
+  z-index: 1;
+}
+.kal-zelle__kopf,
+.kal-zelle__liste {
+  pointer-events: none;
+}
+.kal-zelle__kopf a,
+.kal-zelle__liste a {
+  pointer-events: auto;
+}
+.kal-zelle__kopf {
+  display: flex;
+  margin-bottom: 2px;
+}
+.kal-zelle__nr {
+  display: inline-grid;
+  place-items: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 4px;
+  border-radius: 999px;
+  color: var(--text);
+  font-weight: 500;
+  font-size: var(--text-small);
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+}
+.kal-zelle__nr:hover {
+  color: var(--text);
+  background: var(--surface-2);
+}
+.kal-zelle--fremd .kal-zelle__nr {
+  color: var(--text-muted);
+}
+.kal-zelle--heute .kal-zelle__nr,
+.kal-zelle--heute .kal-zelle__nr:hover {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.kal-zelle__liste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
+.kal-zelle__liste li {
+  margin: 0 0 2px;
+}
+.kal-mehr {
+  display: inline-block;
+  padding: 0 4px;
+  font-size: var(--text-small);
+  font-weight: 500;
+}
+.kal-klein {
+  display: none;
+}
+
+/* ── Woche und Tag ── */
+.kal-zeit-rahmen {
+  overflow: auto;
+  max-height: min(78vh, 820px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overscroll-behavior: contain;
+}
+.kal-zeit {
+  --stunde: 48px;
+  --achse: 56px;
+  display: grid;
+  grid-template-columns: var(--achse) repeat(var(--tage), minmax(var(--spalte-min, 0px), 1fr));
+}
+.kal-zeit__ecke,
+.kal-zeit__kopf {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.kal-zeit__ecke {
+  left: 0;
+  z-index: 5;
+}
+.kal-zeit__kopf {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+  min-width: 0;
+  padding: var(--space-xs) var(--space-xs) var(--space-xs) var(--space-s);
+  border-left: 1px solid var(--border);
+}
+.kal-zeit__kopf h3 {
+  margin: 0;
+  min-width: 0;
+  font: 500 var(--text-small) var(--font-body);
+}
+.kal-zeit__kopf h3 a,
+.kal-zeit__kopf h3 > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text);
+  text-decoration: none;
+}
+.kal-zeit__kopf h3 a:hover .kal-zeit__nr {
+  background: var(--surface-2);
+}
+.kal-zeit__wtag {
+  color: var(--text-muted);
+}
+.kal-zeit__nr {
+  display: inline-grid;
+  place-items: center;
+  min-width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  font: 700 var(--text-h3) var(--font-display);
+  font-variant-numeric: tabular-nums;
+}
+.kal-zeit__kopf--heute .kal-zeit__nr,
+.kal-zeit__kopf--heute h3 a:hover .kal-zeit__nr {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.kal-zeit__neu {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  border: 1px solid transparent;
+}
+.kal-zeit__neu:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+.kal-zeit__ganz-label {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  padding: 6px 6px 0 0;
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 12px;
+  text-align: right;
+  border-bottom: 1px solid var(--border-strong);
+}
+.kal-zeit__ganz {
+  min-width: 0;
+  min-height: 34px;
+  padding: 3px;
+  border-left: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-strong);
+}
+.kal-zeit__ganz ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
+.kal-zeit__ganz li {
+  margin: 0 0 2px;
+}
+.kal-zeit__achse {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  height: calc(var(--stunden) * var(--stunde));
+  background: var(--surface);
+}
+.kal-zeit__stunde {
+  position: absolute;
+  top: calc(var(--i) * var(--stunde) + 2px);
+  right: 6px;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.kal-zeit__spalte {
+  position: relative;
+  min-width: 0;
+  height: calc(var(--stunden) * var(--stunde));
+  border-left: 1px solid var(--border);
+  background-image: repeating-linear-gradient(to bottom, var(--kal-linie) 0 1px, transparent 1px var(--stunde));
+}
+.kal-slot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--i) * var(--stunde));
+  height: var(--stunde);
+}
+.kal-slot:hover {
+  background: var(--surface-2);
+}
+.kal-zeit__termine {
+  position: absolute;
+  inset: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: none;
+  pointer-events: none;
+}
+.kal-block {
+  position: absolute;
+  top: var(--oben);
+  height: var(--hoehe);
+  left: calc(var(--spur) * 100% / var(--spuren));
+  width: calc(100% / var(--spuren));
+  margin: 0;
+  padding: 1px 2px 1px 1px;
+  pointer-events: auto;
+}
+.kal-balken--block {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  height: 100%;
+  overflow: hidden;
+  padding: 2px 4px;
+  font-size: 12px;
+  line-height: 1.3;
+}
+.kal-balken--block .kal-balken__name {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.kal-block--kurz .kal-balken--block {
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.kal-block--kurz .kal-balken__name {
+  white-space: nowrap;
+}
+.kal-jetzt {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--oben);
+  z-index: 3;
+  border-top: 2px solid var(--text);
+  pointer-events: none;
+}
+.kal-jetzt::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: -6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--text);
+}
+.kal-jetzt[hidden] {
+  display: none;
+}
+
+/* ── Tagesliste unter dem Handy-Monat ── */
+.kal-tagesliste {
+  margin-top: var(--space-m);
+  padding: var(--space-m);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.kal-tagesliste__kopf {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-s);
+  margin-bottom: var(--space-s);
+}
+.kal-tagesliste__kopf h3 {
+  margin: 0;
+  font-size: var(--text-h3);
+}
+.kal-tagesliste__liste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
+.kal-tagesliste__liste li {
+  margin: 0 0 var(--space-xs);
+}
+.kal-tagesliste .kal-balken {
+  padding: 6px 8px;
+  font-size: var(--text-body);
+}
+.kal-tagesliste .kal-balken__name {
+  white-space: normal;
+}
+
+.kal-eintrag__zeit {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+.kal-abo {
+  margin-top: var(--space-xl);
+}
+
+/* ── Handy ── */
+@media (max-width: 640px) {
+  .kal-gross {
+    display: none !important;
+  }
+  .kal-klein {
+    display: block;
+  }
+  .kal-leiste h2 {
+    font-size: var(--text-h3);
+  }
+  .kal-leiste__rechts {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .kal-monat th {
+    padding: 4px 0;
+    text-align: center;
+  }
+  .kal-zelle {
+    height: 52px;
+    padding: 3px 0;
+    text-align: center;
+  }
+  .kal-zelle__neu {
+    display: none;
+  }
+  .kal-zelle__kopf {
+    justify-content: center;
+    margin: 0;
+  }
+  .kal-zelle__waehlen {
+    display: inline-grid;
+    position: static;
+  }
+  /* Der ganze Tag ist die Flaeche zum Antippen. */
+  .kal-zelle__waehlen::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .kal-zelle--gewaehlt:not(.kal-zelle--heute) .kal-zelle__nr {
+    background: var(--text);
+    color: var(--bg);
+  }
+  .kal-zelle--gewaehlt.kal-zelle--heute .kal-zelle__nr {
+    box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--accent);
+  }
+  .kal-punkte {
+    display: flex;
+    justify-content: center;
+    gap: 3px;
+    height: 7px;
+    margin-top: 2px;
+  }
+  .kal-punkt {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--kal-termin-rand);
+  }
+  .kal-punkt--wv {
+    background: transparent;
+    border: 1.5px solid var(--kal-wv-rand);
+  }
+  .kal-zeit {
+    --achse: 44px;
+    --stunde: 44px;
+  }
+  .kal-zeit--woche {
+    --spalte-min: 92px;
+  }
+  .kal-zeit__kopf {
+    padding-left: var(--space-xs);
+  }
+  .kal-zeit--woche .kal-zeit__neu {
+    width: 24px;
+    height: 24px;
+  }
+}

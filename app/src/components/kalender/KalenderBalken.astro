@@ -1,0 +1,37 @@
+---
+// Ein Eintrag als farbiger Balken (Monat, Ganztags-Zeile) oder Block
+// (Stundenraster). Termine und Wiedervorlagen unterscheiden sich nicht nur
+// in der Farbe: Symbol, Randlinie (durchgezogen, gestrichelt) und der Text
+// fuer Screenreader nennen die Art. Klick oeffnet den Betrieb.
+import type { KalenderEintrag } from '../../lib/kalender.ts';
+import { eintragArtZeit, eintragBeschreibung } from '../../lib/kalender-ansicht.ts';
+import { statusLabel } from '../../lib/kunden.ts';
+
+interface Props {
+  eintrag: KalenderEintrag;
+  /** Block im Stundenraster: Uhrzeit ueber dem Namen statt davor. */
+  block?: boolean;
+}
+
+const { eintrag: e, block = false } = Astro.props;
+const beschreibung = eintragBeschreibung(e, statusLabel(e.status));
+const termin = e.typ === 'termin';
+---
+
+<a
+  class:list={['kal-balken', termin ? 'kal-balken--termin' : 'kal-balken--wv', block && 'kal-balken--block']}
+  href={`/kunden/${e.kundeId}`}
+  title={beschreibung}
+>
+  <span class="sr-only">{eintragArtZeit(e)}: </span>
+  <span class="kal-balken__kopf" aria-hidden="true">
+    {termin ? (
+      <svg class="kal-symbol kal-symbol--termin" viewBox="0 0 10 10" width="8" height="8" focusable="false"><circle cx="5" cy="5" r="4.5" /></svg>
+    ) : (
+      <svg class="kal-symbol kal-symbol--wv" viewBox="0 0 12 12" width="10" height="10" focusable="false"><path d="M10 6a4 4 0 1 1-1.2-2.85M10 1.5v2.8H7.2" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    )}
+    {e.beginn && <span class="kal-balken__zeit">{e.beginn}</span>}
+  </span>
+  <span class="kal-balken__name">{e.kundeName}</span>
+  <span class="sr-only">, {statusLabel(e.status)}</span>
+</a>

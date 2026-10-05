@@ -67,7 +67,7 @@ describe('global.css: Farbvariablen fuer hell und dunkel', () => {
   const dunkelWahl = variablenIn(blockNach(":root[data-theme='dark']"));
   // Nur Farben. Masse wie --text-h1 oder --space-m gelten in beiden Modi.
   const farben = [...hell.keys()].filter((name) =>
-    /^--(bg|surface(-2)?|text(-muted)?|border(-strong)?|accent(-hover|-active)?|on-accent|ok(-bg)?|fehler(-bg)?|focus|lk-[a-z0-9]+|grafik-papier)$/.test(name),
+    /^--(bg|surface(-2)?|text(-muted)?|border(-strong)?|accent(-hover|-active)?|on-accent|ok(-bg)?|fehler(-bg)?|focus|lk-[a-z0-9]+|kal-[a-z0-9-]+|grafik-papier)$/.test(name),
   );
 
   it('kennt beide Modi und die Systemeinstellung', () => {

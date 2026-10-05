@@ -1,0 +1,105 @@
+---
+// Woche oder Tag mit Stundenraster: oben die Ganztags-Zeile (Termine ohne
+// Uhrzeit, Wiedervorlagen), darunter die Stunden, scrollbar. Termine liegen
+// nach Uhrzeit und Dauer im Raster, ueberlappende nebeneinander. Die Linie
+// "jetzt" steht in der Spalte von heute, ein kleines Skript schiebt sie
+// jede Minute weiter; ohne Skript bleibt sie beim Stand des Seitenaufrufs.
+//
+// Jede Tagesspalte ist eine Liste, die ueber aria-labelledby ihren Kopf
+// nennt. Die Stundenfelder zum Anlegen sind nur fuer die Maus (tabindex -1),
+// fuer die Tastatur hat jeder Tageskopf einen Knopf "Neuer Termin".
+import type { KalenderEintrag } from '../../lib/kalender.ts';
+import { jetztLage, kalenderUrl, legeTagAus, neuUrl, stundenBereich } from '../../lib/kalender-ansicht.ts';
+import { datumLang, wochentagName } from '../../lib/datum.ts';
+import KalenderBalken from './KalenderBalken.astro';
+
+interface Props {
+  tage: string[];
+  heute: string;
+  jetztMinuten: number;
+  eintraegeJeTag: Map<string, KalenderEintrag[]>;
+  bezeichnung: string;
+}
+
+const { tage, heute, jetztMinuten, eintraegeJeTag, bezeichnung } = Astro.props;
+const alle = tage.flatMap((t) => eintraegeJeTag.get(t) ?? []);
+const bereich = stundenBereich(alle);
+const stunden = Array.from({ length: bereich.bis - bereich.von }, (_, i) => bereich.von + i);
+const jetzt = tage.includes(heute) ? jetztLage(jetztMinuten, bereich) : null;
+const hh = (h: number) => `${String(h).padStart(2, '0')}:00`;
+---
+
+<div class="kal-zeit-rahmen" role="region" aria-label={bezeichnung}>
+  <div
+    class:list={['kal-zeit', tage.length > 1 ? 'kal-zeit--woche' : 'kal-zeit--tag']}
+    style={`--tage:${tage.length};--stunden:${stunden.length}`}
+    data-kal-raster
+    data-von={bereich.von}
+    data-bis={bereich.bis}
+  >
+    <div class="kal-zeit__ecke" aria-hidden="true"></div>
+    {tage.map((tag) => (
+      <div class:list={['kal-zeit__kopf', tag === heute && 'kal-zeit__kopf--heute']}>
+        <h3 id={`kopf-${tag}`}>
+          {tage.length > 1 ? (
+            <a href={kalenderUrl('tag', tag)} aria-current={tag === heute ? 'date' : undefined}>
+              <span class="kal-zeit__wtag">{wochentagName(tag, true)}</span>
+              <span class="kal-zeit__nr">{Number(tag.slice(8, 10))}</span>
+              <span class="sr-only">, {datumLang(tag)}{tag === heute && ', heute'}</span>
+            </a>
+          ) : (
+            <span aria-current={tag === heute ? 'date' : undefined}>
+              <span class="kal-zeit__wtag">{wochentagName(tag, true)}</span>
+              <span class="kal-zeit__nr">{Number(tag.slice(8, 10))}</span>
+              <span class="sr-only">, {datumLang(tag)}{tag === heute && ', heute'}</span>
+            </span>
+          )}
+        </h3>
+        <a class="kal-zeit__neu" href={neuUrl(tag)} aria-label={`Neuer Termin am ${wochentagName(tag)}, ${datumLang(tag, false)}`} title="Neuer Termin">
+          <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><path d="M6 1.5v9M1.5 6h9" stroke-width="1.6" stroke-linecap="round" /></svg>
+        </a>
+      </div>
+    ))}
+
+    <div class="kal-zeit__ganz-label" aria-hidden="true">ganztägig</div>
+    {tage.map((tag) => {
+      const ganz = (eintraegeJeTag.get(tag) ?? []).filter((e) => !e.beginn);
+      return (
+        <div class="kal-zeit__ganz">
+          {ganz.length > 0 && (
+            <ul aria-label={`Ganztägig am ${wochentagName(tag)}, ${datumLang(tag, false)}`}>
+              {ganz.map((e) => <li><KalenderBalken eintrag={e} /></li>)}
+            </ul>
+          )}
+        </div>
+      );
+    })}
+
+    <div class="kal-zeit__achse" aria-hidden="true">
+      {stunden.map((h, i) => <span class="kal-zeit__stunde" style={`--i:${i}`}>{hh(h)}</span>)}
+    </div>
+    {tage.map((tag) => {
+      const platziert = legeTagAus((eintraegeJeTag.get(tag) ?? []).filter((e) => e.beginn), bereich);
+      return (
+        <div class:list={['kal-zeit__spalte', tag === heute && 'kal-zeit__spalte--heute']}>
+          {stunden.map((h, i) => (
+            <a class="kal-slot" href={neuUrl(tag, hh(h))} tabindex="-1" aria-hidden="true" style={`--i:${i}`} title={`Neuer Termin um ${hh(h)}`}></a>
+          ))}
+          {platziert.length > 0 && (
+            <ol class="kal-zeit__termine" aria-labelledby={`kopf-${tag}`}>
+              {platziert.map((p) => (
+                <li
+                  class:list={['kal-block', p.hoehe < (45 / ((bereich.bis - bereich.von) * 60)) * 100 && 'kal-block--kurz']}
+                  style={`--oben:${p.oben.toFixed(3)}%;--hoehe:${p.hoehe.toFixed(3)}%;--spur:${p.spur};--spuren:${p.spuren}`}
+                >
+                  <KalenderBalken eintrag={p.eintrag} block />
+                </li>
+              ))}
+            </ol>
+          )}
+          {tag === heute && <div class="kal-jetzt" hidden={jetzt === null} style={`--oben:${(jetzt ?? 0).toFixed(3)}%`} data-kal-jetzt aria-hidden="true"></div>}
+        </div>
+      );
+    })}
+  </div>
+</div>
