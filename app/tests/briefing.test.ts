@@ -7,6 +7,7 @@ import { neueDb, vertriebler } from './helfer.ts';
 import { erstelleKunde, pruefeKunde, type Kunde } from '../src/lib/kunden.ts';
 import {
   ALLE_FELDER,
+  BRANCHEN,
   PASSWORT_SPERRE,
   TEILE,
   alleBriefings,
@@ -16,11 +17,13 @@ import {
   holeBriefingAdmin,
   listeBriefings,
   loescheBriefing,
+  paletteZurBranche,
   pruefeBriefing,
   reicheEin,
   setzeStatusAdmin,
   speichereBriefing,
 } from '../src/lib/briefing.ts';
+import { BRIEFING_ZU_TEMPLATE, palettenBranche } from '../src/lib/paletten.ts';
 
 let db: Db;
 let anna: Benutzer;
@@ -148,6 +151,31 @@ describe('Briefing-Bogen: Felder', () => {
   });
 });
 
+describe('Briefing-Bogen: Farbpalette', () => {
+  it('nimmt Codes aus dem Template-System und "offen", sonst nichts', () => {
+    expect(pruefeBriefing(vollstaendig({ farbpalette: 'HW-3' })).daten.felder.farbpalette).toBe('HW-3');
+    expect(pruefeBriefing(vollstaendig({ farbpalette: 'offen' })).daten.felder.farbpalette).toBe('offen');
+    expect(pruefeBriefing(vollstaendig({ farbpalette: '#7b1e2b' })).daten.felder.farbpalette).toBeUndefined();
+    expect(pruefeBriefing(vollstaendig({ farbpalette: 'HW-9' })).daten.felder.farbpalette).toBeUndefined();
+    // Optional: ohne Angabe fehlt nichts.
+    expect(pruefeBriefing(vollstaendig()).fehlend).toEqual([]);
+  });
+
+  it('meldet eine Palette, die nicht zur Branche passt, erst beim Einreichen', () => {
+    const p = pruefeBriefing(vollstaendig({ branche: 'Handwerk', farbpalette: 'GA-2' }));
+    expect(p.sperren).toEqual([]);
+    expect(p.fehlend.some((f) => /GA-2 gehört nicht zur Branche Handwerk/.test(f))).toBe(true);
+    expect(paletteZurBranche('Gesundheit, Praxis', 'GE-4')).toBeNull();
+    expect(paletteZurBranche('Dienstleister', 'DL-6')).toBeNull();
+    expect(paletteZurBranche('Tattoo', 'offen')).toBeNull();
+    expect(paletteZurBranche('', 'HW-2')).toBeNull();
+  });
+
+  it('jede Branche im Bogen hat eine Template-Branche mit Paletten', () => {
+    for (const b of BRANCHEN) expect(palettenBranche(BRIEFING_ZU_TEMPLATE[b]), b).not.toBeNull();
+  });
+});
+
 describe('Briefing-Bogen: Speichern und Zugriff', () => {
   let bogenAnna: string;
 
@@ -181,9 +209,15 @@ describe('Briefing-Bogen: Speichern und Zugriff', () => {
     expect(gespeichert?.daten.auswahl.paket).toBe('gross');
     expect(gespeichert?.daten.auswahl.bausteine).toEqual({ logo: true });
 
-    const voll = pruefeBriefing(vollstaendig());
+    expect(gespeichert?.farbpalette).toBeNull();
+    const mitFarbe = await speichereBriefing(db, anna.id, bogenAnna, pruefeBriefing({ firmenname: 'X', farbpalette: 'offen' }).daten);
+    expect(mitFarbe?.farbpalette).toBe('offen');
+
+    const voll = pruefeBriefing(vollstaendig({ farbpalette: 'HW-2' }));
     const eingereicht = await reicheEin(db, anna.id, bogenAnna, voll.daten, new Date('2026-10-04T10:00:00Z'));
     expect(eingereicht?.status).toBe('eingereicht');
+    expect(eingereicht?.farbpalette).toBe('HW-2');
+    expect(eingereicht?.daten.felder.farbpalette).toBe('HW-2');
     expect(eingereicht?.eingereichtAm?.toISOString()).toBe('2026-10-04T10:00:00.000Z');
 
     // Danach aendert der Vertriebler nichts mehr.
@@ -200,6 +234,7 @@ describe('Briefing-Bogen: Speichern und Zugriff', () => {
     expect(await holeBriefingAdmin(db, bBert.id)).toBeNull();
     expect((await alleBriefings(db, 'eingereicht')).map((b) => b.id)).toEqual([bogenAnna]);
     expect((await holeBriefingAdmin(db, bogenAnna))?.vertrieblerSlug).toBe('anna');
+    expect((await alleBriefings(db))[0].farbpalette).toBe('HW-2');
 
     expect(await setzeStatusAdmin(db, bBert.id, 'uebernommen')).toBe(false); // Entwuerfe werden nicht uebernommen
     expect(await setzeStatusAdmin(db, bogenAnna, 'uebernommen')).toBe(true);

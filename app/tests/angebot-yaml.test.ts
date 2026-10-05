@@ -22,6 +22,7 @@ function bogen(felder: Record<string, string>, status: Briefing['status'] = 'ein
     kundeName: felder.firmenname ?? 'Kunde',
     status,
     daten,
+    farbpalette: null,
     erstelltAm: new Date('2026-10-01T09:00:00Z'),
     geaendertAm: new Date('2026-10-04T09:00:00Z'),
     eingereichtAm: new Date('2026-10-04T09:00:00Z'),
