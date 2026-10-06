@@ -153,7 +153,7 @@ describe('Briefing-Bogen: Felder', () => {
   });
 
   it('nimmt verkaufbare Software-Module auf, in jeder Branche', () => {
-    const mit = pruefeBriefing(vollstaendig({ paket: 'gross', 'm_modul-kostenrechner': 'on', 'm_modul-terminbuchung': 'on' }));
+    const mit = pruefeBriefing(vollstaendig({ paket: 'gross', 'm_modul-kostenrechner': 'on', 'm_modul-reel-werkstatt': 'on' }));
     expect(mit.daten.auswahl.module).toEqual(['modul-kostenrechner']);
     expect(mit.fehlend).toEqual([]);
     // Seit 06.10.2026 keine Sperre nach Branche: Gastronomie mit Groß und Kostenrechner geht durch.
@@ -170,7 +170,7 @@ describe('Briefing-Bogen: Felder', () => {
     expect(moduleAusSchemaLink('kostenrechner')).toEqual(['modul-kostenrechner']);
     expect(moduleAusSchemaLink('https://partner.dekaru.de/schema?branche=gastro')).toEqual([]);
     expect(moduleAusSchemaLink('')).toEqual([]);
-    expect(moduleAusSchemaLink('quatsch, terminbuchung')).toEqual([]);
+    expect(moduleAusSchemaLink('quatsch, reel-werkstatt')).toEqual([]);
   });
 
   it('nimmt Software-Module nur mit Paket Groß an, behaelt sie aber beim Speichern', () => {
@@ -236,7 +236,7 @@ describe('Briefing-Bogen: Speichern und Zugriff', () => {
   });
 
   it('uebernimmt beim Anlegen die Module aus dem Schema, aber nie das Paket', async () => {
-    const b = (await erstelleBriefing(db, anna.id, kundeAnna.id, ['modul-kostenrechner', 'modul-terminbuchung']))!;
+    const b = (await erstelleBriefing(db, anna.id, kundeAnna.id, ['modul-kostenrechner', 'modul-reel-werkstatt']))!;
     expect(b.daten.auswahl.module).toEqual(['modul-kostenrechner']);
     // Das Paket bleibt die normale Vorbelegung, Module setzen nie Groß.
     expect(b.daten.auswahl.paket).toBe(leereAuswahl().paket);

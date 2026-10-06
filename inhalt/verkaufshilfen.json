@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "stand": "2026-10-06",
+  "stand": "2026-10-07",
   "einleitung": "Je Modul, das Sie heute anbieten dürfen, ein Steckbrief zum Nachlesen und eine Fassung ohne Preis zum Zeigen oder Ausdrucken. Was hier nicht steht, bieten Sie nicht an, auch nicht als „kommt bald“.",
   "zweittermin": {
     "titel": "Module im Zweittermin ansprechen",
@@ -289,6 +289,141 @@
         "Gibt es einen Betriebsrat, bestimmt er bei so einer Aufzeichnung mit. Nur als Hinweis an Michael Henning weitergeben, keine Rechtsberatung.",
         "Nicht als Warenwirtschaft oder Buchhaltung verkaufen. Keine Einkaufspreise, keine Rechnungen, kein automatisches Bestellen.",
         "Läuft im Google-Konto des Betriebs, dekaru ist nicht dazwischen und sieht nichts.",
+        "Die Einrichtung macht Michael Henning. Sie nehmen keine Zugangsdaten auf."
+      ]
+    },
+    {
+      "schluessel": "modul-terminbuchung",
+      "fuerWen": "Betriebe mit Paket Groß, die viele feste Termine vergeben: Friseur und Kosmetik, Praxen, Werkstätten, Fitness und andere Dienstleister. Wählbar in jeder Branche. Voraussetzung ist ein Google-Konto mit Kalender, empfohlen ist Google Workspace.",
+      "einstieg": "Sie hatten erzählt, dass das Telefon oft klingelt, während Sie bei einer Kundin sind: Wäre es eine Hilfe, wenn Ihre Kunden einen freien Termin selbst buchen und er gleich in Ihrem Kalender steht?",
+      "fragen": [
+        {
+          "frage": "Was ist der Unterschied zur Terminanfrage, die im Paket Groß schon dabei ist?",
+          "antwort": "Bei der Anfrage schickt Ihr Kunde einen Wunschtermin, und Sie melden sich zurück. Bei der Buchung wählt er selbst eine freie Zeit, und der Termin steht sofort in Ihrem Kalender. Die Anfrage bleibt im Paket Groß enthalten. Ist die Buchung eingerichtet, tritt sie auf Ihrer Website an die Stelle der Anfrage."
+        },
+        {
+          "frage": "Woher weiß das Programm, wann ich frei bin?",
+          "antwort": "Aus Ihrem Google-Kalender und Ihren Öffnungszeiten. Was dort als beschäftigt steht, etwa Urlaub oder ein privater Termin, ist für Buchungen gesperrt. Gelesen werden nur Beginn und Ende, keine Titel und keine Namen."
+        },
+        {
+          "frage": "Können Kunden selbst absagen?",
+          "antwort": "Ja, über einen Link in der Bestätigung, bis zu einer Frist, die Sie festlegen, üblich sind 24 Stunden vorher. Danach nur noch telefonisch."
+        },
+        {
+          "frage": "Brauche ich dafür Google Workspace?",
+          "antwort": "Ein Google-Konto mit Kalender reicht technisch. Empfohlen ist Workspace: Nur damit gibt es einen Vertrag mit Google zur Auftragsverarbeitung, und mit kostenlosem Gmail sind wegen der Mailgrenze von Google nur grob 30 Buchungen am Tag möglich."
+        },
+        {
+          "frage": "Geht das auch für eine Praxis?",
+          "antwort": "Ja, ohne Freitextfeld. Patienten wählen nur Leistung und Zeit, Angaben zur Gesundheit fragt die Buchung nicht ab, und die Leistungen heißen neutral. Was die Schweigepflicht im Einzelnen verlangt, klärt Herr Henning vor der Einrichtung mit Ihnen."
+        },
+        {
+          "frage": "Kann der Kunde online bezahlen oder eine bestimmte Mitarbeiterin wählen?",
+          "antwort": "Bezahlen nicht, es gibt keine Anzahlung und keine Online-Zahlung. Eine Person wählt er über die Leistung: Wer das möchte, legt Leistungen je Person an, jeweils mit einem eigenen Kalender in Ihrem Konto."
+        },
+        {
+          "frage": "Muss ich das selbst einrichten?",
+          "antwort": "Nein. Herr Henning richtet das Programm in Ihrem Google-Konto gemeinsam mit Ihnen ein und verbindet es mit der Website. Das ist im Preis enthalten."
+        }
+      ],
+      "intern": [
+        "Nur zum Paket Groß. Im Erstgespräch nur den Nutzen, keinen Preis. Stufe groß.",
+        "Die Online-Terminanfrage ist die mitarbeitende Funktion und bleibt im Paket Groß enthalten. Die Terminbuchung ist ihre Weiterentwicklung als Modul: Bei der Anfrage meldet sich der Betrieb zurück, bei der Buchung steht der Termin sofort im Kalender. Nie sagen, Groß enthalte die Buchung, und nie, Groß verliere etwas.",
+        "Praxen: Die Buchung läuft ohne Freitext, das Feld Anmerkung bleibt aus, die Leistungen heißen neutral, etwa Behandlung 30 Minuten. Schweigepflicht und Berufsrecht prüft Michael Henning vor dem ersten Praxis-Kunden. Sie sagen dazu nichts zu.",
+        "Google Workspace ist Empfehlung, nicht Pflicht. Mit Gmail gibt es keinen Vertrag zur Auftragsverarbeitung und nur rund 100 Mails am Tag, das sind grob 30 Buchungen. Bei vollen Terminbüchern Workspace.",
+        "Läuft im Google-Konto des Betriebs, dekaru ist nicht dazwischen und sieht keine Termine.",
+        "Noch nie in einem echten Google-Konto gelaufen. Michael Henning testet vor dem ersten Verkauf einmal echt.",
+        "Die Einrichtung macht Michael Henning. Sie nehmen keine Zugangsdaten auf."
+      ]
+    },
+    {
+      "schluessel": "modul-tischreservierung",
+      "fuerWen": "Betriebe mit Paket Groß, die Tische vergeben: Restaurants, Cafés, Bars. Wählbar in jeder Branche. Voraussetzung ist ein Google-Konto, empfohlen ist Google Workspace.",
+      "einstieg": "Sie hatten erzählt, dass im vollen Service ständig das Telefon wegen Tischen klingelt: Wäre es eine Hilfe, wenn Gäste online reservieren und nur Zeiten sehen, zu denen wirklich ein Tisch frei ist?",
+      "fragen": [
+        {
+          "frage": "Was ist der Unterschied zur Tischanfrage, die im Paket Groß schon dabei ist?",
+          "antwort": "Bei der Anfrage schickt der Gast einen Wunsch, Sie prüfen und melden sich zurück. Bei der Reservierung sieht er nur freie Zeiten, und der Tisch ist sofort belegt. Die Anfrage bleibt im Paket Groß enthalten. Ist die Reservierung eingerichtet, tritt sie auf Ihrer Website an die Stelle der Anfrage."
+        },
+        {
+          "frage": "Kann ein Tisch doppelt vergeben werden?",
+          "antwort": "Nein. Vor jeder Reservierung werden Ihre Plätze oder Tische geprüft, auch wenn zwei Gäste gleichzeitig reservieren. Telefonische Reservierungen tragen Sie als Zeile in Ihre Tabelle ein, dann zählen sie mit."
+        },
+        {
+          "frage": "Kann ich jede Reservierung selbst bestätigen?",
+          "antwort": "Ja, wenn Sie möchten. Dann bekommen Sie eine Mail mit Link zur Tabelle, stellen dort bestätigt oder abgelehnt ein, und der Gast bekommt die Antwort per Mail. Sonst wird automatisch bestätigt."
+        },
+        {
+          "frage": "Was ist mit Allergien?",
+          "antwort": "Dafür gibt es bewusst kein Feld, das wären Gesundheitsdaten. Website und Bestätigung bitten den Gast, Allergien direkt bei Ihnen anzusprechen."
+        },
+        {
+          "frage": "Was ist mit großen Gruppen?",
+          "antwort": "Die größte Gruppe für online legen Sie fest. Wer mit mehr Personen kommt, wird gebeten anzurufen."
+        },
+        {
+          "frage": "Brauche ich dafür Google Workspace?",
+          "antwort": "Empfohlen ja. Nur damit gibt es einen Vertrag mit Google zur Auftragsverarbeitung, und mit kostenlosem Gmail sind wegen der Mailgrenze von Google nur grob 25 bis 30 Reservierungen am Tag möglich, an einem vollen Samstag zu wenig."
+        },
+        {
+          "frage": "Muss ich das selbst einrichten?",
+          "antwort": "Nein. Herr Henning richtet das Programm in Ihrem Google-Konto gemeinsam mit Ihnen ein und verbindet es mit der Website. Das ist im Preis enthalten."
+        }
+      ],
+      "intern": [
+        "Nur zum Paket Groß. Im Erstgespräch nur den Nutzen, keinen Preis. Stufe groß.",
+        "In der Gastronomie ist die Online-Tischanfrage die mitarbeitende Funktion und bleibt im Paket Groß enthalten. Die Tischreservierung ist ein Modul dazu: Bei der Anfrage meldet sich der Betrieb zurück, bei der Reservierung ist der Tisch sofort belegt. Nie sagen, Groß enthalte die Reservierung.",
+        "Allergien und Unverträglichkeiten nie online abfragen, auch nicht im Hinweisfeld anregen. Das sind Gesundheitsdaten nach Art. 9 DSGVO.",
+        "Kein Tischplan, keine Tischwahl durch den Gast, keine Anzahlung, keine Warteliste. Nichts davon versprechen.",
+        "Google Workspace ist Empfehlung, nicht Pflicht. Mit Gmail grob 25 bis 30 Reservierungen am Tag, für ein volles Restaurant zu wenig. Das ehrlich sagen.",
+        "Läuft im Google-Konto des Betriebs, dekaru ist nicht dazwischen und sieht keine Reservierungen.",
+        "Noch nie in einem echten Google-Konto gelaufen. Michael Henning testet vor dem ersten Verkauf einmal echt.",
+        "Die Einrichtung macht Michael Henning. Sie nehmen keine Zugangsdaten auf."
+      ]
+    },
+    {
+      "schluessel": "modul-schichtplan",
+      "fuerWen": "Betriebe mit Paket Groß und einem Team mit wechselnden Diensten: Gastronomie, Friseur und Kosmetik, Pflege, Handel. Wählbar in jeder Branche. Für ein Team ist Google Workspace Voraussetzung.",
+      "einstieg": "Sie hatten erzählt, dass der Dienstplan jede Woche Zettel, Fotos und Rückfragen kostet: Wäre es eine Hilfe, wenn Ihr Team den Plan am Handy sieht und Urlaub gleich dort beantragt?",
+      "fragen": [
+        {
+          "frage": "Sieht dann jeder alles?",
+          "antwort": "Nein. Ihr Team sieht nur den veröffentlichten Plan und die eigenen Anträge, Urlaubstage und Stunden. Entwürfe, Anträge der anderen und Vertragsstunden sehen nur Sie und wer mit Ihnen plant."
+        },
+        {
+          "frage": "Prüft der Plan das Arbeitszeitgesetz?",
+          "antwort": "Er warnt beim Planen, zum Beispiel bei zu kurzer Ruhezeit, zu langen Diensten, fehlenden Pausen oder überschrittener Minijob-Grenze. Er sperrt nichts und ist keine Rechtsberatung, Tarifverträge können abweichen."
+        },
+        {
+          "frage": "Ersetzt das die Zeiterfassung?",
+          "antwort": "Nein. Der Plan enthält geplante Zeiten. Die tatsächliche Arbeitszeit erfassen Sie weiter selbst, zum Beispiel mit einer Stempeluhr oder einer Liste."
+        },
+        {
+          "frage": "Was trage ich ein, wenn jemand krank ist?",
+          "antwort": "Nur abwesend, ohne Grund. Gründe und Krankheiten gehören nicht in den Plan, dafür gibt es bewusst kein Feld."
+        },
+        {
+          "frage": "Brauche ich dafür Google Workspace?",
+          "antwort": "Für ein Team ja. Nur dann öffnet jede Person den Plan mit dem eigenen Konto und sieht nur, was sie sehen darf. Mit kostenlosem Gmail plant nur der Inhaber selbst."
+        },
+        {
+          "frage": "Brauche ich dafür KI?",
+          "antwort": "Nein. Der Plan nutzt keine KI und braucht kein Konto bei Anthropic."
+        },
+        {
+          "frage": "Muss ich das selbst einrichten?",
+          "antwort": "Nein. Herr Henning richtet den Plan in Ihrem Google-Konto mit Ihnen ein und legt die Seite auf die Handys Ihres Teams. Das ist im Preis enthalten."
+        }
+      ],
+      "intern": [
+        "Nur zum Paket Groß. Im Erstgespräch nur den Nutzen, keinen Preis. Stufe groß.",
+        "Ein Werkzeug für den Betrieb, nicht für Besucher der Website. Es läuft in einer Google-Tabelle mit eigener Seite fürs Handy, nicht in der Werkbank.",
+        "Für ein Team nur mit Google Workspace. Mit Gmail plant nur der Inhaber allein, das Team sieht nichts am Handy. Das entscheidet Michael Henning, Sie sagen dazu nichts zu.",
+        "Keine Rechtsberatung: Die Prüfungen warnen nur. Nie sagen, der Plan sei rechtssicher oder ersetze die Zeiterfassung.",
+        "Keine Gesundheits- oder Krankheitsgründe, auch nicht in anderen Spalten. Krank heißt im Plan nur abwesend.",
+        "Gibt es einen Betriebsrat, bestimmt er bei Dienst- und Urlaubsplänen mit. Nur als Hinweis an Michael Henning weitergeben, keine Rechtsberatung. Jugendliche und Schwangere nicht mit diesen Prüfungen planen.",
+        "Läuft im Google-Konto des Betriebs, dekaru ist nicht dazwischen und sieht nichts.",
+        "Noch nie in einem echten Google-Konto gelaufen. Michael Henning testet vor dem ersten Verkauf einmal echt.",
         "Die Einrichtung macht Michael Henning. Sie nehmen keine Zugangsdaten auf."
       ]
     }

@@ -44,6 +44,24 @@
       "preis": 300,
       "einheit": "einmalig",
       "stufe": "mittel"
+    },
+    {
+      "schluessel": "modul-terminbuchung",
+      "preis": 400,
+      "einheit": "einmalig",
+      "stufe": "gross"
+    },
+    {
+      "schluessel": "modul-tischreservierung",
+      "preis": 400,
+      "einheit": "einmalig",
+      "stufe": "gross"
+    },
+    {
+      "schluessel": "modul-schichtplan",
+      "preis": 400,
+      "einheit": "einmalig",
+      "stufe": "gross"
     }
   ],
   "erzeugt": "2026-10-06"
