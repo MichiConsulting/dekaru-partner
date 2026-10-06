@@ -1,6 +1,6 @@
 // Knopf "Link zum Nachschicken kopieren" auf /erstgespraech. Kopiert den Link
 // zur oeffentlichen Fassung /schema mit der gerade gewaehlten Branche und,
-// falls gewaehlt, der Farbpalette.
+// falls gewaehlt, Farbgruppe und Farbpalette.
 //
 // Die Zwischenablage geht nur ueber HTTPS und nur, wenn der Browser es
 // erlaubt. Klappt das nicht, erscheint der Link markiert in einem Feld zum
@@ -18,7 +18,8 @@ if (teilen && schema) {
   const link = (): string => {
     const url = new URL('/schema', location.origin);
     url.searchParams.set('branche', schema.dataset.branche ?? '');
-    // Gewaehlte Farbpalette nur, wenn eine gewaehlt ist.
+    // Offene Farbgruppe und gewaehlte Palette nur, wenn vorhanden.
+    if (schema.dataset.gruppe) url.searchParams.set('gruppe', schema.dataset.gruppe);
     if (schema.dataset.palette) url.searchParams.set('palette', schema.dataset.palette);
     return url.href;
   };

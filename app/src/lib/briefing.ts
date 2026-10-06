@@ -8,7 +8,7 @@
 // ab, sie gehoeren nicht in das Portal eines Vertrieblers.
 //
 // Ausnahme seit 05.10.2026: die Farbpalette (Teil B). Sie ist kein Inhalt,
-// sondern ein Code aus dem Template-System (HW-2 ...), den der Betrieb im
+// sondern ein Code aus dem Palettenkatalog (HW-2, BL-2 ...), den der Betrieb im
 // Schema des Erstgespraechs selbst gewaehlt hat, ohne personenbezogene Daten.
 // Michi braucht ihn beim Bau; er steht zusaetzlich in der Spalte
 // briefings.farbpalette (Migration 010).
@@ -16,7 +16,7 @@
 import type { Db } from './db.ts';
 import { holeKunde, isoDatum, istUuid } from './kunden.ts';
 import { auswahlAusFeldern, findePaket, leereAuswahl, type Auswahl } from './preise.ts';
-import { ALLE_PALETTEN, BRIEFING_ZU_TEMPLATE, PALETTE_OFFEN, brancheVonPalette, palettenBranche } from './paletten.ts';
+import { ALLE_PALETTEN, BRIEFING_ZU_TEMPLATE, PALETTE_OFFEN, findePalette, passtZuTemplate } from './paletten.ts';
 
 export type BriefingStatus = 'entwurf' | 'eingereicht' | 'uebernommen';
 
@@ -279,22 +279,25 @@ export function pruefeBriefing(eingabe: Record<string, unknown>): Pruefung {
   }
   if ((auswahl.bausteine.sprache ?? 0) && !felder.sprache_welche) fehlend.push('Weitere Sprache, welche');
   if (auswahl.bausteine.individuell && !felder.individuell_beschreibung) fehlend.push('Individuelles Feature, Beschreibung');
-  const palettenFehler = paletteZurBranche(felder.branche, felder.farbpalette);
+  const palettenFehler = paletteZumTemplate(felder.branche, felder.farbpalette);
   if (palettenFehler) fehlend.push(palettenFehler);
 
   return { daten: { felder, auswahl }, sperren, fehlend };
 }
 
 /**
- * Passt die gewaehlte Palette zur Branche? Jede Briefing-Branche entspricht
- * einem Template (BRIEFING_ZU_TEMPLATE). Liefert eine Meldung oder null.
+ * Laesst sich die Palette im Template der Branche bauen? Seit dem Katalog
+ * (06.10.2026) gilt fast jede Palette in jedem Template; nur wenige
+ * Standardpaletten passen ausschliesslich zum hellen oder zum dunklen Design
+ * (Tattoo). Liefert dann einen Hinweis, sonst null.
  */
-export function paletteZurBranche(branche: string | undefined, code: string | undefined): string | null {
+export function paletteZumTemplate(branche: string | undefined, code: string | undefined): string | null {
   if (!code || code === PALETTE_OFFEN || !branche) return null;
-  const soll = palettenBranche(BRIEFING_ZU_TEMPLATE[branche]);
-  if (!soll) return null;
-  if (brancheVonPalette(code)?.id === soll.id) return null;
-  return `Farbpalette ${code} gehört nicht zur Branche ${branche}. Passend sind ${soll.paletten.map((p) => p.code).join(', ')} oder noch offen.`;
+  const template = BRIEFING_ZU_TEMPLATE[branche];
+  const p = findePalette(code);
+  if (!template || !p || passtZuTemplate(p, template)) return null;
+  const design = template === 'tattoo' ? 'dunklen Tattoo-Design' : 'hellen Design dieser Branche';
+  return `Farbpalette ${p.code} ${p.name} passt nicht zum ${design}. Bitte eine andere Palette wählen oder noch offen.`;
 }
 
 /** Wert fuer die Spalte briefings.farbpalette. */

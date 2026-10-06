@@ -7,7 +7,7 @@
 import PreisSumme from './PreisSumme.astro';
 import { ALLE_POSTEN, berechne, findePaket, findeTarif, findeZusatzleistung } from '../lib/preise.ts';
 import { TEILE, type Briefing } from '../lib/briefing.ts';
-import { PALETTE_OFFEN, farbfelder, findePalette } from '../lib/paletten.ts';
+import { PALETTE_OFFEN, farbfelder, findePalette, gruppeVon } from '../lib/paletten.ts';
 import { datumDe } from '../lib/provision.ts';
 
 interface Props {
@@ -68,7 +68,7 @@ function anzeige(name: string, wert: string | undefined): string {
                         <span style={`background:${x.farbe}`} />
                       ))}
                     </span>
-                    <span><strong>{palette.code}</strong> {palette.name}</span>
+                    <span><strong>{palette.code}</strong> {palette.name}, {gruppeVon(palette).label}</span>
                   </>
                 ) : paletteWert === PALETTE_OFFEN ? (
                   'noch offen'

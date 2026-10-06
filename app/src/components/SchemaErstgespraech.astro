@@ -15,7 +15,23 @@ import '../styles/schema.css';
 import { BRANCHEN, BRANCHEN_IDS, PAKETE_MIT_FUNKTION, PAKET_REIHE, PREISANGABEN, anzahlBausteine, bausteine, type Branche } from '../lib/schema.ts';
 import { PAKETE } from '../lib/preise.ts';
 import { verfuegbareModule } from '../lib/schema-module.ts';
-import { SCHEMA_ZU_TEMPLATE, farbfelder, paletteFuerSchema, paletteTitel, palettenBranche, probeStil } from '../lib/paletten.ts';
+import {
+  FARBGRUPPEN,
+  GRUPPE_INSPIRIERT,
+  HINWEIS_NAMEN,
+  SCHEMA_ZU_TEMPLATE,
+  empfohlenePaletten,
+  farbfelder,
+  gruppeFuerSchema,
+  gruppenStreifen,
+  paletteFuerSchema,
+  paletteTitel,
+  palettenBranche,
+  palettenDerGruppe,
+  probeStil,
+  schemaDaten,
+  zusatzZeile,
+} from '../lib/paletten.ts';
 
 interface Props {
   branche: Branche;
@@ -24,9 +40,20 @@ interface Props {
 }
 
 const { branche, basis } = Astro.props;
-// Gewaehlte Farbpalette aus der Adresse (?palette=HW-2). Nur gueltig, wenn
-// sie zur gewaehlten Branche gehoert. Gespeichert wird nichts.
-const gewaehlt = paletteFuerSchema(branche.id, Astro.url.searchParams.get('palette'));
+// Gewaehlte Farbpalette und offene Farbgruppe aus der Adresse
+// (?palette=BL-2&gruppe=BL). Jede Palette gilt fuer jede Branche. Gespeichert
+// wird nichts. Ohne JavaScript fuehren Links genau hierher.
+const gewaehlt = paletteFuerSchema(Astro.url.searchParams.get('palette'));
+const offeneGruppe = gruppeFuerSchema(Astro.url.searchParams.get('gruppe'));
+const farbLink = (bid: string, gruppe: string | null, palette: string | null) => {
+  const q = new URLSearchParams({ branche: bid });
+  if (gruppe) q.set('gruppe', gruppe);
+  if (palette) q.set('palette', palette);
+  return `${basis}?${q.toString()}#schritt-3`;
+};
+// Kompakte Paletten-Daten fuer das Skript (Karten einer Gruppe ohne Neuladen).
+const datenJson = JSON.stringify(schemaDaten()).replace(/</g, '\\u003c');
+const standardVorschau = palettenBranche(SCHEMA_ZU_TEMPLATE[branche.id])?.standard ?? '';
 const PAKET_START = 'gross';
 
 const SCHRITTE = ['Überblick', 'Heute', 'Bausteine', 'Farben', 'Funktion', 'Datenweg', 'Weiter'];
@@ -52,13 +79,13 @@ const varianten = BRANCHEN_IDS.map((id) => {
     }
     return { ...k, in: PAKET_REIHE.filter((p) => k.je[p] !== null).join(' '), texte: [...gruppen].map(([text, pakete]) => ({ text, fuer: pakete.join(' ') })) };
   });
-  return { b, kacheln, module: verfuegbareModule(id), farben: palettenBranche(SCHEMA_ZU_TEMPLATE[id]) };
+  return { b, kacheln, module: verfuegbareModule(id), empfohlen: empfohlenePaletten(SCHEMA_ZU_TEMPLATE[id]) };
 });
 const anzahl = Object.fromEntries(PAKET_REIHE.map((p) => [p, anzahlBausteine(varianten[0].kacheln, p)]));
 const paketMitFunktion = PAKETE_MIT_FUNKTION.join(' und ');
 ---
 
-<div class="schema" data-schema data-branche={branche.id} data-paket={PAKET_START} data-palette={gewaehlt?.code ?? ''}>
+<div class="schema" data-schema data-branche={branche.id} data-paket={PAKET_START} data-palette={gewaehlt?.code ?? ''} data-gruppe={offeneGruppe?.kuerzel ?? ''}>
   <div class="schema__leiste">
     <slot name="leiste" />
   </div>
@@ -180,80 +207,161 @@ const paketMitFunktion = PAKETE_MIT_FUNKTION.join(' und ');
       </ul>
     </section>
 
-    <!-- 3: Farben -->
+    <!-- 3: Farben. Ebene 1 Farbgruppen, Ebene 2 die Paletten einer Gruppe.
+         Ohne JavaScript ueber Links (?gruppe=BL, ?palette=BL-2), mit
+         JavaScript ohne Neuladen aus den Daten in data-paletten-daten. -->
     <section class="schritt schritt--farben" id="schritt-3" data-schritt="3" aria-labelledby="t-3">
       <p class="schritt__marke">Schritt 3 von 6</p>
       <h2 id="t-3" class="schritt__titel" tabindex="-1">In welchen Farben?</h2>
-      {
-        varianten.map(({ b, farben }) => {
-          if (!farben) return null;
-          const aktiv = b.id === branche.id ? gewaehlt : null;
-          const vorschau = aktiv ?? farben.paletten[0];
-          return (
-            <div data-fuer-branche={b.id} hidden={b.id !== branche.id} data-farb-branche>
-              <p class="schritt__lead">{farben.paletten.length} fertige Farbwelten für Ihren Betrieb. Jede ist auf gute Lesbarkeit geprüft, auf dem Handy wie am Rechner. Tippen Sie eine an.</p>
-              <div class="farbwahl">
-                <div class="farbprobe" style={probeStil(vorschau)} data-farb-vorschau aria-hidden="true">
-                  <div class="farbprobe__kopf">
-                    <span class="farbprobe__marke">Ihr Betrieb</span>
-                    <span class="farbprobe__nav"><span>Leistungen</span><span>Kontakt</span></span>
-                  </div>
-                  <div class="farbprobe__inhalt">
-                    <span class="farbprobe__titel">So wirkt Ihre Startseite</span>
-                    <span class="farbprobe__text">Ein Absatz Fließtext, wie er auf der Seite steht. Dazu ein <span class="farbprobe__link">Link zum Weiterlesen</span>.</span>
-                    <span class="farbprobe__knoepfe">
-                      <span class="probe-knopf probe-knopf--haupt">Anfrage senden</span>
-                      <span class="probe-knopf probe-knopf--zweit">Mehr erfahren</span>
-                    </span>
-                  </div>
-                </div>
-                <div class="farbwahl__name" data-farb-anzeige>
-                  <p class="farbwahl__code" data-farb-titel>{aktiv ? paletteTitel(aktiv) : 'Noch keine Palette gewählt'}</p>
-                  <p class="farbwahl__hinweis" data-farb-hinweis>{aktiv ? 'Diesen Namen bitte nennen.' : `Die Vorschau zeigt ${paletteTitel(vorschau)}. Tippen Sie unten eine Palette an.`}</p>
-                </div>
+      <p class="schritt__lead">Über hundert fertige Farbwelten in {FARBGRUPPEN.length} Gruppen. Jede ist auf gute Lesbarkeit geprüft, auf dem Handy wie am Rechner. Wählen Sie erst eine Farbgruppe, dann eine Palette.</p>
+      {(() => {
+        const vorschau = (gewaehlt ?? paletteFuerSchema(standardVorschau))!;
+        return (
+          <div class="farbwahl">
+            <div class="farbprobe" style={probeStil(vorschau)} data-farb-vorschau aria-hidden="true">
+              <div class="farbprobe__kopf">
+                <span class="farbprobe__marke">Ihr Betrieb</span>
+                <span class="farbprobe__nav"><span>Leistungen</span><span>Kontakt</span></span>
               </div>
-              <ul class="paletten" aria-label={`Farbpaletten für ${b.name}`}>
-                {farben.paletten.map((p, i) => (
-                  <li style={`--i:${i}`}>
-                    <a
-                      class="palette"
-                      href={`${basis}?branche=${b.id}&palette=${p.code}#schritt-3`}
-                      data-palette-wahl={p.code}
-                      data-titel={paletteTitel(p)}
-                      data-stil={probeStil(p)}
-                      aria-current={aktiv?.code === p.code ? 'true' : undefined}
-                    >
-                      <span class="palette__probe" style={probeStil(p)} aria-hidden="true">
-                        <span class="palette__felder">
-                          {farbfelder(p).map((f) => (
-                            <span class="palette__feld" style={`background:${f.farbe}`} title={f.name} />
-                          ))}
-                        </span>
-                        <span class="palette__muster">
-                          <span class="palette__ueberschrift">Überschrift</span>
-                          <span class="palette__zeile">Text auf der Fläche</span>
-                          <span class="palette__knoepfe">
-                            <span class="probe-knopf probe-knopf--haupt">Anfragen</span>
-                            <span class="probe-knopf probe-knopf--zweit">Mehr</span>
-                          </span>
-                        </span>
-                      </span>
-                      <span class="palette__fuss">
-                        <span class="palette__code">{p.code}</span>
-                        <span class="palette__name">{p.name}</span>
-                        <span class="palette__charakter">{p.charakter}</span>
-                        <span class="palette__gewaehlt">Gewählt</span>
-                      </span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
+              <div class="farbprobe__inhalt">
+                <span class="farbprobe__titel">So wirkt Ihre Startseite</span>
+                <span class="farbprobe__text">Ein Absatz Fließtext, wie er auf der Seite steht. Dazu ein <span class="farbprobe__link">Link zum Weiterlesen</span>.</span>
+                <span class="farbprobe__knoepfe">
+                  <span class="probe-knopf probe-knopf--haupt">Anfrage senden</span>
+                  <span class="probe-knopf probe-knopf--zweit">Mehr erfahren</span>
+                </span>
+              </div>
             </div>
-          );
-        })
+            <div class="farbwahl__name" data-farb-anzeige>
+              <p class="farbwahl__code" data-farb-titel>{gewaehlt ? paletteTitel(gewaehlt) : 'Noch keine Palette gewählt'}</p>
+              <p class="farbwahl__hinweis" data-farb-hinweis>{gewaehlt ? 'Diesen Namen bitte nennen.' : `Die Vorschau zeigt ${paletteTitel(vorschau)}. Wählen Sie unten eine Palette.`}</p>
+            </div>
+          </div>
+        );
+      })()}
+
+      {
+        varianten.map(({ b, empfohlen }) => (
+          <div class="empfehlung" data-fuer-branche={b.id} hidden={b.id !== branche.id}>
+            <p class="empfehlung__titel">Passt oft zu Ihrer Branche</p>
+            <ul class="empfehlung__liste">
+              {empfohlen.map((p) => (
+                <li>
+                  <a
+                    class="chip"
+                    href={farbLink(b.id, p.gruppe, p.code)}
+                    data-palette-wahl={p.code}
+                    data-gruppe-ziel={p.gruppe}
+                    aria-current={gewaehlt?.code === p.code ? 'true' : undefined}
+                  >
+                    <span class="chip__felder" aria-hidden="true">
+                      {farbfelder(p).slice(0, 3).map((f) => (
+                        <span style={`background:${f.farbe}`} />
+                      ))}
+                    </span>
+                    <span class="chip__code">{p.code}</span> {p.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
       }
+
+      <div class="farbgruppen-bereich" data-gruppen-uebersicht hidden={Boolean(offeneGruppe)}>
+        <p class="schritt__frage" id="farbgruppen-frage">Farbgruppen</p>
+        <ul class="farbgruppen" aria-labelledby="farbgruppen-frage">
+          {FARBGRUPPEN.map((g, i) => (
+            <li style={`--i:${i}`}>
+              <a class="farbgruppe" href={farbLink(branche.id, g.kuerzel, gewaehlt?.code ?? null)} data-gruppe-wahl={g.kuerzel}>
+                <span class="farbgruppe__streifen" style={`background:${gruppenStreifen(g)}`} aria-hidden="true" />
+                <span class="farbgruppe__kopf">
+                  <span class="farbgruppe__name">{g.label}</span>
+                  <span class="farbgruppe__zahl">{g.codes.length} Paletten</span>
+                </span>
+                <span class="farbgruppe__text">{g.beschreibung}</span>
+                <span class="farbgruppe__wahl" data-gruppe-gewaehlt={g.kuerzel} hidden={gewaehlt?.gruppe !== g.kuerzel}>Ihre Wahl liegt hier</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="farbgruppe-ansicht" data-gruppen-ansicht hidden={!offeneGruppe}>
+        <div class="farbgruppe-ansicht__kopf">
+          <a class="btn btn--zweit btn--klein" href={farbLink(branche.id, null, gewaehlt?.code ?? null)} data-gruppe-zurueck>Alle Farbgruppen</a>
+          <h3 class="farbgruppe-ansicht__titel" tabindex="-1" data-gruppe-titel>{offeneGruppe?.label ?? ''}</h3>
+        </div>
+        <ul class="paletten" aria-labelledby="t-3" data-paletten-liste>
+          {offeneGruppe &&
+            palettenDerGruppe(offeneGruppe).map((p, i) => (
+              <li style={`--i:${i}`}>
+                <a
+                  class="palette"
+                  href={farbLink(branche.id, offeneGruppe.kuerzel, p.code)}
+                  data-palette-wahl={p.code}
+                  aria-current={gewaehlt?.code === p.code ? 'true' : undefined}
+                >
+                  <span class="palette__probe" style={probeStil(p)} aria-hidden="true">
+                    <span class="palette__felder">
+                      {farbfelder(p).map((f) => (
+                        <span class="palette__feld" style={`background:${f.farbe}`} />
+                      ))}
+                    </span>
+                    <span class="palette__muster">
+                      <span class="palette__ueberschrift">Überschrift</span>
+                      <span class="palette__zeile">Text auf der Fläche</span>
+                      <span class="palette__knoepfe">
+                        <span class="probe-knopf probe-knopf--haupt">Anfragen</span>
+                        <span class="probe-knopf probe-knopf--zweit">Mehr</span>
+                      </span>
+                    </span>
+                  </span>
+                  <span class="palette__fuss">
+                    <span class="palette__code">{p.code}</span>
+                    <span class="palette__name">{p.name}</span>
+                    <span class="palette__charakter">{p.charakter}</span>
+                    {zusatzZeile(p) && <span class="palette__zusatz">{zusatzZeile(p)}</span>}
+                    <span class="palette__gewaehlt">Gewählt</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+        </ul>
+        <p class="schritt__klein" data-hinweis-namen hidden={offeneGruppe?.kuerzel !== GRUPPE_INSPIRIERT}>{HINWEIS_NAMEN}</p>
+      </div>
+
+      <template data-karten-vorlage>
+        <li>
+          <a class="palette" href="#schritt-3" data-palette-wahl="">
+            <span class="palette__probe" aria-hidden="true">
+              <span class="palette__felder">
+                <span class="palette__feld"></span><span class="palette__feld"></span><span class="palette__feld"></span><span class="palette__feld"></span><span class="palette__feld"></span>
+              </span>
+              <span class="palette__muster">
+                <span class="palette__ueberschrift">Überschrift</span>
+                <span class="palette__zeile">Text auf der Fläche</span>
+                <span class="palette__knoepfe">
+                  <span class="probe-knopf probe-knopf--haupt">Anfragen</span>
+                  <span class="probe-knopf probe-knopf--zweit">Mehr</span>
+                </span>
+              </span>
+            </span>
+            <span class="palette__fuss">
+              <span class="palette__code"></span>
+              <span class="palette__name"></span>
+              <span class="palette__charakter"></span>
+              <span class="palette__zusatz"></span>
+              <span class="palette__gewaehlt">Gewählt</span>
+            </span>
+          </a>
+        </li>
+      </template>
+      <script is:inline type="application/json" data-paletten-daten set:html={datenJson} />
+
       <p class="sr-only" aria-live="polite" data-farb-ansage></p>
       <p class="schritt__klein">Sie müssen sich heute nicht festlegen. Hat Ihr Betrieb schon feste Farben, etwa im Logo, sprechen Sie das im Termin an.</p>
+      <p class="schritt__klein" data-hinweis-namen-immer>Zur Gruppe „Inspiriert von bekannten Websites“: {HINWEIS_NAMEN}</p>
     </section>
 
     <!-- 4: Die mitarbeitende Funktion -->

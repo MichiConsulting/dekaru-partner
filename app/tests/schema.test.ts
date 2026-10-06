@@ -10,7 +10,7 @@ import type { Benutzer } from '../src/lib/auth.ts';
 import { HOSTING, HOSTING_TARIFE, PAKETE, PREIS_AB, euro } from '../src/lib/preise.ts';
 import { BRANCHEN, BRANCHEN_IDS, anzahlBausteine, bausteine, findeBranche } from '../src/lib/schema.ts';
 import { SCHEMA_MODULE, verfuegbareModule, type SchemaModul } from '../src/lib/schema-module.ts';
-import { ALLE_PALETTEN, SCHEMA_ZU_TEMPLATE, palettenBranche, paletteFuerSchema, probeStil } from '../src/lib/paletten.ts';
+import { ALLE_PALETTEN, FARBGRUPPEN, HINWEIS_NAMEN, SCHEMA_ZU_TEMPLATE, empfohlenePaletten, findePalette, palettenBranche, paletteFuerSchema, probeStil, schemaDaten } from '../src/lib/paletten.ts';
 import { neueDb, vertriebler } from './helfer.ts';
 
 const lies = (pfad: string) => readFileSync(fileURLToPath(new URL(pfad, import.meta.url)), 'utf8');
@@ -94,40 +94,76 @@ describe('Seite /erstgespraech', () => {
 });
 
 describe('Schritt Farben', () => {
-  it.each(BRANCHEN_IDS)('Branche %s: zeigt die Paletten der passenden Template-Branche mit Code und Name', async (id) => {
+  it.each(BRANCHEN_IDS)('Branche %s: zeigt alle Farbgruppen und die Empfehlung der Branche', async (id) => {
     const { schema } = await rendere(id);
-    const farben = palettenBranche(SCHEMA_ZU_TEMPLATE[id])!;
-    expect(farben, `keine Template-Branche fuer ${id}`).not.toBeNull();
     const text = nurText(schema);
     expect(text).toContain('In welchen Farben?');
-    for (const p of farben.paletten) {
-      expect(schema).toContain(`href="/erstgespraech?branche=${id}&amp;palette=${p.code}#schritt-3"`);
-      expect(text).toContain(p.code);
-      expect(text).toContain(p.name);
+    for (const g of FARBGRUPPEN) {
+      expect(schema).toContain(`href="/erstgespraech?branche=${id}&amp;gruppe=${g.kuerzel}#schritt-3"`);
+      expect(text).toContain(g.label);
+      expect(text).toContain(`${g.codes.length} Paletten`);
     }
+    // Empfehlung: die Paletten der Template-Branche, als Links mit Gruppe und Palette.
+    const empfohlen = empfohlenePaletten(SCHEMA_ZU_TEMPLATE[id]);
+    expect(empfohlen.length).toBeGreaterThanOrEqual(4);
+    expect(text).toContain('Passt oft zu Ihrer Branche');
+    for (const p of empfohlen) expect(schema).toContain(`href="/erstgespraech?branche=${id}&amp;gruppe=${p.gruppe}&amp;palette=${p.code}#schritt-3"`);
     expect(text).toContain('Noch keine Palette gewählt');
+    // Ohne gewaehlte Gruppe keine Karten im HTML, die Gruppenansicht ist zu.
+    expect(schema).not.toMatch(/class="palette" href="\//);
+    expect(schema).toMatch(/data-gruppen-ansicht hidden/);
     expect(schema).not.toMatch(/aria-current="true"[^>]*data-palette-wahl|data-palette-wahl[^>]*aria-current="true"/);
   });
 
-  it('uebernimmt eine passende Palette aus der Adresse und zeigt den Code gross', async () => {
-    const { schema } = await rendere('handwerk', '&palette=HW-2');
+  it('oeffnet eine Gruppe aus der Adresse und zeigt nur deren Karten', async () => {
+    const { schema } = await rendere('gastro', '&gruppe=bl');
+    const karten = [...schema.matchAll(/class="palette" href="[^"]*" data-palette-wahl="([A-Z]{2}-\d+)"/g)].map((m) => m[1]);
+    expect(karten).toEqual(FARBGRUPPEN.find((g) => g.kuerzel === 'BL')!.codes);
+    expect(schema).toMatch(/data-gruppen-uebersicht hidden/);
+    expect(schema).toContain('data-gruppe="BL"');
+    expect(schema).toContain('href="/erstgespraech?branche=gastro#schritt-3" data-gruppe-zurueck');
+    // Der Hinweis zu den Namen steht in der Gruppe IN und immer unten im Schritt,
+    // damit er auch bei einer gewaehlten IN-Palette ohne offene Gruppe sichtbar ist.
+    expect(schema).toMatch(/data-hinweis-namen hidden/);
+    expect(nurText(schema)).toContain(HINWEIS_NAMEN);
+    const inspiriert = await rendere('gastro', '&gruppe=IN');
+    expect(inspiriert.schema).not.toMatch(/data-hinweis-namen hidden/);
+    expect(nurText(inspiriert.schema)).toContain(HINWEIS_NAMEN);
+    expect(nurText(inspiriert.schema)).toContain('Inspiriert von Apple');
+  });
+
+  it('uebernimmt jede Palette aus der Adresse, auch aus einer anderen Branche', async () => {
+    const { schema } = await rendere('handwerk', '&gruppe=PT&palette=HW-2');
     expect(schema).toMatch(/data-palette="HW-2"/);
     expect(schema).toMatch(/data-palette-wahl="HW-2"[^>]*aria-current="true"/);
     expect(nurText(schema)).toContain('Palette HW-2 Petrol');
     expect(nurText(schema)).toContain('Diesen Namen bitte nennen.');
-    // Die Vorschau traegt die Farben der gewaehlten Palette.
-    expect(schema).toContain(`style="${probeStil(paletteFuerSchema('handwerk', 'HW-2')!)}" data-farb-vorschau`);
+    expect(schema).toContain(`style="${probeStil(findePalette('HW-2')!)}" data-farb-vorschau`);
+    const fremd = await rendere('friseur', '&palette=BL-2');
+    expect(nurText(fremd.schema)).toContain('Palette BL-2 Denim');
+    // Die Kachel der Gruppe traegt den Hinweis auf die Wahl.
+    expect(fremd.schema).toMatch(/data-gruppe-gewaehlt="BL"(?! hidden)/);
+    expect(fremd.schema).toMatch(/data-gruppe-gewaehlt="PT" hidden/);
   });
 
-  it('ignoriert eine Palette aus einer anderen Branche und Unsinn', async () => {
-    for (const extra of ['&palette=GA-2', '&palette=quatsch', '&palette=']) {
+  it('ignoriert Unsinn in der Adresse', async () => {
+    for (const extra of ['&palette=quatsch', '&palette=', '&gruppe=XX', '&palette=<b>']) {
       const { schema } = await rendere('handwerk', extra);
       expect(schema).not.toMatch(/data-palette="[A-Z]/);
-      expect(schema).not.toMatch(/aria-current="true"[^>]*>\s*<span class="palette__probe/);
+      expect(schema).not.toContain('data-gruppe="XX"');
     }
-    expect(paletteFuerSchema('friseur', 'DL-4')?.name).toBe('Lavendel');
-    expect(paletteFuerSchema('praxis', 'DL-4')).toBeNull();
-    expect(paletteFuerSchema('praxis', 'ge-2')?.code).toBe('GE-2');
+    expect(paletteFuerSchema('ge-2')?.code).toBe('GE-2');
+  });
+
+  it('liefert dem Skript kompakte Daten fuer alle Paletten, ohne Preise', async () => {
+    const { schema } = await rendere('praxis');
+    const roh = /<script type="application\/json" data-paletten-daten>([\s\S]*?)<\/script>/.exec(schema)?.[1] ?? '';
+    const daten = JSON.parse(roh);
+    expect(daten).toEqual(schemaDaten());
+    expect(Object.keys(daten.paletten)).toHaveLength(ALLE_PALETTEN.length);
+    for (const [, werte] of Object.entries(daten.paletten) as [string, string[]][]) expect(werte[4]).toMatch(/^(#[0-9a-f]{6}){10}$/);
+    expect(roh).not.toMatch(/€|Euro/);
+    expect(roh.length).toBeLessThan(25000);
   });
 
   it('hat sechs Schritte, in der richtigen Reihenfolge', async () => {
@@ -140,10 +176,14 @@ describe('Schritt Farben', () => {
 });
 
 describe('Link zum Nachschicken', () => {
-  it('nimmt eine gewaehlte Palette mit', async () => {
-    const { schema } = await rendere('praxis', '&palette=GE-3');
-    expect(schema).toMatch(/<input[^>]*value="http:\/\/localhost\/schema\?branche=praxis&amp;palette=GE-3"/);
-    expect(lies('../src/scripts/schema-link.ts')).toContain("url.searchParams.set('palette', schema.dataset.palette)");
+  it('nimmt Farbgruppe und gewaehlte Palette mit', async () => {
+    const { schema } = await rendere('praxis', '&gruppe=OL&palette=GE-3');
+    expect(schema).toMatch(/<input[^>]*value="http:\/\/localhost\/schema\?branche=praxis&amp;gruppe=OL&amp;palette=GE-3"/);
+    const nur = await rendere('praxis', '&palette=GE-3');
+    expect(nur.schema).toMatch(/<input[^>]*value="http:\/\/localhost\/schema\?branche=praxis&amp;palette=GE-3"/);
+    const skript = lies('../src/scripts/schema-link.ts');
+    expect(skript).toContain("url.searchParams.set('gruppe', schema.dataset.gruppe)");
+    expect(skript).toContain("url.searchParams.set('palette', schema.dataset.palette)");
   });
 
   it('bietet den oeffentlichen Link mit der gewaehlten Branche und den Hinweis', async () => {

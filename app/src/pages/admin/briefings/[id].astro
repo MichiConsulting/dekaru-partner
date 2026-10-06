@@ -8,7 +8,7 @@ import { AdminFehler, akteurAus, briefingStatusSetzen, briefingYamlExportieren }
 import { heuteIso } from '../../../lib/kunden.ts';
 import { formular, istPost } from '../../../lib/http.ts';
 import { istAdmin } from '../../../lib/zugriff.ts';
-import { PALETTE_OFFEN, findePalette } from '../../../lib/paletten.ts';
+import { BRIEFING_ZU_TEMPLATE, PALETTE_OFFEN, farbfelder, findePalette, gruppeVon, passtZuTemplate } from '../../../lib/paletten.ts';
 
 if (!istAdmin(Astro.locals.benutzer)) return Astro.redirect('/verboten', 303);
 
@@ -49,6 +49,8 @@ if (istPost(Astro.request)) {
 
 const ok = Astro.url.searchParams.get('ok');
 const palette = findePalette(briefing.farbpalette ?? briefing.daten.felder.farbpalette);
+const template = BRIEFING_ZU_TEMPLATE[briefing.daten.felder.branche ?? ''];
+const paletteUnpassend = palette && template ? !passtZuTemplate(palette, template) : false;
 let vorschau: string | null = null;
 let vorschauFehler: string | null = null;
 try {
@@ -71,7 +73,14 @@ try {
     <strong>Farbpalette für den Bau:</strong>
     {palette ? (
       <>
-        {` ${palette.code} ${palette.name}. In site.config.ts: `}<code>{`palette: "${palette.code}"`}</code>
+        {' '}
+        <span class="admin-palette__felder" aria-hidden="true">
+          {farbfelder(palette).map((x) => (
+            <span style={`background:${x.farbe}`} />
+          ))}
+        </span>
+        {` ${palette.code} ${palette.name} (${gruppeVon(palette).label}). In site.config.ts: `}<code>{`palette: "${palette.code}"`}</code>
+        {paletteUnpassend && <strong>{` Achtung: passt nicht zum Design des Templates ${template}, der Build bricht ab.`}</strong>}
       </>
     ) : (briefing.farbpalette ?? briefing.daten.felder.farbpalette) === PALETTE_OFFEN ? (
       ' noch offen, Standardpalette der Branche oder im Zweittermin klären.'
@@ -110,3 +119,18 @@ try {
   <h2>Vorschau der Angebots-Eingabe</h2>
   {vorschauFehler ? <div class="meldung meldung--fehler" role="alert"><p>{vorschauFehler}</p></div> : <pre class="yaml"><code>{vorschau}</code></pre>}
 </Layout>
+
+<style>
+  .admin-palette__felder {
+    display: inline-flex;
+    vertical-align: middle;
+    border: 1px solid var(--border-strong);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .admin-palette__felder span {
+    display: block;
+    width: 12px;
+    height: 22px;
+  }
+</style>

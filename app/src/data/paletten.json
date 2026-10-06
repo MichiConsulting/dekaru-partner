@@ -2,6 +2,7 @@
   "_hinweis": "Erzeugt mit scripts/paletten-sync.mjs aus dekaru-templates/_system/paletten.json (dort aus paletten.mjs). Nicht von Hand aendern. Nach jeder Palettenaenderung: npm run paletten-sync",
   "quelle": "dekaru-templates/_system/paletten.mjs",
   "feld": "palette",
+  "hinweisNamen": "Die Namen beschreiben nur die Stimmung. Keine Verbindung zu den genannten Unternehmen.",
   "tokens": [
     {
       "token": "--tx-bg",
@@ -56,6 +57,4174 @@
       "rolle": "Fehlermeldung"
     }
   ],
+  "gruppen": [
+    {
+      "kuerzel": "BL",
+      "label": "Blau",
+      "beschreibung": "Von Himmelblau bis Nachtblau. Ruhig, verlässlich, sachlich.",
+      "codes": [
+        "UM-1",
+        "RE-2",
+        "FI-2",
+        "HW-4",
+        "GE-2",
+        "GT-5",
+        "TB-3",
+        "GA-3",
+        "DL-5",
+        "BL-1",
+        "BL-2"
+      ]
+    },
+    {
+      "kuerzel": "PT",
+      "label": "Petrol und Türkis",
+      "beschreibung": "Zwischen Blau und Grün. Frisch, klar, etwas eigen.",
+      "codes": [
+        "HW-2",
+        "RE-1",
+        "UM-3",
+        "FI-3",
+        "TB-5",
+        "PT-1",
+        "PT-2",
+        "PT-3",
+        "PT-4"
+      ]
+    },
+    {
+      "kuerzel": "GR",
+      "label": "Grün",
+      "beschreibung": "Wald, Tanne, Smaragd. Natürlich und bodenständig.",
+      "codes": [
+        "GA-1",
+        "TB-2",
+        "HW-3",
+        "GT-2",
+        "UM-5",
+        "GT-1",
+        "GE-1",
+        "RE-3",
+        "GR-1",
+        "GR-2"
+      ]
+    },
+    {
+      "kuerzel": "OL",
+      "label": "Oliv und Salbei",
+      "beschreibung": "Gedeckte Grüntöne. Weich, ruhig, gelassen.",
+      "codes": [
+        "FI-1",
+        "GA-5",
+        "GT-4",
+        "RE-5",
+        "DL-2",
+        "GE-3",
+        "FI-5",
+        "OL-1",
+        "OL-2"
+      ]
+    },
+    {
+      "kuerzel": "ER",
+      "label": "Erdtöne und Braun",
+      "beschreibung": "Holz, Lehm und Kaffee. Warm und handfest.",
+      "codes": [
+        "GT-3",
+        "TB-4",
+        "DL-3",
+        "ER-1",
+        "ER-2",
+        "ER-3",
+        "ER-4"
+      ]
+    },
+    {
+      "kuerzel": "SE",
+      "label": "Gelb und Senf",
+      "beschreibung": "Senf, Ocker, Honig. Freundlich und warm.",
+      "codes": [
+        "GA-2",
+        "GA-4",
+        "DL-6",
+        "TB-1",
+        "SE-1",
+        "SE-2",
+        "SE-3"
+      ]
+    },
+    {
+      "kuerzel": "OR",
+      "label": "Orange, Koralle und Rost",
+      "beschreibung": "Kräftig und lebendig. Reines Rot gibt es bewusst nicht.",
+      "codes": [
+        "HW-1",
+        "UM-2",
+        "OR-1",
+        "OR-2",
+        "OR-3",
+        "OR-4",
+        "OR-5"
+      ]
+    },
+    {
+      "kuerzel": "RO",
+      "label": "Rosa und Pastell",
+      "beschreibung": "Zarte, getönte Flächen mit kräftiger Schrift.",
+      "codes": [
+        "DL-1",
+        "RO-1",
+        "RO-2",
+        "RO-3",
+        "RO-4",
+        "RO-5",
+        "RO-6",
+        "RO-7",
+        "RO-8"
+      ]
+    },
+    {
+      "kuerzel": "VI",
+      "label": "Violett und Lavendel",
+      "beschreibung": "Von Lavendel bis Aubergine. Ruhig oder ausgefallen.",
+      "codes": [
+        "DL-4",
+        "GE-4",
+        "VI-1",
+        "VI-2",
+        "VI-3",
+        "VI-4",
+        "VI-5",
+        "VI-6"
+      ]
+    },
+    {
+      "kuerzel": "NE",
+      "label": "Neutral und Grau",
+      "beschreibung": "Fast ohne Farbe. Sachlich, die Bilder sprechen.",
+      "codes": [
+        "HW-5",
+        "FI-4",
+        "UM-4",
+        "GE-5",
+        "RE-4",
+        "NE-1",
+        "NE-2",
+        "NE-3",
+        "NE-4"
+      ]
+    },
+    {
+      "kuerzel": "SG",
+      "label": "Schwarz und Gold",
+      "beschreibung": "Edel und zurückhaltend, meist auf dunklem Grund.",
+      "codes": [
+        "TA-2",
+        "TA-5",
+        "SG-1",
+        "SG-2",
+        "SG-3",
+        "SG-4",
+        "SG-5",
+        "SG-6"
+      ]
+    },
+    {
+      "kuerzel": "DK",
+      "label": "Dunkle Designs",
+      "beschreibung": "Dunkler Grund, helle Schrift, ein leuchtender Akzent.",
+      "codes": [
+        "TA-1",
+        "TA-3",
+        "TA-4",
+        "DK-1",
+        "DK-2",
+        "DK-3",
+        "DK-4",
+        "DK-5",
+        "DK-6"
+      ]
+    },
+    {
+      "kuerzel": "IN",
+      "label": "Inspiriert von bekannten Websites",
+      "beschreibung": "Die Stimmung bekannter Seiten, nachempfunden und auf Lesbarkeit geprüft.",
+      "codes": [
+        "IN-1",
+        "IN-2",
+        "IN-3",
+        "IN-4",
+        "IN-5",
+        "IN-6",
+        "IN-7",
+        "IN-8",
+        "IN-9",
+        "IN-10",
+        "IN-11",
+        "IN-12",
+        "IN-13",
+        "IN-14",
+        "IN-15",
+        "IN-16",
+        "IN-17"
+      ]
+    }
+  ],
+  "paletten": [
+    {
+      "code": "HW-1",
+      "name": "Orange",
+      "charakter": "Anthrazit und gebranntes Orange",
+      "gruppe": "OR",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "handwerk",
+      "standard": true,
+      "farben": {
+        "bg": "#f3f2ef",
+        "surface": "#fafaf8",
+        "sand": "#e8e5df",
+        "border": "#e0ddd8",
+        "ink": "#1a1d22",
+        "ink-soft": "#4a505c",
+        "muted": "#666b78",
+        "accent": "#ac5516",
+        "accent-deep": "#7e3e10",
+        "on-accent": "#ffffff",
+        "accent-on-dark": "#7e3e10",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#7e3e10",
+      "kontrast": {
+        "button": 5.17,
+        "text": 15.09,
+        "link": 7.26
+      }
+    },
+    {
+      "code": "HW-2",
+      "name": "Petrol",
+      "charakter": "Petrol auf kühlem Hellgrau",
+      "gruppe": "PT",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "handwerk",
+      "standard": false,
+      "farben": {
+        "bg": "#ecf6f9",
+        "surface": "#fafeff",
+        "sand": "#d6e4e9",
+        "border": "#ccdde2",
+        "ink": "#0f1517",
+        "ink-soft": "#43494b",
+        "muted": "#696e70",
+        "accent": "#007083",
+        "accent-deep": "#005566",
+        "on-accent": "#f4fcfd",
+        "accent-on-dark": "#005566",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#005566",
+      "kontrast": {
+        "button": 5.54,
+        "text": 16.77,
+        "link": 7.67
+      }
+    },
+    {
+      "code": "HW-3",
+      "name": "Tanne",
+      "charakter": "Tannengrün auf warmem Hellgrau",
+      "gruppe": "GR",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "handwerk",
+      "standard": false,
+      "farben": {
+        "bg": "#f7f4ea",
+        "surface": "#fefdf9",
+        "sand": "#e6e1d4",
+        "border": "#dfd9ca",
+        "ink": "#16140e",
+        "ink-soft": "#494842",
+        "muted": "#706e69",
+        "accent": "#23643f",
+        "accent-deep": "#0a4929",
+        "on-accent": "#f6fcf8",
+        "accent-on-dark": "#0a4929",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#0a4929",
+      "kontrast": {
+        "button": 6.81,
+        "text": 16.73,
+        "link": 9.55
+      }
+    },
+    {
+      "code": "HW-4",
+      "name": "Stahlblau",
+      "charakter": "Stahlblau auf neutralem Grau",
+      "gruppe": "BL",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "handwerk",
+      "standard": false,
+      "farben": {
+        "bg": "#eff4fa",
+        "surface": "#fbfdff",
+        "sand": "#dbe2eb",
+        "border": "#d2dae5",
+        "ink": "#111418",
+        "ink-soft": "#45484b",
+        "muted": "#6b6d71",
+        "accent": "#286099",
+        "accent-deep": "#134679",
+        "on-accent": "#f6fbff",
+        "accent-on-dark": "#134679",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#134679",
+      "kontrast": {
+        "button": 6.25,
+        "text": 16.7,
+        "link": 8.71
+      }
+    },
+    {
+      "code": "HW-5",
+      "name": "Graphit",
+      "charakter": "Graphit, fast ohne Farbe",
+      "gruppe": "NE",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "handwerk",
+      "standard": false,
+      "farben": {
+        "bg": "#f2f4f8",
+        "surface": "#fcfdff",
+        "sand": "#dee1e7",
+        "border": "#d6dae0",
+        "ink": "#131416",
+        "ink-soft": "#46484a",
+        "muted": "#6c6d6f",
+        "accent": "#363e4b",
+        "accent-deep": "#202732",
+        "on-accent": "#f7faff",
+        "accent-on-dark": "#202732",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#202732",
+      "kontrast": {
+        "button": 10.31,
+        "text": 16.74,
+        "link": 13.64
+      }
+    },
+    {
+      "code": "GA-1",
+      "name": "Waldgrün",
+      "charakter": "Warme Creme und Waldgrün",
+      "gruppe": "GR",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "gastro",
+      "standard": true,
+      "farben": {
+        "bg": "#faf6ee",
+        "surface": "#fffdf8",
+        "sand": "#ede6d8",
+        "border": "#e5dfd0",
+        "ink": "#1c1a15",
+        "ink-soft": "#524e44",
+        "muted": "#797064",
+        "accent": "#2e5e3a",
+        "accent-deep": "#1f4229",
+        "on-accent": "#f5f9f0",
+        "accent-on-dark": "#1f4229",
+        "success": "#2e5e3a",
+        "danger": "#b84040"
+      },
+      "link": "#1f4229",
+      "kontrast": {
+        "button": 7.09,
+        "text": 16.13,
+        "link": 10.42
+      }
+    },
+    {
+      "code": "GA-2",
+      "name": "Senf",
+      "charakter": "Senfgelb auf Creme",
+      "gruppe": "SE",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "gastro",
+      "standard": false,
+      "farben": {
+        "bg": "#faf3e5",
+        "surface": "#fffdf7",
+        "sand": "#eae0cd",
+        "border": "#e4d8c1",
+        "ink": "#17130b",
+        "ink-soft": "#4b473f",
+        "muted": "#716d65",
+        "accent": "#886100",
+        "accent-deep": "#6b4900",
+        "on-accent": "#fdfaf4",
+        "accent-on-dark": "#6b4900",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#6b4900",
+      "kontrast": {
+        "button": 5.37,
+        "text": 16.76,
+        "link": 7.38
+      }
+    },
+    {
+      "code": "GA-3",
+      "name": "Nachtblau",
+      "charakter": "Nachtblau auf Leinen",
+      "gruppe": "BL",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "gastro",
+      "standard": false,
+      "farben": {
+        "bg": "#f9f3ea",
+        "surface": "#fffdf9",
+        "sand": "#e8e0d3",
+        "border": "#e2d8c8",
+        "ink": "#17130e",
+        "ink-soft": "#4b4742",
+        "muted": "#716e69",
+        "accent": "#274172",
+        "accent-deep": "#132954",
+        "on-accent": "#f7faff",
+        "accent-on-dark": "#132954",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#132954",
+      "kontrast": {
+        "button": 9.63,
+        "text": 16.76,
+        "link": 12.92
+      }
+    },
+    {
+      "code": "GA-4",
+      "name": "Ocker",
+      "charakter": "Ocker auf Creme",
+      "gruppe": "SE",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "gastro",
+      "standard": false,
+      "farben": {
+        "bg": "#fbf2e8",
+        "surface": "#fffdf8",
+        "sand": "#ebdfd0",
+        "border": "#e5d7c5",
+        "ink": "#18130d",
+        "ink-soft": "#4c4741",
+        "muted": "#716c66",
+        "accent": "#925b0c",
+        "accent-deep": "#734300",
+        "on-accent": "#fef9f4",
+        "accent-on-dark": "#734300",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#734300",
+      "kontrast": {
+        "button": 5.39,
+        "text": 16.67,
+        "link": 7.49
+      }
+    },
+    {
+      "code": "GA-5",
+      "name": "Olive",
+      "charakter": "Olivgrün auf Leinen",
+      "gruppe": "OL",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "gastro",
+      "standard": false,
+      "farben": {
+        "bg": "#f7f4e7",
+        "surface": "#fefdf8",
+        "sand": "#e6e1d0",
+        "border": "#dfdac5",
+        "ink": "#16140c",
+        "ink-soft": "#4a4841",
+        "muted": "#6f6d66",
+        "accent": "#5a642c",
+        "accent-deep": "#424a17",
+        "on-accent": "#f9fbf5",
+        "accent-on-dark": "#424a17",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#424a17",
+      "kontrast": {
+        "button": 6.12,
+        "text": 16.72,
+        "link": 8.57
+      }
+    },
+    {
+      "code": "DL-1",
+      "name": "Mauve",
+      "charakter": "Zartes Rosé und Mauve",
+      "gruppe": "RO",
+      "modus": "hell",
+      "vorlagen": [
+        "hell"
+      ],
+      "branche": "dienstleister",
+      "standard": true,
+      "farben": {
+        "bg": "#faf5f5",
+        "surface": "#fffcfc",
+        "sand": "#ede3e5",
+        "border": "#e8dde0",
+        "ink": "#1f1a1c",
+        "ink-soft": "#574e52",
+        "muted": "#7c6e73",
+        "accent": "#a84568",
+        "accent-deep": "#8b3555",
+        "on-accent": "#fff8fa",
+        "accent-on-dark": "#8b3555",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#8b3555",
+      "kontrast": {
+        "button": 5.4,
+        "text": 15.9,
+        "link": 7.1
+      }
+    },
+    {
+      "code": "DL-2",
+      "name": "Salbei",
+      "charakter": "Salbeigrün auf hellem Grau",
+      "gruppe": "OL",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "dienstleister",
+      "standard": false,
+      "farben": {
+        "bg": "#f0f5f1",
+        "surface": "#fbfefc",
+        "sand": "#dce4dd",
+        "border": "#d3dcd4",
+        "ink": "#121512",
+        "ink-soft": "#454946",
+        "muted": "#6b6e6b",
+        "accent": "#446b51",
+        "accent-deep": "#2e513b",
+        "on-accent": "#f6fcf8",
+        "accent-on-dark": "#2e513b",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#2e513b",
+      "kontrast": {
+        "button": 5.82,
+        "text": 16.67,
+        "link": 8.08
+      }
+    },
+    {
+      "code": "DL-3",
+      "name": "Taupe",
+      "charakter": "Taupe auf Sand",
+      "gruppe": "ER",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "dienstleister",
+      "standard": false,
+      "farben": {
+        "bg": "#faf2eb",
+        "surface": "#fffcf9",
+        "sand": "#eadfd5",
+        "border": "#e4d7cb",
+        "ink": "#17130f",
+        "ink-soft": "#4b4743",
+        "muted": "#716c68",
+        "accent": "#675845",
+        "accent-deep": "#4d402f",
+        "on-accent": "#fdf9f4",
+        "accent-on-dark": "#4d402f",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#4d402f",
+      "kontrast": {
+        "button": 6.55,
+        "text": 16.69,
+        "link": 9.07
+      }
+    },
+    {
+      "code": "DL-4",
+      "name": "Lavendel",
+      "charakter": "Lavendel auf kühlem Weiß",
+      "gruppe": "VI",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "dienstleister",
+      "standard": false,
+      "farben": {
+        "bg": "#f4f3fa",
+        "surface": "#fdfdff",
+        "sand": "#e2e0ea",
+        "border": "#dad7e4",
+        "ink": "#141317",
+        "ink-soft": "#48474b",
+        "muted": "#6d6c71",
+        "accent": "#685796",
+        "accent-deep": "#4e3f77",
+        "on-accent": "#faf9ff",
+        "accent-on-dark": "#4e3f77",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#4e3f77",
+      "kontrast": {
+        "button": 5.91,
+        "text": 16.78,
+        "link": 8.28
+      }
+    },
+    {
+      "code": "DL-5",
+      "name": "Nachtblau",
+      "charakter": "Nachtblau auf Weiß",
+      "gruppe": "BL",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "dienstleister",
+      "standard": false,
+      "farben": {
+        "bg": "#f1f4fa",
+        "surface": "#fcfdff",
+        "sand": "#dde1ea",
+        "border": "#d4dae3",
+        "ink": "#121417",
+        "ink-soft": "#46484b",
+        "muted": "#6b6d70",
+        "accent": "#2c4678",
+        "accent-deep": "#182e5a",
+        "on-accent": "#f7faff",
+        "accent-on-dark": "#182e5a",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#182e5a",
+      "kontrast": {
+        "button": 8.9,
+        "text": 16.75,
+        "link": 12.08
+      }
+    },
+    {
+      "code": "DL-6",
+      "name": "Messing",
+      "charakter": "Messing auf Creme",
+      "gruppe": "SE",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "dienstleister",
+      "standard": false,
+      "farben": {
+        "bg": "#faf3e7",
+        "surface": "#fffdf8",
+        "sand": "#eae0d0",
+        "border": "#e4d8c5",
+        "ink": "#17130c",
+        "ink-soft": "#4b4741",
+        "muted": "#716d66",
+        "accent": "#7b5f1b",
+        "accent-deep": "#5f4602",
+        "on-accent": "#fdfaf4",
+        "accent-on-dark": "#5f4602",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#5f4602",
+      "kontrast": {
+        "button": 5.77,
+        "text": 16.78,
+        "link": 8.06
+      }
+    },
+    {
+      "code": "GE-1",
+      "name": "Seegrün",
+      "charakter": "Salbeiweiß und Seegrün",
+      "gruppe": "GR",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "gesundheit",
+      "standard": true,
+      "farben": {
+        "bg": "#f3f7f5",
+        "surface": "#fafcfb",
+        "sand": "#e0eae5",
+        "border": "#d8e8e2",
+        "ink": "#182220",
+        "ink-soft": "#3e5450",
+        "muted": "#5f7671",
+        "accent": "#1f6b58",
+        "accent-deep": "#145445",
+        "on-accent": "#eef8f5",
+        "accent-on-dark": "#145445",
+        "success": "#1f6b58",
+        "danger": "#b84040"
+      },
+      "link": "#145445",
+      "kontrast": {
+        "button": 5.87,
+        "text": 15.08,
+        "link": 8.15
+      }
+    },
+    {
+      "code": "GE-2",
+      "name": "Ozeanblau",
+      "charakter": "Ozeanblau auf kühlem Weiß",
+      "gruppe": "BL",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "gesundheit",
+      "standard": false,
+      "farben": {
+        "bg": "#eef5fa",
+        "surface": "#fafeff",
+        "sand": "#d9e3e9",
+        "border": "#cfdbe3",
+        "ink": "#101417",
+        "ink-soft": "#44484b",
+        "muted": "#6b6f72",
+        "accent": "#046093",
+        "accent-deep": "#004773",
+        "on-accent": "#f6fbff",
+        "accent-on-dark": "#004773",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#004773",
+      "kontrast": {
+        "button": 6.5,
+        "text": 16.82,
+        "link": 8.88
+      }
+    },
+    {
+      "code": "GE-3",
+      "name": "Salbei",
+      "charakter": "Salbeigrün auf warmem Weiß",
+      "gruppe": "OL",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "gesundheit",
+      "standard": false,
+      "farben": {
+        "bg": "#f3f5ee",
+        "surface": "#fdfefa",
+        "sand": "#e0e3d9",
+        "border": "#d8dbcf",
+        "ink": "#131410",
+        "ink-soft": "#474844",
+        "muted": "#6e6f6b",
+        "accent": "#466747",
+        "accent-deep": "#304e31",
+        "on-accent": "#f7fcf7",
+        "accent-on-dark": "#304e31",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#304e31",
+      "kontrast": {
+        "button": 6.14,
+        "text": 16.83,
+        "link": 8.46
+      }
+    },
+    {
+      "code": "GE-4",
+      "name": "Lavendel",
+      "charakter": "Lavendel auf hellem Grau",
+      "gruppe": "VI",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "gesundheit",
+      "standard": false,
+      "farben": {
+        "bg": "#f3f3f9",
+        "surface": "#fdfdff",
+        "sand": "#e1e0e9",
+        "border": "#d9d8e3",
+        "ink": "#141317",
+        "ink-soft": "#47474b",
+        "muted": "#6d6d70",
+        "accent": "#635a93",
+        "accent-deep": "#4a4274",
+        "on-accent": "#faf9ff",
+        "accent-on-dark": "#4a4274",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#4a4274",
+      "kontrast": {
+        "button": 5.87,
+        "text": 16.74,
+        "link": 8.18
+      }
+    },
+    {
+      "code": "GE-5",
+      "name": "Schiefer",
+      "charakter": "Schieferblau, ruhig",
+      "gruppe": "NE",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "gesundheit",
+      "standard": false,
+      "farben": {
+        "bg": "#eff4f9",
+        "surface": "#fbfdff",
+        "sand": "#dbe2e9",
+        "border": "#d2dbe3",
+        "ink": "#111417",
+        "ink-soft": "#45484b",
+        "muted": "#6b6e70",
+        "accent": "#40586d",
+        "accent-deep": "#2a4052",
+        "on-accent": "#f6fbff",
+        "accent-on-dark": "#2a4052",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#2a4052",
+      "kontrast": {
+        "button": 7.11,
+        "text": 16.7,
+        "link": 9.71
+      }
+    },
+    {
+      "code": "GT-1",
+      "name": "Laubgrün",
+      "charakter": "Natürliches Laubgrün",
+      "gruppe": "GR",
+      "modus": "hell",
+      "vorlagen": [
+        "hell"
+      ],
+      "branche": "garten",
+      "standard": true,
+      "farben": {
+        "bg": "#f4f6f0",
+        "surface": "#fafbf8",
+        "sand": "#e2e8da",
+        "border": "#d8e2d0",
+        "ink": "#1c2118",
+        "ink-soft": "#465040",
+        "muted": "#68755f",
+        "accent": "#4a7a28",
+        "accent-deep": "#376018",
+        "on-accent": "#f0f8e8",
+        "accent-on-dark": "#376018",
+        "success": "#4a7a28",
+        "danger": "#b84040"
+      },
+      "link": "#376018",
+      "kontrast": {
+        "button": 4.7,
+        "text": 15.07,
+        "link": 6.77
+      }
+    },
+    {
+      "code": "GT-2",
+      "name": "Tanne",
+      "charakter": "Tannengrün auf hellem Grau",
+      "gruppe": "GR",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "garten",
+      "standard": false,
+      "farben": {
+        "bg": "#eef6f1",
+        "surface": "#fbfefc",
+        "sand": "#dae4de",
+        "border": "#d1ddd6",
+        "ink": "#111512",
+        "ink-soft": "#454946",
+        "muted": "#6a6e6c",
+        "accent": "#135b42",
+        "accent-deep": "#00412c",
+        "on-accent": "#f5fcf9",
+        "accent-on-dark": "#00412c",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#00412c",
+      "kontrast": {
+        "button": 7.75,
+        "text": 16.75,
+        "link": 10.65
+      }
+    },
+    {
+      "code": "GT-3",
+      "name": "Lehm",
+      "charakter": "Lehmbraun auf Leinen",
+      "gruppe": "ER",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "garten",
+      "standard": false,
+      "farben": {
+        "bg": "#fbf2e8",
+        "surface": "#fffdf8",
+        "sand": "#ebdfd0",
+        "border": "#e5d7c5",
+        "ink": "#18130d",
+        "ink-soft": "#4c4741",
+        "muted": "#716c66",
+        "accent": "#6d5331",
+        "accent-deep": "#523b1d",
+        "on-accent": "#fef9f4",
+        "accent-on-dark": "#523b1d",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#523b1d",
+      "kontrast": {
+        "button": 6.85,
+        "text": 16.67,
+        "link": 9.47
+      }
+    },
+    {
+      "code": "GT-4",
+      "name": "Moos",
+      "charakter": "Moosgrün auf Creme",
+      "gruppe": "OL",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "garten",
+      "standard": false,
+      "farben": {
+        "bg": "#f6f4e8",
+        "surface": "#fefdf8",
+        "sand": "#e5e2d0",
+        "border": "#dddac5",
+        "ink": "#15140d",
+        "ink-soft": "#494841",
+        "muted": "#6e6d66",
+        "accent": "#62691b",
+        "accent-deep": "#495002",
+        "on-accent": "#fafbf5",
+        "accent-on-dark": "#495002",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#495002",
+      "kontrast": {
+        "button": 5.68,
+        "text": 16.72,
+        "link": 7.82
+      }
+    },
+    {
+      "code": "GT-5",
+      "name": "Himmel",
+      "charakter": "Himmelblau auf Weiß",
+      "gruppe": "BL",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "garten",
+      "standard": false,
+      "farben": {
+        "bg": "#edf5f9",
+        "surface": "#fafeff",
+        "sand": "#d8e3e9",
+        "border": "#cfdce3",
+        "ink": "#101517",
+        "ink-soft": "#44484b",
+        "muted": "#6a6e70",
+        "accent": "#12648f",
+        "accent-deep": "#004b70",
+        "on-accent": "#f5fbff",
+        "accent-on-dark": "#004b70",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#004b70",
+      "kontrast": {
+        "button": 6.2,
+        "text": 16.67,
+        "link": 8.49
+      }
+    },
+    {
+      "code": "RE-1",
+      "name": "Türkis",
+      "charakter": "Klares Türkis auf kühlem Weiß",
+      "gruppe": "PT",
+      "modus": "hell",
+      "vorlagen": [
+        "hell"
+      ],
+      "branche": "reinigung",
+      "standard": true,
+      "farben": {
+        "bg": "#f0f4f6",
+        "surface": "#fafcfd",
+        "sand": "#dce8ec",
+        "border": "#d4e4e8",
+        "ink": "#15211f",
+        "ink-soft": "#3a4f52",
+        "muted": "#5f7477",
+        "accent": "#1e7a8c",
+        "accent-deep": "#155e6e",
+        "on-accent": "#eef8fa",
+        "accent-on-dark": "#155e6e",
+        "success": "#1e7a8c",
+        "danger": "#b84040"
+      },
+      "link": "#155e6e",
+      "kontrast": {
+        "button": 4.61,
+        "text": 14.95,
+        "link": 6.64
+      }
+    },
+    {
+      "code": "RE-2",
+      "name": "Frischblau",
+      "charakter": "Frisches Blau auf Weiß",
+      "gruppe": "BL",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "reinigung",
+      "standard": false,
+      "farben": {
+        "bg": "#f0f4f9",
+        "surface": "#fbfdff",
+        "sand": "#dbe2e9",
+        "border": "#d3dae3",
+        "ink": "#111417",
+        "ink-soft": "#45484b",
+        "muted": "#6b6d70",
+        "accent": "#2863ab",
+        "accent-deep": "#124a89",
+        "on-accent": "#f7faff",
+        "accent-on-dark": "#124a89",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#124a89",
+      "kontrast": {
+        "button": 5.8,
+        "text": 16.73,
+        "link": 8.03
+      }
+    },
+    {
+      "code": "RE-3",
+      "name": "Mint",
+      "charakter": "Mintgrün auf kühlem Weiß",
+      "gruppe": "GR",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "reinigung",
+      "standard": false,
+      "farben": {
+        "bg": "#edf6f4",
+        "surface": "#fafefd",
+        "sand": "#d8e4e1",
+        "border": "#ceddda",
+        "ink": "#101514",
+        "ink-soft": "#444948",
+        "muted": "#696e6d",
+        "accent": "#2c725a",
+        "accent-deep": "#155743",
+        "on-accent": "#f5fcf9",
+        "accent-on-dark": "#155743",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#155743",
+      "kontrast": {
+        "button": 5.51,
+        "text": 16.75,
+        "link": 7.71
+      }
+    },
+    {
+      "code": "RE-4",
+      "name": "Schiefer",
+      "charakter": "Schiefergrau, sachlich",
+      "gruppe": "NE",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "reinigung",
+      "standard": false,
+      "farben": {
+        "bg": "#f0f4f8",
+        "surface": "#fbfdff",
+        "sand": "#dce2e8",
+        "border": "#d3dae1",
+        "ink": "#121416",
+        "ink-soft": "#45484a",
+        "muted": "#6b6d70",
+        "accent": "#425565",
+        "accent-deep": "#2c3c4a",
+        "on-accent": "#f6fbff",
+        "accent-on-dark": "#2c3c4a",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#2c3c4a",
+      "kontrast": {
+        "button": 7.42,
+        "text": 16.71,
+        "link": 10.26
+      }
+    },
+    {
+      "code": "RE-5",
+      "name": "Limette",
+      "charakter": "Limettengrün auf Weiß",
+      "gruppe": "OL",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "reinigung",
+      "standard": false,
+      "farben": {
+        "bg": "#f2f5ef",
+        "surface": "#fcfefb",
+        "sand": "#dfe3db",
+        "border": "#d6dbd2",
+        "ink": "#131411",
+        "ink-soft": "#474845",
+        "muted": "#6c6e6b",
+        "accent": "#55751d",
+        "accent-deep": "#3e5a03",
+        "on-accent": "#f8fbf6",
+        "accent-on-dark": "#3e5a03",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#3e5a03",
+      "kontrast": {
+        "button": 5.1,
+        "text": 16.8,
+        "link": 7.15
+      }
+    },
+    {
+      "code": "UM-1",
+      "name": "Blau",
+      "charakter": "Verlässliches Blau auf Grau",
+      "gruppe": "BL",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "umzug",
+      "standard": true,
+      "farben": {
+        "bg": "#f1f3f6",
+        "surface": "#fafbfd",
+        "sand": "#dee4ec",
+        "border": "#d6dee8",
+        "ink": "#161a22",
+        "ink-soft": "#3c4658",
+        "muted": "#65707f",
+        "accent": "#2b5c8a",
+        "accent-deep": "#1e456a",
+        "on-accent": "#eef4fa",
+        "accent-on-dark": "#1e456a",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#1e456a",
+      "kontrast": {
+        "button": 6.32,
+        "text": 15.68,
+        "link": 8.93
+      }
+    },
+    {
+      "code": "UM-2",
+      "name": "Signalorange",
+      "charakter": "Signalorange auf Grau",
+      "gruppe": "OR",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "umzug",
+      "standard": false,
+      "farben": {
+        "bg": "#f0f4f8",
+        "surface": "#fcfdff",
+        "sand": "#dce2e8",
+        "border": "#d4dae1",
+        "ink": "#121416",
+        "ink-soft": "#46484a",
+        "muted": "#6b6d70",
+        "accent": "#a95800",
+        "accent-deep": "#884000",
+        "on-accent": "#fef9f5",
+        "accent-on-dark": "#884000",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#884000",
+      "kontrast": {
+        "button": 4.92,
+        "text": 16.71,
+        "link": 6.83
+      }
+    },
+    {
+      "code": "UM-3",
+      "name": "Petrol",
+      "charakter": "Petrol auf kühlem Grau",
+      "gruppe": "PT",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "umzug",
+      "standard": false,
+      "farben": {
+        "bg": "#edf6f8",
+        "surface": "#fafeff",
+        "sand": "#d7e4e7",
+        "border": "#cedde0",
+        "ink": "#101516",
+        "ink-soft": "#44494a",
+        "muted": "#696e6f",
+        "accent": "#076675",
+        "accent-deep": "#004c59",
+        "on-accent": "#f4fcfd",
+        "accent-on-dark": "#004c59",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#004c59",
+      "kontrast": {
+        "button": 6.38,
+        "text": 16.78,
+        "link": 8.79
+      }
+    },
+    {
+      "code": "UM-4",
+      "name": "Anthrazit",
+      "charakter": "Anthrazit, ganz sachlich",
+      "gruppe": "NE",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "umzug",
+      "standard": false,
+      "farben": {
+        "bg": "#f1f4f8",
+        "surface": "#fcfdff",
+        "sand": "#dee2e7",
+        "border": "#d5dae0",
+        "ink": "#121416",
+        "ink-soft": "#46484a",
+        "muted": "#6c6d6f",
+        "accent": "#2f3640",
+        "accent-deep": "#192028",
+        "on-accent": "#f7faff",
+        "accent-on-dark": "#192028",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#192028",
+      "kontrast": {
+        "button": 11.65,
+        "text": 16.74,
+        "link": 14.89
+      }
+    },
+    {
+      "code": "UM-5",
+      "name": "Tanne",
+      "charakter": "Tannengrün auf hellem Grau",
+      "gruppe": "GR",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "umzug",
+      "standard": false,
+      "farben": {
+        "bg": "#f0f5f1",
+        "surface": "#fbfefc",
+        "sand": "#dce4dd",
+        "border": "#d3dcd4",
+        "ink": "#121512",
+        "ink-soft": "#454946",
+        "muted": "#6b6e6b",
+        "accent": "#1e5a3c",
+        "accent-deep": "#054026",
+        "on-accent": "#f6fcf8",
+        "accent-on-dark": "#054026",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#054026",
+      "kontrast": {
+        "button": 7.82,
+        "text": 16.67,
+        "link": 10.77
+      }
+    },
+    {
+      "code": "TB-1",
+      "name": "Gold",
+      "charakter": "Warmes Gold auf Sand",
+      "gruppe": "SE",
+      "modus": "hell",
+      "vorlagen": [
+        "hell"
+      ],
+      "branche": "tierbetreuung",
+      "standard": true,
+      "farben": {
+        "bg": "#f5f2eb",
+        "surface": "#fdfbf6",
+        "sand": "#e8e0d2",
+        "border": "#e4dccc",
+        "ink": "#221e16",
+        "ink-soft": "#544d40",
+        "muted": "#776e5f",
+        "accent": "#b07a2e",
+        "accent-deep": "#8e6120",
+        "on-accent": "#1a1208",
+        "accent-on-dark": "#8e6120",
+        "success": "#5e7a52",
+        "danger": "#b84040"
+      },
+      "link": "#8e6120",
+      "kontrast": {
+        "button": 5,
+        "text": 14.84,
+        "link": 4.84
+      }
+    },
+    {
+      "code": "TB-2",
+      "name": "Waldgrün",
+      "charakter": "Waldgrün auf Creme",
+      "gruppe": "GR",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "tierbetreuung",
+      "standard": false,
+      "farben": {
+        "bg": "#f8f4e7",
+        "surface": "#fffdf8",
+        "sand": "#e7e1d0",
+        "border": "#e1d9c4",
+        "ink": "#16140c",
+        "ink-soft": "#4a4740",
+        "muted": "#716e68",
+        "accent": "#2b6339",
+        "accent-deep": "#154924",
+        "on-accent": "#f6fcf7",
+        "accent-on-dark": "#154924",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#154924",
+      "kontrast": {
+        "button": 6.85,
+        "text": 16.75,
+        "link": 9.49
+      }
+    },
+    {
+      "code": "TB-3",
+      "name": "Himmelblau",
+      "charakter": "Himmelblau auf Weiß",
+      "gruppe": "BL",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "tierbetreuung",
+      "standard": false,
+      "farben": {
+        "bg": "#edf5fa",
+        "surface": "#fafeff",
+        "sand": "#d7e4ea",
+        "border": "#cddce4",
+        "ink": "#101517",
+        "ink-soft": "#43494b",
+        "muted": "#696e71",
+        "accent": "#12648f",
+        "accent-deep": "#004b70",
+        "on-accent": "#f5fbff",
+        "accent-on-dark": "#004b70",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#004b70",
+      "kontrast": {
+        "button": 6.2,
+        "text": 16.68,
+        "link": 8.5
+      }
+    },
+    {
+      "code": "TB-4",
+      "name": "Haselnuss",
+      "charakter": "Haselnussbraun auf Leinen",
+      "gruppe": "ER",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "tierbetreuung",
+      "standard": false,
+      "farben": {
+        "bg": "#fbf2e8",
+        "surface": "#fffcf8",
+        "sand": "#ecdfd1",
+        "border": "#e6d7c6",
+        "ink": "#18130d",
+        "ink-soft": "#4c4741",
+        "muted": "#716c67",
+        "accent": "#765328",
+        "accent-deep": "#5a3b13",
+        "on-accent": "#fef9f4",
+        "accent-on-dark": "#5a3b13",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#5a3b13",
+      "kontrast": {
+        "button": 6.61,
+        "text": 16.67,
+        "link": 9.16
+      }
+    },
+    {
+      "code": "TB-5",
+      "name": "Petrol",
+      "charakter": "Petrol auf warmem Weiß",
+      "gruppe": "PT",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "tierbetreuung",
+      "standard": false,
+      "farben": {
+        "bg": "#f8f3eb",
+        "surface": "#fffdf9",
+        "sand": "#e8e0d4",
+        "border": "#e1d8ca",
+        "ink": "#16130e",
+        "ink-soft": "#4a4742",
+        "muted": "#706d68",
+        "accent": "#016770",
+        "accent-deep": "#004d55",
+        "on-accent": "#f4fcfd",
+        "accent-on-dark": "#004d55",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#004d55",
+      "kontrast": {
+        "button": 6.36,
+        "text": 16.77,
+        "link": 8.67
+      }
+    },
+    {
+      "code": "FI-1",
+      "name": "Olive",
+      "charakter": "Ruhiges Olivgrün",
+      "gruppe": "OL",
+      "modus": "hell",
+      "vorlagen": [
+        "hell"
+      ],
+      "branche": "fitness",
+      "standard": true,
+      "farben": {
+        "bg": "#f4f3f0",
+        "surface": "#fbfaf7",
+        "sand": "#e5e3da",
+        "border": "#dedcd0",
+        "ink": "#1e1f18",
+        "ink-soft": "#4a4c40",
+        "muted": "#6f7162",
+        "accent": "#6b7a45",
+        "accent-deep": "#525e33",
+        "on-accent": "#f4f6ec",
+        "accent-on-dark": "#525e33",
+        "success": "#6b7a45",
+        "danger": "#b84040"
+      },
+      "link": "#525e33",
+      "kontrast": {
+        "button": 4.28,
+        "text": 14.97,
+        "link": 6.29
+      }
+    },
+    {
+      "code": "FI-2",
+      "name": "Kobalt",
+      "charakter": "Kobaltblau auf kühlem Grau",
+      "gruppe": "BL",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "fitness",
+      "standard": false,
+      "farben": {
+        "bg": "#f0f4fa",
+        "surface": "#fcfdff",
+        "sand": "#dde2e9",
+        "border": "#d4dae3",
+        "ink": "#121417",
+        "ink-soft": "#46484b",
+        "muted": "#6b6d70",
+        "accent": "#3054ae",
+        "accent-deep": "#1d3b8a",
+        "on-accent": "#f7faff",
+        "accent-on-dark": "#1d3b8a",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#1d3b8a",
+      "kontrast": {
+        "button": 6.68,
+        "text": 16.72,
+        "link": 9.3
+      }
+    },
+    {
+      "code": "FI-3",
+      "name": "Petrol",
+      "charakter": "Petrol auf hellem Grau",
+      "gruppe": "PT",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "fitness",
+      "standard": false,
+      "farben": {
+        "bg": "#eef5f7",
+        "surface": "#fafefe",
+        "sand": "#d9e4e6",
+        "border": "#cfdcdf",
+        "ink": "#101516",
+        "ink-soft": "#444949",
+        "muted": "#6a6e6f",
+        "accent": "#0c6a76",
+        "accent-deep": "#004f5b",
+        "on-accent": "#f4fcfd",
+        "accent-on-dark": "#004f5b",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#004f5b",
+      "kontrast": {
+        "button": 6.05,
+        "text": 16.69,
+        "link": 8.39
+      }
+    },
+    {
+      "code": "FI-4",
+      "name": "Graphit",
+      "charakter": "Graphit, sportlich schlicht",
+      "gruppe": "NE",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "fitness",
+      "standard": false,
+      "farben": {
+        "bg": "#f1f4f8",
+        "surface": "#fcfdff",
+        "sand": "#dee2e7",
+        "border": "#d5dae0",
+        "ink": "#121416",
+        "ink-soft": "#46484a",
+        "muted": "#6c6d6f",
+        "accent": "#313942",
+        "accent-deep": "#1c222a",
+        "on-accent": "#f7faff",
+        "accent-on-dark": "#1c222a",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#1c222a",
+      "kontrast": {
+        "button": 11.19,
+        "text": 16.74,
+        "link": 14.51
+      }
+    },
+    {
+      "code": "FI-5",
+      "name": "Eukalyptus",
+      "charakter": "Eukalyptus auf warmem Weiß",
+      "gruppe": "OL",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "fitness",
+      "standard": false,
+      "farben": {
+        "bg": "#f6f4ec",
+        "surface": "#fefdfa",
+        "sand": "#e4e1d6",
+        "border": "#dddacc",
+        "ink": "#15140f",
+        "ink-soft": "#494843",
+        "muted": "#6e6d69",
+        "accent": "#386c5e",
+        "accent-deep": "#235146",
+        "on-accent": "#f5fcfa",
+        "accent-on-dark": "#235146",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#235146",
+      "kontrast": {
+        "button": 5.81,
+        "text": 16.75,
+        "link": 8.16
+      }
+    },
+    {
+      "code": "TA-1",
+      "name": "Rost",
+      "charakter": "Dunkel mit kräftigem Rost",
+      "gruppe": "DK",
+      "modus": "dunkel",
+      "vorlagen": [
+        "dunkel"
+      ],
+      "branche": "tattoo",
+      "standard": true,
+      "farben": {
+        "bg": "#17171a",
+        "surface": "#1f1f23",
+        "sand": "#2a2a30",
+        "border": "#2e2e34",
+        "ink": "#f0ede8",
+        "ink-soft": "#b0aba2",
+        "muted": "#7e7a72",
+        "accent": "#c8503c",
+        "accent-deep": "#a83e2c",
+        "on-accent": "#ffffff",
+        "accent-on-dark": "#d4796a",
+        "success": "#6b9a55",
+        "danger": "#d85a48"
+      },
+      "link": "#d4796a",
+      "kontrast": {
+        "button": 4.5,
+        "text": 15.32,
+        "link": 5.74
+      }
+    },
+    {
+      "code": "TA-2",
+      "name": "Messing",
+      "charakter": "Messing auf Schwarz",
+      "gruppe": "SG",
+      "modus": "dunkel",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "tattoo",
+      "standard": false,
+      "farben": {
+        "bg": "#110f0c",
+        "surface": "#1c1915",
+        "sand": "#27241f",
+        "border": "#2f2b24",
+        "ink": "#eeece9",
+        "ink-soft": "#b3b1ad",
+        "muted": "#94928d",
+        "accent": "#d1ac5a",
+        "accent-deep": "#c19c49",
+        "on-accent": "#120f08",
+        "accent-on-dark": "#d1ac5a",
+        "success": "#6b9a55",
+        "danger": "#e06a58"
+      },
+      "link": "#d1ac5a",
+      "kontrast": {
+        "button": 8.89,
+        "text": 16.23,
+        "link": 8.89
+      }
+    },
+    {
+      "code": "TA-3",
+      "name": "Eisblau",
+      "charakter": "Eisblau auf Blauschwarz",
+      "gruppe": "DK",
+      "modus": "dunkel",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "tattoo",
+      "standard": false,
+      "farben": {
+        "bg": "#0c1014",
+        "surface": "#151a1f",
+        "sand": "#1f252b",
+        "border": "#242c35",
+        "ink": "#e9edf1",
+        "ink-soft": "#adb2b6",
+        "muted": "#8e9398",
+        "accent": "#71bcdf",
+        "accent-deep": "#62accf",
+        "on-accent": "#091115",
+        "accent-on-dark": "#71bcdf",
+        "success": "#6b9a55",
+        "danger": "#e06a58"
+      },
+      "link": "#71bcdf",
+      "kontrast": {
+        "button": 9.03,
+        "text": 16.23,
+        "link": 9.06
+      }
+    },
+    {
+      "code": "TA-4",
+      "name": "Smaragd",
+      "charakter": "Smaragdgrün auf Schwarz",
+      "gruppe": "DK",
+      "modus": "dunkel",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "tattoo",
+      "standard": false,
+      "farben": {
+        "bg": "#0c110f",
+        "surface": "#151b19",
+        "sand": "#1f2623",
+        "border": "#252e2a",
+        "ink": "#eaeeec",
+        "ink-soft": "#adb2b0",
+        "muted": "#8e9491",
+        "accent": "#5dc291",
+        "accent-deep": "#4cb281",
+        "on-accent": "#0a110d",
+        "accent-on-dark": "#5dc291",
+        "success": "#6b9a55",
+        "danger": "#e06a58"
+      },
+      "link": "#5dc291",
+      "kontrast": {
+        "button": 8.73,
+        "text": 16.27,
+        "link": 8.7
+      }
+    },
+    {
+      "code": "TA-5",
+      "name": "Knochen",
+      "charakter": "Knochenweiß, ganz schwarz-weiß",
+      "gruppe": "SG",
+      "modus": "dunkel",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "branche": "tattoo",
+      "standard": false,
+      "farben": {
+        "bg": "#100f0e",
+        "surface": "#1a1918",
+        "sand": "#252422",
+        "border": "#2d2b28",
+        "ink": "#ededeb",
+        "ink-soft": "#b2b1af",
+        "muted": "#939290",
+        "accent": "#dcd7cd",
+        "accent-deep": "#ccc7bd",
+        "on-accent": "#120f08",
+        "accent-on-dark": "#dcd7cd",
+        "success": "#6b9a55",
+        "danger": "#e06a58"
+      },
+      "link": "#dcd7cd",
+      "kontrast": {
+        "button": 13.34,
+        "text": 16.33,
+        "link": 13.35
+      }
+    },
+    {
+      "code": "BL-1",
+      "name": "Eismeer",
+      "charakter": "Marineblau auf zartem Eisblau",
+      "gruppe": "BL",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#e1f7ff",
+        "surface": "#f5ffff",
+        "sand": "#c7e6fd",
+        "border": "#b9dffb",
+        "ink": "#08151f",
+        "ink-soft": "#3d4a53",
+        "muted": "#636f78",
+        "accent": "#1d487c",
+        "accent-deep": "#07305d",
+        "on-accent": "#f7faff",
+        "accent-on-dark": "#07305d",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#07305d",
+      "kontrast": {
+        "button": 8.84,
+        "text": 16.66,
+        "link": 11.92
+      }
+    },
+    {
+      "code": "BL-2",
+      "name": "Denim",
+      "charakter": "Gedecktes Jeansblau auf Leinen",
+      "gruppe": "BL",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#fbf3e5",
+        "surface": "#fffdf7",
+        "sand": "#ebe0cd",
+        "border": "#e5d8c1",
+        "ink": "#18130b",
+        "ink-soft": "#4c473f",
+        "muted": "#716d65",
+        "accent": "#426789",
+        "accent-deep": "#2c4d6c",
+        "on-accent": "#f6fbff",
+        "accent-on-dark": "#2c4d6c",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#2c4d6c",
+      "kontrast": {
+        "button": 5.71,
+        "text": 16.76,
+        "link": 7.99
+      }
+    },
+    {
+      "code": "PT-1",
+      "name": "Lagune",
+      "charakter": "Kräftiges Türkis auf Weiß",
+      "gruppe": "PT",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#f3faf9",
+        "surface": "#ffffff",
+        "sand": "#dee9e7",
+        "border": "#d4e1df",
+        "ink": "#101514",
+        "ink-soft": "#444948",
+        "muted": "#6d7170",
+        "accent": "#007b70",
+        "accent-deep": "#005f56",
+        "on-accent": "#f5fcfb",
+        "accent-on-dark": "#005f56",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#005f56",
+      "kontrast": {
+        "button": 4.97,
+        "text": 17.42,
+        "link": 7.16
+      }
+    },
+    {
+      "code": "PT-2",
+      "name": "Aquamarin",
+      "charakter": "Petrol auf zartem Aqua",
+      "gruppe": "PT",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#dcfbf8",
+        "surface": "#f3ffff",
+        "sand": "#bfece8",
+        "border": "#b0e6e1",
+        "ink": "#031816",
+        "ink-soft": "#3a4c4a",
+        "muted": "#607170",
+        "accent": "#006267",
+        "accent-deep": "#00484c",
+        "on-accent": "#f4fcfc",
+        "accent-on-dark": "#00484c",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#00484c",
+      "kontrast": {
+        "button": 6.86,
+        "text": 16.75,
+        "link": 9.45
+      }
+    },
+    {
+      "code": "PT-3",
+      "name": "Pinie",
+      "charakter": "Dunkles Blaugrün auf Sand",
+      "gruppe": "PT",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#fcf2e6",
+        "surface": "#fffcf7",
+        "sand": "#eddfcd",
+        "border": "#e7d7c2",
+        "ink": "#18130b",
+        "ink-soft": "#4c473f",
+        "muted": "#726c65",
+        "accent": "#18524c",
+        "accent-deep": "#003934",
+        "on-accent": "#f5fcfb",
+        "accent-on-dark": "#003934",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#003934",
+      "kontrast": {
+        "button": 8.6,
+        "text": 16.7,
+        "link": 11.61
+      }
+    },
+    {
+      "code": "PT-4",
+      "name": "Gletscher",
+      "charakter": "Kühles Graublau, sehr ruhig",
+      "gruppe": "PT",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#eaf6fa",
+        "surface": "#f9feff",
+        "sand": "#d3e5ea",
+        "border": "#c9dee3",
+        "ink": "#0e1517",
+        "ink-soft": "#42494b",
+        "muted": "#686f70",
+        "accent": "#546d79",
+        "accent-deep": "#3d545e",
+        "on-accent": "#f5fbfe",
+        "accent-on-dark": "#3d545e",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#3d545e",
+      "kontrast": {
+        "button": 5.24,
+        "text": 16.75,
+        "link": 7.25
+      }
+    },
+    {
+      "code": "GR-1",
+      "name": "Jade",
+      "charakter": "Kräftiges Jadegrün auf Weiß",
+      "gruppe": "GR",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#f4faf6",
+        "surface": "#ffffff",
+        "sand": "#dfe8e3",
+        "border": "#d6e1db",
+        "ink": "#111513",
+        "ink-soft": "#454946",
+        "muted": "#6d716f",
+        "accent": "#007948",
+        "accent-deep": "#005d33",
+        "on-accent": "#f6fcf8",
+        "accent-on-dark": "#005d33",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#005d33",
+      "kontrast": {
+        "button": 5.28,
+        "text": 17.41,
+        "link": 7.6
+      }
+    },
+    {
+      "code": "GR-2",
+      "name": "Flaschengrün",
+      "charakter": "Tiefes Flaschengrün auf Creme",
+      "gruppe": "GR",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#fbf3e3",
+        "surface": "#fffdf6",
+        "sand": "#ebe0ca",
+        "border": "#e5d8bd",
+        "ink": "#18130a",
+        "ink-soft": "#4c473e",
+        "muted": "#726e65",
+        "accent": "#074631",
+        "accent-deep": "#002d1c",
+        "on-accent": "#f5fcf9",
+        "accent-on-dark": "#002d1c",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#002d1c",
+      "kontrast": {
+        "button": 10.46,
+        "text": 16.75,
+        "link": 13.67
+      }
+    },
+    {
+      "code": "OL-1",
+      "name": "Pistazie",
+      "charakter": "Pistaziengrün auf zartem Grün",
+      "gruppe": "OL",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#eef8e4",
+        "surface": "#fafff6",
+        "sand": "#d9e7cc",
+        "border": "#cfe0bf",
+        "ink": "#10160a",
+        "ink-soft": "#444a3f",
+        "muted": "#6a6f65",
+        "accent": "#507448",
+        "accent-deep": "#395a32",
+        "on-accent": "#f7fbf6",
+        "accent-on-dark": "#395a32",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#395a32",
+      "kontrast": {
+        "button": 5.11,
+        "text": 16.81,
+        "link": 7.15
+      }
+    },
+    {
+      "code": "OL-2",
+      "name": "Khaki",
+      "charakter": "Khaki auf Greige",
+      "gruppe": "OL",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#f9f3ec",
+        "surface": "#fffdfa",
+        "sand": "#e8e0d6",
+        "border": "#e2d8cc",
+        "ink": "#17130f",
+        "ink-soft": "#4b4743",
+        "muted": "#716e6a",
+        "accent": "#71694b",
+        "accent-deep": "#575035",
+        "on-accent": "#fcfaf4",
+        "accent-on-dark": "#575035",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#575035",
+      "kontrast": {
+        "button": 5.26,
+        "text": 16.77,
+        "link": 7.32
+      }
+    },
+    {
+      "code": "ER-1",
+      "name": "Espresso",
+      "charakter": "Espressobraun auf Weiß",
+      "gruppe": "ER",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#fdf7f3",
+        "surface": "#ffffff",
+        "sand": "#ece4de",
+        "border": "#e6dcd5",
+        "ink": "#161311",
+        "ink-soft": "#4a4744",
+        "muted": "#736f6d",
+        "accent": "#4b3526",
+        "accent-deep": "#321f12",
+        "on-accent": "#fff9f5",
+        "accent-on-dark": "#321f12",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#321f12",
+      "kontrast": {
+        "button": 10.96,
+        "text": 17.42,
+        "link": 14.75
+      }
+    },
+    {
+      "code": "ER-2",
+      "name": "Rehbraun",
+      "charakter": "Helles Rehbraun auf Weiß",
+      "gruppe": "ER",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#fbf8f5",
+        "surface": "#ffffff",
+        "sand": "#eae5e0",
+        "border": "#e3ddd8",
+        "ink": "#151312",
+        "ink-soft": "#494745",
+        "muted": "#72706e",
+        "accent": "#8a6a4c",
+        "accent-deep": "#6e5236",
+        "on-accent": "#fef9f5",
+        "accent-on-dark": "#6e5236",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#6e5236",
+      "kontrast": {
+        "button": 4.73,
+        "text": 17.51,
+        "link": 6.79
+      }
+    },
+    {
+      "code": "ER-3",
+      "name": "Walnuss",
+      "charakter": "Walnuss auf Leinen",
+      "gruppe": "ER",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#fbf2e8",
+        "surface": "#fffcf8",
+        "sand": "#ecdfd1",
+        "border": "#e6d7c6",
+        "ink": "#18130d",
+        "ink-soft": "#4c4741",
+        "muted": "#716c67",
+        "accent": "#644628",
+        "accent-deep": "#492f14",
+        "on-accent": "#fef9f5",
+        "accent-on-dark": "#492f14",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#492f14",
+      "kontrast": {
+        "button": 8.2,
+        "text": 16.67,
+        "link": 11.16
+      }
+    },
+    {
+      "code": "ER-4",
+      "name": "Mokka",
+      "charakter": "Mokkabraun auf kühlem Grau",
+      "gruppe": "ER",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#f0f4f9",
+        "surface": "#fbfdff",
+        "sand": "#dbe2e9",
+        "border": "#d3dae3",
+        "ink": "#111417",
+        "ink-soft": "#45484b",
+        "muted": "#6b6d70",
+        "accent": "#634d41",
+        "accent-deep": "#49362b",
+        "on-accent": "#fff9f5",
+        "accent-on-dark": "#49362b",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#49362b",
+      "kontrast": {
+        "button": 7.54,
+        "text": 16.73,
+        "link": 10.3
+      }
+    },
+    {
+      "code": "SE-1",
+      "name": "Curry",
+      "charakter": "Currygelb auf Weiß",
+      "gruppe": "SE",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#f9f8f5",
+        "surface": "#ffffff",
+        "sand": "#e7e6e1",
+        "border": "#e0ded9",
+        "ink": "#141412",
+        "ink-soft": "#484846",
+        "muted": "#71706e",
+        "accent": "#8b6c00",
+        "accent-deep": "#6e5200",
+        "on-accent": "#fcfaf4",
+        "accent-on-dark": "#6e5200",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#6e5200",
+      "kontrast": {
+        "button": 4.74,
+        "text": 17.37,
+        "link": 6.89
+      }
+    },
+    {
+      "code": "SE-2",
+      "name": "Honig",
+      "charakter": "Honiggelb auf zartem Gelb",
+      "gruppe": "SE",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#faf5d5",
+        "surface": "#fffef0",
+        "sand": "#eae3b5",
+        "border": "#e4dba4",
+        "ink": "#181401",
+        "ink-soft": "#4b4836",
+        "muted": "#726f5d",
+        "accent": "#826c00",
+        "accent-deep": "#665200",
+        "on-accent": "#fcfaf4",
+        "accent-on-dark": "#665200",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#665200",
+      "kontrast": {
+        "button": 4.91,
+        "text": 16.75,
+        "link": 6.89
+      }
+    },
+    {
+      "code": "SE-3",
+      "name": "Safran",
+      "charakter": "Safran auf kühlem Grau",
+      "gruppe": "SE",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#ecf5ff",
+        "surface": "#fafeff",
+        "sand": "#d6e3f1",
+        "border": "#ccdbec",
+        "ink": "#0f141a",
+        "ink-soft": "#43484e",
+        "muted": "#6a6f75",
+        "accent": "#956400",
+        "accent-deep": "#774b00",
+        "on-accent": "#fdfaf4",
+        "accent-on-dark": "#774b00",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#774b00",
+      "kontrast": {
+        "button": 4.92,
+        "text": 16.8,
+        "link": 6.83
+      }
+    },
+    {
+      "code": "OR-1",
+      "name": "Koralle",
+      "charakter": "Koralle auf Weiß",
+      "gruppe": "OR",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#fef7f4",
+        "surface": "#ffffff",
+        "sand": "#ede4df",
+        "border": "#e7dbd6",
+        "ink": "#171311",
+        "ink-soft": "#4b4745",
+        "muted": "#736f6d",
+        "accent": "#b85207",
+        "accent-deep": "#953b00",
+        "on-accent": "#fff9f6",
+        "accent-on-dark": "#953b00",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#953b00",
+      "kontrast": {
+        "button": 4.74,
+        "text": 17.43,
+        "link": 6.83
+      }
+    },
+    {
+      "code": "OR-2",
+      "name": "Lachs",
+      "charakter": "Koralle auf zartem Lachs",
+      "gruppe": "OR",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#ffeee3",
+        "surface": "#fffbf6",
+        "sand": "#fcd9ca",
+        "border": "#f9cfbd",
+        "ink": "#1e100a",
+        "ink-soft": "#52443e",
+        "muted": "#766862",
+        "accent": "#ab5420",
+        "accent-deep": "#8a3d07",
+        "on-accent": "#fff9f6",
+        "accent-on-dark": "#8a3d07",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#8a3d07",
+      "kontrast": {
+        "button": 5.01,
+        "text": 16.4,
+        "link": 6.76
+      }
+    },
+    {
+      "code": "OR-3",
+      "name": "Kupfer",
+      "charakter": "Kupfer auf Leinen",
+      "gruppe": "OR",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#fdf2e6",
+        "surface": "#fffcf7",
+        "sand": "#eedfce",
+        "border": "#e8d6c2",
+        "ink": "#19130c",
+        "ink-soft": "#4d4740",
+        "muted": "#726c66",
+        "accent": "#915114",
+        "accent-deep": "#723900",
+        "on-accent": "#fef9f5",
+        "accent-on-dark": "#723900",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#723900",
+      "kontrast": {
+        "button": 5.92,
+        "text": 16.69,
+        "link": 8.27
+      }
+    },
+    {
+      "code": "OR-4",
+      "name": "Karamell",
+      "charakter": "Karamell auf Creme",
+      "gruppe": "OR",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#fdf2e1",
+        "surface": "#fffcf5",
+        "sand": "#eedfc7",
+        "border": "#e9d7ba",
+        "ink": "#191308",
+        "ink-soft": "#4d473d",
+        "muted": "#726c63",
+        "accent": "#956225",
+        "accent-deep": "#764a0e",
+        "on-accent": "#fef9f4",
+        "accent-on-dark": "#764a0e",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#764a0e",
+      "kontrast": {
+        "button": 4.95,
+        "text": 16.67,
+        "link": 6.88
+      }
+    },
+    {
+      "code": "OR-5",
+      "name": "Ziegel",
+      "charakter": "Ziegelton auf kühlem Grau",
+      "gruppe": "OR",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#edf5fd",
+        "surface": "#fafdff",
+        "sand": "#d8e3ee",
+        "border": "#cedbe9",
+        "ink": "#101419",
+        "ink-soft": "#44484d",
+        "muted": "#696e72",
+        "accent": "#8a4b24",
+        "accent-deep": "#6b340e",
+        "on-accent": "#fff9f5",
+        "accent-on-dark": "#6b340e",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#6b340e",
+      "kontrast": {
+        "button": 6.46,
+        "text": 16.79,
+        "link": 8.99
+      }
+    },
+    {
+      "code": "RO-1",
+      "name": "Puder",
+      "charakter": "Altrosa auf Puderrosa",
+      "gruppe": "RO",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#ffecf1",
+        "surface": "#fffafc",
+        "sand": "#fcd6dd",
+        "border": "#f9ccd5",
+        "ink": "#1e0f12",
+        "ink-soft": "#534346",
+        "muted": "#76676a",
+        "accent": "#795159",
+        "accent-deep": "#5c3941",
+        "on-accent": "#fff8f9",
+        "accent-on-dark": "#5c3941",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#5c3941",
+      "kontrast": {
+        "button": 6.4,
+        "text": 16.36,
+        "link": 8.75
+      }
+    },
+    {
+      "code": "RO-2",
+      "name": "Rosenholz",
+      "charakter": "Gedecktes Rosenholz auf Weiß",
+      "gruppe": "RO",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#fef6f6",
+        "surface": "#ffffff",
+        "sand": "#eee3e2",
+        "border": "#e7dbd9",
+        "ink": "#171312",
+        "ink-soft": "#4b4646",
+        "muted": "#736f6e",
+        "accent": "#805755",
+        "accent-deep": "#633f3e",
+        "on-accent": "#fff8f8",
+        "accent-on-dark": "#633f3e",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#633f3e",
+      "kontrast": {
+        "button": 5.87,
+        "text": 17.33,
+        "link": 8.54
+      }
+    },
+    {
+      "code": "RO-3",
+      "name": "Pfirsich",
+      "charakter": "Kupfer auf Pfirsich",
+      "gruppe": "RO",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#ffefe3",
+        "surface": "#fffbf6",
+        "sand": "#fadac9",
+        "border": "#f6d1bc",
+        "ink": "#1d1009",
+        "ink-soft": "#51453e",
+        "muted": "#776a64",
+        "accent": "#8f5128",
+        "accent-deep": "#703a13",
+        "on-accent": "#fff9f5",
+        "accent-on-dark": "#703a13",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#703a13",
+      "kontrast": {
+        "button": 5.96,
+        "text": 16.55,
+        "link": 8.12
+      }
+    },
+    {
+      "code": "RO-4",
+      "name": "Minze",
+      "charakter": "Tannengrün auf Mint",
+      "gruppe": "RO",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#e4faef",
+        "surface": "#f6fffb",
+        "sand": "#cbeadb",
+        "border": "#bfe4d2",
+        "ink": "#091711",
+        "ink-soft": "#3e4b45",
+        "muted": "#64716b",
+        "accent": "#135b42",
+        "accent-deep": "#00412c",
+        "on-accent": "#f5fcf9",
+        "accent-on-dark": "#00412c",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#00412c",
+      "kontrast": {
+        "button": 7.75,
+        "text": 16.83,
+        "link": 10.72
+      }
+    },
+    {
+      "code": "RO-5",
+      "name": "Flieder",
+      "charakter": "Violett auf Flieder",
+      "gruppe": "RO",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#f6f0ff",
+        "surface": "#fefcff",
+        "sand": "#e5dcf7",
+        "border": "#ded3f4",
+        "ink": "#15111d",
+        "ink-soft": "#494651",
+        "muted": "#6f6b76",
+        "accent": "#60438d",
+        "accent-deep": "#472c6d",
+        "on-accent": "#fbf9ff",
+        "accent-on-dark": "#472c6d",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#472c6d",
+      "kontrast": {
+        "button": 7.49,
+        "text": 16.66,
+        "link": 10.18
+      }
+    },
+    {
+      "code": "RO-6",
+      "name": "Vanille",
+      "charakter": "Oliv auf Vanille",
+      "gruppe": "RO",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#faf4dd",
+        "surface": "#fffdf3",
+        "sand": "#eae2c1",
+        "border": "#e4dab3",
+        "ink": "#171406",
+        "ink-soft": "#4b483a",
+        "muted": "#716d61",
+        "accent": "#5c632a",
+        "accent-deep": "#444915",
+        "on-accent": "#fafbf5",
+        "accent-on-dark": "#444915",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#444915",
+      "kontrast": {
+        "button": 6.17,
+        "text": 16.72,
+        "link": 8.62
+      }
+    },
+    {
+      "code": "RO-7",
+      "name": "Orchidee",
+      "charakter": "Orchidee auf zartem Rosa",
+      "gruppe": "RO",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#ffedf8",
+        "surface": "#fffaff",
+        "sand": "#f6d7e7",
+        "border": "#f2cde1",
+        "ink": "#1c0f16",
+        "ink-soft": "#50444a",
+        "muted": "#756970",
+        "accent": "#894488",
+        "accent-deep": "#6b2e6b",
+        "on-accent": "#fdf8fd",
+        "accent-on-dark": "#6b2e6b",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#6b2e6b",
+      "kontrast": {
+        "button": 6.17,
+        "text": 16.58,
+        "link": 8.4
+      }
+    },
+    {
+      "code": "RO-8",
+      "name": "Babyblau",
+      "charakter": "Nachtblau auf Babyblau",
+      "gruppe": "RO",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#e4f6ff",
+        "surface": "#f6feff",
+        "sand": "#cbe5fc",
+        "border": "#bfdef9",
+        "ink": "#0a151e",
+        "ink-soft": "#3e4952",
+        "muted": "#646f78",
+        "accent": "#234077",
+        "accent-deep": "#102858",
+        "on-accent": "#f7faff",
+        "accent-on-dark": "#102858",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#102858",
+      "kontrast": {
+        "button": 9.69,
+        "text": 16.62,
+        "link": 12.91
+      }
+    },
+    {
+      "code": "VI-1",
+      "name": "Pflaume",
+      "charakter": "Pflaume auf Creme",
+      "gruppe": "VI",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#faf3e7",
+        "surface": "#fffdf8",
+        "sand": "#eae0d0",
+        "border": "#e4d8c5",
+        "ink": "#17130c",
+        "ink-soft": "#4b4741",
+        "muted": "#716d66",
+        "accent": "#6c4279",
+        "accent-deep": "#512b5c",
+        "on-accent": "#fcf8fe",
+        "accent-on-dark": "#512b5c",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#512b5c",
+      "kontrast": {
+        "button": 7.43,
+        "text": 16.78,
+        "link": 10.29
+      }
+    },
+    {
+      "code": "VI-2",
+      "name": "Aubergine",
+      "charakter": "Aubergine auf Greige",
+      "gruppe": "VI",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#f9f3ec",
+        "surface": "#fffdfa",
+        "sand": "#e8e0d6",
+        "border": "#e2d8cc",
+        "ink": "#17130f",
+        "ink-soft": "#4b4743",
+        "muted": "#716e6a",
+        "accent": "#44234c",
+        "accent-deep": "#2b0e32",
+        "on-accent": "#fdf8fe",
+        "accent-on-dark": "#2b0e32",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#2b0e32",
+      "kontrast": {
+        "button": 12.6,
+        "text": 16.77,
+        "link": 15.73
+      }
+    },
+    {
+      "code": "VI-3",
+      "name": "Veilchen",
+      "charakter": "Veilchenblau auf Weiß",
+      "gruppe": "VI",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#f8f8fe",
+        "surface": "#ffffff",
+        "sand": "#e5e5ee",
+        "border": "#dddde7",
+        "ink": "#141317",
+        "ink-soft": "#47474b",
+        "muted": "#707073",
+        "accent": "#6b4cae",
+        "accent-deep": "#52358c",
+        "on-accent": "#faf9ff",
+        "accent-on-dark": "#52358c",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#52358c",
+      "kontrast": {
+        "button": 6.13,
+        "text": 17.48,
+        "link": 8.83
+      }
+    },
+    {
+      "code": "VI-4",
+      "name": "Indigo",
+      "charakter": "Kräftiges Indigo auf kühlem Weiß",
+      "gruppe": "VI",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#f1f3fc",
+        "surface": "#fcfdff",
+        "sand": "#dee1ec",
+        "border": "#d5d9e7",
+        "ink": "#121418",
+        "ink-soft": "#46474c",
+        "muted": "#6c6d71",
+        "accent": "#4544ab",
+        "accent-deep": "#302c87",
+        "on-accent": "#f9faff",
+        "accent-on-dark": "#302c87",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#302c87",
+      "kontrast": {
+        "button": 7.55,
+        "text": 16.65,
+        "link": 10.33
+      }
+    },
+    {
+      "code": "VI-5",
+      "name": "Heide",
+      "charakter": "Heidekraut auf Leinen",
+      "gruppe": "VI",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#fbf2e8",
+        "surface": "#fffdf8",
+        "sand": "#ebdfd0",
+        "border": "#e5d7c5",
+        "ink": "#18130d",
+        "ink-soft": "#4c4741",
+        "muted": "#716c66",
+        "accent": "#734e78",
+        "accent-deep": "#57375c",
+        "on-accent": "#fdf8fd",
+        "accent-on-dark": "#57375c",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#57375c",
+      "kontrast": {
+        "button": 6.48,
+        "text": 16.67,
+        "link": 9.01
+      }
+    },
+    {
+      "code": "VI-6",
+      "name": "Lavendelgrau",
+      "charakter": "Graues Lavendel, gedeckt",
+      "gruppe": "VI",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#f3f2fd",
+        "surface": "#fdfcff",
+        "sand": "#e1dfee",
+        "border": "#d9d7e9",
+        "ink": "#141319",
+        "ink-soft": "#47474d",
+        "muted": "#6d6c72",
+        "accent": "#625f7c",
+        "accent-deep": "#4a4760",
+        "on-accent": "#faf9ff",
+        "accent-on-dark": "#4a4760",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#4a4760",
+      "kontrast": {
+        "button": 5.82,
+        "text": 16.65,
+        "link": 8.02
+      }
+    },
+    {
+      "code": "NE-1",
+      "name": "Basalt",
+      "charakter": "Warmes Basaltgrau auf Greige",
+      "gruppe": "NE",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#fdf2e6",
+        "surface": "#fffcf7",
+        "sand": "#eedfce",
+        "border": "#e8d6c2",
+        "ink": "#19130c",
+        "ink-soft": "#4d4740",
+        "muted": "#726c66",
+        "accent": "#4b4038",
+        "accent-deep": "#322922",
+        "on-accent": "#fef9f5",
+        "accent-on-dark": "#322922",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#322922",
+      "kontrast": {
+        "button": 9.61,
+        "text": 16.69,
+        "link": 12.89
+      }
+    },
+    {
+      "code": "NE-2",
+      "name": "Zement",
+      "charakter": "Zementgrau, ganz neutral",
+      "gruppe": "NE",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#f2f4f6",
+        "surface": "#fcfdfe",
+        "sand": "#dfe1e4",
+        "border": "#d7dadc",
+        "ink": "#131415",
+        "ink-soft": "#474849",
+        "muted": "#6c6d6e",
+        "accent": "#616365",
+        "accent-deep": "#494a4c",
+        "on-accent": "#f6fbff",
+        "accent-on-dark": "#494a4c",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#494a4c",
+      "kontrast": {
+        "button": 5.79,
+        "text": 16.73,
+        "link": 8.05
+      }
+    },
+    {
+      "code": "NE-3",
+      "name": "Kiesel",
+      "charakter": "Kieselgrau auf warmem Weiß",
+      "gruppe": "NE",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#fcf8f0",
+        "surface": "#fffffe",
+        "sand": "#ebe5da",
+        "border": "#e4ddd0",
+        "ink": "#16140f",
+        "ink-soft": "#4a4743",
+        "muted": "#72706b",
+        "accent": "#59554c",
+        "accent-deep": "#403d35",
+        "on-accent": "#fdfaf4",
+        "accent-on-dark": "#403d35",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#403d35",
+      "kontrast": {
+        "button": 7.13,
+        "text": 17.37,
+        "link": 10.24
+      }
+    },
+    {
+      "code": "NE-4",
+      "name": "Tinte",
+      "charakter": "Blauschwarz auf Weiß",
+      "gruppe": "NE",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#f6f9fc",
+        "surface": "#ffffff",
+        "sand": "#e3e6eb",
+        "border": "#dadee5",
+        "ink": "#131416",
+        "ink-soft": "#46484a",
+        "muted": "#6f7072",
+        "accent": "#172135",
+        "accent-deep": "#050d1d",
+        "on-accent": "#f7faff",
+        "accent-on-dark": "#050d1d",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#050d1d",
+      "kontrast": {
+        "button": 15.38,
+        "text": 17.44,
+        "link": 18.37
+      }
+    },
+    {
+      "code": "SG-1",
+      "name": "Blattgold",
+      "charakter": "Blattgold auf Schwarz",
+      "gruppe": "SG",
+      "modus": "dunkel",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#100f0d",
+        "surface": "#1b1917",
+        "sand": "#262421",
+        "border": "#2e2b27",
+        "ink": "#eeedea",
+        "ink-soft": "#b2b1ae",
+        "muted": "#93928f",
+        "accent": "#e0c262",
+        "accent-deep": "#d0b252",
+        "on-accent": "#120f08",
+        "accent-on-dark": "#e0c262",
+        "success": "#6b9a55",
+        "danger": "#e06a58"
+      },
+      "link": "#e0c262",
+      "kontrast": {
+        "button": 10.99,
+        "text": 16.36,
+        "link": 11
+      }
+    },
+    {
+      "code": "SG-2",
+      "name": "Bronze",
+      "charakter": "Bronze auf Anthrazit",
+      "gruppe": "SG",
+      "modus": "dunkel",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#191512",
+        "surface": "#24201c",
+        "sand": "#2f2a26",
+        "border": "#38312b",
+        "ink": "#efece9",
+        "ink-soft": "#b4b0ad",
+        "muted": "#95918e",
+        "accent": "#c59361",
+        "accent-deep": "#b58452",
+        "on-accent": "#140e09",
+        "accent-on-dark": "#c59361",
+        "success": "#6b9a55",
+        "danger": "#e06a58"
+      },
+      "link": "#c59361",
+      "kontrast": {
+        "button": 7.04,
+        "text": 15.42,
+        "link": 6.67
+      }
+    },
+    {
+      "code": "SG-3",
+      "name": "Rotgold",
+      "charakter": "Rotgold auf Schwarz",
+      "gruppe": "SG",
+      "modus": "dunkel",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#120f0d",
+        "surface": "#1c1917",
+        "sand": "#272321",
+        "border": "#302a26",
+        "ink": "#efecea",
+        "ink-soft": "#b4b0ae",
+        "muted": "#95918f",
+        "accent": "#d79369",
+        "accent-deep": "#c6835a",
+        "on-accent": "#150e09",
+        "accent-on-dark": "#d79369",
+        "success": "#6b9a55",
+        "danger": "#e06a58"
+      },
+      "link": "#d79369",
+      "kontrast": {
+        "button": 7.52,
+        "text": 16.24,
+        "link": 7.52
+      }
+    },
+    {
+      "code": "SG-4",
+      "name": "Platin",
+      "charakter": "Silbergrau auf Schwarz",
+      "gruppe": "SG",
+      "modus": "dunkel",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#0e1011",
+        "surface": "#181a1c",
+        "sand": "#222427",
+        "border": "#282c2f",
+        "ink": "#ebedef",
+        "ink-soft": "#afb1b3",
+        "muted": "#909295",
+        "accent": "#bfc5ca",
+        "accent-deep": "#b0b5ba",
+        "on-accent": "#0a1016",
+        "accent-on-dark": "#bfc5ca",
+        "success": "#6b9a55",
+        "danger": "#e06a58"
+      },
+      "link": "#bfc5ca",
+      "kontrast": {
+        "button": 10.97,
+        "text": 16.25,
+        "link": 10.95
+      }
+    },
+    {
+      "code": "SG-5",
+      "name": "Nachtgold",
+      "charakter": "Gold auf Nachtblau",
+      "gruppe": "SG",
+      "modus": "dunkel",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#080f1c",
+        "surface": "#111a28",
+        "sand": "#1a2435",
+        "border": "#1d2b44",
+        "ink": "#e6edf9",
+        "ink-soft": "#a9b2bf",
+        "muted": "#8a93a2",
+        "accent": "#dab060",
+        "accent-deep": "#caa150",
+        "on-accent": "#130f08",
+        "accent-on-dark": "#dab060",
+        "success": "#6b9a55",
+        "danger": "#e06a58"
+      },
+      "link": "#dab060",
+      "kontrast": {
+        "button": 9.42,
+        "text": 16.29,
+        "link": 9.46
+      }
+    },
+    {
+      "code": "SG-6",
+      "name": "Elfenbein",
+      "charakter": "Schwarz auf Elfenbein",
+      "gruppe": "SG",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#fbf3e3",
+        "surface": "#fffdf6",
+        "sand": "#ebe0ca",
+        "border": "#e5d8bd",
+        "ink": "#18130a",
+        "ink-soft": "#4c473e",
+        "muted": "#726e65",
+        "accent": "#1d1a15",
+        "accent-deep": "#090704",
+        "on-accent": "#fdfaf4",
+        "accent-on-dark": "#090704",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#090704",
+      "kontrast": {
+        "button": 16.65,
+        "text": 16.75,
+        "link": 18.23
+      }
+    },
+    {
+      "code": "DK-1",
+      "name": "Mitternacht",
+      "charakter": "Himmelblau auf Nachtblau",
+      "gruppe": "DK",
+      "modus": "dunkel",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#030d1e",
+        "surface": "#09172b",
+        "sand": "#122239",
+        "border": "#11284b",
+        "ink": "#e3eefe",
+        "ink-soft": "#a6b2c5",
+        "muted": "#8593a8",
+        "accent": "#92c1fd",
+        "accent-deep": "#82b1ed",
+        "on-accent": "#0b1016",
+        "accent-on-dark": "#92c1fd",
+        "success": "#6b9a55",
+        "danger": "#e06a58"
+      },
+      "link": "#92c1fd",
+      "kontrast": {
+        "button": 10.24,
+        "text": 16.6,
+        "link": 10.43
+      }
+    },
+    {
+      "code": "DK-2",
+      "name": "Polarlicht",
+      "charakter": "Türkis auf Petrolschwarz",
+      "gruppe": "DK",
+      "modus": "dunkel",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#071113",
+        "surface": "#0f1c1e",
+        "sand": "#182729",
+        "border": "#1a2f33",
+        "ink": "#e6eff0",
+        "ink-soft": "#a9b3b5",
+        "muted": "#899597",
+        "accent": "#60ccc5",
+        "accent-deep": "#4ebcb6",
+        "on-accent": "#081211",
+        "accent-on-dark": "#60ccc5",
+        "success": "#6b9a55",
+        "danger": "#e06a58"
+      },
+      "link": "#60ccc5",
+      "kontrast": {
+        "button": 9.9,
+        "text": 16.36,
+        "link": 9.96
+      }
+    },
+    {
+      "code": "DK-3",
+      "name": "Glut",
+      "charakter": "Glutorange auf Anthrazit",
+      "gruppe": "DK",
+      "modus": "dunkel",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#110f0d",
+        "surface": "#1b1917",
+        "sand": "#262321",
+        "border": "#2f2a27",
+        "ink": "#eeeceb",
+        "ink-soft": "#b3b0af",
+        "muted": "#949290",
+        "accent": "#eb883b",
+        "accent-deep": "#da7827",
+        "on-accent": "#150e09",
+        "accent-on-dark": "#eb883b",
+        "success": "#6b9a55",
+        "danger": "#e06a58"
+      },
+      "link": "#eb883b",
+      "kontrast": {
+        "button": 7.39,
+        "text": 16.24,
+        "link": 7.39
+      }
+    },
+    {
+      "code": "DK-4",
+      "name": "Sandstein",
+      "charakter": "Sandbeige auf Warmschwarz",
+      "gruppe": "DK",
+      "modus": "dunkel",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#120f0b",
+        "surface": "#1d1914",
+        "sand": "#28231e",
+        "border": "#312a22",
+        "ink": "#efece9",
+        "ink-soft": "#b4b0ac",
+        "muted": "#96918d",
+        "accent": "#dec7a7",
+        "accent-deep": "#ceb797",
+        "on-accent": "#130f08",
+        "accent-on-dark": "#dec7a7",
+        "success": "#6b9a55",
+        "danger": "#e06a58"
+      },
+      "link": "#dec7a7",
+      "kontrast": {
+        "button": 11.67,
+        "text": 16.24,
+        "link": 11.68
+      }
+    },
+    {
+      "code": "DK-5",
+      "name": "Gelbgrün",
+      "charakter": "Gelbgrün auf Schwarz",
+      "gruppe": "DK",
+      "modus": "dunkel",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#0f100d",
+        "surface": "#191a17",
+        "sand": "#242421",
+        "border": "#2b2c27",
+        "ink": "#ecedeb",
+        "ink-soft": "#b1b1af",
+        "muted": "#929290",
+        "accent": "#b6df62",
+        "accent-deep": "#a6cf51",
+        "on-accent": "#0e1109",
+        "accent-on-dark": "#b6df62",
+        "success": "#6b9a55",
+        "danger": "#e06a58"
+      },
+      "link": "#b6df62",
+      "kontrast": {
+        "button": 12.44,
+        "text": 16.25,
+        "link": 12.47
+      }
+    },
+    {
+      "code": "DK-6",
+      "name": "Pflaumennacht",
+      "charakter": "Orchidee auf Pflaumenschwarz",
+      "gruppe": "DK",
+      "modus": "dunkel",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "farben": {
+        "bg": "#130d14",
+        "surface": "#1d171f",
+        "sand": "#28212a",
+        "border": "#322734",
+        "ink": "#f0ebf1",
+        "ink-soft": "#b5afb6",
+        "muted": "#969098",
+        "accent": "#d3a4da",
+        "accent-deep": "#c395ca",
+        "on-accent": "#130d13",
+        "accent-on-dark": "#d3a4da",
+        "success": "#6b9a55",
+        "danger": "#e06a58"
+      },
+      "link": "#d3a4da",
+      "kontrast": {
+        "button": 9.22,
+        "text": 16.3,
+        "link": 9.21
+      }
+    },
+    {
+      "code": "IN-1",
+      "name": "Apple",
+      "charakter": "Klares Blau, viel Weiß und helles Grau",
+      "gruppe": "IN",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "inspiriert": "Apple",
+      "farben": {
+        "bg": "#f7f8fb",
+        "surface": "#ffffff",
+        "sand": "#e3e6ea",
+        "border": "#dbdee3",
+        "ink": "#131415",
+        "ink-soft": "#474849",
+        "muted": "#6f7072",
+        "accent": "#1161bb",
+        "accent-deep": "#004797",
+        "on-accent": "#f7faff",
+        "accent-on-dark": "#004797",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#004797",
+      "kontrast": {
+        "button": 5.82,
+        "text": 17.37,
+        "link": 8.42
+      }
+    },
+    {
+      "code": "IN-2",
+      "name": "Stripe",
+      "charakter": "Indigo auf kühlem Weiß",
+      "gruppe": "IN",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "inspiriert": "Stripe",
+      "farben": {
+        "bg": "#f5f8ff",
+        "surface": "#ffffff",
+        "sand": "#e2e6f1",
+        "border": "#d9deeb",
+        "ink": "#121418",
+        "ink-soft": "#46484c",
+        "muted": "#6e7074",
+        "accent": "#584fbf",
+        "accent-deep": "#42379b",
+        "on-accent": "#f9faff",
+        "accent-on-dark": "#42379b",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#42379b",
+      "kontrast": {
+        "button": 6.13,
+        "text": 17.34,
+        "link": 8.77
+      }
+    },
+    {
+      "code": "IN-3",
+      "name": "Notion",
+      "charakter": "Fast Schwarz auf warmem Papierweiß",
+      "gruppe": "IN",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "inspiriert": "Notion",
+      "farben": {
+        "bg": "#fcf8f2",
+        "surface": "#ffffff",
+        "sand": "#ebe5dd",
+        "border": "#e4ddd4",
+        "ink": "#161310",
+        "ink-soft": "#4a4744",
+        "muted": "#72706d",
+        "accent": "#24211e",
+        "accent-deep": "#0f0d0a",
+        "on-accent": "#fef9f4",
+        "accent-on-dark": "#0f0d0a",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#0f0d0a",
+      "kontrast": {
+        "button": 15.31,
+        "text": 17.49,
+        "link": 18.34
+      }
+    },
+    {
+      "code": "IN-4",
+      "name": "Linear",
+      "charakter": "Lavendelblau auf fast Schwarz",
+      "gruppe": "IN",
+      "modus": "dunkel",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "inspiriert": "Linear",
+      "farben": {
+        "bg": "#0a0b10",
+        "surface": "#13151b",
+        "sand": "#1d1f27",
+        "border": "#232631",
+        "ink": "#ebecf2",
+        "ink-soft": "#afb1b7",
+        "muted": "#909299",
+        "accent": "#a1a7ec",
+        "accent-deep": "#9297dc",
+        "on-accent": "#0e0f16",
+        "accent-on-dark": "#a1a7ec",
+        "success": "#6b9a55",
+        "danger": "#e06a58"
+      },
+      "link": "#a1a7ec",
+      "kontrast": {
+        "button": 8.42,
+        "text": 16.67,
+        "link": 8.66
+      }
+    },
+    {
+      "code": "IN-5",
+      "name": "GitHub",
+      "charakter": "Helles Blau auf Blauschwarz",
+      "gruppe": "IN",
+      "modus": "dunkel",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "inspiriert": "GitHub",
+      "farben": {
+        "bg": "#050910",
+        "surface": "#0d131b",
+        "sand": "#171d26",
+        "border": "#1b2532",
+        "ink": "#e8edf4",
+        "ink-soft": "#acb2b9",
+        "muted": "#8d939b",
+        "accent": "#6aa7f4",
+        "accent-deep": "#5b97e3",
+        "on-accent": "#0b1016",
+        "accent-on-dark": "#6aa7f4",
+        "success": "#6b9a55",
+        "danger": "#e06a58"
+      },
+      "link": "#6aa7f4",
+      "kontrast": {
+        "button": 7.68,
+        "text": 16.95,
+        "link": 8.02
+      }
+    },
+    {
+      "code": "IN-6",
+      "name": "Dropbox",
+      "charakter": "Kräftiges Blau auf warmem Weiß",
+      "gruppe": "IN",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "inspiriert": "Dropbox",
+      "farben": {
+        "bg": "#f9f3ea",
+        "surface": "#fffdf9",
+        "sand": "#e9e0d3",
+        "border": "#e3d8c8",
+        "ink": "#17130e",
+        "ink-soft": "#4b4742",
+        "muted": "#706d68",
+        "accent": "#2347c5",
+        "accent-deep": "#132d9f",
+        "on-accent": "#f7faff",
+        "accent-on-dark": "#132d9f",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#132d9f",
+      "kontrast": {
+        "button": 7.22,
+        "text": 16.76,
+        "link": 10
+      }
+    },
+    {
+      "code": "IN-7",
+      "name": "Muji",
+      "charakter": "Graubraun auf Kraftpapier",
+      "gruppe": "IN",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "inspiriert": "Muji",
+      "farben": {
+        "bg": "#fff1de",
+        "surface": "#fffcf4",
+        "sand": "#f3dec2",
+        "border": "#eed5b3",
+        "ink": "#1b1206",
+        "ink-soft": "#4f463b",
+        "muted": "#746c61",
+        "accent": "#564335",
+        "accent-deep": "#3d2d20",
+        "on-accent": "#fef9f5",
+        "accent-on-dark": "#3d2d20",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#3d2d20",
+      "kontrast": {
+        "button": 8.93,
+        "text": 16.63,
+        "link": 11.85
+      }
+    },
+    {
+      "code": "IN-8",
+      "name": "Aesop",
+      "charakter": "Dunkles Oliv auf warmem Beige",
+      "gruppe": "IN",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "inspiriert": "Aesop",
+      "farben": {
+        "bg": "#f5ead7",
+        "surface": "#f9f4ec",
+        "sand": "#e7d6bc",
+        "border": "#e2ceae",
+        "ink": "#191307",
+        "ink-soft": "#4d473c",
+        "muted": "#6e685e",
+        "accent": "#4b4222",
+        "accent-deep": "#322b0e",
+        "on-accent": "#fcfaf4",
+        "accent-on-dark": "#322b0e",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#322b0e",
+      "kontrast": {
+        "button": 9.57,
+        "text": 15.5,
+        "link": 11.85
+      }
+    },
+    {
+      "code": "IN-9",
+      "name": "Patagonia",
+      "charakter": "Tiefes Blaugrün auf Steinweiß",
+      "gruppe": "IN",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "inspiriert": "Patagonia",
+      "farben": {
+        "bg": "#faf3e7",
+        "surface": "#fffdf8",
+        "sand": "#eae0d0",
+        "border": "#e4d8c5",
+        "ink": "#17130c",
+        "ink-soft": "#4b4741",
+        "muted": "#716d66",
+        "accent": "#1e5561",
+        "accent-deep": "#063c47",
+        "on-accent": "#f4fcfd",
+        "accent-on-dark": "#063c47",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#063c47",
+      "kontrast": {
+        "button": 7.99,
+        "text": 16.78,
+        "link": 10.91
+      }
+    },
+    {
+      "code": "IN-10",
+      "name": "Porsche",
+      "charakter": "Tiefschwarz auf Silbergrau",
+      "gruppe": "IN",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "inspiriert": "Porsche",
+      "farben": {
+        "bg": "#eceff2",
+        "surface": "#f6f8f9",
+        "sand": "#d8dce1",
+        "border": "#d0d5da",
+        "ink": "#121416",
+        "ink-soft": "#46484a",
+        "muted": "#696a6c",
+        "accent": "#191b1d",
+        "accent-deep": "#060709",
+        "on-accent": "#f6fbff",
+        "accent-on-dark": "#060709",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#060709",
+      "kontrast": {
+        "button": 16.58,
+        "text": 16,
+        "link": 17.46
+      }
+    },
+    {
+      "code": "IN-11",
+      "name": "Slack",
+      "charakter": "Aubergine auf Weiß",
+      "gruppe": "IN",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "inspiriert": "Slack",
+      "farben": {
+        "bg": "#fbf7fc",
+        "surface": "#ffffff",
+        "sand": "#eae3eb",
+        "border": "#e2dbe4",
+        "ink": "#151316",
+        "ink-soft": "#49474a",
+        "muted": "#737073",
+        "accent": "#4b1c4d",
+        "accent-deep": "#310633",
+        "on-accent": "#fdf8fd",
+        "accent-on-dark": "#310633",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#310633",
+      "kontrast": {
+        "button": 12.73,
+        "text": 17.43,
+        "link": 16.45
+      }
+    },
+    {
+      "code": "IN-12",
+      "name": "Volvo",
+      "charakter": "Marineblau auf kühlem Weiß",
+      "gruppe": "IN",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "inspiriert": "Volvo",
+      "farben": {
+        "bg": "#f4f9fe",
+        "surface": "#ffffff",
+        "sand": "#e0e7ee",
+        "border": "#d7dfe7",
+        "ink": "#111417",
+        "ink-soft": "#45484b",
+        "muted": "#6e7073",
+        "accent": "#23436c",
+        "accent-deep": "#0e2b4f",
+        "on-accent": "#f7faff",
+        "accent-on-dark": "#0e2b4f",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#0e2b4f",
+      "kontrast": {
+        "button": 9.6,
+        "text": 17.45,
+        "link": 13.42
+      }
+    },
+    {
+      "code": "IN-13",
+      "name": "Kinfolk",
+      "charakter": "Tabak auf Greige",
+      "gruppe": "IN",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "inspiriert": "Kinfolk",
+      "farben": {
+        "bg": "#fdf2e6",
+        "surface": "#fffcf7",
+        "sand": "#eedfce",
+        "border": "#e8d6c2",
+        "ink": "#19130c",
+        "ink-soft": "#4d4740",
+        "muted": "#726c66",
+        "accent": "#7b6452",
+        "accent-deep": "#5f4b3b",
+        "on-accent": "#fef9f5",
+        "accent-on-dark": "#5f4b3b",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#5f4b3b",
+      "kontrast": {
+        "button": 5.3,
+        "text": 16.69,
+        "link": 7.44
+      }
+    },
+    {
+      "code": "IN-14",
+      "name": "HAY",
+      "charakter": "Tannengrün auf Puderrosa",
+      "gruppe": "IN",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "inspiriert": "HAY",
+      "farben": {
+        "bg": "#ffedec",
+        "surface": "#fffafa",
+        "sand": "#fbd7d6",
+        "border": "#f8cecc",
+        "ink": "#1d0f0f",
+        "ink-soft": "#524443",
+        "muted": "#776969",
+        "accent": "#015636",
+        "accent-deep": "#003c21",
+        "on-accent": "#f6fcf8",
+        "accent-on-dark": "#003c21",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#003c21",
+      "kontrast": {
+        "button": 8.47,
+        "text": 16.48,
+        "link": 11.14
+      }
+    },
+    {
+      "code": "IN-15",
+      "name": "Calm",
+      "charakter": "Hellblau auf tiefem Nachtblau",
+      "gruppe": "IN",
+      "modus": "dunkel",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "inspiriert": "Calm",
+      "farben": {
+        "bg": "#061221",
+        "surface": "#0e1c2e",
+        "sand": "#17273c",
+        "border": "#162e4d",
+        "ink": "#e3eefc",
+        "ink-soft": "#a6b2c2",
+        "muted": "#8694a6",
+        "accent": "#95cde9",
+        "accent-deep": "#85bdd9",
+        "on-accent": "#091115",
+        "accent-on-dark": "#95cde9",
+        "success": "#6b9a55",
+        "danger": "#e06a58"
+      },
+      "link": "#95cde9",
+      "kontrast": {
+        "button": 11.05,
+        "text": 16.04,
+        "link": 10.92
+      }
+    },
+    {
+      "code": "IN-16",
+      "name": "Polestar",
+      "charakter": "Bernstein auf Schwarz",
+      "gruppe": "IN",
+      "modus": "dunkel",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "inspiriert": "Polestar",
+      "farben": {
+        "bg": "#080706",
+        "surface": "#12100f",
+        "sand": "#1c1a19",
+        "border": "#24211f",
+        "ink": "#eeeceb",
+        "ink-soft": "#b2b1af",
+        "muted": "#939290",
+        "accent": "#e28e3a",
+        "accent-deep": "#d17f26",
+        "on-accent": "#140e09",
+        "accent-on-dark": "#e28e3a",
+        "success": "#6b9a55",
+        "danger": "#e06a58"
+      },
+      "link": "#e28e3a",
+      "kontrast": {
+        "button": 7.45,
+        "text": 17.09,
+        "link": 7.82
+      }
+    },
+    {
+      "code": "IN-17",
+      "name": "Fjällräven",
+      "charakter": "Kiefergrün auf Steingrau",
+      "gruppe": "IN",
+      "modus": "hell",
+      "vorlagen": [
+        "hell",
+        "dunkel"
+      ],
+      "inspiriert": "Fjällräven",
+      "farben": {
+        "bg": "#edebe5",
+        "surface": "#f5f4f2",
+        "sand": "#dcd9d0",
+        "border": "#d4d1c7",
+        "ink": "#151410",
+        "ink-soft": "#494844",
+        "muted": "#6a6965",
+        "accent": "#294b31",
+        "accent-deep": "#14331c",
+        "on-accent": "#f6fcf7",
+        "accent-on-dark": "#14331c",
+        "success": "#3a6b50",
+        "danger": "#b84040"
+      },
+      "link": "#14331c",
+      "kontrast": {
+        "button": 9.41,
+        "text": 15.46,
+        "link": 11.59
+      }
+    }
+  ],
   "branchen": [
     {
       "id": "handwerk",
@@ -63,137 +4232,12 @@
       "label": "Handwerk",
       "modus": "hell",
       "standard": "HW-1",
-      "paletten": [
-        {
-          "code": "HW-1",
-          "name": "Orange",
-          "charakter": "Anthrazit und gebranntes Orange",
-          "standard": true,
-          "farben": {
-            "bg": "#f3f2ef",
-            "surface": "#fafaf8",
-            "sand": "#e8e5df",
-            "border": "#e0ddd8",
-            "ink": "#1a1d22",
-            "ink-soft": "#4a505c",
-            "muted": "#666b78",
-            "accent": "#ac5516",
-            "accent-deep": "#7e3e10",
-            "on-accent": "#ffffff",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#7e3e10",
-          "kontrast": {
-            "button": 5.17,
-            "text": 15.09,
-            "link": 7.26
-          }
-        },
-        {
-          "code": "HW-2",
-          "name": "Petrol",
-          "charakter": "Petrol auf kühlem Hellgrau",
-          "standard": false,
-          "farben": {
-            "bg": "#ecf6f9",
-            "surface": "#fafeff",
-            "sand": "#d6e4e9",
-            "border": "#ccdde2",
-            "ink": "#0f1517",
-            "ink-soft": "#43494b",
-            "muted": "#696e70",
-            "accent": "#007083",
-            "accent-deep": "#005566",
-            "on-accent": "#f4fcfd",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#005566",
-          "kontrast": {
-            "button": 5.54,
-            "text": 16.77,
-            "link": 7.67
-          }
-        },
-        {
-          "code": "HW-3",
-          "name": "Tanne",
-          "charakter": "Tannengrün auf warmem Hellgrau",
-          "standard": false,
-          "farben": {
-            "bg": "#f7f4ea",
-            "surface": "#fefdf9",
-            "sand": "#e6e1d4",
-            "border": "#dfd9ca",
-            "ink": "#16140e",
-            "ink-soft": "#494842",
-            "muted": "#706e69",
-            "accent": "#23643f",
-            "accent-deep": "#0a4929",
-            "on-accent": "#f6fcf8",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#0a4929",
-          "kontrast": {
-            "button": 6.81,
-            "text": 16.73,
-            "link": 9.55
-          }
-        },
-        {
-          "code": "HW-4",
-          "name": "Stahlblau",
-          "charakter": "Stahlblau auf neutralem Grau",
-          "standard": false,
-          "farben": {
-            "bg": "#eff4fa",
-            "surface": "#fbfdff",
-            "sand": "#dbe2eb",
-            "border": "#d2dae5",
-            "ink": "#111418",
-            "ink-soft": "#45484b",
-            "muted": "#6b6d71",
-            "accent": "#286099",
-            "accent-deep": "#134679",
-            "on-accent": "#f6fbff",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#134679",
-          "kontrast": {
-            "button": 6.25,
-            "text": 16.7,
-            "link": 8.71
-          }
-        },
-        {
-          "code": "HW-5",
-          "name": "Graphit",
-          "charakter": "Graphit, fast ohne Farbe",
-          "standard": false,
-          "farben": {
-            "bg": "#f2f4f8",
-            "surface": "#fcfdff",
-            "sand": "#dee1e7",
-            "border": "#d6dae0",
-            "ink": "#131416",
-            "ink-soft": "#46484a",
-            "muted": "#6c6d6f",
-            "accent": "#363e4b",
-            "accent-deep": "#202732",
-            "on-accent": "#f7faff",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#202732",
-          "kontrast": {
-            "button": 10.31,
-            "text": 16.74,
-            "link": 13.64
-          }
-        }
+      "empfohlen": [
+        "HW-1",
+        "HW-2",
+        "HW-3",
+        "HW-4",
+        "HW-5"
       ]
     },
     {
@@ -202,137 +4246,12 @@
       "label": "Gastronomie",
       "modus": "hell",
       "standard": "GA-1",
-      "paletten": [
-        {
-          "code": "GA-1",
-          "name": "Waldgrün",
-          "charakter": "Warme Creme und Waldgrün",
-          "standard": true,
-          "farben": {
-            "bg": "#faf6ee",
-            "surface": "#fffdf8",
-            "sand": "#ede6d8",
-            "border": "#e5dfd0",
-            "ink": "#1c1a15",
-            "ink-soft": "#524e44",
-            "muted": "#797064",
-            "accent": "#2e5e3a",
-            "accent-deep": "#1f4229",
-            "on-accent": "#f5f9f0",
-            "success": "#2e5e3a",
-            "danger": "#b84040"
-          },
-          "link": "#1f4229",
-          "kontrast": {
-            "button": 7.09,
-            "text": 16.13,
-            "link": 10.42
-          }
-        },
-        {
-          "code": "GA-2",
-          "name": "Senf",
-          "charakter": "Senfgelb auf Creme",
-          "standard": false,
-          "farben": {
-            "bg": "#faf3e5",
-            "surface": "#fffdf7",
-            "sand": "#eae0cd",
-            "border": "#e4d8c1",
-            "ink": "#17130b",
-            "ink-soft": "#4b473f",
-            "muted": "#716d65",
-            "accent": "#886100",
-            "accent-deep": "#6b4900",
-            "on-accent": "#fdfaf4",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#6b4900",
-          "kontrast": {
-            "button": 5.37,
-            "text": 16.76,
-            "link": 7.38
-          }
-        },
-        {
-          "code": "GA-3",
-          "name": "Nachtblau",
-          "charakter": "Nachtblau auf Leinen",
-          "standard": false,
-          "farben": {
-            "bg": "#f9f3ea",
-            "surface": "#fffdf9",
-            "sand": "#e8e0d3",
-            "border": "#e2d8c8",
-            "ink": "#17130e",
-            "ink-soft": "#4b4742",
-            "muted": "#716e69",
-            "accent": "#274172",
-            "accent-deep": "#132954",
-            "on-accent": "#f7faff",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#132954",
-          "kontrast": {
-            "button": 9.63,
-            "text": 16.76,
-            "link": 12.92
-          }
-        },
-        {
-          "code": "GA-4",
-          "name": "Ocker",
-          "charakter": "Ocker auf Creme",
-          "standard": false,
-          "farben": {
-            "bg": "#fbf2e8",
-            "surface": "#fffdf8",
-            "sand": "#ebdfd0",
-            "border": "#e5d7c5",
-            "ink": "#18130d",
-            "ink-soft": "#4c4741",
-            "muted": "#716c66",
-            "accent": "#925b0c",
-            "accent-deep": "#734300",
-            "on-accent": "#fef9f4",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#734300",
-          "kontrast": {
-            "button": 5.39,
-            "text": 16.67,
-            "link": 7.49
-          }
-        },
-        {
-          "code": "GA-5",
-          "name": "Olive",
-          "charakter": "Olivgrün auf Leinen",
-          "standard": false,
-          "farben": {
-            "bg": "#f7f4e7",
-            "surface": "#fefdf8",
-            "sand": "#e6e1d0",
-            "border": "#dfdac5",
-            "ink": "#16140c",
-            "ink-soft": "#4a4841",
-            "muted": "#6f6d66",
-            "accent": "#5a642c",
-            "accent-deep": "#424a17",
-            "on-accent": "#f9fbf5",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#424a17",
-          "kontrast": {
-            "button": 6.12,
-            "text": 16.72,
-            "link": 8.57
-          }
-        }
+      "empfohlen": [
+        "GA-1",
+        "GA-2",
+        "GA-3",
+        "GA-4",
+        "GA-5"
       ]
     },
     {
@@ -341,163 +4260,13 @@
       "label": "Dienstleister und Beauty",
       "modus": "hell",
       "standard": "DL-1",
-      "paletten": [
-        {
-          "code": "DL-1",
-          "name": "Mauve",
-          "charakter": "Zartes Rosé und Mauve",
-          "standard": true,
-          "farben": {
-            "bg": "#faf5f5",
-            "surface": "#fffcfc",
-            "sand": "#ede3e5",
-            "border": "#e8dde0",
-            "ink": "#1f1a1c",
-            "ink-soft": "#574e52",
-            "muted": "#7c6e73",
-            "accent": "#a84568",
-            "accent-deep": "#8b3555",
-            "on-accent": "#fff8fa",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#8b3555",
-          "kontrast": {
-            "button": 5.4,
-            "text": 15.9,
-            "link": 7.1
-          }
-        },
-        {
-          "code": "DL-2",
-          "name": "Salbei",
-          "charakter": "Salbeigrün auf hellem Grau",
-          "standard": false,
-          "farben": {
-            "bg": "#f0f5f1",
-            "surface": "#fbfefc",
-            "sand": "#dce4dd",
-            "border": "#d3dcd4",
-            "ink": "#121512",
-            "ink-soft": "#454946",
-            "muted": "#6b6e6b",
-            "accent": "#446b51",
-            "accent-deep": "#2e513b",
-            "on-accent": "#f6fcf8",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#2e513b",
-          "kontrast": {
-            "button": 5.82,
-            "text": 16.67,
-            "link": 8.08
-          }
-        },
-        {
-          "code": "DL-3",
-          "name": "Taupe",
-          "charakter": "Taupe auf Sand",
-          "standard": false,
-          "farben": {
-            "bg": "#faf2eb",
-            "surface": "#fffcf9",
-            "sand": "#eadfd5",
-            "border": "#e4d7cb",
-            "ink": "#17130f",
-            "ink-soft": "#4b4743",
-            "muted": "#716c68",
-            "accent": "#675845",
-            "accent-deep": "#4d402f",
-            "on-accent": "#fdf9f4",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#4d402f",
-          "kontrast": {
-            "button": 6.55,
-            "text": 16.69,
-            "link": 9.07
-          }
-        },
-        {
-          "code": "DL-4",
-          "name": "Lavendel",
-          "charakter": "Lavendel auf kühlem Weiß",
-          "standard": false,
-          "farben": {
-            "bg": "#f4f3fa",
-            "surface": "#fdfdff",
-            "sand": "#e2e0ea",
-            "border": "#dad7e4",
-            "ink": "#141317",
-            "ink-soft": "#48474b",
-            "muted": "#6d6c71",
-            "accent": "#685796",
-            "accent-deep": "#4e3f77",
-            "on-accent": "#faf9ff",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#4e3f77",
-          "kontrast": {
-            "button": 5.91,
-            "text": 16.78,
-            "link": 8.28
-          }
-        },
-        {
-          "code": "DL-5",
-          "name": "Nachtblau",
-          "charakter": "Nachtblau auf Weiß",
-          "standard": false,
-          "farben": {
-            "bg": "#f1f4fa",
-            "surface": "#fcfdff",
-            "sand": "#dde1ea",
-            "border": "#d4dae3",
-            "ink": "#121417",
-            "ink-soft": "#46484b",
-            "muted": "#6b6d70",
-            "accent": "#2c4678",
-            "accent-deep": "#182e5a",
-            "on-accent": "#f7faff",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#182e5a",
-          "kontrast": {
-            "button": 8.9,
-            "text": 16.75,
-            "link": 12.08
-          }
-        },
-        {
-          "code": "DL-6",
-          "name": "Messing",
-          "charakter": "Messing auf Creme",
-          "standard": false,
-          "farben": {
-            "bg": "#faf3e7",
-            "surface": "#fffdf8",
-            "sand": "#eae0d0",
-            "border": "#e4d8c5",
-            "ink": "#17130c",
-            "ink-soft": "#4b4741",
-            "muted": "#716d66",
-            "accent": "#7b5f1b",
-            "accent-deep": "#5f4602",
-            "on-accent": "#fdfaf4",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#5f4602",
-          "kontrast": {
-            "button": 5.77,
-            "text": 16.78,
-            "link": 8.06
-          }
-        }
+      "empfohlen": [
+        "DL-1",
+        "DL-2",
+        "DL-3",
+        "DL-4",
+        "DL-5",
+        "DL-6"
       ]
     },
     {
@@ -506,137 +4275,12 @@
       "label": "Gesundheit und Praxis",
       "modus": "hell",
       "standard": "GE-1",
-      "paletten": [
-        {
-          "code": "GE-1",
-          "name": "Seegrün",
-          "charakter": "Salbeiweiß und Seegrün",
-          "standard": true,
-          "farben": {
-            "bg": "#f3f7f5",
-            "surface": "#fafcfb",
-            "sand": "#e0eae5",
-            "border": "#d8e8e2",
-            "ink": "#182220",
-            "ink-soft": "#3e5450",
-            "muted": "#5f7671",
-            "accent": "#1f6b58",
-            "accent-deep": "#145445",
-            "on-accent": "#eef8f5",
-            "success": "#1f6b58",
-            "danger": "#b84040"
-          },
-          "link": "#145445",
-          "kontrast": {
-            "button": 5.87,
-            "text": 15.08,
-            "link": 8.15
-          }
-        },
-        {
-          "code": "GE-2",
-          "name": "Ozeanblau",
-          "charakter": "Ozeanblau auf kühlem Weiß",
-          "standard": false,
-          "farben": {
-            "bg": "#eef5fa",
-            "surface": "#fafeff",
-            "sand": "#d9e3e9",
-            "border": "#cfdbe3",
-            "ink": "#101417",
-            "ink-soft": "#44484b",
-            "muted": "#6b6f72",
-            "accent": "#046093",
-            "accent-deep": "#004773",
-            "on-accent": "#f6fbff",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#004773",
-          "kontrast": {
-            "button": 6.5,
-            "text": 16.82,
-            "link": 8.88
-          }
-        },
-        {
-          "code": "GE-3",
-          "name": "Salbei",
-          "charakter": "Salbeigrün auf warmem Weiß",
-          "standard": false,
-          "farben": {
-            "bg": "#f3f5ee",
-            "surface": "#fdfefa",
-            "sand": "#e0e3d9",
-            "border": "#d8dbcf",
-            "ink": "#131410",
-            "ink-soft": "#474844",
-            "muted": "#6e6f6b",
-            "accent": "#466747",
-            "accent-deep": "#304e31",
-            "on-accent": "#f7fcf7",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#304e31",
-          "kontrast": {
-            "button": 6.14,
-            "text": 16.83,
-            "link": 8.46
-          }
-        },
-        {
-          "code": "GE-4",
-          "name": "Lavendel",
-          "charakter": "Lavendel auf hellem Grau",
-          "standard": false,
-          "farben": {
-            "bg": "#f3f3f9",
-            "surface": "#fdfdff",
-            "sand": "#e1e0e9",
-            "border": "#d9d8e3",
-            "ink": "#141317",
-            "ink-soft": "#47474b",
-            "muted": "#6d6d70",
-            "accent": "#635a93",
-            "accent-deep": "#4a4274",
-            "on-accent": "#faf9ff",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#4a4274",
-          "kontrast": {
-            "button": 5.87,
-            "text": 16.74,
-            "link": 8.18
-          }
-        },
-        {
-          "code": "GE-5",
-          "name": "Schiefer",
-          "charakter": "Schieferblau, ruhig",
-          "standard": false,
-          "farben": {
-            "bg": "#eff4f9",
-            "surface": "#fbfdff",
-            "sand": "#dbe2e9",
-            "border": "#d2dbe3",
-            "ink": "#111417",
-            "ink-soft": "#45484b",
-            "muted": "#6b6e70",
-            "accent": "#40586d",
-            "accent-deep": "#2a4052",
-            "on-accent": "#f6fbff",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#2a4052",
-          "kontrast": {
-            "button": 7.11,
-            "text": 16.7,
-            "link": 9.71
-          }
-        }
+      "empfohlen": [
+        "GE-1",
+        "GE-2",
+        "GE-3",
+        "GE-4",
+        "GE-5"
       ]
     },
     {
@@ -645,137 +4289,12 @@
       "label": "Garten und Landschaft",
       "modus": "hell",
       "standard": "GT-1",
-      "paletten": [
-        {
-          "code": "GT-1",
-          "name": "Laubgrün",
-          "charakter": "Natürliches Laubgrün",
-          "standard": true,
-          "farben": {
-            "bg": "#f4f6f0",
-            "surface": "#fafbf8",
-            "sand": "#e2e8da",
-            "border": "#d8e2d0",
-            "ink": "#1c2118",
-            "ink-soft": "#465040",
-            "muted": "#68755f",
-            "accent": "#4a7a28",
-            "accent-deep": "#376018",
-            "on-accent": "#f0f8e8",
-            "success": "#4a7a28",
-            "danger": "#b84040"
-          },
-          "link": "#376018",
-          "kontrast": {
-            "button": 4.7,
-            "text": 15.07,
-            "link": 6.77
-          }
-        },
-        {
-          "code": "GT-2",
-          "name": "Tanne",
-          "charakter": "Tannengrün auf hellem Grau",
-          "standard": false,
-          "farben": {
-            "bg": "#eef6f1",
-            "surface": "#fbfefc",
-            "sand": "#dae4de",
-            "border": "#d1ddd6",
-            "ink": "#111512",
-            "ink-soft": "#454946",
-            "muted": "#6a6e6c",
-            "accent": "#135b42",
-            "accent-deep": "#00412c",
-            "on-accent": "#f5fcf9",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#00412c",
-          "kontrast": {
-            "button": 7.75,
-            "text": 16.75,
-            "link": 10.65
-          }
-        },
-        {
-          "code": "GT-3",
-          "name": "Lehm",
-          "charakter": "Lehmbraun auf Leinen",
-          "standard": false,
-          "farben": {
-            "bg": "#fbf2e8",
-            "surface": "#fffdf8",
-            "sand": "#ebdfd0",
-            "border": "#e5d7c5",
-            "ink": "#18130d",
-            "ink-soft": "#4c4741",
-            "muted": "#716c66",
-            "accent": "#6d5331",
-            "accent-deep": "#523b1d",
-            "on-accent": "#fef9f4",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#523b1d",
-          "kontrast": {
-            "button": 6.85,
-            "text": 16.67,
-            "link": 9.47
-          }
-        },
-        {
-          "code": "GT-4",
-          "name": "Moos",
-          "charakter": "Moosgrün auf Creme",
-          "standard": false,
-          "farben": {
-            "bg": "#f6f4e8",
-            "surface": "#fefdf8",
-            "sand": "#e5e2d0",
-            "border": "#dddac5",
-            "ink": "#15140d",
-            "ink-soft": "#494841",
-            "muted": "#6e6d66",
-            "accent": "#62691b",
-            "accent-deep": "#495002",
-            "on-accent": "#fafbf5",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#495002",
-          "kontrast": {
-            "button": 5.68,
-            "text": 16.72,
-            "link": 7.82
-          }
-        },
-        {
-          "code": "GT-5",
-          "name": "Himmel",
-          "charakter": "Himmelblau auf Weiß",
-          "standard": false,
-          "farben": {
-            "bg": "#edf5f9",
-            "surface": "#fafeff",
-            "sand": "#d8e3e9",
-            "border": "#cfdce3",
-            "ink": "#101517",
-            "ink-soft": "#44484b",
-            "muted": "#6a6e70",
-            "accent": "#12648f",
-            "accent-deep": "#004b70",
-            "on-accent": "#f5fbff",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#004b70",
-          "kontrast": {
-            "button": 6.2,
-            "text": 16.67,
-            "link": 8.49
-          }
-        }
+      "empfohlen": [
+        "GT-1",
+        "GT-2",
+        "GT-3",
+        "GT-4",
+        "GT-5"
       ]
     },
     {
@@ -784,137 +4303,12 @@
       "label": "Reinigung",
       "modus": "hell",
       "standard": "RE-1",
-      "paletten": [
-        {
-          "code": "RE-1",
-          "name": "Türkis",
-          "charakter": "Klares Türkis auf kühlem Weiß",
-          "standard": true,
-          "farben": {
-            "bg": "#f0f4f6",
-            "surface": "#fafcfd",
-            "sand": "#dce8ec",
-            "border": "#d4e4e8",
-            "ink": "#15211f",
-            "ink-soft": "#3a4f52",
-            "muted": "#5f7477",
-            "accent": "#1e7a8c",
-            "accent-deep": "#155e6e",
-            "on-accent": "#eef8fa",
-            "success": "#1e7a8c",
-            "danger": "#b84040"
-          },
-          "link": "#155e6e",
-          "kontrast": {
-            "button": 4.61,
-            "text": 14.95,
-            "link": 6.64
-          }
-        },
-        {
-          "code": "RE-2",
-          "name": "Frischblau",
-          "charakter": "Frisches Blau auf Weiß",
-          "standard": false,
-          "farben": {
-            "bg": "#f0f4f9",
-            "surface": "#fbfdff",
-            "sand": "#dbe2e9",
-            "border": "#d3dae3",
-            "ink": "#111417",
-            "ink-soft": "#45484b",
-            "muted": "#6b6d70",
-            "accent": "#2863ab",
-            "accent-deep": "#124a89",
-            "on-accent": "#f7faff",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#124a89",
-          "kontrast": {
-            "button": 5.8,
-            "text": 16.73,
-            "link": 8.03
-          }
-        },
-        {
-          "code": "RE-3",
-          "name": "Mint",
-          "charakter": "Mintgrün auf kühlem Weiß",
-          "standard": false,
-          "farben": {
-            "bg": "#edf6f4",
-            "surface": "#fafefd",
-            "sand": "#d8e4e1",
-            "border": "#ceddda",
-            "ink": "#101514",
-            "ink-soft": "#444948",
-            "muted": "#696e6d",
-            "accent": "#2c725a",
-            "accent-deep": "#155743",
-            "on-accent": "#f5fcf9",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#155743",
-          "kontrast": {
-            "button": 5.51,
-            "text": 16.75,
-            "link": 7.71
-          }
-        },
-        {
-          "code": "RE-4",
-          "name": "Schiefer",
-          "charakter": "Schiefergrau, sachlich",
-          "standard": false,
-          "farben": {
-            "bg": "#f0f4f8",
-            "surface": "#fbfdff",
-            "sand": "#dce2e8",
-            "border": "#d3dae1",
-            "ink": "#121416",
-            "ink-soft": "#45484a",
-            "muted": "#6b6d70",
-            "accent": "#425565",
-            "accent-deep": "#2c3c4a",
-            "on-accent": "#f6fbff",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#2c3c4a",
-          "kontrast": {
-            "button": 7.42,
-            "text": 16.71,
-            "link": 10.26
-          }
-        },
-        {
-          "code": "RE-5",
-          "name": "Limette",
-          "charakter": "Limettengrün auf Weiß",
-          "standard": false,
-          "farben": {
-            "bg": "#f2f5ef",
-            "surface": "#fcfefb",
-            "sand": "#dfe3db",
-            "border": "#d6dbd2",
-            "ink": "#131411",
-            "ink-soft": "#474845",
-            "muted": "#6c6e6b",
-            "accent": "#55751d",
-            "accent-deep": "#3e5a03",
-            "on-accent": "#f8fbf6",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#3e5a03",
-          "kontrast": {
-            "button": 5.1,
-            "text": 16.8,
-            "link": 7.15
-          }
-        }
+      "empfohlen": [
+        "RE-1",
+        "RE-2",
+        "RE-3",
+        "RE-4",
+        "RE-5"
       ]
     },
     {
@@ -923,137 +4317,12 @@
       "label": "Umzug und Transport",
       "modus": "hell",
       "standard": "UM-1",
-      "paletten": [
-        {
-          "code": "UM-1",
-          "name": "Blau",
-          "charakter": "Verlässliches Blau auf Grau",
-          "standard": true,
-          "farben": {
-            "bg": "#f1f3f6",
-            "surface": "#fafbfd",
-            "sand": "#dee4ec",
-            "border": "#d6dee8",
-            "ink": "#161a22",
-            "ink-soft": "#3c4658",
-            "muted": "#65707f",
-            "accent": "#2b5c8a",
-            "accent-deep": "#1e456a",
-            "on-accent": "#eef4fa",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#1e456a",
-          "kontrast": {
-            "button": 6.32,
-            "text": 15.68,
-            "link": 8.93
-          }
-        },
-        {
-          "code": "UM-2",
-          "name": "Signalorange",
-          "charakter": "Signalorange auf Grau",
-          "standard": false,
-          "farben": {
-            "bg": "#f0f4f8",
-            "surface": "#fcfdff",
-            "sand": "#dce2e8",
-            "border": "#d4dae1",
-            "ink": "#121416",
-            "ink-soft": "#46484a",
-            "muted": "#6b6d70",
-            "accent": "#a95800",
-            "accent-deep": "#884000",
-            "on-accent": "#fef9f5",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#884000",
-          "kontrast": {
-            "button": 4.92,
-            "text": 16.71,
-            "link": 6.83
-          }
-        },
-        {
-          "code": "UM-3",
-          "name": "Petrol",
-          "charakter": "Petrol auf kühlem Grau",
-          "standard": false,
-          "farben": {
-            "bg": "#edf6f8",
-            "surface": "#fafeff",
-            "sand": "#d7e4e7",
-            "border": "#cedde0",
-            "ink": "#101516",
-            "ink-soft": "#44494a",
-            "muted": "#696e6f",
-            "accent": "#076675",
-            "accent-deep": "#004c59",
-            "on-accent": "#f4fcfd",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#004c59",
-          "kontrast": {
-            "button": 6.38,
-            "text": 16.78,
-            "link": 8.79
-          }
-        },
-        {
-          "code": "UM-4",
-          "name": "Anthrazit",
-          "charakter": "Anthrazit, ganz sachlich",
-          "standard": false,
-          "farben": {
-            "bg": "#f1f4f8",
-            "surface": "#fcfdff",
-            "sand": "#dee2e7",
-            "border": "#d5dae0",
-            "ink": "#121416",
-            "ink-soft": "#46484a",
-            "muted": "#6c6d6f",
-            "accent": "#2f3640",
-            "accent-deep": "#192028",
-            "on-accent": "#f7faff",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#192028",
-          "kontrast": {
-            "button": 11.65,
-            "text": 16.74,
-            "link": 14.89
-          }
-        },
-        {
-          "code": "UM-5",
-          "name": "Tanne",
-          "charakter": "Tannengrün auf hellem Grau",
-          "standard": false,
-          "farben": {
-            "bg": "#f0f5f1",
-            "surface": "#fbfefc",
-            "sand": "#dce4dd",
-            "border": "#d3dcd4",
-            "ink": "#121512",
-            "ink-soft": "#454946",
-            "muted": "#6b6e6b",
-            "accent": "#1e5a3c",
-            "accent-deep": "#054026",
-            "on-accent": "#f6fcf8",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#054026",
-          "kontrast": {
-            "button": 7.82,
-            "text": 16.67,
-            "link": 10.77
-          }
-        }
+      "empfohlen": [
+        "UM-1",
+        "UM-2",
+        "UM-3",
+        "UM-4",
+        "UM-5"
       ]
     },
     {
@@ -1062,137 +4331,12 @@
       "label": "Tierbetreuung",
       "modus": "hell",
       "standard": "TB-1",
-      "paletten": [
-        {
-          "code": "TB-1",
-          "name": "Gold",
-          "charakter": "Warmes Gold auf Sand",
-          "standard": true,
-          "farben": {
-            "bg": "#f5f2eb",
-            "surface": "#fdfbf6",
-            "sand": "#e8e0d2",
-            "border": "#e4dccc",
-            "ink": "#221e16",
-            "ink-soft": "#544d40",
-            "muted": "#776e5f",
-            "accent": "#b07a2e",
-            "accent-deep": "#8e6120",
-            "on-accent": "#1a1208",
-            "success": "#5e7a52",
-            "danger": "#b84040"
-          },
-          "link": "#8e6120",
-          "kontrast": {
-            "button": 5,
-            "text": 14.84,
-            "link": 4.84
-          }
-        },
-        {
-          "code": "TB-2",
-          "name": "Waldgrün",
-          "charakter": "Waldgrün auf Creme",
-          "standard": false,
-          "farben": {
-            "bg": "#f8f4e7",
-            "surface": "#fffdf8",
-            "sand": "#e7e1d0",
-            "border": "#e1d9c4",
-            "ink": "#16140c",
-            "ink-soft": "#4a4740",
-            "muted": "#716e68",
-            "accent": "#2b6339",
-            "accent-deep": "#154924",
-            "on-accent": "#f6fcf7",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#154924",
-          "kontrast": {
-            "button": 6.85,
-            "text": 16.75,
-            "link": 9.49
-          }
-        },
-        {
-          "code": "TB-3",
-          "name": "Himmelblau",
-          "charakter": "Himmelblau auf Weiß",
-          "standard": false,
-          "farben": {
-            "bg": "#edf5fa",
-            "surface": "#fafeff",
-            "sand": "#d7e4ea",
-            "border": "#cddce4",
-            "ink": "#101517",
-            "ink-soft": "#43494b",
-            "muted": "#696e71",
-            "accent": "#12648f",
-            "accent-deep": "#004b70",
-            "on-accent": "#f5fbff",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#004b70",
-          "kontrast": {
-            "button": 6.2,
-            "text": 16.68,
-            "link": 8.5
-          }
-        },
-        {
-          "code": "TB-4",
-          "name": "Haselnuss",
-          "charakter": "Haselnussbraun auf Leinen",
-          "standard": false,
-          "farben": {
-            "bg": "#fbf2e8",
-            "surface": "#fffcf8",
-            "sand": "#ecdfd1",
-            "border": "#e6d7c6",
-            "ink": "#18130d",
-            "ink-soft": "#4c4741",
-            "muted": "#716c67",
-            "accent": "#765328",
-            "accent-deep": "#5a3b13",
-            "on-accent": "#fef9f4",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#5a3b13",
-          "kontrast": {
-            "button": 6.61,
-            "text": 16.67,
-            "link": 9.16
-          }
-        },
-        {
-          "code": "TB-5",
-          "name": "Petrol",
-          "charakter": "Petrol auf warmem Weiß",
-          "standard": false,
-          "farben": {
-            "bg": "#f8f3eb",
-            "surface": "#fffdf9",
-            "sand": "#e8e0d4",
-            "border": "#e1d8ca",
-            "ink": "#16130e",
-            "ink-soft": "#4a4742",
-            "muted": "#706d68",
-            "accent": "#016770",
-            "accent-deep": "#004d55",
-            "on-accent": "#f4fcfd",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#004d55",
-          "kontrast": {
-            "button": 6.36,
-            "text": 16.77,
-            "link": 8.67
-          }
-        }
+      "empfohlen": [
+        "TB-1",
+        "TB-2",
+        "TB-3",
+        "TB-4",
+        "TB-5"
       ]
     },
     {
@@ -1201,137 +4345,12 @@
       "label": "Fitness und Yoga",
       "modus": "hell",
       "standard": "FI-1",
-      "paletten": [
-        {
-          "code": "FI-1",
-          "name": "Olive",
-          "charakter": "Ruhiges Olivgrün",
-          "standard": true,
-          "farben": {
-            "bg": "#f4f3f0",
-            "surface": "#fbfaf7",
-            "sand": "#e5e3da",
-            "border": "#dedcd0",
-            "ink": "#1e1f18",
-            "ink-soft": "#4a4c40",
-            "muted": "#6f7162",
-            "accent": "#6b7a45",
-            "accent-deep": "#525e33",
-            "on-accent": "#f4f6ec",
-            "success": "#6b7a45",
-            "danger": "#b84040"
-          },
-          "link": "#525e33",
-          "kontrast": {
-            "button": 4.28,
-            "text": 14.97,
-            "link": 6.29
-          }
-        },
-        {
-          "code": "FI-2",
-          "name": "Kobalt",
-          "charakter": "Kobaltblau auf kühlem Grau",
-          "standard": false,
-          "farben": {
-            "bg": "#f0f4fa",
-            "surface": "#fcfdff",
-            "sand": "#dde2e9",
-            "border": "#d4dae3",
-            "ink": "#121417",
-            "ink-soft": "#46484b",
-            "muted": "#6b6d70",
-            "accent": "#3054ae",
-            "accent-deep": "#1d3b8a",
-            "on-accent": "#f7faff",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#1d3b8a",
-          "kontrast": {
-            "button": 6.68,
-            "text": 16.72,
-            "link": 9.3
-          }
-        },
-        {
-          "code": "FI-3",
-          "name": "Petrol",
-          "charakter": "Petrol auf hellem Grau",
-          "standard": false,
-          "farben": {
-            "bg": "#eef5f7",
-            "surface": "#fafefe",
-            "sand": "#d9e4e6",
-            "border": "#cfdcdf",
-            "ink": "#101516",
-            "ink-soft": "#444949",
-            "muted": "#6a6e6f",
-            "accent": "#0c6a76",
-            "accent-deep": "#004f5b",
-            "on-accent": "#f4fcfd",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#004f5b",
-          "kontrast": {
-            "button": 6.05,
-            "text": 16.69,
-            "link": 8.39
-          }
-        },
-        {
-          "code": "FI-4",
-          "name": "Graphit",
-          "charakter": "Graphit, sportlich schlicht",
-          "standard": false,
-          "farben": {
-            "bg": "#f1f4f8",
-            "surface": "#fcfdff",
-            "sand": "#dee2e7",
-            "border": "#d5dae0",
-            "ink": "#121416",
-            "ink-soft": "#46484a",
-            "muted": "#6c6d6f",
-            "accent": "#313942",
-            "accent-deep": "#1c222a",
-            "on-accent": "#f7faff",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#1c222a",
-          "kontrast": {
-            "button": 11.19,
-            "text": 16.74,
-            "link": 14.51
-          }
-        },
-        {
-          "code": "FI-5",
-          "name": "Eukalyptus",
-          "charakter": "Eukalyptus auf warmem Weiß",
-          "standard": false,
-          "farben": {
-            "bg": "#f6f4ec",
-            "surface": "#fefdfa",
-            "sand": "#e4e1d6",
-            "border": "#dddacc",
-            "ink": "#15140f",
-            "ink-soft": "#494843",
-            "muted": "#6e6d69",
-            "accent": "#386c5e",
-            "accent-deep": "#235146",
-            "on-accent": "#f5fcfa",
-            "success": "#3a6b50",
-            "danger": "#b84040"
-          },
-          "link": "#235146",
-          "kontrast": {
-            "button": 5.81,
-            "text": 16.75,
-            "link": 8.16
-          }
-        }
+      "empfohlen": [
+        "FI-1",
+        "FI-2",
+        "FI-3",
+        "FI-4",
+        "FI-5"
       ]
     },
     {
@@ -1340,144 +4359,14 @@
       "label": "Tattoo",
       "modus": "dunkel",
       "standard": "TA-1",
-      "paletten": [
-        {
-          "code": "TA-1",
-          "name": "Rost",
-          "charakter": "Dunkel mit kräftigem Rost",
-          "standard": true,
-          "farben": {
-            "bg": "#17171a",
-            "surface": "#1f1f23",
-            "sand": "#2a2a30",
-            "border": "#2e2e34",
-            "ink": "#f0ede8",
-            "ink-soft": "#b0aba2",
-            "muted": "#7e7a72",
-            "accent": "#c8503c",
-            "accent-deep": "#a83e2c",
-            "on-accent": "#ffffff",
-            "accent-on-dark": "#d4796a",
-            "success": "#6b9a55",
-            "danger": "#d85a48"
-          },
-          "link": "#d4796a",
-          "kontrast": {
-            "button": 4.5,
-            "text": 15.32,
-            "link": 5.74
-          }
-        },
-        {
-          "code": "TA-2",
-          "name": "Messing",
-          "charakter": "Messing auf Schwarz",
-          "standard": false,
-          "farben": {
-            "bg": "#110f0c",
-            "surface": "#1c1915",
-            "sand": "#27241f",
-            "border": "#2f2b24",
-            "ink": "#eeece9",
-            "ink-soft": "#b3b1ad",
-            "muted": "#94928d",
-            "accent": "#d1ac5a",
-            "accent-deep": "#c19c49",
-            "on-accent": "#120f08",
-            "accent-on-dark": "#d1ac5a",
-            "success": "#6b9a55",
-            "danger": "#e06a58"
-          },
-          "link": "#d1ac5a",
-          "kontrast": {
-            "button": 8.89,
-            "text": 16.23,
-            "link": 8.89
-          }
-        },
-        {
-          "code": "TA-3",
-          "name": "Eisblau",
-          "charakter": "Eisblau auf Blauschwarz",
-          "standard": false,
-          "farben": {
-            "bg": "#0c1014",
-            "surface": "#151a1f",
-            "sand": "#1f252b",
-            "border": "#242c35",
-            "ink": "#e9edf1",
-            "ink-soft": "#adb2b6",
-            "muted": "#8e9398",
-            "accent": "#71bcdf",
-            "accent-deep": "#62accf",
-            "on-accent": "#091115",
-            "accent-on-dark": "#71bcdf",
-            "success": "#6b9a55",
-            "danger": "#e06a58"
-          },
-          "link": "#71bcdf",
-          "kontrast": {
-            "button": 9.03,
-            "text": 16.23,
-            "link": 9.06
-          }
-        },
-        {
-          "code": "TA-4",
-          "name": "Smaragd",
-          "charakter": "Smaragdgrün auf Schwarz",
-          "standard": false,
-          "farben": {
-            "bg": "#0c110f",
-            "surface": "#151b19",
-            "sand": "#1f2623",
-            "border": "#252e2a",
-            "ink": "#eaeeec",
-            "ink-soft": "#adb2b0",
-            "muted": "#8e9491",
-            "accent": "#5dc291",
-            "accent-deep": "#4cb281",
-            "on-accent": "#0a110d",
-            "accent-on-dark": "#5dc291",
-            "success": "#6b9a55",
-            "danger": "#e06a58"
-          },
-          "link": "#5dc291",
-          "kontrast": {
-            "button": 8.73,
-            "text": 16.27,
-            "link": 8.7
-          }
-        },
-        {
-          "code": "TA-5",
-          "name": "Knochen",
-          "charakter": "Knochenweiß, ganz schwarz-weiß",
-          "standard": false,
-          "farben": {
-            "bg": "#100f0e",
-            "surface": "#1a1918",
-            "sand": "#252422",
-            "border": "#2d2b28",
-            "ink": "#ededeb",
-            "ink-soft": "#b2b1af",
-            "muted": "#939290",
-            "accent": "#dcd7cd",
-            "accent-deep": "#ccc7bd",
-            "on-accent": "#120f08",
-            "accent-on-dark": "#dcd7cd",
-            "success": "#6b9a55",
-            "danger": "#e06a58"
-          },
-          "link": "#dcd7cd",
-          "kontrast": {
-            "button": 13.34,
-            "text": 16.33,
-            "link": 13.35
-          }
-        }
+      "empfohlen": [
+        "TA-1",
+        "TA-2",
+        "TA-3",
+        "TA-4",
+        "TA-5"
       ]
     }
   ],
-  "erzeugt": "2026-10-05"
+  "erzeugt": "2026-10-06"
 }

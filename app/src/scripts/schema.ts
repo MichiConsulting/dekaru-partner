@@ -57,11 +57,9 @@ if (wurzel) {
     const url = new URL(location.href);
     url.searchParams.set('branche', id);
     history.replaceState(null, '', url);
-    // Eine Palette gehoert immer zu genau einer Branche. Passt sie nicht
-    // mehr, ist die Wahl weg; die neue Branche zeigt wieder ihren Standard.
-    const gewaehlt = schema.dataset.palette ?? '';
-    const passt = gewaehlt !== '' && schema.querySelector(`[data-fuer-branche="${id}"] [data-palette-wahl="${gewaehlt}"]`);
-    if (gewaehlt && !passt) setzePalette(null);
+    // Paletten gelten fuer jede Branche, die Wahl bleibt. Ohne Wahl zeigt die
+    // Vorschau den Standard der neuen Branche.
+    if (!schema.dataset.palette) setzePalette(null, false);
   }
   for (const a of branchenWahl) {
     a.addEventListener('click', (e) => {
@@ -83,43 +81,162 @@ if (wurzel) {
     });
   }
 
-  // ── Farbpalette. Die Farben stehen fertig in data-stil (vom Server),
-  // dieses Skript kennt keine Palette selbst. Gespeichert wird nur in der
-  // Adresse (?palette=HW-2), damit der Link zum Nachschicken sie mitnimmt.
+  // ── Farben: Ebene 1 Farbgruppen, Ebene 2 die Paletten einer Gruppe. Die
+  // Farben kommen als kompakte Daten aus dem Seitenquelltext
+  // (data-paletten-daten, src/lib/paletten.ts schemaDaten), dieses Skript
+  // kennt keine Palette selbst. Gespeichert wird nur in der Adresse
+  // (?gruppe=BL&palette=BL-2), damit der Link zum Nachschicken sie mitnimmt.
+  type PalettenDaten = {
+    gruppen: Record<string, { label: string; codes: string[] }>;
+    paletten: Record<string, [string, string, string, string, string]>;
+  };
+  const datenEl = schema.querySelector<HTMLScriptElement>('[data-paletten-daten]');
+  const daten: PalettenDaten = datenEl ? JSON.parse(datenEl.textContent ?? '{}') : { gruppen: {}, paletten: {} };
   const farbAnsage = schema.querySelector<HTMLElement>('[data-farb-ansage]');
-  function setzePalette(karte: HTMLAnchorElement | null): void {
-    const code = karte?.dataset.paletteWahl ?? '';
-    schema.dataset.palette = code;
+  const uebersicht = schema.querySelector<HTMLElement>('[data-gruppen-uebersicht]');
+  const ansicht = schema.querySelector<HTMLElement>('[data-gruppen-ansicht]');
+  const gruppenTitel = schema.querySelector<HTMLElement>('[data-gruppe-titel]');
+  const liste = schema.querySelector<HTMLUListElement>('[data-paletten-liste]');
+  const vorlage = schema.querySelector<HTMLTemplateElement>('[data-karten-vorlage]');
+  const hinweisNamen = schema.querySelector<HTMLElement>('[data-hinweis-namen]');
+  const PROBE = ['bg', 'surface', 'ink', 'ink-soft', 'muted', 'accent', 'accent-deep', 'on-accent', 'border', 'link'];
+
+  const farbenVon = (code: string): string[] => {
+    const roh = daten.paletten[code]?.[4] ?? '';
+    return PROBE.map((_, i) => roh.slice(i * 7, i * 7 + 7));
+  };
+  const stilVon = (code: string): string => farbenVon(code).map((f, i) => `--pl-${PROBE[i]}:${f}`).join(';');
+  const paletteTitelVon = (code: string): string => `Palette ${code} ${daten.paletten[code]?.[0] ?? ''}`;
+  const farbLink = (gruppe: string, palette: string): string => {
+    const url = new URL(location.href);
+    url.hash = 'schritt-3';
+    if (gruppe) url.searchParams.set('gruppe', gruppe);
+    else url.searchParams.delete('gruppe');
+    if (palette) url.searchParams.set('palette', palette);
+    else url.searchParams.delete('palette');
+    return url.pathname + url.search + url.hash;
+  };
+  const adresseSetzen = (): void => {
+    const url = new URL(location.href);
+    for (const [k, v] of [['gruppe', schema.dataset.gruppe ?? ''], ['palette', schema.dataset.palette ?? '']]) {
+      if (v) url.searchParams.set(k, v);
+      else url.searchParams.delete(k);
+    }
+    history.replaceState(null, '', url);
+  };
+  /** Standardpalette der Branche: erste Empfehlung im sichtbaren Block. */
+  const standardCode = (): string =>
+    schema.querySelector<HTMLElement>(`.empfehlung[data-fuer-branche="${schema.dataset.branche}"] [data-palette-wahl]`)?.dataset.paletteWahl ?? '';
+
+  function markiere(): void {
+    const code = schema.dataset.palette ?? '';
     for (const a of schema.querySelectorAll<HTMLAnchorElement>('[data-palette-wahl]')) {
-      if (karte && a === karte) a.setAttribute('aria-current', 'true');
+      if (code && a.dataset.paletteWahl === code) a.setAttribute('aria-current', 'true');
       else a.removeAttribute('aria-current');
     }
-    for (const bereich of schema.querySelectorAll<HTMLElement>('[data-farb-branche]')) {
-      const vorschau = bereich.querySelector<HTMLElement>('[data-farb-vorschau]');
-      const titel = bereich.querySelector<HTMLElement>('[data-farb-titel]');
-      const hinweis = bereich.querySelector<HTMLElement>('[data-farb-hinweis]');
-      const eigene = karte && bereich.contains(karte) ? karte : null;
-      const standard = bereich.querySelector<HTMLAnchorElement>('[data-palette-wahl]');
-      const zeige = eigene ?? standard;
-      if (vorschau && zeige?.dataset.stil) vorschau.setAttribute('style', zeige.dataset.stil);
-      if (titel) titel.textContent = eigene ? (eigene.dataset.titel ?? '') : 'Noch keine Palette gewählt';
-      if (hinweis) {
-        hinweis.textContent = eigene ? 'Diesen Namen bitte nennen.' : `Die Vorschau zeigt ${standard?.dataset.titel ?? ''}. Tippen Sie unten eine Palette an.`;
-      }
+    const gruppe = code ? daten.paletten[code]?.[2] : '';
+    for (const el of schema.querySelectorAll<HTMLElement>('[data-gruppe-gewaehlt]')) el.hidden = el.dataset.gruppeGewaehlt !== gruppe;
+  }
+
+  function karteBauen(code: string, gruppe: string, i: number): HTMLLIElement | null {
+    const p = daten.paletten[code];
+    const li = vorlage?.content.firstElementChild?.cloneNode(true) as HTMLLIElement | undefined;
+    if (!p || !li) return null;
+    const [name, charakter, , zusatz] = p;
+    const farben = farbenVon(code);
+    li.style.setProperty('--i', String(i));
+    const a = li.querySelector<HTMLAnchorElement>('a')!;
+    a.href = farbLink(gruppe, code);
+    a.dataset.paletteWahl = code;
+    li.querySelector<HTMLElement>('.palette__probe')!.setAttribute('style', stilVon(code));
+    // Felder in Leserichtung wie farbfelder(): Akzent, Akzent dunkel, Schrift, Flaeche, Hintergrund.
+    const felder = [farben[5], farben[6], farben[2], farben[1], farben[0]];
+    li.querySelectorAll<HTMLElement>('.palette__feld').forEach((f, n) => (f.style.background = felder[n]));
+    li.querySelector('.palette__code')!.textContent = code;
+    li.querySelector('.palette__name')!.textContent = name;
+    li.querySelector('.palette__charakter')!.textContent = charakter;
+    const z = li.querySelector<HTMLElement>('.palette__zusatz')!;
+    if (zusatz) z.textContent = zusatz;
+    else z.remove();
+    return li;
+  }
+
+  function oeffneGruppe(kuerzel: string, fokus = true): void {
+    const g = daten.gruppen[kuerzel];
+    if (!g || !liste || !ansicht || !uebersicht) return;
+    liste.replaceChildren(...g.codes.map((c, i) => karteBauen(c, kuerzel, i)).filter((x): x is HTMLLIElement => x !== null));
+    if (gruppenTitel) gruppenTitel.textContent = g.label;
+    if (hinweisNamen) hinweisNamen.hidden = kuerzel !== 'IN';
+    schema.dataset.gruppe = kuerzel;
+    uebersicht.hidden = true;
+    ansicht.hidden = false;
+    // Animationen der Karten neu starten.
+    liste.classList.remove('ist-neu');
+    void liste.offsetWidth;
+    liste.classList.add('ist-neu');
+    markiere();
+    zurueckLinks();
+    adresseSetzen();
+    if (fokus) gruppenTitel?.focus();
+    if (farbAnsage) farbAnsage.textContent = `${g.label}: ${g.codes.length} Paletten`;
+  }
+
+  function schliesseGruppe(): void {
+    const vorher = schema.dataset.gruppe ?? '';
+    schema.dataset.gruppe = '';
+    if (ansicht) ansicht.hidden = true;
+    if (uebersicht) uebersicht.hidden = false;
+    adresseSetzen();
+    gruppenLinks();
+    schema.querySelector<HTMLAnchorElement>(`[data-gruppe-wahl="${vorher}"]`)?.focus();
+  }
+
+  /** Links ohne Skript aktuell halten (Mittelklick, neuer Tab). */
+  function gruppenLinks(): void {
+    for (const a of schema.querySelectorAll<HTMLAnchorElement>('[data-gruppe-wahl]')) a.href = farbLink(a.dataset.gruppeWahl ?? '', schema.dataset.palette ?? '');
+  }
+  function zurueckLinks(): void {
+    const z = schema.querySelector<HTMLAnchorElement>('[data-gruppe-zurueck]');
+    if (z) z.href = farbLink('', schema.dataset.palette ?? '');
+  }
+
+  function setzePalette(code: string | null, ansagen = true): void {
+    const wahl = code && daten.paletten[code] ? code : '';
+    schema.dataset.palette = wahl;
+    markiere();
+    const zeige = wahl || standardCode();
+    const vorschau = schema.querySelector<HTMLElement>('[data-farb-vorschau]');
+    if (vorschau && zeige) vorschau.setAttribute('style', stilVon(zeige));
+    const titel = schema.querySelector<HTMLElement>('[data-farb-titel]');
+    const hinweis = schema.querySelector<HTMLElement>('[data-farb-hinweis]');
+    if (titel) titel.textContent = wahl ? paletteTitelVon(wahl) : 'Noch keine Palette gewählt';
+    if (hinweis) hinweis.textContent = wahl ? 'Diesen Namen bitte nennen.' : `Die Vorschau zeigt ${paletteTitelVon(zeige)}. Wählen Sie unten eine Palette.`;
+    adresseSetzen();
+    gruppenLinks();
+    zurueckLinks();
+    if (ansagen && farbAnsage) farbAnsage.textContent = wahl ? `${paletteTitelVon(wahl)} gewählt. Diesen Namen bitte nennen.` : '';
+  }
+
+  const normalerKlick = (e: MouseEvent): boolean => !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0);
+
+  // Ein Zuhoerer fuer alles im Farbschritt: Karten entstehen erst beim Oeffnen.
+  schema.querySelector('#schritt-3')?.addEventListener('click', (e) => {
+    const ev = e as MouseEvent;
+    const ziel = (ev.target as HTMLElement | null)?.closest<HTMLAnchorElement>('a');
+    if (!ziel || !normalerKlick(ev)) return;
+    if (ziel.dataset.gruppeWahl) {
+      ev.preventDefault();
+      oeffneGruppe(ziel.dataset.gruppeWahl);
+    } else if (ziel.hasAttribute('data-gruppe-zurueck')) {
+      ev.preventDefault();
+      schliesseGruppe();
+    } else if (ziel.dataset.paletteWahl) {
+      ev.preventDefault();
+      setzePalette(ziel.dataset.paletteWahl);
+      // Eine Empfehlung oeffnet ihre Gruppe, damit die Wahl auch dort sichtbar ist.
+      if (ziel.dataset.gruppeZiel && ziel.dataset.gruppeZiel !== schema.dataset.gruppe) oeffneGruppe(ziel.dataset.gruppeZiel, false);
     }
-    const url = new URL(location.href);
-    if (code) url.searchParams.set('palette', code);
-    else url.searchParams.delete('palette');
-    history.replaceState(null, '', url);
-    if (farbAnsage) farbAnsage.textContent = karte ? `${karte.dataset.titel ?? ''} gewählt. Diesen Namen bitte nennen.` : '';
-  }
-  for (const a of schema.querySelectorAll<HTMLAnchorElement>('[data-palette-wahl]')) {
-    a.addEventListener('click', (e) => {
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      e.preventDefault();
-      setzePalette(a);
-    });
-  }
+  });
 
   // ── Blaettern
   weiter?.addEventListener('click', () => zeige(aktuell + 1));

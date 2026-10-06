@@ -17,13 +17,13 @@ import {
   holeBriefingAdmin,
   listeBriefings,
   loescheBriefing,
-  paletteZurBranche,
+  paletteZumTemplate,
   pruefeBriefing,
   reicheEin,
   setzeStatusAdmin,
   speichereBriefing,
 } from '../src/lib/briefing.ts';
-import { BRIEFING_ZU_TEMPLATE, palettenBranche } from '../src/lib/paletten.ts';
+import { ALLE_PALETTEN, BRIEFING_ZU_TEMPLATE, palettenBranche } from '../src/lib/paletten.ts';
 
 let db: Db;
 let anna: Benutzer;
@@ -152,23 +152,31 @@ describe('Briefing-Bogen: Felder', () => {
 });
 
 describe('Briefing-Bogen: Farbpalette', () => {
-  it('nimmt Codes aus dem Template-System und "offen", sonst nichts', () => {
+  it('nimmt jeden Code aus dem Katalog und "offen", sonst nichts', () => {
     expect(pruefeBriefing(vollstaendig({ farbpalette: 'HW-3' })).daten.felder.farbpalette).toBe('HW-3');
+    expect(pruefeBriefing(vollstaendig({ farbpalette: 'BL-2' })).daten.felder.farbpalette).toBe('BL-2');
+    expect(pruefeBriefing(vollstaendig({ farbpalette: 'IN-10' })).daten.felder.farbpalette).toBe('IN-10');
     expect(pruefeBriefing(vollstaendig({ farbpalette: 'offen' })).daten.felder.farbpalette).toBe('offen');
     expect(pruefeBriefing(vollstaendig({ farbpalette: '#7b1e2b' })).daten.felder.farbpalette).toBeUndefined();
     expect(pruefeBriefing(vollstaendig({ farbpalette: 'HW-9' })).daten.felder.farbpalette).toBeUndefined();
+    const feld = TEILE.flatMap((t) => t.felder).find((f) => f.name === 'farbpalette')!;
+    expect(feld.optionen!.length).toBe(ALLE_PALETTEN.length + 1);
     // Optional: ohne Angabe fehlt nichts.
     expect(pruefeBriefing(vollstaendig()).fehlend).toEqual([]);
   });
 
-  it('meldet eine Palette, die nicht zur Branche passt, erst beim Einreichen', () => {
-    const p = pruefeBriefing(vollstaendig({ branche: 'Handwerk', farbpalette: 'GA-2' }));
+  it('jede Palette passt zu jeder Branche, ausser bei hell oder dunkel', () => {
+    // Fremde Branchenpaletten sind seit dem Katalog kein Fehler mehr.
+    expect(pruefeBriefing(vollstaendig({ branche: 'Handwerk', farbpalette: 'GA-2' })).fehlend).toEqual([]);
+    expect(paletteZumTemplate('Tattoo', 'BL-2')).toBeNull();
+    expect(paletteZumTemplate('Handwerk', 'DK-3')).toBeNull();
+    // Die wenigen beschraenkten Standardpaletten melden sich beim Einreichen.
+    const p = pruefeBriefing(vollstaendig({ branche: 'Handwerk', farbpalette: 'TA-1' }));
     expect(p.sperren).toEqual([]);
-    expect(p.fehlend.some((f) => /GA-2 gehört nicht zur Branche Handwerk/.test(f))).toBe(true);
-    expect(paletteZurBranche('Gesundheit, Praxis', 'GE-4')).toBeNull();
-    expect(paletteZurBranche('Dienstleister', 'DL-6')).toBeNull();
-    expect(paletteZurBranche('Tattoo', 'offen')).toBeNull();
-    expect(paletteZurBranche('', 'HW-2')).toBeNull();
+    expect(p.fehlend.some((f) => /TA-1 Rost passt nicht zum hellen Design/.test(f))).toBe(true);
+    expect(paletteZumTemplate('Tattoo', 'DL-1')).toMatch(/dunklen Tattoo-Design/);
+    expect(paletteZumTemplate('Tattoo', 'offen')).toBeNull();
+    expect(paletteZumTemplate('', 'TA-1')).toBeNull();
   });
 
   it('jede Branche im Bogen hat eine Template-Branche mit Paletten', () => {
@@ -224,6 +232,24 @@ describe('Briefing-Bogen: Speichern und Zugriff', () => {
     expect(await speichereBriefing(db, anna.id, bogenAnna, teil)).toBeNull();
     expect(await reicheEin(db, anna.id, bogenAnna, teil)).toBeNull();
     expect(await loescheBriefing(db, anna.id, bogenAnna)).toBe(false);
+  });
+
+  it('die Admin-Ansicht zeigt Code, Name, Gruppe und Farbfelder der Palette', async () => {
+    const { experimental_AstroContainer: AstroContainer } = await import('astro/container');
+    const { default: AdminSeite } = await import('../src/pages/admin/briefings/[id].astro');
+    const { erstelleBenutzer } = await import('../src/lib/auth.ts');
+    const chef = await erstelleBenutzer(db, { email: 'chef-farbe@example.test', name: 'Chef', rolle: 'admin', passwort: 'geheim-passwort-1' });
+    const container = await AstroContainer.create();
+    const antwort = await container.renderToResponse(AdminSeite, {
+      request: new Request(`http://localhost/admin/briefings/${bogenAnna}`),
+      params: { id: bogenAnna },
+      locals: { db, benutzer: chef, csrf: 'x', sitzungId: 's' },
+    });
+    const html = await antwort.text();
+    expect(html).toContain('HW-2 Petrol (Petrol und Türkis)');
+    expect(html).toContain('palette: &quot;HW-2&quot;');
+    expect(html).toMatch(/class="admin-palette__felder"[^>]*>\s*<span style="background:#007083"/);
+    expect(html).not.toContain('passt nicht zum Design');
   });
 
   it('der Admin sieht alle eingereichten Boegen, keine Entwuerfe, markiert und gibt zurueck', async () => {

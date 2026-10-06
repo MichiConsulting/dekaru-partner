@@ -1041,6 +1041,154 @@ html.praesentation .schema__buehne {
   display: inline-block;
 }
 
+.palette__zusatz {
+  flex-basis: 100%;
+  font-size: 0.8em;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* Empfehlung "Passt oft zu Ihrer Branche": kleine Chips mit drei Farbfeldern. */
+.empfehlung {
+  margin: 0 0 1.2em;
+}
+.empfehlung__titel {
+  margin: 0 0 0.4em;
+  font-weight: 600;
+  font-size: 0.95em;
+}
+.empfehlung__liste {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45em;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  min-height: 2.6em;
+  padding: 0.25em 0.8em 0.25em 0.35em;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.9em;
+}
+.chip:hover {
+  color: var(--text);
+  border-color: var(--text);
+}
+.chip[aria-current='true'] {
+  border-color: var(--text);
+  box-shadow: inset 0 0 0 1px var(--text);
+}
+.chip__felder {
+  display: inline-flex;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+}
+.chip__felder span {
+  display: block;
+  width: 0.75em;
+  height: 1.6em;
+}
+.chip__code {
+  font-weight: 700;
+}
+
+/* Ebene 1: Farbgruppen als Kacheln mit Farbstreifen. */
+.farbgruppen {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 14em), 1fr));
+  gap: 0.8em;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.farbgruppen li {
+  min-width: 0;
+}
+.farbgruppe {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35em;
+  height: 100%;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+  padding-bottom: 0.8em;
+}
+.farbgruppe:hover {
+  color: var(--text);
+  border-color: var(--text);
+}
+.farbgruppe__streifen {
+  display: block;
+  height: 2.6em;
+  border-bottom: 1px solid var(--border);
+}
+.farbgruppe__kopf {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.1em 0.6em;
+  padding: 0.3em 0.9em 0;
+}
+.farbgruppe__name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1em;
+}
+.farbgruppe__zahl {
+  font-size: 0.85em;
+  color: var(--text-muted);
+}
+.farbgruppe__text {
+  padding: 0 0.9em;
+  font-size: 0.85em;
+  color: var(--text-muted);
+  overflow-wrap: break-word;
+}
+.farbgruppe__wahl {
+  align-self: flex-start;
+  margin: 0.2em 0.9em 0;
+  padding: 0.1em 0.6em;
+  border-radius: 999px;
+  background: var(--text);
+  color: var(--bg);
+  font-size: 0.8em;
+  font-weight: 600;
+}
+
+/* Ebene 2: die Paletten einer Gruppe. */
+.farbgruppe-ansicht__kopf {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6em 1em;
+  margin: 0 0 0.9em;
+}
+.farbgruppe-ansicht__titel {
+  margin: 0;
+  font-size: 1.35em;
+}
+.farbgruppe-ansicht__titel:focus {
+  outline: none;
+}
+.farbgruppe-ansicht__titel:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+}
+
 /* ── Bewegung. Nur mit Skript und nur im aktiven Schritt. Die Endzustaende
    sind der normale Zustand, ohne Bewegung ist also alles sichtbar. ── */
 @keyframes sc-rein {
@@ -1162,7 +1310,6 @@ html.praesentation .schema__buehne {
     animation-delay: 0.1s;
   }
   .schema--js .ist-aktiv .branchen li,
-  .schema--js .ist-aktiv .paletten li,
   .schema--js .ist-aktiv .karte-sc,
   .schema--js .ist-aktiv .ablauf__kasten,
   .schema--js .ist-aktiv .weg__station,
@@ -1174,6 +1321,13 @@ html.praesentation .schema__buehne {
   }
   .schema--js .ist-aktiv .weg__nichts {
     animation-delay: 1.6s;
+  }
+  /* Gruppen und Karten: Verzoegerung gedeckelt, bei zwoelf Karten sonst ueber zwei Sekunden. */
+  .schema--js .ist-aktiv .farbgruppen li,
+  .schema--js .ist-aktiv .paletten li,
+  .schema--js .paletten.ist-neu li {
+    animation: sc-rein 0.45s ease-out both;
+    animation-delay: calc(0.1s + min(var(--i, 0), 8) * 0.06s);
   }
   .schema--js .ist-aktiv .baustein {
     animation: sc-einrasten 0.55s cubic-bezier(0.2, 0.7, 0.3, 1.2) both;
@@ -1200,7 +1354,9 @@ html.praesentation .schema__buehne {
   }
   .farbprobe,
   .farbprobe *,
-  .palette {
+  .palette,
+  .chip,
+  .farbgruppe {
     transition: background-color 0.35s, color 0.35s, border-color 0.35s;
   }
 }
