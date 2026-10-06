@@ -429,6 +429,14 @@
       "antwort": "Heute nicht als feste Buchung. Mit dem Paket Groß kommen Terminwünsche als Anfrage per Mail, und Sie bestätigen selbst.",
       "pflicht": false,
       "hinweis": "Nur anbieten, was unter Verkaufshilfen steht. Terminbuchung und Reservierung mit Kalender sind nicht verkaufbar, nichts als \"kommt bald\" ankündigen."
+    },
+    {
+      "id": "g49",
+      "thema": "Software",
+      "frage": "Geht der Kostenrechner auch mit dem kleineren Paket?",
+      "antwort": "Nein, Software-Module gibt es nur zum Paket Groß. Groß ist das Paket, in dem Ihre Website mitarbeitet und Anfragen entgegennimmt. Der Rechner erweitert genau das.",
+      "pflicht": false,
+      "hinweis": "Gilt für jedes Modul und für Klein wie Mittel, keine Ausnahme zusagen. Nicht drängen: Bleibt der Betrieb bei Mittel, bleibt es bei Mittel ohne Modul. Paketpreise erst im Zweittermin, in Stufe 2 aus dem Preisrechner."
     }
   ]
 }

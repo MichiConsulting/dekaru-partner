@@ -48,6 +48,7 @@ describe('Verkaufshilfen', () => {
     expect(stufe1).toContain('70 €');
     expect(stufe1).toContain('Stufe 1: Sie nennen keinen Preis');
     const admin = nurText(hauptteil(await (await rendere(Steckbrief, '/verkaufshilfen/modul-kostenrechner', chef, { schluessel: 'modul-kostenrechner' })).text()));
+    expect(stufe1).toContain('Nur zum Paket Groß , wie die mitarbeitende Funktion.'.replace(' ,', ','));
     expect(admin).toContain('aus dem Preisrechner, ohne Nachlass');
   });
 
@@ -57,6 +58,7 @@ describe('Verkaufshilfen', () => {
     expect(html).not.toMatch(/€|Euro|Provision|Stufe 1|Stufe 2|Nur für Sie/);
     expect(html).not.toContain('Anna');
     expect(nurText(html)).toContain('Unverbindlicher Richtwert, kein Angebot.');
+    expect(nurText(html)).toContain('Eine Website von dekaru im Paket Groß');
   });
 
   it('kennt nicht verkaufbare Module nicht', async () => {
