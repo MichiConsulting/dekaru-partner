@@ -147,7 +147,7 @@ const moduleOhneGross = modulErlaubt ? [] : auswahl.module.map((s) => findeModul
     <div class="meldung meldung--fehler" role="alert" data-module-warnung hidden={moduleOhneGross.length === 0}>
       <p>
         <strong>Software-Module gibt es {MODULE_NUR_MIT}.</strong> Angekreuzt ist <span data-module-warnung-namen>{moduleOhneGross.map((m) => m!.name).join(', ')}</span>.
-        Bitte Paket {MODULE_PAKET_NAME} wählen oder das Modul abwählen. Eingereicht werden kann der Bogen so nicht.
+        Bitte Paket {MODULE_PAKET_NAME} wählen oder das Modul abwählen. Ein Briefing-Bogen lässt sich so nicht einreichen.
       </p>
     </div>
     <p class="hinweis module__status" role="status" aria-live="polite" data-module-status hidden></p>

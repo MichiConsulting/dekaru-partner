@@ -359,6 +359,23 @@ html.modus-bereit .schema:not(.schema--js) .schritt:not(#schritt-0) {
   --fl-text: var(--sc-blau-text);
   --fl-rand: var(--sc-blau-rand);
 }
+/* Sieben Branchen: auf dem Handy kompakter, damit die Wahl nicht ueber
+   mehrere Bildschirme laeuft. Name und Beispiele bleiben vollstaendig. */
+@media (max-width: 30em) {
+  .branchen {
+    gap: 0.5em;
+  }
+  .branche {
+    gap: 0.15em;
+    padding: 0.65em 0.9em;
+  }
+  .branche__name {
+    font-size: 1.08em;
+  }
+  .branche__bsp {
+    font-size: 0.85em;
+  }
+}
 .branche--umzug {
   --fl-flaeche: var(--sc-gelb-flaeche);
   --fl-text: var(--sc-gelb-text);
