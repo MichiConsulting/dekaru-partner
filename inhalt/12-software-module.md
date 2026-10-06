@@ -14,7 +14,7 @@ Ein Software-Modul ist ein Stück Software, das dem Betrieb eine Arbeit abnimmt,
 
 Software-Module gibt es nur zu einer Website im Paket Groß, genau wie die mitarbeitende Funktion. Zu Klein oder Mittel bieten Sie kein Modul an, auch nicht als Ausnahme. Im Preisrechner und im Briefing-Bogen lässt sich ein Modul nur ankreuzen, wenn Groß gewählt ist.
 
-Der Grund, den Sie dem Betrieb auch so sagen können: Groß ist das Paket, in dem die Website mitarbeitet. Sie nimmt Anfragen entgegen, statt nur zu informieren. Ein Modul erweitert genau das. Ohne die mitarbeitende Website fehlt ihm der Platz, an dem es arbeiten kann.
+Der Grund, den Sie dem Betrieb auch so sagen können: Groß ist das Paket, in dem die Website mitarbeitet. Sie nimmt Anfragen entgegen, statt nur zu informieren. Ein Modul erweitert genau das, so sind die Pakete gedacht. Technisch unmöglich wäre ein Modul zu Mittel nicht, es ist eine Entscheidung über das Angebot. Begründen Sie es deshalb nie mit der Technik.
 
 > "Der Kostenrechner gehört zum Paket Groß. Da arbeitet Ihre Website ohnehin schon mit, und der Rechner macht daraus noch mehr."
 
