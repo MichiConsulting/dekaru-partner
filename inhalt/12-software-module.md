@@ -1,14 +1,24 @@
 ---
 nummer: 12
 titel: Software-Module
-kurz: Software, die dem Betrieb Arbeit abnimmt. Was davon heute verkauft wird, was es kostet und was Sie dazu sagen.
+kurz: Software, die dem Betrieb im Paket Groß zusätzlich Arbeit abnimmt. Was davon heute verkauft wird, was es kostet und was Sie dazu sagen.
 ---
 
 # Software-Module
 
-Ein Software-Modul ist ein Stück Software, das dem Betrieb eine Arbeit abnimmt, zusätzlich zur Website. Der Betrieb kauft jedes Modul **einmal**. Laufend zahlt er nur das Hosting, darin stecken Updates und Hilfe. Die Einrichtung beim Betrieb mache ich, sie ist im Preis enthalten.
+Ein Software-Modul ist ein Stück Software, das dem Betrieb eine Arbeit abnimmt, zusätzlich zur Website. Module gibt es **nur zum Website-Paket Groß**. Der Betrieb kauft jedes Modul **einmal**. Laufend zahlt er nur das Hosting, darin stecken Updates und Hilfe. Die Einrichtung beim Betrieb mache ich, sie ist im Preis enthalten.
 
 **Die wichtigste Regel vorweg:** Sie bieten nur Module an, die im Portal unter **Verkaufshilfen** stehen. Stand 06.10.2026 ist das ein einziges, der **Kostenrechner**. Alles andere gibt es heute nicht, und es wird auch nicht als "kommt bald" erwähnt.
+
+## Nur mit Paket Groß
+
+Software-Module gibt es nur zu einer Website im Paket Groß, genau wie die mitarbeitende Funktion. Zu Klein oder Mittel bieten Sie kein Modul an, auch nicht als Ausnahme. Im Preisrechner und im Briefing-Bogen lässt sich ein Modul nur ankreuzen, wenn Groß gewählt ist.
+
+Der Grund, den Sie dem Betrieb auch so sagen können: Groß ist das Paket, in dem die Website mitarbeitet. Sie nimmt Anfragen entgegen, statt nur zu informieren. Ein Modul erweitert genau das. Ohne die mitarbeitende Website fehlt ihm der Platz, an dem es arbeiten kann.
+
+> "Der Kostenrechner gehört zum Paket Groß. Da arbeitet Ihre Website ohnehin schon mit, und der Rechner macht daraus noch mehr."
+
+Will der Betrieb Mittel und trotzdem ein Modul, bleibt es bei Mittel ohne Modul. Ob er doch Groß nimmt, entscheidet er, Sie drängen nicht.
 
 ## Zwei Arten von Modulen
 
@@ -43,7 +53,7 @@ Konten anlegen, Schlüssel erzeugen, Skript einrichten: Das mache ich im Einrich
 - **Einrichtung** beim Betrieb ist im Modulpreis enthalten.
 - **Updates und Hilfe** gibt es nur, solange die Website bei mir gehostet wird.
 - **Was beim Ende des Hostings mit einem Modul passiert**, kläre ich vorher mit dem Betrieb. Sie sagen dazu nichts zu, weder "läuft weiter" noch "fällt weg".
-- Ein Modul ist nicht die **mitarbeitende Funktion**. Die Funktion, heute die Online-Terminanfrage, gehört zum Paket Groß. Module werden einzeln gekauft.
+- Ein Modul ist nicht die **mitarbeitende Funktion**. Die Funktion, heute die Online-Terminanfrage, steckt im Paket Groß. Ein Modul kommt einzeln dazu, ebenfalls nur zu Groß.
 
 ## Preise und Provision
 
@@ -60,11 +70,11 @@ Die Stufen sind für Sie zur Einordnung. Einen Preis nennen Sie nur für ein Mod
 
 **Wann Sie welche Zahl nennen:** Im Erstgespräch keinen Modulpreis, nur den Nutzen. Im Zweittermin in Stufe 1 nennt den Preis Michael Henning, in Stufe 2 Sie, aus dem Preisrechner und ohne Nachlass.
 
-**Provision: 35 %, wenn das Modul im Erstauftrag mitverkauft wird.** Beim Kostenrechner sind das 70 €. Kauft der Betrieb ein Modul später dazu, ist das ein Folgegeschäft ohne Provision.
+**Provision: 35 %, wenn das Modul im Erstauftrag mitverkauft wird.** Beim Kostenrechner sind das 70 €. Weil es Module nur zu Groß gibt, steht im Erstauftrag dann immer auch das Paket Groß. Kauft der Betrieb ein Modul später dazu, ist das ein Folgegeschäft ohne Provision.
 
 ## Nur anbieten, was verkaufbar ist
 
-Ein Modul ist verkaufbar, wenn es fertig, getestet und bepreist ist. Dann steht es unter Verkaufshilfen, im Preisrechner und, wenn es zur Branche passt, im Schema. Steht es dort nicht, gibt es es nicht.
+Ein Modul ist verkaufbar, wenn es fertig, getestet und bepreist ist. Dann steht es unter Verkaufshilfen, im Preisrechner und, wenn es zur Branche passt, im Schema beim Paket Groß. Steht es dort nicht, gibt es es nicht.
 
 Fragt ein Betrieb nach einer Terminbuchung mit Kalender, einer Tischreservierung oder einer KI, die Texte schreibt:
 
@@ -76,7 +86,7 @@ Fragt ein Betrieb nach einer Terminbuchung mit Kalender, einer Tischreservierung
 
 **Was er tut.** Auf der Website gibt ein Besucher ein paar Angaben ein, zum Beispiel Fläche, Zimmer oder Extras, und sieht sofort einen unverbindlichen Richtwert als Spanne. Mit einem Knopf übernimmt er Angaben und Spanne in seine Anfrage.
 
-**Für wen.** Betriebe, deren Preis sich aus wenigen Angaben grob ableiten lässt. Bauen lässt er sich für Websites in den Vorlagen Handwerk, Garten- und Landschaftsbau, Reinigung und Umzug. Typisch sind Umzug, Reinigung, Garten und Maler. Für andere Branchen bieten Sie ihn nicht an.
+**Für wen.** Betriebe mit Paket Groß, deren Preis sich aus wenigen Angaben grob ableiten lässt. Bauen lässt er sich für Websites in den Vorlagen Handwerk, Garten- und Landschaftsbau, Reinigung und Umzug. Typisch sind Umzug, Reinigung, Garten und Maler. Für andere Branchen bieten Sie ihn nicht an.
 
 **Was er abnimmt.**
 
@@ -90,7 +100,7 @@ Fragt ein Betrieb nach einer Terminbuchung mit Kalender, einer Tischreservierung
 - keine Buchung, keine Zahlung, keine Sonderfälle
 - keine KI, er rechnet nach festen Regeln mit den Preisen des Betriebs
 
-**Voraussetzungen.** Eine Website von dekaru in einer der vier Vorlagen, und der Betrieb kennt seine Preise grob, etwa je Quadratmeter, je Stunde oder als Pauschale. Kein Google-Konto, kein Anthropic-Schlüssel, kein Abo. Felder und Preise legt der Betrieb beim Bau mit mir fest. Neue Preise schickt er später per Mail, wie jede Änderung.
+**Voraussetzungen.** Eine Website von dekaru im Paket Groß, in einer der vier Vorlagen, und der Betrieb kennt seine Preise grob, etwa je Quadratmeter, je Stunde oder als Pauschale. Kein Google-Konto, kein Anthropic-Schlüssel, kein Abo. Felder und Preise legt der Betrieb beim Bau mit mir fest. Neue Preise schickt er später per Mail, wie jede Änderung.
 
 So sprechen Sie ihn an, im Zweittermin, nach der Website:
 
@@ -99,6 +109,6 @@ So sprechen Sie ihn an, im Zweittermin, nach der Website:
 ## Wann Sie Module ansprechen
 
 - **Telefon:** gar nicht.
-- **Erstgespräch:** Das Schema zeigt passende Module im Schritt Funktion, mit Namen und Nutzen. Sie erklären den Nutzen und notieren, was den Betrieb interessiert.
-- **Zweittermin:** nach der Website, wenn das Paket steht. Ein passendes Modul, keine Liste. Interesse kreuzen Sie im Briefing-Bogen an.
+- **Erstgespräch:** Das Schema zeigt passende Module im Schritt Funktion unter "Im Paket Groß zusätzlich möglich", mit Namen und Nutzen. Bei den Bausteinen erscheinen sie nur, wenn Groß gewählt ist. Sie erklären den Nutzen und notieren, was den Betrieb interessiert.
+- **Zweittermin:** nach der Website, wenn das Paket Groß steht. Ein passendes Modul, keine Liste. Bei Klein oder Mittel sprechen Sie kein Modul an. Interesse kreuzen Sie im Briefing-Bogen an.
 - **Ausdrucken oder zeigen:** Unter Verkaufshilfen gibt es zu jedem Modul eine Fassung ohne Preis, die Sie dem Betrieb zeigen oder mitgeben dürfen.

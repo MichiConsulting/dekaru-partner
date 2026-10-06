@@ -7,7 +7,7 @@
       "saetze": [
         "Software, die dem Betrieb zusätzlich zur Website Arbeit abnimmt. Einmal kaufen, laufend nur Hosting mit Updates und Hilfe. Die Einrichtung beim Betrieb macht Michael Henning, sie ist im Preis enthalten."
       ],
-      "merke": "Ein Modul ist nicht die mitarbeitende Funktion. Die gehört zum Paket Groß, Module werden einzeln gekauft."
+      "merke": "Ein Modul ist nicht die mitarbeitende Funktion. Die steckt im Paket Groß, ein Modul kommt einzeln dazu, ebenfalls nur zu Groß."
     },
     {
       "titel": "Zwei Arten",
@@ -53,13 +53,13 @@
       "merke": "35 % Provision, wenn das Modul im Erstauftrag mitverkauft wird. Beim Kostenrechner 70 €. Später gekauft: Folgegeschäft ohne Provision."
     },
     {
-      "titel": "Nur, was verkaufbar ist",
+      "titel": "Nur verkaufbar, nur mit Groß",
       "icon": "warnung",
       "saetze": [
-        "Sie bieten nur Module an, die unter Verkaufshilfen stehen. Alles andere gibt es heute nicht, auch nicht als \"kommt bald\"."
+        "Sie bieten nur Module an, die unter Verkaufshilfen stehen, und nur zum Paket Groß. Groß ist das Paket, in dem die Website mitarbeitet, ein Modul erweitert das."
       ],
-      "zitat": "Das bietet er heute nicht an. Was es heute gibt, zeige ich Ihnen gern.",
-      "merke": "Was im Portal nicht steht, versprechen Sie nicht."
+      "zitat": "Der Kostenrechner gehört zum Paket Groß. Da arbeitet Ihre Website ohnehin schon mit, und der Rechner macht daraus noch mehr.",
+      "merke": "Kein Modul zu Klein oder Mittel, keines als \"kommt bald\". Preisrechner und Briefing-Bogen lassen Module nur bei Groß ankreuzen."
     },
     {
       "titel": "Steckbrief Kostenrechner",
@@ -71,7 +71,7 @@
         "Nimmt ab: Anrufe nur wegen eines groben Preises",
         "Kann nicht: verbindliches Angebot, Buchung, Sonderfälle",
         "Braucht: grobe Preise des Betriebs, sonst nichts",
-        "Einmalig 200 €, Stufe klein"
+        "Einmalig 200 €, Stufe klein, nur zum Paket Groß"
       ],
       "zitat": "Sie hatten erzählt, dass viele nur wegen eines groben Preises anrufen: Wäre es eine Hilfe, wenn Ihre Kunden sich den vorher auf der Website selbst ausrechnen?"
     },
@@ -79,7 +79,7 @@
       "titel": "Wann Sie Module ansprechen",
       "icon": "weg",
       "saetze": [
-        "Am Telefon gar nicht. Im Erstgespräch zeigt das Schema passende Module, nur mit Nutzen. Im Zweittermin nach der Website ein passendes Modul, Interesse im Briefing-Bogen ankreuzen."
+        "Am Telefon gar nicht. Im Erstgespräch zeigt das Schema passende Module beim Paket Groß, nur mit Nutzen. Im Zweittermin nach der Website ein passendes Modul, wenn Groß steht, Interesse im Briefing-Bogen ankreuzen."
       ],
       "merke": "Unter Verkaufshilfen gibt es zu jedem Modul eine Fassung ohne Preis zum Zeigen und Mitgeben."
     }
