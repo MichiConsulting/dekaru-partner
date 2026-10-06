@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "stand": "2026-10-05",
+  "stand": "2026-10-06",
   "titel": "Gesprächshilfe für Vertriebler",
   "einleitung": "Sechs Sätze lernen Sie wortgleich, alles andere sagen Sie in eigenen Worten.",
-  "themen": ["Preis", "Ablauf", "Hosting", "Vertrauen", "Kein Interesse", "Recht und Datenschutz"],
+  "themen": ["Preis", "Ablauf", "Hosting", "Vertrauen", "Kein Interesse", "Recht und Datenschutz", "Software"],
   "eintraege": [
     {
       "id": "g01",
@@ -357,6 +357,78 @@
       "antwort": "Das Formular auf Ihrer Seite schickt die Anfrage an den Formulardienst von Herrn Henning, und der leitet sie als Mail an Sie weiter. Gespeichert wird dabei nichts.",
       "pflicht": false,
       "hinweis": "So zeigt es auch das Schema im Portal. Den Weg so erklären, wie er heute ist, und nichts von Funktionen erzählen, die es noch nicht gibt. Den Auftragsverarbeitungsvertrag dazu schickt Michael Henning."
+    },
+    {
+      "id": "g40",
+      "thema": "Software",
+      "frage": "Brauche ich dafür ein KI-Abo?",
+      "antwort": "Nein. Der Kostenrechner, den Herr Henning heute anbietet, kommt ganz ohne KI aus. Wo ein Modul KI nutzt, läuft sie über ein eigenes Konto Ihres Betriebs, abgerechnet nach Verbrauch, ohne Abo.",
+      "pflicht": false,
+      "hinweis": "Ein Claude-Abo lässt sich nicht offiziell mit fremder Software verbinden, deshalb der eigene Schlüssel bei Anthropic. Kein Modul nennen, das nicht unter Verkaufshilfen steht, auch nicht als Beispiel."
+    },
+    {
+      "id": "g41",
+      "thema": "Software",
+      "frage": "Was kostet mich das laufend?",
+      "antwort": "Der Kostenrechner kostet laufend nichts extra. Updates und Hilfe gibt es mit dem Hosting, das beginnt bei 19 € im Monat.",
+      "pflicht": false,
+      "hinweis": "Den Modulpreis nennen Sie nur in Stufe 2 im Zweittermin, aus dem Preisrechner. Fragt jemand nach Modulen mit KI: dort kommen beim Betrieb Verbrauchskosten bei Anthropic dazu, bei normaler Nutzung Cent-Beträge bis wenige Euro im Monat. Nicht genauer werden, nichts versprechen."
+    },
+    {
+      "id": "g42",
+      "thema": "Software",
+      "frage": "Wo liegen meine Daten? Sieht Herr Henning meine Anfragen?",
+      "antwort": "Der Kostenrechner rechnet im Browser Ihres Besuchers und speichert nichts. Schickt der Besucher das Ergebnis ab, geht es mit dem normalen Kontaktformular in Ihr Postfach, auf demselben Weg wie jede Anfrage, ohne dass etwas gespeichert wird.",
+      "pflicht": false,
+      "hinweis": "Nicht sagen, dass dekaru beim Kostenrechner gar nicht dazwischen ist: das Ergebnis läuft wie jede Anfrage über den Formulardienst. \"Ihre Daten bleiben bei Ihnen\" gilt für Module, die im Google-Konto des Betriebs laufen, und davon ist heute keines verkaufbar."
+    },
+    {
+      "id": "g43",
+      "thema": "Software",
+      "frage": "Was, wenn die KI Unsinn schreibt?",
+      "antwort": "Der Kostenrechner nutzt keine KI, er rechnet nach festen Regeln mit Ihren Preisen. Und wo ein Modul KI nutzt, macht sie nur Vorschläge, entscheiden tun Sie.",
+      "pflicht": false,
+      "hinweis": "Keine Fehlerfreiheit versprechen. Wenn der Betrieb tiefer fragt: \"Das klären wir mit Herrn Henning.\""
+    },
+    {
+      "id": "g44",
+      "thema": "Software",
+      "frage": "Und wenn ich das Hosting kündige?",
+      "antwort": "Updates und Hilfe zu den Modulen gibt es nur, solange die Website bei Herrn Henning gehostet wird. Was beim Wechsel mit einem Modul im Einzelnen passiert, klärt er vorher mit Ihnen.",
+      "pflicht": false,
+      "hinweis": "Im Bauplan noch offen. Nichts zusagen, weder \"läuft weiter\" noch \"fällt weg\". Die mitarbeitende Funktion entfällt ohne Hosting, das ist etwas anderes, siehe Thema Hosting."
+    },
+    {
+      "id": "g45",
+      "thema": "Software",
+      "frage": "Kann ich das auch ganz ohne KI nutzen?",
+      "antwort": "Ja, der Kostenrechner braucht keine KI und kein zusätzliches Konto. Mehr kann ich Ihnen heute dazu nicht anbieten.",
+      "pflicht": false,
+      "hinweis": "Eine Werkbank ohne Schlüssel ist in Arbeit. Nicht ansprechen, nicht als \"kommt bald\" ankündigen."
+    },
+    {
+      "id": "g46",
+      "thema": "Software",
+      "frage": "Ist der Preis aus dem Kostenrechner verbindlich?",
+      "antwort": "Nein. Er zeigt einen unverbindlichen Richtwert als Spanne, das steht auch so darunter. Das Angebot machen weiterhin Sie.",
+      "pflicht": false,
+      "hinweis": "Unter jedem Ergebnis steht \"Unverbindlicher Richtwert, kein Angebot.\" Das sagen Sie genau so."
+    },
+    {
+      "id": "g47",
+      "thema": "Software",
+      "frage": "Muss ich das selbst einrichten?",
+      "antwort": "Nein. Die Einrichtung macht Herr Henning mit Ihnen zusammen, sie ist im Preis enthalten. Beim Kostenrechner legen Sie dabei Felder und Preise fest.",
+      "pflicht": false,
+      "hinweis": "Sie richten nichts ein, auch keine Konten bei Google oder Anthropic. Keine Zugangsdaten aufnehmen, auch nicht auf dem Briefing-Bogen."
+    },
+    {
+      "id": "g48",
+      "thema": "Software",
+      "frage": "Haben Sie auch eine Online-Terminbuchung oder Tischreservierung?",
+      "antwort": "Heute nicht als feste Buchung. Mit dem Paket Groß kommen Terminwünsche als Anfrage per Mail, und Sie bestätigen selbst.",
+      "pflicht": false,
+      "hinweis": "Nur anbieten, was unter Verkaufshilfen steht. Terminbuchung und Reservierung mit Kalender sind nicht verkaufbar, nichts als \"kommt bald\" ankündigen."
     }
   ]
 }

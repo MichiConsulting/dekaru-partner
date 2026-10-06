@@ -68,10 +68,10 @@ describe('Gespraechshilfe: Format', () => {
     const { daten, fehler } = pruefeGespraechsDaten(ECHT);
     expect(fehler).toEqual([]);
     expect(daten.eintraege.length).toBeGreaterThanOrEqual(30);
-    expect(daten.eintraege.length).toBeLessThanOrEqual(40);
+    expect(daten.eintraege.length).toBeLessThanOrEqual(50);
     expect(pflichtsaetze(daten.eintraege).length).toBe(6);
     const themen = new Set(daten.eintraege.map((e) => e.thema));
-    expect(themen.size).toBe(6);
+    expect(themen.size).toBe(7);
   });
   it('die sechs Pflichtsaetze haben genau die festgelegten Inhalte', () => {
     const saetze = pflichtsaetze(pruefeGespraechsDaten(ECHT).daten.eintraege).map((e) => e.antwort);
