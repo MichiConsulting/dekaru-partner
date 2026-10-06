@@ -890,6 +890,13 @@ html.praesentation .schema {
 html.praesentation .schema__buehne {
   min-height: calc(100vh - 12em);
 }
+/* Sieben Branchen passen so auch bei grosser Schrift auf einen Bildschirm. */
+html.praesentation .branchen {
+  gap: 0.6em;
+}
+html.praesentation .branche {
+  padding: 0.7em 1em;
+}
 
 /* ── 3: Farben ── Die Proben zeigen bewusst die Farben der Kundenpalette
    (--pl-*, als style-Attribut aus src/lib/paletten.ts), nicht die des
