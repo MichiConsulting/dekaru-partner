@@ -1680,7 +1680,7 @@
         "ink": "#1e1f18",
         "ink-soft": "#4a4c40",
         "muted": "#6f7162",
-        "accent": "#6b7a45",
+        "accent": "#667440",
         "accent-deep": "#525e33",
         "on-accent": "#f4f6ec",
         "accent-on-dark": "#525e33",
@@ -1689,7 +1689,7 @@
       },
       "link": "#525e33",
       "kontrast": {
-        "button": 4.28,
+        "button": 4.65,
         "text": 14.97,
         "link": 6.29
       }
