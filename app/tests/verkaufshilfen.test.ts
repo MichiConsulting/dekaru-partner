@@ -38,7 +38,8 @@ describe('Verkaufshilfen', () => {
     const text = nurText(hauptteil(html));
     expect(text).toContain('Kostenrechner für Ihre Kunden');
     expect(text).toContain('Module im Zweittermin ansprechen');
-    for (const name of ['Terminbuchung', 'Tischreservierung', 'Reel-Werkstatt', 'Beitrags-Schreiber', 'Bewertungs-Assistent', 'Angebots-Assistent', 'Lagerliste']) expect(text).not.toContain(name);
+    for (const name of ['Beitrags-Schreiber', 'Bewertungs-Assistent', 'Speisekarte und Preisliste', 'Angebots-Assistent Handwerk', 'Anfrage mit Fotos', 'Material- und Lagerliste']) expect(text).toContain(name);
+    for (const name of ['Terminbuchung', 'Tischreservierung', 'Reel-Werkstatt', 'Schicht- und Urlaubsplan']) expect(text).not.toContain(name);
     expect(html).toMatch(/href="\/verkaufshilfen"[^>]*aria-current="page"/);
   });
 

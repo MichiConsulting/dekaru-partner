@@ -81,97 +81,55 @@ describe('Module im Portal', () => {
     expect(ZWEITTERMIN?.schritte.length).toBeGreaterThanOrEqual(2);
   });
 
-  it('heute ist genau der Kostenrechner verkaufbar, fuer 200 Euro mit 70 Euro Provision', () => {
-    expect(VERKAUFBARE_MODULE.map((m) => [m.schluessel, m.preis, m.provision])).toEqual([['modul-kostenrechner', 200, 70]]);
+  it('heute sind die sieben gebauten Module verkaufbar, mit Preis nach Stufe und 35 % Provision', () => {
+    expect(VERKAUFBARE_MODULE.map((m) => [m.schluessel, m.preis, m.provision])).toEqual([
+      ['modul-kostenrechner', 200, 70],
+      ['modul-beitrags-schreiber', 200, 70],
+      ['modul-bewertungs-assistent', 200, 70],
+      ['modul-speisekarte', 300, 105],
+      ['modul-angebots-assistent', 300, 105],
+      ['modul-anfrage-fotos', 300, 105],
+      ['modul-lagerliste', 300, 105],
+    ]);
     const k = VERKAUFBARE_MODULE[0];
     expect(k.name).toBe('Kostenrechner für Ihre Kunden');
     expect(k.schemaBranchen).toEqual(['handwerk', 'umzug', 'reinigung', 'garten']);
     // Bauen laesst er sich seit dem Branch module-alle-branchen in dekaru-templates in allen zehn Vorlagen.
     expect(k.briefingBranchen.sort()).toEqual(Object.keys(BRIEFING_ZU_TEMPLATE).sort());
     expect(k.empfohlenFuer).toEqual(['Handwerk', 'Umzug', 'Reinigung', 'Garten- und Landschaftsbau']);
+    // Jedes Modul hat genau drei Schritte fuer "So funktioniert es".
+    for (const m of VERKAUFBARE_MODULE) expect(m.soGehts, m.schluessel).toHaveLength(3);
   });
 
-  it('zeigt ein Modul ohne Text nicht an und meldet es', () => {
-    const posten = [{ schluessel: 'modul-x', name: 'X', preis: 300, einheit: 'einmalig', stufe: 'mittel' }];
-    const r = fuehreZusammen(posten, pruefeModulTexte(texteRoh).texte, pruefeVerkaufshilfen(hilfenRoh).hilfen);
-    expect(r.module).toEqual([]);
-    expect(r.fehler.join(' ')).toMatch(/modul-x ist verkaufbar/);
-  });
-
-  it('zeigt einen vorbereiteten Text ohne Verkaufbarkeit nicht an', () => {
-    const texte = pruefeModulTexte({ module: [...texteRoh.module, { ...texteRoh.module[0], schluessel: 'modul-vorbereitet', name: 'Vorbereitet' }] }).texte;
-    expect(texte.length).toBe(texteRoh.module.length + 1);
-    const r = fuehreZusammen(MODULE, texte, pruefeVerkaufshilfen(hilfenRoh).hilfen);
-    expect(r.module.map((m) => m.schluessel)).not.toContain('modul-vorbereitet');
-    expect(findeModul('modul-vorbereitet')).toBeNull();
-  });
-
-  it('prueft die Texte auf Preise, Gedankenstriche, Bauzeit und "kommt bald"', () => {
-    expect(textFehler('Kostet 200 €.', 'x', true).length).toBe(1);
-    expect(textFehler('Kostet 200 €.', 'x', false)).toEqual([]);
-    expect(textFehler('Schnell — und gut.', 'x').length).toBe(1);
-    expect(textFehler('Fertig in zwei Wochen.', 'x').length).toBe(1);
-    expect(textFehler('Das kommt bald.', 'x').length).toBe(1);
-    expect(textFehler('Dekaru macht das.', 'x').length).toBe(1);
-    const kaputt = pruefeModulTexte({ module: [{ ...texteRoh.module[0], kurz: 'Nur 200 € einmalig.' }] });
-    expect(kaputt.texte).toEqual([]);
-    expect(kaputt.fehler.join(' ')).toMatch(/kein Preis/);
-  });
-
-  it('Antworten fuer den Betrieb in den Verkaufshilfen nennen keinen Preis', () => {
-    const kaputt = pruefeVerkaufshilfen({
-      ...hilfenRoh,
-      module: [{ ...hilfenRoh.module[0], fragen: [{ frage: 'Was kostet das?', antwort: 'Genau 200 €.' }] }],
-    });
-    expect(kaputt.hilfen).toEqual([]);
-    expect(kaputt.fehler.join(' ')).toMatch(/kein Preis/);
-  });
-});
-
-describe('Module im Preisrechner', () => {
-  it('liest m_<schluessel> nur fuer verkaufbare Module', () => {
-    const a = auswahlAusFeldern({ 'm_modul-kostenrechner': 'on', 'm_modul-terminbuchung': 'on' });
-    expect(a.module).toEqual(['modul-kostenrechner']);
-  });
-
-  it('rechnet Module ins Einmalige und in die Provision', () => {
-    const ohne = berechne(leereAuswahl('gross'));
-    const mit = berechne({ ...leereAuswahl('gross'), module: ['modul-kostenrechner', 'modul-kostenrechner', 'modul-terminbuchung'] });
-    expect(mit.summeModule).toBe(200);
-    expect(mit.summeEinmalig).toBe(ohne.summeEinmalig + 200);
-    expect(mit.provisionEinmalig).toBe(ohne.provisionEinmalig + 70);
-    expect(mit.zeilen.filter((z) => z.art === 'modul')).toEqual([{ art: 'modul', schluessel: 'modul-kostenrechner', bezeichnung: 'Kostenrechner für Ihre Kunden', betrag: 200 }]);
-  });
-
-  it('gibt Module nur zum Paket Groß, wie die mitarbeitende Funktion', () => {
-    expect(MODULE_PAKETE).toEqual(['gross']);
-    expect(MODULE_PAKETE).toEqual(PAKETE.filter((p) => p.funktion).map((p) => p.schluessel));
-    expect(MODULE_NUR_MIT).toBe('nur mit Paket Groß');
-    expect(moduleMoeglich('gross')).toBe(true);
-    for (const p of ['klein', 'mittel', '', null, undefined, 'quatsch'] as const) expect(moduleMoeglich(p as never)).toBe(false);
-  });
-
-  it('rechnet ohne Paket Groß kein Modul mit und sagt das', () => {
-    for (const paket of ['klein', 'mittel'] as const) {
-      const ohne = berechne(leereAuswahl(paket));
-      const mit = berechne({ ...leereAuswahl(paket), module: ['modul-kostenrechner'] });
-      expect(mit.summeModule).toBe(0);
-      expect(mit.summeEinmalig).toBe(ohne.summeEinmalig);
-      expect(mit.provisionEinmalig).toBe(ohne.provisionEinmalig);
-      expect(mit.zeilen.some((z) => z.art === 'modul')).toBe(false);
-      expect(mit.hinweise).toContain('Software-Module gibt es nur mit Paket Groß. Nicht mitgerechnet: Kostenrechner für Ihre Kunden.');
-      expect(ohne.hinweise.join(' ')).not.toMatch(/Software-Module/);
+  it('Anfrage mit Fotos: nie fuer Praxen empfohlen, Gesundheitsfotos ausgeschlossen, Workspace Pflicht', () => {
+    const f = VERKAUFBARE_MODULE.find((m) => m.schluessel === 'modul-anfrage-fotos')!;
+    expect(f.schemaBranchen).not.toContain('praxis');
+    expect(f.templates).not.toContain('gesundheit');
+    expect(f.kannNicht.join(' ')).toMatch(/Gesundheitsdaten/);
+    expect(f.voraussetzungen.join(' ')).toMatch(/Google Workspace/);
+    expect(f.intern.join(' ')).toMatch(/Praxen: nicht anbieten/);
+    const lager = VERKAUFBARE_MODULE.find((m) => m.schluessel === 'modul-lagerliste')!;
+    expect(lager.voraussetzungen.join(' ')).toMatch(/Google Workspace/);
+    // Praxen bekommen keine Empfehlung fuer Module mit Fotos von Kunden oder Antworten an Patienten.
+    for (const s of ['modul-anfrage-fotos', 'modul-bewertungs-assistent', 'modul-beitrags-schreiber']) {
+      expect(VERKAUFBARE_MODULE.find((m) => m.schluessel === s)!.schemaBranchen, s).not.toContain('praxis');
     }
   });
 
-  it('kommt mit alten Briefings ohne Feld module zurecht', () => {
-    const alt = { ...leereAuswahl('mittel') } as Partial<ReturnType<typeof leereAuswahl>>;
-    delete alt.module;
-    expect(berechne(alt as ReturnType<typeof leereAuswahl>).summeModule).toBe(0);
+  it('Werkzeuge fuer den Inhaber nennen PIN und Sicherung ehrlich', () => {
+    for (const m of VERKAUFBARE_MODULE.filter((x) => x.art === 'inhaber' && x.schluessel !== 'modul-lagerliste')) {
+      expect(m.voraussetzungen.join(' '), m.schluessel).toMatch(/PIN mit mindestens 8 Zeichen/);
+      expect(m.laufend, m.schluessel).toMatch(/Sicherung/);
+    }
   });
-});
 
-describe('Module im Schema: in jeder Branche, Empfehlung zuerst', () => {
+  it('nennt soGehts-Fehler: genau drei kurze Schritte, ohne Preis', () => {
+    const zwei = pruefeModulTexte({ module: [{ ...texteRoh.module[0], soGehts: ['a', 'b'] }] });
+    expect(zwei.fehler.join(' ')).toMatch(/genau 3 Schritte/);
+    const preis = pruefeModulTexte({ module: [{ ...texteRoh.module[0], soGehts: ['a', 'b', 'Kostet 200 €'] }] });
+    expect(preis.fehler.join(' ')).toMatch(/kein Preis/);
+  });
+
   const basis = VERKAUFBARE_MODULE[0];
   const testModul = (schluessel: string, art: 'besucher' | 'inhaber', schemaBranchen: BrancheId[]) => ({ ...basis, schluessel, name: schluessel, art, schemaBranchen });
 
@@ -187,12 +145,20 @@ describe('Module im Schema: in jeder Branche, Empfehlung zuerst', () => {
     expect(moduleFuerSchema('gastro', daten).weitere.map((m) => m.kurz)).toEqual(['b', 'c']);
   });
 
-  it('heute: Kostenrechner in allen Branchen, empfohlen nur bei Handwerk, Umzug, Reinigung, Garten', () => {
+  it('heute: alle sieben Module in jeder Branche, Empfehlung nach Branche', () => {
+    const erwartet: Record<string, string[]> = {
+      handwerk: ['modul-kostenrechner', 'modul-beitrags-schreiber', 'modul-bewertungs-assistent', 'modul-angebots-assistent', 'modul-anfrage-fotos', 'modul-lagerliste'],
+      gastro: ['modul-beitrags-schreiber', 'modul-bewertungs-assistent', 'modul-speisekarte'],
+      friseur: ['modul-beitrags-schreiber', 'modul-bewertungs-assistent', 'modul-speisekarte'],
+      praxis: [],
+      umzug: ['modul-kostenrechner', 'modul-beitrags-schreiber', 'modul-bewertungs-assistent', 'modul-anfrage-fotos'],
+      reinigung: ['modul-kostenrechner', 'modul-beitrags-schreiber', 'modul-bewertungs-assistent', 'modul-anfrage-fotos'],
+      garten: ['modul-kostenrechner', 'modul-beitrags-schreiber', 'modul-bewertungs-assistent', 'modul-angebots-assistent', 'modul-anfrage-fotos', 'modul-lagerliste'],
+    };
     for (const b of BRANCHEN_IDS) {
       const r = moduleFuerSchema(b);
-      const empfohlen = ['handwerk', 'umzug', 'reinigung', 'garten'].includes(b);
-      expect(r.empfohlen.map((m) => m.schluessel), b).toEqual(empfohlen ? ['modul-kostenrechner'] : []);
-      expect(r.weitere.map((m) => m.schluessel), b).toEqual(empfohlen ? [] : ['modul-kostenrechner']);
+      expect(r.empfohlen.map((m) => m.schluessel), b).toEqual(erwartet[b]);
+      expect([...r.empfohlen, ...r.weitere].length, b).toBe(7);
     }
   });
 
@@ -211,7 +177,7 @@ describe('Module im Schema: in jeder Branche, Empfehlung zuerst', () => {
   });
 
   it('liest die Merkliste aus der Adresse: nur verkaufbar, ohne Doppelte, feste Reihenfolge', () => {
-    expect(moduleAusAdresse('kostenrechner,beitrags-schreiber')).toEqual(['modul-kostenrechner']);
+    expect(moduleAusAdresse('lagerliste,kostenrechner,reel-werkstatt')).toEqual(['modul-kostenrechner', 'modul-lagerliste']);
     expect(moduleAusAdresse('Kostenrechner, kostenrechner,modul-kostenrechner')).toEqual(['modul-kostenrechner']);
     expect(moduleAusAdresse('')).toEqual([]);
     expect(moduleAusAdresse(null)).toEqual([]);

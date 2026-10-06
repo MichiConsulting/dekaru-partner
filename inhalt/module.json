@@ -1,7 +1,7 @@
 {
   "version": 1,
   "stand": "2026-10-06",
-  "hinweis": "Texte zu den Software-Modulen, die ein Betrieb sehen darf: Schema, Steckbrief zum Zeigen, Preisrechner. Angezeigt wird ein Modul nur, wenn es in app/src/data/module.json steht (verkaufbar laut dekaru-rechnungen). Keine Preise in dieser Datei. Interne Hinweise für Vertriebler stehen in verkaufshilfen.json.",
+  "hinweis": "Texte zu den Software-Modulen, die ein Betrieb sehen darf: Schema, Steckbrief zum Zeigen, Preisrechner. Angezeigt wird ein Modul nur, wenn es in app/src/data/module.json steht (verkaufbar laut dekaru-rechnungen). Keine Preise in dieser Datei. Interne Hinweise für Vertriebler stehen in verkaufshilfen.json. soGehts sind genau drei kurze Schritte für das Mini-Schema.",
   "module": [
     {
       "schluessel": "modul-kostenrechner",
@@ -29,7 +29,216 @@
       ],
       "einrichtung": "Felder und Preise legen Sie beim Bau der Website gemeinsam mit Michael Henning fest, bis zu zwölf Angaben. Die Einrichtung ist im Preis enthalten.",
       "daten": "Gerechnet wird nur im Browser des Besuchers, gespeichert wird nichts. Schickt er das Ergebnis ab, geht es mit dem normalen Kontaktformular an Ihr Postfach, auf demselben Weg wie jede Anfrage. Ihre Datenschutzerklärung bekommt dazu einen eigenen Abschnitt.",
-      "laufend": "Einmal gekauft. Updates und Hilfe gibt es, solange Ihre Website bei Michael Henning gehostet wird. Neue Preise für den Rechner schicken Sie per Mail, wie jede Änderung an der Website."
+      "laufend": "Einmal gekauft. Updates und Hilfe gibt es, solange Ihre Website bei Michael Henning gehostet wird. Neue Preise für den Rechner schicken Sie per Mail, wie jede Änderung an der Website.",
+      "soGehts": [
+        "Der Besucher gibt ein paar Angaben ein, etwa Fläche oder Extras.",
+        "Er sieht sofort einen unverbindlichen Richtwert als Spanne.",
+        "Mit einem Knopf übernimmt er alles in sein Anfrageformular."
+      ]
+    },
+    {
+      "schluessel": "modul-beitrags-schreiber",
+      "name": "Beitrags-Schreiber",
+      "art": "inhaber",
+      "kurz": "Aus einem Foto und zwei Stichworten entstehen fertige Beiträge für Instagram, Facebook und Ihr Google-Profil.",
+      "schemaBranchen": ["handwerk", "gastro", "friseur", "umzug", "reinigung", "garten"],
+      "templates": ["handwerk", "garten", "reinigung", "umzug", "dienstleister", "gastro", "gesundheit", "tierbetreuung", "fitness", "tattoo"],
+      "einleitung": "Sie wählen ein Foto, schreiben zwei, drei Stichworte dazu und wählen die Kanäle. Daraus schreibt Claude, die KI von Anthropic, je einen Beitrag für Instagram, Facebook und Ihr Google-Unternehmensprofil, im Ton Ihres Betriebs. Für Instagram kommen passende Hashtags dazu. Sie prüfen, kopieren und veröffentlichen selbst.",
+      "nutzen": [
+        "Kein leeres Blatt mehr: Aus Foto und Stichworten wird schnell ein fertiger Text.",
+        "Drei Kanäle auf einmal, jeder in der passenden Länge.",
+        "Der Ton bleibt gleich, weil die Werkbank Ihr Betriebsprofil kennt."
+      ],
+      "kannNicht": [
+        "Es veröffentlicht nichts selbst. Sie kopieren den Text und stellen ihn ein wie gewohnt.",
+        "Ohne Claude-Schlüssel schreibt es nichts. Frühere Beiträge können Sie dann weiter ansehen und kopieren.",
+        "Es klärt keine Rechte am Foto. Sind Personen zu erkennen, weist es darauf hin, die Einwilligung holen Sie selbst ein.",
+        "Kein Planen und kein Auswerten von Beiträgen."
+      ],
+      "voraussetzungen": [
+        "Eine Website von dekaru im Paket Groß, in jeder Branche.",
+        "Ein Smartphone, Tablet oder Rechner mit aktuellem Browser. Auf alten Geräten läuft es langsamer.",
+        "Ein eigenes Konto bei Anthropic mit Schlüssel. Sie zahlen dort nur, was Sie verbrauchen, ohne Abo.",
+        "Eine PIN mit mindestens 8 Zeichen, die nur Sie kennen."
+      ],
+      "einrichtung": "Michael Henning richtet die Werkbank im Einrichtungstermin mit Ihnen auf Ihrem Gerät ein: als App installieren, PIN festlegen, Konto bei Anthropic anlegen, Ausgabelimit setzen, Betriebsprofil ausfüllen. Die Einrichtung ist im Preis enthalten.",
+      "daten": "Die Werkbank läuft im Browser auf Ihrem Gerät. Ihre Beiträge und Ihr Schlüssel liegen dort, verschlüsselt mit Ihrer PIN. Foto und Stichworte gehen nur zum Schreiben direkt an Anthropic, mit Ihrem Schlüssel. Das Foto wird vorher verkleinert, Standortdaten fallen weg. Bei dekaru kommt nichts an.",
+      "laufend": "Einmal gekauft. Updates und Hilfe gibt es, solange Ihre Website bei Michael Henning gehostet wird. Den Verbrauch bei Anthropic zeigt die Werkbank an, eine Monatsgrenze legen Sie selbst fest. Legen Sie regelmäßig eine Sicherung an: Ohne PIN und ohne Sicherung kann niemand Ihre Daten zurückholen, auch Michael Henning nicht.",
+      "soGehts": [
+        "Foto wählen und zwei, drei Stichworte dazuschreiben.",
+        "Claude schreibt je einen Beitrag für Instagram, Facebook und Google.",
+        "Sie prüfen, kopieren und veröffentlichen selbst."
+      ]
+    },
+    {
+      "schluessel": "modul-bewertungs-assistent",
+      "name": "Bewertungs-Assistent",
+      "art": "inhaber",
+      "kurz": "Zu jeder Google-Bewertung bekommen Sie zwei bis drei Antwortvorschläge im Ton Ihres Betriebs.",
+      "schemaBranchen": ["handwerk", "gastro", "friseur", "umzug", "reinigung", "garten"],
+      "templates": ["handwerk", "garten", "reinigung", "umzug", "dienstleister", "gastro", "gesundheit", "tierbetreuung", "fitness", "tattoo"],
+      "einleitung": "Sie kopieren eine Google-Bewertung in die Werkbank, auf Wunsch mit einer kurzen Notiz, was aus Ihrer Sicht stimmt. Claude schlägt zwei oder drei Antworten vor: kurz und herzlich, ausführlicher oder sachlich mit Angebot zum Gespräch. Sie wählen eine, ändern, was Sie möchten, und fügen sie bei Google ein.",
+      "nutzen": [
+        "Bewertungen werden schneller beantwortet, auch die unangenehmen.",
+        "Bei Kritik bleibt die Antwort sachlich und bietet ein Gespräch an.",
+        "Fertige und eigene Vorlagen für Bewertungen nur mit Sternen, ganz ohne KI."
+      ],
+      "kannNicht": [
+        "Keine Verbindung zu Google. Sie kopieren die Bewertung hinein und die Antwort zurück.",
+        "Es antwortet nie selbst. Jeder Vorschlag ist ein Entwurf, den Sie prüfen.",
+        "Es löscht keine Bewertungen. Wirkt eine gefälscht, sagt es Ihnen, wie Sie sie bei Google melden.",
+        "Ohne Claude-Schlüssel gibt es keine Vorschläge zu einer bestimmten Bewertung, die Vorlagen gehen trotzdem."
+      ],
+      "voraussetzungen": [
+        "Eine Website von dekaru im Paket Groß, in jeder Branche.",
+        "Ein Google-Unternehmensprofil, in dem Sie Bewertungen beantworten.",
+        "Für die Vorschläge ein eigenes Konto bei Anthropic mit Schlüssel. Sie zahlen dort nur, was Sie verbrauchen, ohne Abo.",
+        "Eine PIN mit mindestens 8 Zeichen, die nur Sie kennen."
+      ],
+      "einrichtung": "Michael Henning richtet die Werkbank im Einrichtungstermin mit Ihnen auf Ihrem Gerät ein: als App installieren, PIN festlegen, auf Wunsch Konto bei Anthropic anlegen und Ausgabelimit setzen, Betriebsprofil ausfüllen. Die Einrichtung ist im Preis enthalten.",
+      "daten": "Die Werkbank läuft im Browser auf Ihrem Gerät, Verlauf und Vorlagen liegen dort verschlüsselt mit Ihrer PIN. Für einen Vorschlag gehen nur der Text der Bewertung und Ihre Notiz an Anthropic. Namen, die Sie angeben, ersetzt die Werkbank vorher durch Platzhalter. Bei dekaru kommt nichts an.",
+      "laufend": "Einmal gekauft. Updates und Hilfe gibt es, solange Ihre Website bei Michael Henning gehostet wird. Den Verbrauch bei Anthropic zeigt die Werkbank an. Legen Sie regelmäßig eine Sicherung an: Ohne PIN und ohne Sicherung kann niemand Ihre Daten zurückholen, auch Michael Henning nicht.",
+      "soGehts": [
+        "Die Bewertung von Google in die Werkbank kopieren.",
+        "Claude schlägt zwei oder drei Antworten vor, Sie wählen und ändern.",
+        "Die Antwort bei Google unter der Bewertung einfügen."
+      ]
+    },
+    {
+      "schluessel": "modul-speisekarte",
+      "name": "Speisekarte und Preisliste",
+      "art": "inhaber",
+      "kurz": "Sie pflegen Karte oder Preisliste an einer Stelle, mit Allergenen und Zusatzstoffen, und drucken sie sauber aus.",
+      "schemaBranchen": ["gastro", "friseur"],
+      "templates": ["handwerk", "garten", "reinigung", "umzug", "dienstleister", "gastro", "gesundheit", "tierbetreuung", "fitness", "tattoo"],
+      "einleitung": "In der Werkbank legen Sie Ihre Karten an: Speise-, Getränke-, Tages- oder Saisonkarte, für Friseur oder Kosmetik eine Preisliste. Jeder Eintrag bekommt Preis, Größen und die Kennzeichnung von Allergenen und Zusatzstoffen. Daraus druckt die Werkbank eine saubere Karte, auch als PDF. Für die Website erzeugt sie eine Datei, die Sie Michael Henning schicken.",
+      "nutzen": [
+        "Eine Stelle für alle Preise statt mehrerer Dateien.",
+        "Die Legende der Allergene und Zusatzstoffe entsteht von selbst, nur mit dem, was auf der Karte steht.",
+        "Tageskarte kopieren, ändern, drucken, fertig.",
+        "Eine Prüfung findet fehlende Preise und Tippfehler wie ein vergessenes Komma."
+      ],
+      "kannNicht": [
+        "Die Website ändert sich nicht von selbst. Die Datei für die Website setzt Michael Henning als Änderung ein, mit Hosting aus Ihrem Kontingent.",
+        "Die Angaben zu Allergenen und Zusatzstoffen machen Sie selbst und verantworten sie. Ein Vorschlag von Claude ist nur ein Vorschlag.",
+        "Keine Kasse, keine Bestellung, kein Lieferdienst."
+      ],
+      "voraussetzungen": [
+        "Eine Website von dekaru im Paket Groß, in jeder Branche.",
+        "Ein Rechner, Tablet oder Smartphone mit aktuellem Browser, zum Drucken ein Drucker oder die Funktion Als PDF sichern.",
+        "Eine PIN mit mindestens 8 Zeichen, die nur Sie kennen.",
+        "Claude ist nicht nötig. Mit eigenem Schlüssel bei Anthropic helfen Vorschläge für Beschreibungen, eine englische Fassung und Allergene."
+      ],
+      "einrichtung": "Michael Henning richtet die Werkbank im Einrichtungstermin mit Ihnen auf Ihrem Gerät ein, mit PIN, Betriebsprofil, Logo und Farben für den Druck. Die Einrichtung ist im Preis enthalten.",
+      "daten": "Alle Karten liegen in der Werkbank auf Ihrem Gerät, verschlüsselt mit Ihrer PIN. Nutzen Sie die Helfer, gehen nur die Texte dafür an Anthropic, keine Preise. Bei dekaru kommt nur die Datei an, die Sie für die Website selbst schicken.",
+      "laufend": "Einmal gekauft. Updates und Hilfe gibt es, solange Ihre Website bei Michael Henning gehostet wird. Legen Sie regelmäßig eine Sicherung an: Ohne PIN und ohne Sicherung kann niemand Ihre Karten zurückholen, auch Michael Henning nicht.",
+      "soGehts": [
+        "Einträge mit Preis und Allergen-Buchstaben anlegen.",
+        "Die Werkbank prüft die Karte und setzt die Legende darunter.",
+        "Als PDF drucken, die Datei für die Website an Michael Henning schicken."
+      ]
+    },
+    {
+      "schluessel": "modul-angebots-assistent",
+      "name": "Angebots-Assistent Handwerk",
+      "art": "inhaber",
+      "kurz": "Aus Aufmaß, Fotos und Stichpunkten wird ein sauberes Angebot als PDF, mit Ihren eigenen Positionen und Preisen.",
+      "schemaBranchen": ["handwerk", "garten"],
+      "templates": ["handwerk", "garten", "reinigung", "umzug", "dienstleister", "gastro", "gesundheit", "tierbetreuung", "fitness", "tattoo"],
+      "einleitung": "Vor Ort nehmen Sie die Maße eines Raums, machen Fotos und notieren Stichpunkte. Die Werkbank rechnet Flächen und Längen aus. Claude schlägt dazu Positionen aus Ihrer eigenen Leistungsliste vor, Preise und Bezeichnungen kommen immer aus Ihrer Liste. Daraus wird ein Angebot mit Ihrem Briefkopf, das Sie als PDF sichern.",
+      "nutzen": [
+        "Weniger Abende am Schreibtisch: Das Angebot entsteht direkt nach dem Termin.",
+        "Flächen, Wände und Umfang rechnet die Werkbank aus, Abzüge für Fenster und Türen eingeschlossen.",
+        "Ihre Preise bleiben Ihre Preise. Claude sieht sie nicht und kann keine erfinden.",
+        "Nummer, Summen, Rabatt und Umsatzsteuer oder Hinweis für Kleinunternehmer stimmen von selbst."
+      ],
+      "kannNicht": [
+        "Keine Rechnungen. Es schreibt Angebote, für Rechnungen gelten weitere Pflichtangaben.",
+        "Kein Versand. Das PDF schicken Sie selbst.",
+        "Fotos werden nicht gespeichert. Sie bleiben, solange die Seite offen ist, und lassen sich als Anlage drucken.",
+        "Ohne Claude-Schlüssel gibt es keine Vorschläge für Positionen, alles andere geht von Hand."
+      ],
+      "voraussetzungen": [
+        "Eine Website von dekaru im Paket Groß, in jeder Branche.",
+        "Ihre Leistungsliste mit Positionen und Preisen. Die legen Sie einmal an.",
+        "Ein Tablet, Smartphone oder Rechner mit aktuellem Browser und eine PIN mit mindestens 8 Zeichen.",
+        "Für die Vorschläge ein eigenes Konto bei Anthropic mit Schlüssel. Ohne Schlüssel geht alles von Hand."
+      ],
+      "einrichtung": "Michael Henning richtet die Werkbank im Einrichtungstermin mit Ihnen auf Ihrem Gerät ein: PIN, Briefkopf, Steuerangaben, auf Wunsch Konto bei Anthropic. Die Leistungsliste legen Sie dabei gemeinsam an. Die Einrichtung ist im Preis enthalten.",
+      "daten": "Angebote, Kundendaten und Ihre Leistungsliste liegen in der Werkbank auf Ihrem Gerät, verschlüsselt mit Ihrer PIN. Für Vorschläge gehen Fotos, Aufmaß und Stichpunkte an Anthropic, nie Name und Anschrift der Kundschaft und nie Ihre Preise. Bei dekaru kommt nichts an.",
+      "laufend": "Einmal gekauft. Updates und Hilfe gibt es, solange Ihre Website bei Michael Henning gehostet wird. Legen Sie regelmäßig eine Sicherung an: Ohne PIN und ohne Sicherung kann niemand Ihre Angebote zurückholen, auch Michael Henning nicht.",
+      "soGehts": [
+        "Raum ausmessen, Fotos machen, Stichpunkte notieren.",
+        "Claude schlägt Positionen aus Ihrer Leistungsliste vor, Sie wählen aus.",
+        "Das Angebot mit Ihrem Briefkopf als PDF sichern und verschicken."
+      ]
+    },
+    {
+      "schluessel": "modul-anfrage-fotos",
+      "name": "Anfrage mit Fotos",
+      "art": "besucher",
+      "kurz": "Ihre Kunden schicken mit der Anfrage bis zu fünf Fotos, die direkt in Ihrem eigenen Google Drive landen.",
+      "schemaBranchen": ["handwerk", "garten", "reinigung", "umzug"],
+      "templates": ["handwerk", "garten", "reinigung", "umzug", "dienstleister", "gastro", "tierbetreuung", "fitness", "tattoo"],
+      "einleitung": "Auf Ihrer Website beschreibt ein Besucher sein Anliegen und hängt bis zu fünf Fotos an, zum Beispiel vom kaputten Zaun oder vom Wasserfleck an der Decke. Die Fotos landen in einem eigenen Ordner in Ihrem Google Drive, Sie bekommen eine Mail mit dem Link dazu. Auf Wunsch schreibt ein Assistent eine kurze Zusammenfassung mit Antwortentwurf in diese Mail.",
+      "nutzen": [
+        "Sie sehen vorher, worum es geht, und sparen sich manche Fahrt zur Besichtigung.",
+        "Weniger Rückfragen, weil Beschreibung und Fotos zusammen ankommen.",
+        "Die Fotos löschen sich nach einer Frist, die Sie festlegen, von selbst."
+      ],
+      "kannNicht": [
+        "Nicht für Fotos von Personen und nicht für Fotos von Beschwerden oder Körperstellen. Das wären Gesundheitsdaten, dafür ist das Modul nicht gedacht.",
+        "Keine Antwort an den Kunden. Der Entwurf des Assistenten geht nur an Sie.",
+        "Höchstens fünf Fotos je Anfrage, keine Videos und keine PDF-Dateien.",
+        "Ohne JavaScript im Browser zeigt die Seite stattdessen Telefon, Mail und Kontaktformular."
+      ],
+      "voraussetzungen": [
+        "Eine Website von dekaru im Paket Groß.",
+        "Google Workspace für Ihren Betrieb. Nur damit gibt es einen Vertrag mit Google zur Auftragsverarbeitung.",
+        "Für den Assistenten ein eigenes Konto bei Anthropic mit Schlüssel. Ohne Assistent geht es auch."
+      ],
+      "einrichtung": "Michael Henning richtet im Einrichtungstermin gemeinsam mit Ihnen ein kleines Programm in Ihrem Google-Konto ein, das Betriebs-Skript, und verbindet es mit Ihrer Website. Die Einrichtung ist im Preis enthalten.",
+      "daten": "Die Fotos werden schon im Browser des Besuchers verkleinert, Standortdaten fallen dabei weg. Sie gehen direkt an das Betriebs-Skript in Ihrem Google-Konto, nicht über dekaru. Ordner und Tabelle gehören Ihnen, freigegeben wird nichts. Mit Assistent gehen Beschreibung und Fotos zusätzlich an Anthropic, nie Name, Telefon oder Mail. Ihre Datenschutzerklärung bekommt dazu einen eigenen Abschnitt.",
+      "laufend": "Einmal gekauft. Updates und Hilfe gibt es, solange Ihre Website bei Michael Henning gehostet wird. Das Skript selbst kostet bei Google nichts extra.",
+      "soGehts": [
+        "Der Kunde beschreibt sein Anliegen und wählt bis zu fünf Fotos.",
+        "Die Fotos landen in einem Ordner in Ihrem Google Drive.",
+        "Sie bekommen eine Mail mit dem Link und antworten direkt."
+      ]
+    },
+    {
+      "schluessel": "modul-lagerliste",
+      "name": "Material- und Lagerliste",
+      "art": "inhaber",
+      "kurz": "Ihr Team bucht Material am Handy, Sie sehen den Bestand und bekommen eine Nachbestell-Liste je Lieferant.",
+      "schemaBranchen": ["handwerk", "garten"],
+      "templates": ["handwerk", "garten", "reinigung", "umzug", "dienstleister", "gastro", "gesundheit", "tierbetreuung", "fitness", "tattoo"],
+      "einleitung": "Ihr Lager steht in einer Google-Tabelle Ihres Betriebs. Dazu gibt es eine eigene Seite fürs Handy: Wer Material nimmt oder bringt, bucht es mit zwei Knöpfen, auf Wunsch mit Baustelle. Fällt ein Artikel unter den Mindestbestand, steht er in der Nachbestell-Liste, sortiert nach Lieferant, auf Wunsch als fertiger Mail-Entwurf.",
+      "nutzen": [
+        "Sie wissen, was da ist, ohne ins Lager zu gehen.",
+        "Nachbestellen geht schneller: eine Liste je Lieferant, als Text oder als Entwurf in Ihrem Gmail.",
+        "QR-Codes an Regal oder Kiste führen direkt zur Buchung.",
+        "Eine vorhandene Liste aus Excel lässt sich übernehmen."
+      ],
+      "kannNicht": [
+        "Es bestellt nicht selbst. Die Entwürfe liegen in Ihrem Postfach, abschicken tun Sie.",
+        "Ohne Netz keine Buchung, etwa im Keller ohne Empfang. Die Buchung lässt sich danach wiederholen.",
+        "Keine Warenwirtschaft und keine Buchhaltung: keine Einkaufspreise, keine Rechnungen.",
+        "Eine Buchung dauert ein paar Sekunden, weil sie über Google läuft."
+      ],
+      "voraussetzungen": [
+        "Eine Website von dekaru im Paket Groß, in jeder Branche.",
+        "Google Workspace für Ihren Betrieb, damit Ihr Team mit eigenen Konten bucht und es einen Vertrag mit Google zur Auftragsverarbeitung gibt.",
+        "Ein Smartphone mit Browser für jede Person, die bucht. Keine KI und kein Konto bei Anthropic."
+      ],
+      "einrichtung": "Michael Henning richtet die Lagerliste im Einrichtungstermin gemeinsam mit Ihnen in Ihrem Google-Konto ein, legt die Seite auf die Handys Ihres Teams und übernimmt auf Wunsch Ihre vorhandene Liste. Die Einrichtung ist im Preis enthalten.",
+      "daten": "Tabelle und Verlauf liegen in Ihrem Google-Konto, nicht bei dekaru. Jede Buchung steht im Verlauf mit Zeit und Kürzel der Person. Das sind Daten Ihrer Beschäftigten: Sagen Sie Ihrem Team vorher, wozu der Verlauf dient und wann er gelöscht wird. Die Frist dafür legen Sie fest.",
+      "laufend": "Einmal gekauft. Updates und Hilfe gibt es, solange Ihre Website bei Michael Henning gehostet wird. Das Skript selbst kostet bei Google nichts extra.",
+      "soGehts": [
+        "Material nehmen und am Handy mit einem Knopf buchen.",
+        "Der Bestand sinkt, unter dem Minimum rutscht der Artikel auf die Nachbestell-Liste.",
+        "Je Lieferant eine Liste oder ein Mail-Entwurf, abschicken tun Sie."
+      ]
     }
   ]
 }

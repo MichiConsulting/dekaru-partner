@@ -266,6 +266,8 @@ describe('Seite /schema', () => {
     expect(text).toContain('Im Paket Groß zusätzlich möglich');
     expect(text).toContain('Kostenrechner für Ihre Kunden');
     expect(text).not.toMatch(/\b(\d+|ein|zwei|drei|vier|fünf|sechs|sieben|acht|zehn)\s+(Werk)?(Tagen?|Wochen?)\b/i);
-    expect(text).not.toMatch(/Fotoanfrage|Anfrage mit Fotos/);
+    // Nicht verkaufbare Module tauchen nie auf.
+    expect(text).not.toMatch(/Terminbuchung|Tischreservierung|Reel-Werkstatt|Schicht- und Urlaubsplan/);
+    expect(text).toContain('Anfrage mit Fotos');
   });
 });
