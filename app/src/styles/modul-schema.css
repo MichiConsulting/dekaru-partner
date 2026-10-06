@@ -63,6 +63,9 @@
 .ms--speisekarte {
   grid-template-columns: minmax(0, 1.3fr) auto minmax(0, 0.9fr) auto minmax(0, 0.9fr);
 }
+.ms--schichtplan {
+  grid-template-columns: minmax(0, 1.25fr) auto minmax(0, 0.9fr) auto minmax(0, 0.95fr);
+}
 .ms svg {
   display: block;
   overflow: visible;
@@ -364,6 +367,109 @@
   white-space: nowrap;
 }
 
+/* Terminbuchung */
+.ms .ms-slots {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.22em;
+}
+.ms .ms-slot {
+  min-width: 3.4em;
+  padding: 0.1em 0.4em;
+  border: 1.5px solid var(--ms-linie);
+  border-radius: 5px;
+  background: var(--ms-flaeche);
+  color: var(--ms-text);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.ms .ms-slot--gewaehlt {
+  border-color: var(--ms-gut-rand);
+  background: var(--ms-gut-flaeche);
+  color: var(--ms-gut-text);
+}
+.ms .ms-kal {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.25em;
+  width: 3.6em;
+  padding: 0 0.3em 0.35em;
+  border: 1.5px solid var(--ms-akzent);
+  border-radius: 5px;
+}
+.ms .ms-kal__kopf {
+  display: block;
+  height: 0.45em;
+  margin: 0 -0.3em;
+  border-radius: 3px 3px 0 0;
+  background: var(--ms-akzent);
+}
+.ms .ms-kal__eintrag {
+  padding: 0.1em 0.2em;
+  border-radius: 4px;
+  background: var(--ms-vio-flaeche);
+  color: var(--ms-vio-text);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Tischreservierung */
+.ms .ms-tische {
+  display: grid;
+  grid-template-columns: repeat(2, 1.35em);
+  gap: 0.35em;
+}
+.ms .ms-tisch {
+  display: grid;
+  place-items: center;
+  width: 1.35em;
+  height: 1.35em;
+  border: 1.5px solid var(--ms-linie);
+  border-radius: 50%;
+}
+.ms .ms-tisch--besetzt {
+  border-color: var(--ms-linie-hell);
+  background: var(--ms-linie-hell);
+}
+.ms .ms-tisch--neu {
+  border-color: var(--ms-gut-rand);
+  background: var(--ms-gut-rand);
+}
+.ms .ms-tisch__haken {
+  width: 0.85em;
+  height: 0.85em;
+  color: var(--ms-flaeche);
+}
+
+/* Schichtplan */
+.ms .ms-raster {
+  display: grid;
+  grid-template-columns: repeat(5, 0.95em);
+  gap: 0.18em;
+}
+.ms .ms-zelle {
+  display: block;
+  height: 0.75em;
+  border-radius: 2px;
+  background: var(--ms-linie-hell);
+}
+.ms .ms-zelle--voll {
+  background: var(--ms-akzent);
+}
+.ms .ms-warnzeichen {
+  color: var(--ms-warm-rand);
+}
+.ms .ms-hinweis {
+  padding: 0.05em 0.45em;
+  border-radius: 999px;
+  background: var(--ms-gelb-flaeche);
+  color: var(--ms-gelb-text);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 /* ── Bewegung ── */
 @keyframes ms-a {
   0%,
@@ -537,6 +643,72 @@
     color: var(--ms-stern);
   }
 }
+@keyframes ms-tippen {
+  0%,
+  10% {
+    border-color: var(--ms-linie);
+    background: var(--ms-flaeche);
+    color: var(--ms-text);
+    transform: none;
+  }
+  16% {
+    transform: scale(0.9);
+  }
+  22%,
+  100% {
+    border-color: var(--ms-gut-rand);
+    background: var(--ms-gut-flaeche);
+    color: var(--ms-gut-text);
+    transform: none;
+  }
+}
+@keyframes ms-belegen {
+  0%,
+  30% {
+    border-color: var(--ms-linie);
+    background: transparent;
+    transform: none;
+  }
+  36% {
+    transform: scale(1.18);
+  }
+  42%,
+  100% {
+    border-color: var(--ms-gut-rand);
+    background: var(--ms-gut-rand);
+    transform: none;
+  }
+}
+@keyframes ms-f1 {
+  0%,
+  6% {
+    background: var(--ms-linie-hell);
+  }
+  12%,
+  100% {
+    background: var(--ms-akzent);
+  }
+}
+@keyframes ms-f2 {
+  0%,
+  14% {
+    background: var(--ms-linie-hell);
+  }
+  20%,
+  100% {
+    background: var(--ms-akzent);
+  }
+}
+@keyframes ms-f3 {
+  0%,
+  22% {
+    background: var(--ms-linie-hell);
+  }
+  28%,
+  100% {
+    background: var(--ms-akzent);
+  }
+}
 @keyframes ms-zeilen {
   0%,
   22% {
@@ -568,7 +740,12 @@
   .schema--js .ist-aktiv .ms .ms-a-stern1,
   .schema--js .ist-aktiv .ms .ms-a-stern2,
   .schema--js .ist-aktiv .ms .ms-a-stern3,
-  .schema--js .ist-aktiv .ms .ms-a-zeilen > span {
+  .schema--js .ist-aktiv .ms .ms-a-zeilen > span,
+  .schema--js .ist-aktiv .ms .ms-a-tippen,
+  .schema--js .ist-aktiv .ms .ms-a-belegen,
+  .schema--js .ist-aktiv .ms .ms-a-f1,
+  .schema--js .ist-aktiv .ms .ms-a-f2,
+  .schema--js .ist-aktiv .ms .ms-a-f3 {
     animation-duration: var(--ms-dauer);
     animation-delay: var(--ms-start);
     animation-iteration-count: 3;
@@ -622,6 +799,21 @@
   }
   .schema--js .ist-aktiv .ms .ms-a-zeilen > span {
     animation-name: ms-zeilen;
+  }
+  .schema--js .ist-aktiv .ms .ms-a-tippen {
+    animation-name: ms-tippen;
+  }
+  .schema--js .ist-aktiv .ms .ms-a-belegen {
+    animation-name: ms-belegen;
+  }
+  .schema--js .ist-aktiv .ms .ms-a-f1 {
+    animation-name: ms-f1;
+  }
+  .schema--js .ist-aktiv .ms .ms-a-f2 {
+    animation-name: ms-f2;
+  }
+  .schema--js .ist-aktiv .ms .ms-a-f3 {
+    animation-name: ms-f3;
   }
   .schema--js .ist-aktiv .ms .ms-a-zeilen > span:nth-child(2) {
     animation-delay: calc(var(--ms-start) + 0.15s);

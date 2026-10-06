@@ -203,6 +203,81 @@ const bekannt = hatMiniSchema(kurz);
           </span>
         </>
       )}
+      {kurz === 'terminbuchung' && (
+        <>
+          <span class="ms__teil">
+            <span class="ms__titel">Freie Zeiten</span>
+            <span class="ms-slots">
+              <span class="ms-slot">9:00</span>
+              <span class="ms-slot ms-slot--gewaehlt ms-a-tippen">10:30</span>
+              <span class="ms-slot">14:00</span>
+            </span>
+          </span>
+          <svg class="ms__pfeil ms-a-b"><use href="#ms-pfeil" /></svg>
+          <span class="ms__teil">
+            <span class="ms-kal">
+              <span class="ms-kal__kopf" />
+              <span class="ms-kal__eintrag ms-a-b">10:30</span>
+            </span>
+            <span class="ms__titel">Ihr Kalender</span>
+          </span>
+          <svg class="ms__pfeil ms-a-d"><use href="#ms-pfeil" /></svg>
+          <span class="ms__teil ms-a-d">
+            <svg class="ms__zeichen ms__zeichen--gross"><use href="#ms-mail" /></svg>
+            <span class="ms__titel">Erinnerung</span>
+            <span class="ms-marke">per Mail</span>
+          </span>
+        </>
+      )}
+      {kurz === 'tischreservierung' && (
+        <>
+          <span class="ms__teil">
+            <span class="ms-chip ms-a-a">4 Personen</span>
+            <span class="ms-chip ms-a-b">19:00</span>
+          </span>
+          <svg class="ms__pfeil"><use href="#ms-pfeil" /></svg>
+          <span class="ms__teil">
+            <span class="ms__titel">Tische</span>
+            <span class="ms-tische">
+              <span class="ms-tisch ms-tisch--besetzt" />
+              <span class="ms-tisch" />
+              <span class="ms-tisch ms-tisch--neu ms-a-belegen"><svg class="ms-tisch__haken"><use href="#ms-haken" /></svg></span>
+              <span class="ms-tisch ms-tisch--besetzt" />
+            </span>
+            <span class="ms__klein">nichts doppelt</span>
+          </span>
+          <svg class="ms__pfeil ms-a-d"><use href="#ms-pfeil" /></svg>
+          <span class="ms__teil ms-a-d">
+            <svg class="ms__zeichen ms__zeichen--gross"><use href="#ms-mail" /></svg>
+            <span class="ms__titel">Bestätigung</span>
+            <span class="ms-marke">mit Link</span>
+          </span>
+        </>
+      )}
+      {kurz === 'schichtplan' && (
+        <>
+          <span class="ms__teil">
+            <span class="ms__titel">Woche</span>
+            <span class="ms-raster">
+              {[1, 1, 0, 1, 2, 0, 1, 1, 3, 1, 2, 1, 0, 2, 3].map((z) => (
+                <span class:list={['ms-zelle', z > 0 && `ms-zelle--voll ms-a-f${z}`]} />
+              ))}
+            </span>
+          </span>
+          <svg class="ms__pfeil"><use href="#ms-pfeil" /></svg>
+          <span class="ms__teil">
+            <svg class="ms__zeichen ms__zeichen--gross ms-warnzeichen ms-a-c"><use href="#ms-warnung" /></svg>
+            <span class="ms__titel">Ruhezeit</span>
+            <span class="ms-hinweis ms-a-c">zu kurz</span>
+          </span>
+          <svg class="ms__pfeil ms-a-d"><use href="#ms-pfeil" /></svg>
+          <span class="ms__teil">
+            <span class="ms__titel">Urlaub</span>
+            <span class="ms-vorschlag">Antrag</span>
+            <span class="ms-marke ms-a-d">genehmigt</span>
+          </span>
+        </>
+      )}
     </span>
   )
 }
