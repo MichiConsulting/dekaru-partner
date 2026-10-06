@@ -673,6 +673,81 @@ html.modus-bereit .schema:not(.schema--js) .schritt:not(#schritt-0) {
 .module {
   margin-top: 1.4em;
 }
+/* Abschnitte "Passt oft zu Ihrer Branche" und die uebrigen Module. Ueberschrift im Stil der Palettenempfehlung (.empfehlung__titel). */
+.module__abschnitt + .module__abschnitt {
+  margin-top: 1.2em;
+}
+.module__gruppe {
+  margin: 0.8em 0 0.4em;
+  font-size: 0.9em;
+  color: var(--text-muted);
+}
+/* Vormerken: Schalter in der Karte, Merkliste nur in der Adresse. */
+.modul-wahl {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  min-height: 2.75em;
+  margin-top: 0.4em;
+  padding: 0.3em 0.9em 0.3em 0.6em;
+  border: 2px solid var(--fl-rand);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+.modul-wahl:hover {
+  color: var(--text);
+  border-color: var(--text);
+}
+.modul-wahl:focus-visible {
+  outline: 3px solid var(--fl-text);
+  outline-offset: 2px;
+}
+.modul-wahl__kasten {
+  display: inline-grid;
+  place-items: center;
+  width: 1.15em;
+  height: 1.15em;
+  border: 2px solid currentColor;
+  border-radius: 4px;
+  line-height: 1;
+}
+.modul-wahl[aria-pressed='true'] {
+  border-color: var(--text);
+  box-shadow: inset 0 0 0 1px var(--text);
+}
+.modul-wahl[aria-pressed='true'] .modul-wahl__kasten {
+  background: var(--text);
+}
+.modul-wahl[aria-pressed='true'] .modul-wahl__kasten::after {
+  content: '';
+  width: 0.32em;
+  height: 0.6em;
+  margin-top: -0.12em;
+  border: solid var(--surface);
+  border-width: 0 0.16em 0.16em 0;
+  transform: rotate(45deg);
+}
+.modul-karte:has(.modul-wahl[aria-pressed='true']) {
+  box-shadow: inset 0 0 0 2px var(--fl-rand);
+}
+.module__auswahl {
+  margin-top: 1.2em;
+  padding: 0.7em 0.9em;
+  border: 2px dashed var(--sc-blau-rand);
+  border-radius: 8px;
+}
+.module__auswahl p {
+  margin: 0;
+  max-width: none;
+}
+.module__auswahl p + p {
+  margin-top: 0.3em;
+}
 /* Schritt 2: Hinweis auf Software-Module, nur beim Paket mit Modulen. */
 .bausteine-module {
   margin: 1em 0 0;

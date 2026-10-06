@@ -16,8 +16,8 @@
 import type { Db } from './db.ts';
 import { holeKunde, isoDatum, istUuid } from './kunden.ts';
 import { MODULE_NUR_MIT, MODULE_PAKET_NAME, auswahlAusFeldern, findeModul, findePaket, leereAuswahl, moduleMoeglich, type Auswahl } from './preise.ts';
+import { moduleAusAdresse } from './module.ts';
 import { ALLE_PALETTEN, BRIEFING_ZU_TEMPLATE, PALETTE_OFFEN, findePalette, passtZuTemplate } from './paletten.ts';
-import { moduleZurBranche } from './module.ts';
 
 export type BriefingStatus = 'entwurf' | 'eingereicht' | 'uebernommen';
 
@@ -288,8 +288,8 @@ export function pruefeBriefing(eingabe: Record<string, unknown>): Pruefung {
   if (fremdeModule.length > 0) {
     fehlend.push(`Software-Module gibt es ${MODULE_NUR_MIT}. Bitte Paket ${MODULE_PAKET_NAME} wählen oder abwählen: ${fremdeModule.join(', ')}.`);
   }
-  // Software-Module lassen sich nur in bestimmten Website-Vorlagen bauen.
-  fehlend.push(...moduleZurBranche(felder.branche, auswahl.module));
+  // Keine Pruefung nach Branche (seit 06.10.2026): jeder Betrieb darf jedes
+  // verkaufbare Modul waehlen, die Branche ist nur eine Empfehlung.
 
   return { daten: { felder, auswahl }, sperren, fehlend };
 }
@@ -382,7 +382,27 @@ function zuBriefing(z: Zeile): Briefing {
 }
 
 /** Legt einen Bogen zu einem eigenen Kunden an. Firmenname und Ort werden vorbelegt. */
-export async function erstelleBriefing(db: Db, benutzerId: string, kundeId: string): Promise<Briefing | null> {
+/**
+ * Software-Module aus einem Schema-Link (/schema?...&module=kostenrechner),
+ * den der Betrieb oder der Vertriebler beim Anlegen eines Bogens einfuegt.
+ * Nimmt auch nur den Wert ("kostenrechner,beitrags-schreiber"). Nur
+ * verkaufbare Module, Unbekanntes faellt still weg. Das Paket wird nie
+ * vorbelegt: ohne Gross warnt der Bogen wie sonst auch.
+ */
+export function moduleAusSchemaLink(text: string | undefined | null): string[] {
+  const roh = String(text ?? '').trim();
+  if (!roh) return [];
+  if (/[?&]module=/.test(roh) || /^https?:\/\//i.test(roh)) {
+    try {
+      return moduleAusAdresse(new URL(roh, 'http://x').searchParams.get('module'));
+    } catch {
+      return [];
+    }
+  }
+  return moduleAusAdresse(roh);
+}
+
+export async function erstelleBriefing(db: Db, benutzerId: string, kundeId: string, module: string[] = []): Promise<Briefing | null> {
   const kunde = await holeKunde(db, benutzerId, kundeId);
   if (!kunde) return null;
   const daten = leereDaten();
@@ -390,6 +410,7 @@ export async function erstelleBriefing(db: Db, benutzerId: string, kundeId: stri
   if (kunde.ort) daten.felder.ort = kunde.ort;
   if (kunde.telefon) daten.felder.telefon = kunde.telefon;
   if (/^(Frau|Herr)\s/.test(kunde.ansprechpartner)) daten.felder.unterzeichner = kunde.ansprechpartner;
+  daten.auswahl.module = moduleAusAdresse(module.join(','));
   const zeilen = await db.query<{ id: string }>(
     'INSERT INTO briefings (benutzer_id, kunde_id, daten) VALUES ($1, $2, $3) RETURNING id',
     [benutzerId, kunde.id, JSON.stringify(daten)],

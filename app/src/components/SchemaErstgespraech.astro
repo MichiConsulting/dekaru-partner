@@ -14,7 +14,8 @@
 import '../styles/schema.css';
 import { BRANCHEN, BRANCHEN_IDS, PAKETE_MIT_FUNKTION, PAKET_REIHE, PREISANGABEN, anzahlBausteine, bausteine, type Branche } from '../lib/schema.ts';
 import { MODULE_PAKETE, MODULE_PAKET_NAME, PAKETE } from '../lib/preise.ts';
-import { verfuegbareModule } from '../lib/schema-module.ts';
+import { modulAbschnitte, verfuegbareModule } from '../lib/schema-module.ts';
+import { moduleAusAdresse, moduleFuerAdresse } from '../lib/module.ts';
 import {
   FARBGRUPPEN,
   GRUPPE_INSPIRIERT,
@@ -45,11 +46,22 @@ const { branche, basis } = Astro.props;
 // wird nichts. Ohne JavaScript fuehren Links genau hierher.
 const gewaehlt = paletteFuerSchema(Astro.url.searchParams.get('palette'));
 const offeneGruppe = gruppeFuerSchema(Astro.url.searchParams.get('gruppe'));
-const farbLink = (bid: string, gruppe: string | null, palette: string | null) => {
+// Vorgemerkte Software-Module (?module=kostenrechner), wie die Palette nur
+// in der Adresse. Eine Merkliste fuer das Gespraech, keine Bestellung.
+const gewaehlteModule = moduleAusAdresse(Astro.url.searchParams.get('module'));
+const adresse = (bid: string, gruppe: string | null, palette: string | null, module: string[], schritt: number) => {
   const q = new URLSearchParams({ branche: bid });
   if (gruppe) q.set('gruppe', gruppe);
   if (palette) q.set('palette', palette);
-  return `${basis}?${q.toString()}#schritt-3`;
+  if (module.length) q.set('module', moduleFuerAdresse(module));
+  return `${basis}?${q.toString()}#schritt-${schritt}`;
+};
+const farbLink = (bid: string, gruppe: string | null, palette: string | null) => adresse(bid, gruppe, palette, gewaehlteModule, 3);
+// Link ohne JavaScript: schaltet ein Modul in der Merkliste um.
+const modulLink = (bid: string, schluessel: string) => {
+  const neu = gewaehlteModule.includes(schluessel) ? gewaehlteModule.filter((s) => s !== schluessel) : [...gewaehlteModule, schluessel];
+  // Reihenfolge wie in der Modulliste, damit der Link immer gleich aussieht.
+  return adresse(bid, offeneGruppe?.kuerzel ?? null, gewaehlt?.code ?? null, alleModule.map((m) => m.schluessel).filter((s) => neu.includes(s)), 4);
 };
 // Kompakte Paletten-Daten fuer das Skript (Karten einer Gruppe ohne Neuladen).
 const datenJson = JSON.stringify(schemaDaten()).replace(/</g, '\\u003c');
@@ -79,13 +91,16 @@ const varianten = BRANCHEN_IDS.map((id) => {
     }
     return { ...k, in: PAKET_REIHE.filter((p) => k.je[p] !== null).join(' '), texte: [...gruppen].map(([text, pakete]) => ({ text, fuer: pakete.join(' ') })) };
   });
-  return { b, kacheln, module: verfuegbareModule(id), empfohlen: empfohlenePaletten(SCHEMA_ZU_TEMPLATE[id]) };
+  return { b, kacheln, abschnitte: modulAbschnitte(id), empfohlen: empfohlenePaletten(SCHEMA_ZU_TEMPLATE[id]) };
 });
+// Alle verkaufbaren Module, in jeder Branche gleich (nur die Reihenfolge der Empfehlung wechselt).
+const alleModule = verfuegbareModule(branche.id);
+const auswahlNamen = alleModule.filter((m) => gewaehlteModule.includes(m.schluessel)).map((m) => m.name);
 const anzahl = Object.fromEntries(PAKET_REIHE.map((p) => [p, anzahlBausteine(varianten[0].kacheln, p)]));
 const paketMitFunktion = PAKETE_MIT_FUNKTION.join(' und ');
 ---
 
-<div class="schema" data-schema data-branche={branche.id} data-paket={PAKET_START} data-palette={gewaehlt?.code ?? ''} data-gruppe={offeneGruppe?.kuerzel ?? ''}>
+<div class="schema" data-schema data-branche={branche.id} data-paket={PAKET_START} data-palette={gewaehlt?.code ?? ''} data-gruppe={offeneGruppe?.kuerzel ?? ''} data-merkliste={moduleFuerAdresse(gewaehlteModule)}>
   <div class="schema__leiste">
     <slot name="leiste" />
   </div>
@@ -202,16 +217,12 @@ const paketMitFunktion = PAKETE_MIT_FUNKTION.join(' und ');
       {
         // Software-Module gibt es nur mit Paket Gross. Kein Baustein (sie sind
         // nicht im Paket enthalten und aendern die Zahl der Bausteine nicht),
-        // sondern eine Zeile, die nur beim Paket Gross erscheint. Aussen die
-        // Branche (hidden), innen das Paket (CSS), damit sich beides nicht stoert.
-        varianten.map(({ b, module }) =>
-          module.length > 0 ? (
-            <div data-fuer-branche={b.id} hidden={b.id !== branche.id}>
-              <p class="bausteine-module" data-in={MODULE_PAKETE.join(' ')}>
-                <strong>Nur im Paket {MODULE_PAKET_NAME} dazu wählbar:</strong> {module.map((m) => m.name).join(', ')}. Mehr dazu in Schritt 4.
-              </p>
-            </div>
-          ) : null,
+        // sondern eine Zeile, die nur beim Paket Gross erscheint (CSS). Seit
+        // 06.10.2026 in jeder Branche dieselbe Zeile.
+        alleModule.length > 0 && (
+          <p class="bausteine-module" data-in={MODULE_PAKETE.join(' ')}>
+            <strong>Nur im Paket {MODULE_PAKET_NAME} dazu wählbar, in jeder Branche:</strong> {alleModule.map((m) => m.name).join(', ')}. Mehr dazu in Schritt 4.
+          </p>
         )
       }
       <ul class="legende" aria-label="Farben der Bausteine">
@@ -384,7 +395,7 @@ const paketMitFunktion = PAKETE_MIT_FUNKTION.join(' und ');
       <p class="schritt__marke">Schritt 4 von 6</p>
       <h2 id="t-4" class="schritt__titel" tabindex="-1">Die Website arbeitet mit</h2>
       {
-        varianten.map(({ b, module }) => (
+        varianten.map(({ b }) => (
           <div data-fuer-branche={b.id} hidden={b.id !== branche.id}>
             <p class="schritt__lead">
               Im Paket {paketMitFunktion} nimmt Ihnen die Website eine Aufgabe ab: die <strong>{b.funktion}</strong>.
@@ -421,28 +432,62 @@ const paketMitFunktion = PAKETE_MIT_FUNKTION.join(' und ');
               ))}
             </ul>
             <p class="schritt__klein">Eine Anfrage ist keine feste Buchung: Sie entscheiden und melden sich zurück. Die Funktion gibt es nur im Paket {paketMitFunktion} und solange die Website bei Michael Henning gehostet wird.</p>
-            {
-              // Verkaufbare Software-Module der Branche (lib/module.ts). Seit
-              // 06.10.2026 nur zum Paket Gross, deshalb direkt hier beim Paket
-              // mit der mitarbeitenden Funktion: Module erweitern sie. Nur Name
-              // und Nutzen, kein Preis.
-              module.length > 0 && (
-                <div class="module" data-module>
-                  <p class="ablauf__kopf">Im Paket {MODULE_PAKET_NAME} zusätzlich möglich</p>
-                  <ul class="karten karten--blau">
-                    {module.map((m, i) => (
-                      <li class="karte-sc" style={`--i:${i + 5}`}>
-                        <strong>{m.name}</strong>
-                        <span>{m.kurz}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <p class="schritt__klein">Software, die zusätzlich mitarbeitet. Einmal gekauft und von Michael Henning für Sie eingerichtet, nur zu einer Website im Paket {MODULE_PAKET_NAME}.</p>
-                </div>
-              )
-            }
           </div>
         ))
+      }
+      {
+        // Verkaufbare Software-Module (lib/module.ts), seit 06.10.2026 in jeder
+        // Branche. Nur zum Paket Gross, deshalb hier beim Paket mit der
+        // mitarbeitenden Funktion. Die Empfehlung der Branche steht zuerst,
+        // die uebrigen darunter. Nur Name und Nutzen, kein Preis. Vormerken
+        // ist eine Merkliste in der Adresse (?module=), gespeichert wird nichts.
+        alleModule.length > 0 && (
+          <div class="module" data-module>
+            <p class="ablauf__kopf">Im Paket {MODULE_PAKET_NAME} zusätzlich möglich</p>
+            {varianten.map(({ b, abschnitte }) => (
+              <div data-fuer-branche={b.id} hidden={b.id !== branche.id}>
+                {abschnitte.map((a) => (
+                  <div class:list={['module__abschnitt', a.empfohlen && 'module__abschnitt--empfohlen']}>
+                    <p class="empfehlung__titel">{a.titel}</p>
+                    {a.gruppen.map((g) => (
+                      <>
+                        {g.titel && <p class="module__gruppe">{g.titel}</p>}
+                        <ul class="karten karten--blau">
+                          {g.module.map((m, i) => (
+                            <li class="karte-sc modul-karte" style={`--i:${i + 5}`}>
+                              <strong>{m.name}</strong>
+                              <span>{m.nutzen}</span>
+                              <a
+                                class="modul-wahl"
+                                role="button"
+                                href={modulLink(b.id, m.schluessel)}
+                                data-modul-wahl={m.kurz}
+                                data-modul-name={m.name}
+                                aria-pressed={gewaehlteModule.includes(m.schluessel) ? 'true' : 'false'}
+                                aria-label={`${m.name} vormerken`}
+                              >
+                                <span class="modul-wahl__kasten" aria-hidden="true"></span>
+                                <span class="modul-wahl__text">Vormerken</span>
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            ))}
+            <div class="module__auswahl" data-modul-auswahl>
+              <p>
+                <strong>Ihre Auswahl:</strong> <span data-modul-auswahl-text>{auswahlNamen.length ? auswahlNamen.join(', ') : 'Noch nichts vorgemerkt.'}</span>
+              </p>
+              <p class="schritt__klein">Nur eine Merkliste für das Gespräch. Gespeichert wird nichts, die Auswahl steht nur in der Adresse dieser Seite.</p>
+            </div>
+            <p class="sr-only" aria-live="polite" data-modul-ansage></p>
+            <p class="schritt__klein">Software, die zusätzlich mitarbeitet. Jedes Modul ist in jeder Branche wählbar. Einmal gekauft und von Michael Henning für Sie eingerichtet, nur zu einer Website im Paket {MODULE_PAKET_NAME}.</p>
+          </div>
+        )
       }
     </section>
 

@@ -90,6 +90,16 @@ describe('Middleware fuer /schema', () => {
     expect(r.antwort.headers.get('Set-Cookie')).toBeNull();
   });
 
+  it('bleibt auch mit vorgemerkten Modulen ohne Datenbank und ohne Cookie', async () => {
+    const vorher = dbAufrufe.anzahl;
+    const r = await anfrage('/schema?branche=gastro&palette=BL-2&module=kostenrechner,beitrags-schreiber');
+    expect(r.antwort.status).toBe(200);
+    expect(r.nextAufgerufen).toBe(true);
+    expect(dbAufrufe.anzahl).toBe(vorher);
+    expect(r.gesetzteCookies).toBe(0);
+    expect(r.antwort.headers.get('Set-Cookie')).toBeNull();
+  });
+
   it('liest auch ein mitgeschicktes Sitzungs-Cookie nicht', async () => {
     const vorher = dbAufrufe.anzahl;
     const r = await anfrage('/schema', { cookie: 'irgendein-token' });
@@ -210,6 +220,21 @@ describe('Seite /schema', () => {
     expect(nurText(html)).toContain('Palette GA-3 Nachtblau');
     expect(html).toContain('href="/schema?branche=gastro&amp;gruppe=BL&amp;palette=BL-1#schritt-3"');
     expect(html).toContain('href="/schema?branche=gastro&amp;gruppe=SE&amp;palette=GA-2#schritt-3"');
+    expect(html).not.toMatch(/<form/);
+    expect(dbAufrufe.anzahl).toBe(vorher);
+  });
+
+  it.each(['gastro', 'umzug'])('Branche %s: Module waehlbar und vormerkbar, ohne Preis und ohne Speichern', async (id) => {
+    const vorher = dbAufrufe.anzahl;
+    const html = await rendere(`${id}&module=kostenrechner`);
+    const schritt4 = html.slice(html.indexOf('id="schritt-4"'), html.indexOf('id="schritt-5"'));
+    expect(nurText(schritt4)).toContain('Kostenrechner für Ihre Kunden');
+    expect(nurText(schritt4)).toMatch(/Ihre Auswahl:\s+Kostenrechner für Ihre Kunden/);
+    expect(schritt4).toMatch(/data-modul-wahl="kostenrechner"[^>]*aria-pressed="true"/);
+    expect(schritt4).toContain(`href="/schema?branche=${id}#schritt-4"`);
+    expect(schritt4).not.toMatch(/€|\bEuro\b/);
+    // Der Modulpreis steht nirgends, auch nicht in Attributen oder Daten.
+    expect(html).not.toMatch(/\b200\s*(€|Euro)|"preis"|data-preis/);
     expect(html).not.toMatch(/<form/);
     expect(dbAufrufe.anzahl).toBe(vorher);
   });

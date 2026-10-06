@@ -7,7 +7,7 @@
     "schritte": [
       "Erst die Website. Ein Modul kommt zur Sprache, wenn die Vorschau besprochen ist und das Paket Groß steht, nicht vorher. Zu Klein oder Mittel gibt es kein Modul.",
       "An das anknüpfen, was der Betrieb im Erstgespräch erzählt hat, zum Beispiel Anrufe nur wegen eines groben Preises. Ihre Notizen und der Schritt Funktion im Schema helfen dabei.",
-      "Nur Module ansprechen, die hier stehen und zur Branche passen. Keine Liste vorlesen, eine Frage reicht.",
+      "Nur Module ansprechen, die hier stehen. Jeder Betrieb darf jedes davon wählen, die Branche ist nur eine Empfehlung. Was er im Schema vorgemerkt hat, zuerst. Keine Liste vorlesen, eine Frage reicht.",
       "Ehrlich sagen, was das Modul nicht kann. Das steht in jedem Steckbrief.",
       "Stufe 1: Nutzen erklären, Interesse im Briefing-Bogen ankreuzen, den Preis nennt Michael Henning. Stufe 2: den Preis aus dem Preisrechner nennen, ohne Nachlass.",
       "Sagt der Betrieb nein, bleibt es dabei. Kein zweiter Anlauf im selben Termin."
@@ -17,7 +17,7 @@
   "module": [
     {
       "schluessel": "modul-kostenrechner",
-      "fuerWen": "Betriebe mit Paket Groß, deren Preis sich aus wenigen Angaben grob ableiten lässt: Fläche, Zimmer, Stunden, Menge. Typisch sind Umzug, Reinigung, Garten- und Landschaftsbau und Maler. Bei Betrieben, die fast nur nach Besichtigung kalkulieren, passt er weniger.",
+      "fuerWen": "Betriebe mit Paket Groß, deren Preis sich aus wenigen Angaben grob ableiten lässt: Fläche, Zimmer, Stunden, Menge. Wählbar in jeder Branche. Oft passt er bei Umzug, Reinigung, Garten- und Landschaftsbau und Maler. Bei Betrieben, die fast nur nach Besichtigung kalkulieren, passt er weniger.",
       "einstieg": "Sie hatten erzählt, dass viele nur wegen eines groben Preises anrufen: Wäre es eine Hilfe, wenn Ihre Kunden sich den vorher auf der Website selbst ausrechnen?",
       "fragen": [
         {
@@ -50,9 +50,9 @@
         }
       ],
       "intern": [
-        "Nur zum Paket Groß, wie die mitarbeitende Funktion. Zu Klein oder Mittel nicht anbieten, auch nicht als Ausnahme. Preisrechner und Briefing-Bogen lassen ihn nur bei Groß ankreuzen.",
-        "Im Erstgespräch nur den Nutzen, keinen Preis. Das Schema zeigt ihn bei Handwerk, Umzug, Reinigung und Garten im Schritt Funktion unter \"Im Paket Groß zusätzlich möglich\".",
-        "Nur für Websites aus den Vorlagen Handwerk, Garten- und Landschaftsbau, Reinigung und Umzug. Für andere Branchen nicht anbieten.",
+        "Nur zum Paket Groß, wie die mitarbeitende Funktion. Zu Klein oder Mittel nicht anbieten, auch nicht als Ausnahme. Preisrechner und Briefing-Bogen lassen ihn nur bei Groß ankreuzen, in jeder Branche.",
+        "Im Erstgespräch nur den Nutzen, keinen Preis. Das Schema zeigt ihn in jeder Branche im Schritt Funktion unter \"Im Paket Groß zusätzlich möglich\", bei Handwerk, Umzug, Reinigung und Garten als Empfehlung zuerst.",
+        "Lässt sich in jeder Vorlage bauen. Wo keine Branchenvorlage passt, gibt es eine allgemeine: Leistung wählen, Menge oder Dauer, Zuschläge. Abraten nur, wenn der Betrieb fast nur nach Besichtigung kalkuliert, entscheiden lässt ihn der Betrieb.",
         "Nicht als KI verkaufen. Er rechnet mit festen Regeln und braucht keinen Anthropic-Schlüssel.",
         "Nicht sagen, dass dekaru nicht dazwischen ist. Das Ergebnis geht mit dem Kontaktformular über den Formulardienst, wie jede Anfrage, gespeichert wird dort nichts.",
         "Die Preise im Rechner sind beim Bau Beispielwerte, bis der Betrieb seine eigenen festlegt. Nichts zu einzelnen Preisen im Rechner zusagen."

@@ -1146,7 +1146,7 @@
         "Er zeigt einen unverbindlichen Richtwert als Spanne.",
         "Er braucht weder KI noch Google-Konto.",
         "Er ersetzt das Angebot des Betriebs.",
-        "Er lässt sich für Websites in den Vorlagen Handwerk, Garten- und Landschaftsbau, Reinigung und Umzug bauen."
+        "Jeder Betrieb kann ihn wählen, egal in welcher Branche, zum Paket Groß."
       ],
       "richtig": [
         0,
@@ -1154,7 +1154,7 @@
         3
       ],
       "mehrfach": true,
-      "erklaerung": "Unter jedem Ergebnis steht \"Unverbindlicher Richtwert, kein Angebot.\" Das Angebot macht weiterhin der Betrieb. Gebaut werden kann er nur in diesen vier Vorlagen."
+      "erklaerung": "Unter jedem Ergebnis steht \"Unverbindlicher Richtwert, kein Angebot.\" Das Angebot macht weiterhin der Betrieb. Die Branche ist nur eine Empfehlung, wählen darf ihn jeder Betrieb mit Paket Groß."
     },
     {
       "id": "q67",
@@ -1246,6 +1246,21 @@
       "richtig": [1],
       "mehrfach": false,
       "erklaerung": "Software-Module gibt es nur zum Paket Groß, wie die mitarbeitende Funktion. Zu Klein oder Mittel bieten Sie keines an, auch nicht als Ausnahme. Ob der Betrieb doch Groß nimmt, entscheidet er selbst."
+    },
+    {
+      "id": "q73",
+      "typ": "multiple-choice",
+      "kapitel": "12-software-module",
+      "frage": "Ein Restaurant nimmt das Paket Groß und möchte den Kostenrechner, etwa für Catering. Im Schema steht er bei Gastronomie nicht unter \"Passt oft zu Ihrer Branche\". Was gilt?",
+      "optionen": [
+        "\"Den gibt es nur für Handwerk, Umzug, Reinigung und Garten.\"",
+        "\"Gern. Jedes Modul können Sie wählen, egal in welcher Branche, zum Paket Groß.\"",
+        "\"Für Gastronomie geht das nur als Ausnahme, das muss Herr Henning freigeben.\"",
+        "\"Dafür brauchen Sie zusätzlich ein Google-Konto.\""
+      ],
+      "richtig": [1],
+      "mehrfach": false,
+      "erklaerung": "Die Branche ist nur eine Empfehlung, keine Sperre. Jeder Betrieb darf jedes verkaufbare Modul wählen, einzige Bedingung ist das Paket Groß. Der Kostenrechner braucht kein Google-Konto."
     }
   ]
 }

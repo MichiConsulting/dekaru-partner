@@ -16,12 +16,19 @@ import {
   MODUL_FEHLER,
   VERKAUFBARE_MODULE,
   ZWEITTERMIN,
+  MODULE_GRUPPIEREN_AB,
   fuehreZusammen,
-  moduleZurBranche,
+  kurzSchluessel,
+  moduleAusAdresse,
+  moduleFuerAdresse,
+  moduleFuerSchema,
   pruefeModulTexte,
   pruefeVerkaufshilfen,
   textFehler,
 } from '../src/lib/module.ts';
+import { modulAbschnitte } from '../src/lib/schema-module.ts';
+import { BRIEFING_ZU_TEMPLATE } from '../src/lib/paletten.ts';
+import { BRANCHEN_IDS, type BrancheId } from '../src/lib/schema.ts';
 
 function quelleMit(module: unknown[]): string {
   const ordner = mkdtempSync(join(tmpdir(), 'module-sync-'));
@@ -79,7 +86,9 @@ describe('Module im Portal', () => {
     const k = VERKAUFBARE_MODULE[0];
     expect(k.name).toBe('Kostenrechner für Ihre Kunden');
     expect(k.schemaBranchen).toEqual(['handwerk', 'umzug', 'reinigung', 'garten']);
-    expect(k.briefingBranchen.sort()).toEqual(['Garten- und Landschaftsbau', 'Handwerk', 'Reinigung', 'Umzug']);
+    // Bauen laesst er sich seit dem Branch module-alle-branchen in dekaru-templates in allen zehn Vorlagen.
+    expect(k.briefingBranchen.sort()).toEqual(Object.keys(BRIEFING_ZU_TEMPLATE).sort());
+    expect(k.empfohlenFuer).toEqual(['Handwerk', 'Umzug', 'Reinigung', 'Garten- und Landschaftsbau']);
   });
 
   it('zeigt ein Modul ohne Text nicht an und meldet es', () => {
@@ -162,11 +171,60 @@ describe('Module im Preisrechner', () => {
   });
 });
 
-describe('Module im Briefing', () => {
-  it('meldet ein Modul, das sich fuer die Branche nicht bauen laesst', () => {
-    expect(moduleZurBranche('Umzug', ['modul-kostenrechner'])).toEqual([]);
-    expect(moduleZurBranche('Handwerk', ['modul-kostenrechner'])).toEqual([]);
-    expect(moduleZurBranche('Gastronomie', ['modul-kostenrechner'])[0]).toMatch(/nicht bauen/);
-    expect(moduleZurBranche(undefined, ['modul-kostenrechner'])).toEqual([]);
+describe('Module im Schema: in jeder Branche, Empfehlung zuerst', () => {
+  const basis = VERKAUFBARE_MODULE[0];
+  const testModul = (schluessel: string, art: 'besucher' | 'inhaber', schemaBranchen: BrancheId[]) => ({ ...basis, schluessel, name: schluessel, art, schemaBranchen });
+
+  it('zeigt jedes verkaufbare Modul in jeder Branche, die empfohlenen zuerst', () => {
+    const daten = [testModul('modul-a', 'besucher', ['gastro']), testModul('modul-b', 'inhaber', ['handwerk']), testModul('modul-c', 'besucher', [])];
+    for (const b of BRANCHEN_IDS) {
+      const r = moduleFuerSchema(b, daten);
+      expect([...r.empfohlen, ...r.weitere].map((m) => m.schluessel).sort(), b).toEqual(['modul-a', 'modul-b', 'modul-c']);
+    }
+    expect(moduleFuerSchema('gastro', daten).empfohlen.map((m) => m.schluessel)).toEqual(['modul-a']);
+    expect(moduleFuerSchema('handwerk', daten).empfohlen.map((m) => m.schluessel)).toEqual(['modul-b']);
+    expect(moduleFuerSchema('praxis', daten).empfohlen).toEqual([]);
+    expect(moduleFuerSchema('gastro', daten).weitere.map((m) => m.kurz)).toEqual(['b', 'c']);
+  });
+
+  it('heute: Kostenrechner in allen Branchen, empfohlen nur bei Handwerk, Umzug, Reinigung, Garten', () => {
+    for (const b of BRANCHEN_IDS) {
+      const r = moduleFuerSchema(b);
+      const empfohlen = ['handwerk', 'umzug', 'reinigung', 'garten'].includes(b);
+      expect(r.empfohlen.map((m) => m.schluessel), b).toEqual(empfohlen ? ['modul-kostenrechner'] : []);
+      expect(r.weitere.map((m) => m.schluessel), b).toEqual(empfohlen ? [] : ['modul-kostenrechner']);
+    }
+  });
+
+  it('gruppiert erst ab vielen Modulen nach Art und zeigt nie einen leeren Abschnitt', () => {
+    const wenige = [testModul('modul-a', 'besucher', ['gastro']), testModul('modul-b', 'inhaber', [])];
+    expect(modulAbschnitte('gastro', wenige).map((a) => [a.titel, a.gruppen.map((g) => g.titel)])).toEqual([
+      ['Passt oft zu Ihrer Branche', ['']],
+      ['Weitere Module, in jeder Branche wählbar', ['']],
+    ]);
+    expect(modulAbschnitte('praxis', wenige).map((a) => a.titel)).toEqual(['In jeder Branche wählbar']);
+    const viele = Array.from({ length: MODULE_GRUPPIEREN_AB }, (_, i) => testModul(`modul-${i}`, i % 2 ? 'inhaber' : 'besucher', i < 2 ? ['gastro'] : []));
+    const abschnitte = modulAbschnitte('gastro', viele);
+    expect(abschnitte.map((a) => a.titel)).toEqual(['Passt oft zu Ihrer Branche', 'Weitere Module, in jeder Branche wählbar']);
+    expect(abschnitte[1].gruppen.map((g) => g.titel)).toEqual(['Für Ihre Kunden auf der Website', 'Werkzeuge für Sie']);
+    expect(modulAbschnitte('gastro', [])).toEqual([]);
+  });
+
+  it('liest die Merkliste aus der Adresse: nur verkaufbar, ohne Doppelte, feste Reihenfolge', () => {
+    expect(moduleAusAdresse('kostenrechner,beitrags-schreiber')).toEqual(['modul-kostenrechner']);
+    expect(moduleAusAdresse('Kostenrechner, kostenrechner,modul-kostenrechner')).toEqual(['modul-kostenrechner']);
+    expect(moduleAusAdresse('')).toEqual([]);
+    expect(moduleAusAdresse(null)).toEqual([]);
+    expect(moduleAusAdresse('<script>')).toEqual([]);
+    const daten = [testModul('modul-a', 'besucher', []), testModul('modul-b', 'besucher', [])];
+    expect(moduleAusAdresse('b,a', daten)).toEqual(['modul-a', 'modul-b']);
+    expect(moduleFuerAdresse(['modul-a', 'modul-b'])).toBe('a,b');
+    expect(kurzSchluessel('modul-kostenrechner')).toBe('kostenrechner');
+  });
+
+  it('empfiehlt nur Branchen, deren Vorlage in templates steht', () => {
+    const kaputt = pruefeModulTexte({ module: [{ ...texteRoh.module[0], schemaBranchen: ['gastro'], templates: ['handwerk'] }] });
+    expect(kaputt.texte).toEqual([]);
+    expect(kaputt.fehler.join(' ')).toMatch(/empfohlen für gastro, aber dafür fehlt die Vorlage/);
   });
 });

@@ -75,9 +75,11 @@ Nicht als Baustein buchbar: die mitarbeitende Funktion. Einen Baustein "Terminan
 
 Nur zum Paket Groß, wie die mitarbeitende Funktion. Einmalpreis je Modul, Einrichtung beim Betrieb inklusive. Updates und Hilfe nur mit Hosting bei Michael Henning. Nur, was unter Verkaufshilfen im Portal steht:
 
-| Modul | Preis | Passt zu |
+| Modul | Preis | Passt oft zu |
 |---|---|---|
 | Kostenrechner für Ihre Kunden | 200 € einmalig | Handwerk, Garten- und Landschaftsbau, Reinigung, Umzug |
+
+Jedes Modul ist in jeder Branche wählbar. Die Spalte "Passt oft zu" ist nur eine Empfehlung.
 
 Provision 35 %, wenn das Modul im Erstauftrag mitverkauft wird. Module mit KI: der Betrieb zahlt seinen Verbrauch bei Anthropic selbst, das ist kein Preis von dekaru.
 

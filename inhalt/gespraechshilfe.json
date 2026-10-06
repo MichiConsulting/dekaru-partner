@@ -437,6 +437,14 @@
       "antwort": "Nein, Software-Module gibt es nur zum Paket Groß. Groß ist das Paket, in dem Ihre Website mitarbeitet und Anfragen entgegennimmt. Der Rechner erweitert genau das.",
       "pflicht": false,
       "hinweis": "Gilt für jedes Modul und für Klein wie Mittel, keine Ausnahme zusagen. Nicht drängen: Bleibt der Betrieb bei Mittel, bleibt es bei Mittel ohne Modul. Paketpreise erst im Zweittermin, in Stufe 2 aus dem Preisrechner."
+    },
+    {
+      "id": "g50",
+      "thema": "Software",
+      "frage": "Gibt es den Kostenrechner auch für meine Branche?",
+      "antwort": "Ja. Jedes Modul können Sie wählen, egal in welcher Branche, zum Paket Groß. Im Schema stehen die, die oft zu Ihrer Branche passen, zuerst. Aussuchen dürfen Sie aus allen.",
+      "pflicht": false,
+      "hinweis": "Die Branche ist nur eine Empfehlung, keine Sperre. Was der Betrieb im Schema vormerkt, steht im Link zum Nachschicken, und der Link übernimmt die Module in den Briefing-Bogen. Nur Module anbieten, die unter Verkaufshilfen stehen."
     }
   ]
 }

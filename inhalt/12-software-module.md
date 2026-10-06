@@ -20,6 +20,12 @@ Der Grund, den Sie dem Betrieb auch so sagen können: Groß ist das Paket, in de
 
 Will der Betrieb Mittel und trotzdem ein Modul, bleibt es bei Mittel ohne Modul. Ob er doch Groß nimmt, entscheidet er, Sie drängen nicht.
 
+## Jede Branche darf jedes Modul wählen
+
+Seit 06.10.2026 gilt: Jeder Betrieb darf jedes verkaufbare Modul wählen, egal in welcher Branche. Die Branche ist nur eine Empfehlung, keine Sperre. Im Schema stehen die Module, die oft zur Branche passen, oben unter "Passt oft zu Ihrer Branche", alle übrigen darunter. Der Betrieb sieht im Termin also alles, was es gibt, und entscheidet selbst. Die einzige Bedingung bleibt das Paket Groß.
+
+Im Schema kann der Betrieb Module antippen und vormerken. Das ist eine Merkliste für das Gespräch, keine Bestellung, gespeichert wird nichts. Die Auswahl steckt im Link zum Nachschicken. Legen Sie später den Briefing-Bogen an, fügen Sie diesen Link in das Feld "Link aus dem Schema" ein, dann sind die vorgemerkten Module schon angekreuzt.
+
 ## Zwei Arten von Modulen
 
 | | Werkzeuge für den Inhaber | Funktionen für Besucher |
@@ -74,7 +80,7 @@ Die Stufen sind für Sie zur Einordnung. Einen Preis nennen Sie nur für ein Mod
 
 ## Nur anbieten, was verkaufbar ist
 
-Ein Modul ist verkaufbar, wenn es fertig, getestet und bepreist ist. Dann steht es unter Verkaufshilfen, im Preisrechner und, wenn es zur Branche passt, im Schema beim Paket Groß. Steht es dort nicht, gibt es es nicht.
+Ein Modul ist verkaufbar, wenn es fertig, getestet und bepreist ist. Dann steht es unter Verkaufshilfen, im Preisrechner und im Schema beim Paket Groß, in jeder Branche. Steht es dort nicht, gibt es es nicht.
 
 Fragt ein Betrieb nach einer Terminbuchung mit Kalender, einer Tischreservierung oder einer KI, die Texte schreibt:
 
@@ -86,7 +92,7 @@ Fragt ein Betrieb nach einer Terminbuchung mit Kalender, einer Tischreservierung
 
 **Was er tut.** Auf der Website gibt ein Besucher ein paar Angaben ein, zum Beispiel Fläche, Zimmer oder Extras, und sieht sofort einen unverbindlichen Richtwert als Spanne. Mit einem Knopf übernimmt er Angaben und Spanne in seine Anfrage.
 
-**Für wen.** Betriebe mit Paket Groß, deren Preis sich aus wenigen Angaben grob ableiten lässt. Bauen lässt er sich für Websites in den Vorlagen Handwerk, Garten- und Landschaftsbau, Reinigung und Umzug. Typisch sind Umzug, Reinigung, Garten und Maler. Für andere Branchen bieten Sie ihn nicht an.
+**Für wen.** Betriebe mit Paket Groß, deren Preis sich aus wenigen Angaben grob ableiten lässt. Wählbar in jeder Branche. Oft passt er bei Handwerk, Garten- und Landschaftsbau, Reinigung und Umzug, typisch sind Umzug, Reinigung, Garten und Maler. Für andere Branchen gibt es eine allgemeine Vorlage: Leistung wählen, Menge oder Dauer, Zuschläge. Bei Betrieben, die fast nur nach Besichtigung kalkulieren, passt er weniger. Ob er ihn will, entscheidet der Betrieb.
 
 **Was er abnimmt.**
 
@@ -100,7 +106,7 @@ Fragt ein Betrieb nach einer Terminbuchung mit Kalender, einer Tischreservierung
 - keine Buchung, keine Zahlung, keine Sonderfälle
 - keine KI, er rechnet nach festen Regeln mit den Preisen des Betriebs
 
-**Voraussetzungen.** Eine Website von dekaru im Paket Groß, in einer der vier Vorlagen, und der Betrieb kennt seine Preise grob, etwa je Quadratmeter, je Stunde oder als Pauschale. Kein Google-Konto, kein Anthropic-Schlüssel, kein Abo. Felder und Preise legt der Betrieb beim Bau mit mir fest. Neue Preise schickt er später per Mail, wie jede Änderung.
+**Voraussetzungen.** Eine Website von dekaru im Paket Groß, in jeder Branche, und der Betrieb kennt seine Preise grob, etwa je Quadratmeter, je Stunde oder als Pauschale. Kein Google-Konto, kein Anthropic-Schlüssel, kein Abo. Felder und Preise legt der Betrieb beim Bau mit mir fest. Neue Preise schickt er später per Mail, wie jede Änderung.
 
 So sprechen Sie ihn an, im Zweittermin, nach der Website:
 
@@ -109,6 +115,6 @@ So sprechen Sie ihn an, im Zweittermin, nach der Website:
 ## Wann Sie Module ansprechen
 
 - **Telefon:** gar nicht.
-- **Erstgespräch:** Das Schema zeigt passende Module im Schritt Funktion unter "Im Paket Groß zusätzlich möglich", mit Namen und Nutzen. Bei den Bausteinen erscheinen sie nur, wenn Groß gewählt ist. Sie erklären den Nutzen und notieren, was den Betrieb interessiert.
-- **Zweittermin:** nach der Website, wenn das Paket Groß steht. Ein passendes Modul, keine Liste. Bei Klein oder Mittel sprechen Sie kein Modul an. Interesse kreuzen Sie im Briefing-Bogen an.
+- **Erstgespräch:** Das Schema zeigt im Schritt Funktion unter "Im Paket Groß zusätzlich möglich" jedes verkaufbare Modul, mit Namen und Nutzen, die zur Branche passenden zuerst. Bei den Bausteinen erscheinen sie nur, wenn Groß gewählt ist. Sie erklären den Nutzen, was den Betrieb interessiert, merkt er dort vor.
+- **Zweittermin:** nach der Website, wenn das Paket Groß steht. Ein Modul, das zum Betrieb passt oder das er vorgemerkt hat, keine Liste. Bei Klein oder Mittel sprechen Sie kein Modul an. Interesse kreuzen Sie im Briefing-Bogen an.
 - **Ausdrucken oder zeigen:** Unter Verkaufshilfen gibt es zu jedem Modul eine Fassung ohne Preis, die Sie dem Betrieb zeigen oder mitgeben dürfen.

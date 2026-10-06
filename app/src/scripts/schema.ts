@@ -238,6 +238,59 @@ if (wurzel) {
     }
   });
 
+  // ── Software-Module vormerken. Eine Merkliste nur in der Adresse
+  // (?module=kostenrechner,beitrags-schreiber), damit der Link zum
+  // Nachschicken sie mitnimmt. Gespeichert wird nichts. Namen kommen aus
+  // data-modul-name, dieses Skript kennt kein Modul und keinen Preis.
+  const modulKnoepfe = [...schema.querySelectorAll<HTMLAnchorElement>('[data-modul-wahl]')];
+  const modulReihe = [...new Set(modulKnoepfe.map((a) => a.dataset.modulWahl ?? ''))].filter(Boolean);
+  const modulName = (kurz: string): string => modulKnoepfe.find((a) => a.dataset.modulWahl === kurz)?.dataset.modulName ?? kurz;
+  const auswahlText = schema.querySelector<HTMLElement>('[data-modul-auswahl-text]');
+  const modulAnsage = schema.querySelector<HTMLElement>('[data-modul-ansage]');
+  const merkliste = (): string[] => (schema.dataset.merkliste ?? '').split(',').filter((k) => modulReihe.includes(k));
+
+  function setzeMerkliste(liste: string[]): void {
+    const sortiert = modulReihe.filter((k) => liste.includes(k));
+    schema.dataset.merkliste = sortiert.join(',');
+    for (const a of modulKnoepfe) {
+      const kurz = a.dataset.modulWahl ?? '';
+      a.setAttribute('aria-pressed', String(sortiert.includes(kurz)));
+      // Link ohne Skript (neuer Tab) zeigt den Zustand nach dem Umschalten.
+      const url = new URL(location.href);
+      const neu = sortiert.includes(kurz) ? sortiert.filter((k) => k !== kurz) : modulReihe.filter((k) => k === kurz || sortiert.includes(k));
+      if (neu.length) url.searchParams.set('module', neu.join(','));
+      else url.searchParams.delete('module');
+      url.hash = 'schritt-4';
+      a.href = url.pathname + url.search + url.hash;
+    }
+    if (auswahlText) auswahlText.textContent = sortiert.length ? sortiert.map(modulName).join(', ') : 'Noch nichts vorgemerkt.';
+    const url = new URL(location.href);
+    if (sortiert.length) url.searchParams.set('module', sortiert.join(','));
+    else url.searchParams.delete('module');
+    history.replaceState(null, '', url);
+  }
+
+  function schalteModul(kurz: string): void {
+    const jetzt = merkliste();
+    const an = !jetzt.includes(kurz);
+    setzeMerkliste(an ? [...jetzt, kurz] : jetzt.filter((k) => k !== kurz));
+    if (modulAnsage) modulAnsage.textContent = `${modulName(kurz)} ${an ? 'vorgemerkt' : 'nicht mehr vorgemerkt'}.`;
+  }
+
+  for (const a of modulKnoepfe) {
+    a.addEventListener('click', (e) => {
+      if (!normalerKlick(e)) return;
+      e.preventDefault();
+      schalteModul(a.dataset.modulWahl ?? '');
+    });
+    // role="button": auch die Leertaste schaltet um.
+    a.addEventListener('keydown', (e) => {
+      if (e.key !== ' ') return;
+      e.preventDefault();
+      schalteModul(a.dataset.modulWahl ?? '');
+    });
+  }
+
   // ── Blaettern
   weiter?.addEventListener('click', () => zeige(aktuell + 1));
   zurueck?.addEventListener('click', () => zeige(aktuell - 1));
