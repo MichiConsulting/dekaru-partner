@@ -130,6 +130,87 @@ describe('Module im Portal', () => {
     expect(preis.fehler.join(' ')).toMatch(/kein Preis/);
   });
 
+  it('zeigt ein Modul ohne Text nicht an und meldet es', () => {
+    const posten = [{ schluessel: 'modul-x', name: 'X', preis: 300, einheit: 'einmalig', stufe: 'mittel' }];
+    const r = fuehreZusammen(posten, pruefeModulTexte(texteRoh).texte, pruefeVerkaufshilfen(hilfenRoh).hilfen);
+    expect(r.module).toEqual([]);
+    expect(r.fehler.join(' ')).toMatch(/modul-x ist verkaufbar/);
+  });
+
+  it('zeigt einen vorbereiteten Text ohne Verkaufbarkeit nicht an', () => {
+    const texte = pruefeModulTexte({ module: [...texteRoh.module, { ...texteRoh.module[0], schluessel: 'modul-vorbereitet', name: 'Vorbereitet' }] }).texte;
+    expect(texte.length).toBe(texteRoh.module.length + 1);
+    const r = fuehreZusammen(MODULE, texte, pruefeVerkaufshilfen(hilfenRoh).hilfen);
+    expect(r.module.map((m) => m.schluessel)).not.toContain('modul-vorbereitet');
+    expect(findeModul('modul-vorbereitet')).toBeNull();
+  });
+
+  it('prueft die Texte auf Preise, Gedankenstriche, Bauzeit und "kommt bald"', () => {
+    expect(textFehler('Kostet 200 €.', 'x', true).length).toBe(1);
+    expect(textFehler('Kostet 200 €.', 'x', false)).toEqual([]);
+    expect(textFehler('Schnell — und gut.', 'x').length).toBe(1);
+    expect(textFehler('Fertig in zwei Wochen.', 'x').length).toBe(1);
+    expect(textFehler('Das kommt bald.', 'x').length).toBe(1);
+    expect(textFehler('Dekaru macht das.', 'x').length).toBe(1);
+    const kaputt = pruefeModulTexte({ module: [{ ...texteRoh.module[0], kurz: 'Nur 200 € einmalig.' }] });
+    expect(kaputt.texte).toEqual([]);
+    expect(kaputt.fehler.join(' ')).toMatch(/kein Preis/);
+  });
+
+  it('Antworten fuer den Betrieb in den Verkaufshilfen nennen keinen Preis', () => {
+    const kaputt = pruefeVerkaufshilfen({
+      ...hilfenRoh,
+      module: [{ ...hilfenRoh.module[0], fragen: [{ frage: 'Was kostet das?', antwort: 'Genau 200 €.' }] }],
+    });
+    expect(kaputt.hilfen).toEqual([]);
+    expect(kaputt.fehler.join(' ')).toMatch(/kein Preis/);
+  });
+});
+
+describe('Module im Preisrechner', () => {
+  it('liest m_<schluessel> nur fuer verkaufbare Module', () => {
+    const a = auswahlAusFeldern({ 'm_modul-kostenrechner': 'on', 'm_modul-terminbuchung': 'on' });
+    expect(a.module).toEqual(['modul-kostenrechner']);
+  });
+
+  it('rechnet Module ins Einmalige und in die Provision', () => {
+    const ohne = berechne(leereAuswahl('gross'));
+    const mit = berechne({ ...leereAuswahl('gross'), module: ['modul-kostenrechner', 'modul-kostenrechner', 'modul-terminbuchung'] });
+    expect(mit.summeModule).toBe(200);
+    expect(mit.summeEinmalig).toBe(ohne.summeEinmalig + 200);
+    expect(mit.provisionEinmalig).toBe(ohne.provisionEinmalig + 70);
+    expect(mit.zeilen.filter((z) => z.art === 'modul')).toEqual([{ art: 'modul', schluessel: 'modul-kostenrechner', bezeichnung: 'Kostenrechner für Ihre Kunden', betrag: 200 }]);
+  });
+
+  it('gibt Module nur zum Paket Groß, wie die mitarbeitende Funktion', () => {
+    expect(MODULE_PAKETE).toEqual(['gross']);
+    expect(MODULE_PAKETE).toEqual(PAKETE.filter((p) => p.funktion).map((p) => p.schluessel));
+    expect(MODULE_NUR_MIT).toBe('nur mit Paket Groß');
+    expect(moduleMoeglich('gross')).toBe(true);
+    for (const p of ['klein', 'mittel', '', null, undefined, 'quatsch'] as const) expect(moduleMoeglich(p as never)).toBe(false);
+  });
+
+  it('rechnet ohne Paket Groß kein Modul mit und sagt das', () => {
+    for (const paket of ['klein', 'mittel'] as const) {
+      const ohne = berechne(leereAuswahl(paket));
+      const mit = berechne({ ...leereAuswahl(paket), module: ['modul-kostenrechner'] });
+      expect(mit.summeModule).toBe(0);
+      expect(mit.summeEinmalig).toBe(ohne.summeEinmalig);
+      expect(mit.provisionEinmalig).toBe(ohne.provisionEinmalig);
+      expect(mit.zeilen.some((z) => z.art === 'modul')).toBe(false);
+      expect(mit.hinweise).toContain('Software-Module gibt es nur mit Paket Groß. Nicht mitgerechnet: Kostenrechner für Ihre Kunden.');
+      expect(ohne.hinweise.join(' ')).not.toMatch(/Software-Module/);
+    }
+  });
+
+  it('kommt mit alten Briefings ohne Feld module zurecht', () => {
+    const alt = { ...leereAuswahl('mittel') } as Partial<ReturnType<typeof leereAuswahl>>;
+    delete alt.module;
+    expect(berechne(alt as ReturnType<typeof leereAuswahl>).summeModule).toBe(0);
+  });
+});
+
+describe('Module im Schema: in jeder Branche, Empfehlung zuerst', () => {
   const basis = VERKAUFBARE_MODULE[0];
   const testModul = (schluessel: string, art: 'besucher' | 'inhaber', schemaBranchen: BrancheId[]) => ({ ...basis, schluessel, name: schluessel, art, schemaBranchen });
 
