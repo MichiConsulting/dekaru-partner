@@ -55,6 +55,9 @@ describe('Mini-Schemata', () => {
       }
       // Vormerken bleibt ausserhalb des summary, ein eigener Knopf.
       expect(block).not.toMatch(/<summary[^>]*>(?:(?!<\/summary>)[\s\S])*data-modul-wahl/);
+      // Jedes Mini-Schema nur einmal im Quelltext, die anderen Branchen bekommen Platzhalter.
+      expect(s.match(/class="ms ms--/g)).toHaveLength(VERKAUFBARE_MODULE.length);
+      expect(s.match(/data-ms-platz=/g)).toHaveLength(VERKAUFBARE_MODULE.length * 6);
       // Zeichen nur einmal je Seite.
       expect(s.match(/class="ms-symbole"/g)).toHaveLength(1);
     }
