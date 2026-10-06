@@ -5,7 +5,7 @@
  * Person sie sehen darf.
  */
 import PreisSumme from './PreisSumme.astro';
-import { ALLE_POSTEN, berechne, findePaket, findeTarif, findeZusatzleistung } from '../lib/preise.ts';
+import { ALLE_POSTEN, berechne, findeModul, findePaket, findeTarif, findeZusatzleistung } from '../lib/preise.ts';
 import { TEILE, type Briefing } from '../lib/briefing.ts';
 import { PALETTE_OFFEN, farbfelder, findePalette, gruppeVon } from '../lib/paletten.ts';
 import { datumDe } from '../lib/provision.ts';
@@ -32,6 +32,9 @@ const bausteine = ALLE_POSTEN.filter((p) => {
 const paletteWert = briefing.farbpalette ?? f.farbpalette ?? null;
 const palette = findePalette(paletteWert);
 const zusatz = a.zusatzleistungen.map((s) => findeZusatzleistung(s)?.name).filter(Boolean);
+// Software-Module: verkaufbare mit Namen. Ein Schluessel, der inzwischen nicht
+// mehr verkaufbar ist, bleibt sichtbar, damit Michi ihn beim Angebot sieht.
+const module = (a.module ?? []).map((s) => findeModul(s)?.name ?? `${s} (zurzeit nicht verkaufbar)`);
 
 function anzeige(name: string, wert: string | undefined): string {
   const feld = TEILE.flatMap((t) => t.felder).find((x) => x.name === name);
@@ -82,6 +85,8 @@ function anzeige(name: string, wert: string | undefined): string {
               <dd>{bausteine.length ? bausteine.join(', ') : 'keine'}</dd>
               <dt>Zusatzleistungen</dt>
               <dd>{zusatz.length ? zusatz.join(', ') : 'keine'}</dd>
+              <dt>Software-Module</dt>
+              <dd data-briefing-module>{module.length ? module.join(', ') : 'keine'}</dd>
               <dt>Hosting</dt>
               <dd>
                 {tarif ? `${tarif.name}, ${tarif.monat === null || a.hosting.zahlweise === 'jaehrlich' ? 'Jahresvertrag' : 'monatlich'}${a.hosting.gratisquartal ? ', Gratisquartal zugesagt' : ''}` : 'kein Hosting'}

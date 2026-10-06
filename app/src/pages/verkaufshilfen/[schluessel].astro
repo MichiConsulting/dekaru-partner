@@ -1,0 +1,88 @@
+---
+// Steckbrief fuer Vertriebler, mit Preis und Provision. Der Preis steht hier
+// wie in Kapitel 11 zum Nachlesen. Nennen darf ihn nur Stufe 2 im Zweittermin,
+// das sagt die Seite je nach Stufe dazu. Fuer den Betrieb gibt es die
+// Fassung ohne Preis unter ./zeigen.
+import '../../styles/verkaufshilfen.css';
+import Layout from '../../layouts/Layout.astro';
+import { findeVerkaufbaresModul } from '../../lib/module.ts';
+import { PROVISION_PROZENT, euro } from '../../lib/preise.ts';
+import { darfPreiseSehen, ladeStufe } from '../../lib/stufe.ts';
+
+const modul = findeVerkaufbaresModul(Astro.params.schluessel);
+if (!modul) return new Response(null, { status: 404 });
+
+const benutzer = Astro.locals.benutzer!;
+const darf = darfPreiseSehen(benutzer, await ladeStufe(Astro.locals.db, benutzer.id));
+const stufeName: Record<string, string> = { klein: 'klein', mittel: 'mittel', gross: 'groß', 'sehr gross': 'sehr groß' };
+---
+
+<Layout titel={modul.name} aktiv="verkaufshilfen">
+  <p class="meta"><a href="/verkaufshilfen">Verkaufshilfen</a></p>
+  <h1>{modul.name}</h1>
+  <p style="max-width:var(--measure)">{modul.einleitung}</p>
+
+  <div class="vh-preis">
+    <div class="kennzahl">
+      <div class="kennzahl__wert">{euro(modul.preis)}</div>
+      <div class="kennzahl__label">einmalig, Stufe {stufeName[modul.stufe] ?? modul.stufe}, Einrichtung inklusive</div>
+    </div>
+    <div class="kennzahl">
+      <div class="kennzahl__wert">{euro(modul.provision)}</div>
+      <div class="kennzahl__label">Ihre Provision, {PROVISION_PROZENT} %, nur wenn im Erstauftrag verkauft</div>
+    </div>
+  </div>
+  <p class="hinweis" data-preis-regel>
+    {darf
+      ? 'Den Preis nennen Sie im Zweittermin aus dem Preisrechner, ohne Nachlass. Im Erstgespräch nie.'
+      : 'Stufe 1: Sie nennen keinen Preis. Den nennt Michael Henning im Zweittermin. Im Erstgespräch nur den Nutzen.'}
+  </p>
+
+  <section class="karte">
+    <h2>Für wen</h2>
+    <p style="max-width:var(--measure)">{modul.fuerWen}</p>
+    <p class="meta">Lässt sich bauen für: {modul.briefingBranchen.join(', ')}.</p>
+    <h3>Gesprächseinstieg</h3>
+    <blockquote class="vh-zitat">„{modul.einstieg}“</blockquote>
+  </section>
+
+  <section class="karte">
+    <div class="vh-spalten">
+      <div>
+        <h3>Was es abnimmt</h3>
+        <ul>{modul.nutzen.map((s) => <li>{s}</li>)}</ul>
+      </div>
+      <div>
+        <h3>Was es nicht kann</h3>
+        <ul>{modul.kannNicht.map((s) => <li>{s}</li>)}</ul>
+      </div>
+      <div>
+        <h3>Voraussetzungen</h3>
+        <ul>{modul.voraussetzungen.map((s) => <li>{s}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="karte">
+    <h2>Typische Fragen</h2>
+    <dl class="vh-fragen">
+      {modul.fragen.map((f) => (
+        <>
+          <dt>„{f.frage}“</dt>
+          <dd>{f.antwort}</dd>
+        </>
+      ))}
+    </dl>
+  </section>
+
+  <section class="karte">
+    <h2>Nur für Sie</h2>
+    <ul>{modul.intern.map((s) => <li>{s}</li>)}</ul>
+    <p class="meta">Einrichtung: {modul.einrichtung} Daten: {modul.daten} Laufend: {modul.laufend}</p>
+  </section>
+
+  <div class="aktionen">
+    <a class="btn" href={`/verkaufshilfen/${modul.schluessel}/zeigen`}>Fassung zum Zeigen und Drucken, ohne Preis</a>
+    <a class="btn btn--zweit" href="/gespraech?thema=Software">Gesprächshilfe Software</a>
+  </div>
+</Layout>

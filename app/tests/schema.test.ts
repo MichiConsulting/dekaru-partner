@@ -7,9 +7,9 @@ import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import Seite from '../src/pages/erstgespraech.astro';
 import type { Db } from '../src/lib/db.ts';
 import type { Benutzer } from '../src/lib/auth.ts';
-import { HOSTING, HOSTING_TARIFE, PAKETE, PREIS_AB, euro } from '../src/lib/preise.ts';
+import { HOSTING, HOSTING_TARIFE, PAKETE, PREIS_AB, euro, findeModul } from '../src/lib/preise.ts';
 import { BRANCHEN, BRANCHEN_IDS, anzahlBausteine, bausteine, findeBranche } from '../src/lib/schema.ts';
-import { SCHEMA_MODULE, verfuegbareModule, type SchemaModul } from '../src/lib/schema-module.ts';
+import { verfuegbareModule } from '../src/lib/schema-module.ts';
 import { ALLE_PALETTEN, FARBGRUPPEN, HINWEIS_NAMEN, SCHEMA_ZU_TEMPLATE, empfohlenePaletten, findePalette, palettenBranche, paletteFuerSchema, probeStil, schemaDaten } from '../src/lib/paletten.ts';
 import { neueDb, vertriebler } from './helfer.ts';
 
@@ -83,13 +83,19 @@ describe('Seite /erstgespraech', () => {
     expect(text).toMatch(/Inhalt der Anfrage nicht gespeichert/);
   });
 
-  it('zeigt keinen Bereich fuer Module, solange keines verfuegbar ist', async () => {
+  it('zeigt Module nur in passenden Branchen und nie, was noch nicht verkauft wird', async () => {
+    // Namen aus dekaru-rechnungen/preise.json, die heute nicht verkaufbar sind.
+    const nichtVerkaufbar = ['Terminbuchung', 'Tischreservierung', 'Reel-Werkstatt', 'Beitrags-Schreiber', 'Bewertungs-Assistent', 'Angebots-Assistent', 'Schicht- und Urlaubsplan', 'Lagerliste', 'Anfrage mit Fotos', 'Speisekarte und Preisliste'];
     for (const id of BRANCHEN_IDS) {
       const { schema } = await rendere(id);
-      const offen = verfuegbareModule(id).length > 0;
-      expect(schema.includes('class="module"')).toBe(offen);
-      for (const m of SCHEMA_MODULE.filter((x) => x.status !== 'verfuegbar')) expect(schema).not.toContain(m.name);
+      for (const name of nichtVerkaufbar) expect(schema, name).not.toContain(name);
+      const block = schema.match(new RegExp(`<div class="module"[^>]*data-fuer-branche="${id}"[^>]*>`))?.[0] ?? null;
+      expect(Boolean(block), id).toBe(verfuegbareModule(id).length > 0);
+      if (block) expect(block).not.toContain('hidden');
     }
+    const { schema } = await rendere('handwerk');
+    expect(nurText(schema)).toContain('Kostenrechner für Ihre Kunden');
+    expect(schema).not.toMatch(/<div class="module"[^>]*data-fuer-branche="(gastro|friseur|praxis)"/);
   });
 });
 
@@ -228,22 +234,15 @@ describe('Bausteine', () => {
 });
 
 describe('Module', () => {
-  const beispiel = (status: SchemaModul['status'], branchen: SchemaModul['branchen']): SchemaModul => ({ id: 'x', name: 'X', kurz: 'x', branchen, status });
-
-  it('zeigt nur verfuegbare Module der passenden Branche', () => {
-    const liste = [beispiel('verfuegbar', ['gastro']), beispiel('geplant', ['gastro']), beispiel('in-arbeit', ['gastro']), beispiel('verfuegbar', ['handwerk'])];
-    expect(verfuegbareModule('gastro', liste)).toEqual([liste[0]]);
-    expect(verfuegbareModule('praxis', liste)).toEqual([]);
-  });
-
-  it('fuehrt alle Module aus dem Bauplan mit Branchen und gueltigem Status', () => {
-    expect(SCHEMA_MODULE).toHaveLength(11);
-    expect(new Set(SCHEMA_MODULE.map((m) => m.id)).size).toBe(11);
-    for (const m of SCHEMA_MODULE) {
-      expect(['geplant', 'in-arbeit', 'verfuegbar']).toContain(m.status);
-      expect(m.branchen.length).toBeGreaterThan(0);
-      for (const b of m.branchen) expect(BRANCHEN_IDS).toContain(b);
-      expect(m.kurz).not.toMatch(/€|\d+\s*Euro/);
+  it('zeigt nur verkaufbare Module der passenden Branche, ohne Preis', () => {
+    // Heute verkaufbar: nur der Kostenrechner, und der nur im Handwerk.
+    expect(verfuegbareModule('handwerk').map((m) => m.schluessel)).toEqual(['modul-kostenrechner']);
+    for (const b of ['gastro', 'friseur', 'praxis'] as const) expect(verfuegbareModule(b)).toEqual([]);
+    for (const b of BRANCHEN_IDS) {
+      for (const m of verfuegbareModule(b)) {
+        expect(findeModul(m.schluessel), m.schluessel).not.toBeNull();
+        expect(`${m.name} ${m.kurz}`).not.toMatch(/€|\d+\s*Euro/);
+      }
     }
   });
 });

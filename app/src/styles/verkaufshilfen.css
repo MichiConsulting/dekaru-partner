@@ -1,0 +1,201 @@
+/* Verkaufshilfen: Uebersicht, Steckbrief fuer Vertriebler, Fassung zum Zeigen.
+   Nur Variablen aus global.css, dadurch hell und dunkel ohne eigene Bloecke.
+   Die Druckregeln gelten nur fuer die Fassung zum Zeigen (.blatt). */
+
+.vh-module {
+  display: grid;
+  gap: var(--space-m);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--space-xl);
+}
+.vh-modul {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-l);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+}
+.vh-modul h2,
+.vh-modul h3 {
+  margin: 0;
+  font-size: var(--text-h3);
+}
+.vh-modul p {
+  margin: 0;
+}
+.vh-modul .aktionen {
+  margin-top: auto;
+  padding-top: var(--space-s);
+}
+
+.vh-schritte {
+  padding-left: 1.4em;
+  max-width: var(--measure);
+}
+.vh-schritte li + li {
+  margin-top: var(--space-s);
+}
+
+.vh-preis {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-m);
+  margin-bottom: var(--space-l);
+}
+.vh-preis .kennzahl {
+  flex: 1 1 180px;
+}
+
+.vh-zitat {
+  border-left: 3px solid var(--border-strong);
+  margin: 0 0 var(--space-l);
+  padding: var(--space-s) var(--space-m);
+  max-width: var(--measure);
+  font-style: italic;
+}
+
+.vh-fragen dt {
+  font-weight: 600;
+  margin-top: var(--space-m);
+}
+.vh-fragen dd {
+  margin: var(--space-xs) 0 0;
+  max-width: var(--measure);
+}
+
+.vh-spalten {
+  display: grid;
+  gap: var(--space-l);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+}
+.vh-spalten h3 {
+  font-size: var(--text-h3);
+  margin: 0 0 var(--space-s);
+}
+.vh-spalten ul {
+  margin: 0;
+  padding-left: 1.2em;
+}
+.vh-spalten li + li {
+  margin-top: var(--space-xs);
+}
+
+/* ── Fassung zum Zeigen: ein A4-Blatt ── */
+.blatt-leiste {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-s);
+  align-items: center;
+  margin-bottom: var(--space-l);
+}
+.blatt {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: clamp(16px, 4vw, 40px);
+  max-width: 210mm;
+}
+.blatt__marke {
+  font-family: var(--font-display);
+  font-size: var(--text-small);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 var(--space-s);
+}
+.blatt h1 {
+  margin: 0 0 var(--space-m);
+}
+.blatt__lead {
+  font-size: 17px;
+  max-width: var(--measure);
+  margin: 0 0 var(--space-l);
+}
+.blatt h2 {
+  font-size: var(--text-h3);
+  margin: var(--space-l) 0 var(--space-s);
+}
+.blatt ul {
+  margin: 0;
+  padding-left: 1.2em;
+}
+.blatt li + li {
+  margin-top: var(--space-xs);
+}
+.blatt p {
+  max-width: var(--measure);
+}
+.blatt__fuss {
+  margin-top: var(--space-xl);
+  padding-top: var(--space-m);
+  border-top: 1px solid var(--border);
+  font-size: var(--text-small);
+  color: var(--text-muted);
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm 16mm;
+  }
+  :root,
+  body {
+    background: #ffffff !important;
+    color: #141414 !important;
+  }
+  .kopf,
+  .fuss,
+  .blatt-leiste,
+  .nur-bildschirm {
+    display: none !important;
+  }
+  main {
+    padding: 0 !important;
+    max-width: none !important;
+  }
+  .blatt {
+    border: 0;
+    padding: 0;
+    max-width: none;
+    background: #ffffff;
+    color: #141414;
+    font-size: 10pt;
+    line-height: 1.4;
+  }
+  .blatt h1 {
+    font-size: 20pt;
+    margin-bottom: 4mm;
+  }
+  .blatt__lead {
+    font-size: 11pt;
+    margin-bottom: 3mm;
+  }
+  .blatt h2 {
+    font-size: 11pt;
+    margin: 4mm 0 1.5mm;
+  }
+  .blatt p {
+    margin: 0;
+  }
+  .blatt li + li {
+    margin-top: 0.5mm;
+  }
+  .blatt__fuss {
+    margin-top: 6mm;
+    padding-top: 2mm;
+  }
+  .blatt__marke,
+  .blatt__fuss {
+    color: #444444;
+  }
+  .blatt h2 {
+    break-after: avoid;
+  }
+  .blatt section {
+    break-inside: avoid;
+  }
+}

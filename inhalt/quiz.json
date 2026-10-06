@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "stand": "2026-10-05",
+  "stand": "2026-10-06",
   "titel": "Lernfragen zum Informationsblatt für dekaru-Vertriebler",
   "typen": {
     "multiple-choice": "Eine Frage, mehrere Optionen. 'richtig' ist eine Liste von Indizes (0-basiert) in 'optionen'. Enthält sie mehr als einen Index, sind mehrere Antworten richtig und 'mehrfach' ist true.",
@@ -1111,6 +1111,126 @@
       "aussage": "Fragt ein Betrieb im Erstgespräch nach einer Funktion, die geplant, aber noch nicht fertig ist, dürfen Sie sie als 'kommt bald' mit anbieten.",
       "richtig": false,
       "erklaerung": "Nichts Unfertiges versprechen, auch nicht als 'kommt bald'. Das Schema im Portal zeigt nur, was heute verkauft wird, und mehr als dort steht, sagen Sie nicht zu."
+    },
+    {
+      "id": "q64",
+      "typ": "multiple-choice",
+      "kapitel": "12-software-module",
+      "frage": "Welche Software-Module dürfen Sie einem Betrieb anbieten?",
+      "optionen": [
+        "Alle elf Module aus dem Bauplan, mit dem Hinweis, wann sie kommen.",
+        "Nur die Module, die im Portal unter Verkaufshilfen stehen.",
+        "Alle Module, die Michael Henning schon gebaut hat.",
+        "Jedes Modul, solange der Betrieb Hosting bucht."
+      ],
+      "richtig": [
+        1
+      ],
+      "mehrfach": false,
+      "erklaerung": "Verkaufbar ist nur, was fertig, getestet und bepreist ist. Genau das steht unter Verkaufshilfen, im Preisrechner und im Schema. Alles andere gibt es heute nicht, auch nicht als \"kommt bald\"."
+    },
+    {
+      "id": "q65",
+      "typ": "wahr-falsch",
+      "kapitel": "12-software-module",
+      "aussage": "Für Module mit KI braucht der Betrieb ein Claude-Abo.",
+      "richtig": false,
+      "erklaerung": "Ein Abo lässt sich nicht offiziell mit fremder Software verbinden. Der Betrieb hat einen eigenen Schlüssel bei Anthropic und zahlt nur den Verbrauch, bei normaler Nutzung Cent-Beträge bis wenige Euro im Monat."
+    },
+    {
+      "id": "q66",
+      "typ": "multiple-choice",
+      "kapitel": "12-software-module",
+      "frage": "Was gilt für den Kostenrechner? Mehrere Antworten sind richtig.",
+      "optionen": [
+        "Er zeigt einen unverbindlichen Richtwert als Spanne.",
+        "Er braucht weder KI noch Google-Konto.",
+        "Er ersetzt das Angebot des Betriebs.",
+        "Er lässt sich für Websites in den Vorlagen Handwerk, Garten- und Landschaftsbau, Reinigung und Umzug bauen."
+      ],
+      "richtig": [
+        0,
+        1,
+        3
+      ],
+      "mehrfach": true,
+      "erklaerung": "Unter jedem Ergebnis steht \"Unverbindlicher Richtwert, kein Angebot.\" Das Angebot macht weiterhin der Betrieb. Gebaut werden kann er nur in diesen vier Vorlagen."
+    },
+    {
+      "id": "q67",
+      "typ": "lueckentext",
+      "kapitel": "12-software-module",
+      "text": "Wird ein Modul im Erstauftrag mitverkauft, bekommen Sie {{1}} % Provision. Beim Kostenrechner für 200 € sind das {{2}} €.",
+      "luecken": [
+        {
+          "nr": 1,
+          "richtig": [
+            "35"
+          ]
+        },
+        {
+          "nr": 2,
+          "richtig": [
+            "70",
+            "70,00"
+          ]
+        }
+      ],
+      "erklaerung": "35 % auf den Modulpreis, wenn es im Erstauftrag steht. Kauft der Betrieb später dazu, ist das ein Folgegeschäft ohne Provision."
+    },
+    {
+      "id": "q68",
+      "typ": "wahr-falsch",
+      "kapitel": "12-software-module",
+      "aussage": "Beim Kostenrechner dürfen Sie sagen: dekaru ist gar nicht dazwischen.",
+      "richtig": false,
+      "erklaerung": "Der Rechner speichert nichts, aber das Ergebnis geht mit dem normalen Kontaktformular über den Formulardienst, wie jede Anfrage. Der Satz gilt erst für Module über das Betriebs-Skript im Google-Konto des Betriebs."
+    },
+    {
+      "id": "q69",
+      "typ": "zuordnen",
+      "kapitel": "12-software-module",
+      "frage": "Ordnen Sie zu: Wer nennt wann den Preis eines Moduls?",
+      "paare": [
+        {
+          "links": "Erstgespräch",
+          "rechts": "kein Modulpreis, nur der Nutzen"
+        },
+        {
+          "links": "Zweittermin, Stufe 1",
+          "rechts": "Michael Henning nennt den Preis"
+        },
+        {
+          "links": "Zweittermin, Stufe 2",
+          "rechts": "Sie nennen ihn aus dem Preisrechner, ohne Nachlass"
+        }
+      ],
+      "erklaerung": "Im Erstgespräch bleibt es bei \"ab 600 €\" und dem Hosting. Modulpreise kommen erst im Zweittermin, nach denselben Regeln wie Pakete und Bausteine."
+    },
+    {
+      "id": "q70",
+      "typ": "multiple-choice",
+      "kapitel": "12-software-module",
+      "frage": "Ein Betrieb fragt im Erstgespräch nach einer Online-Terminbuchung mit Kalender. Was sagen Sie?",
+      "optionen": [
+        "\"Kommt bald, ich setze Sie auf die Liste.\"",
+        "\"Das bietet er heute nicht an. Was es heute gibt, zeige ich Ihnen gern.\"",
+        "\"Das richtet Herr Henning Ihnen als Modul ein, der Preis kommt im Angebot.\"",
+        "\"Das können Sie über das Hosting dazubuchen.\""
+      ],
+      "richtig": [
+        1
+      ],
+      "mehrfach": false,
+      "erklaerung": "Eine Terminbuchung mit Kalender ist nicht verkaufbar. Was es heute gibt, ist die Online-Terminanfrage im Paket Groß, bei der der Betrieb selbst bestätigt."
+    },
+    {
+      "id": "q71",
+      "typ": "wahr-falsch",
+      "kapitel": "12-software-module",
+      "aussage": "Konten bei Google und Anthropic richtet Michael Henning im Einrichtungstermin mit dem Betrieb ein, nicht der Vertriebler.",
+      "richtig": true,
+      "erklaerung": "Die Einrichtung ist im Modulpreis enthalten und läuft über Michael Henning. Sie richten nichts ein und nehmen keine Zugangsdaten auf."
     }
   ]
 }

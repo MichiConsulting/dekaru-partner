@@ -3,7 +3,7 @@
 //
 // Format nach inhalt/README.md, Abschnitt gespraechshilfe.json.
 
-export const THEMEN = ['Preis', 'Ablauf', 'Hosting', 'Vertrauen', 'Kein Interesse', 'Recht und Datenschutz'] as const;
+export const THEMEN = ['Preis', 'Ablauf', 'Hosting', 'Vertrauen', 'Kein Interesse', 'Recht und Datenschutz', 'Software'] as const;
 export type Thema = (typeof THEMEN)[number];
 
 export const PLATZHALTER_NAME = '{{Ihr Name}}';

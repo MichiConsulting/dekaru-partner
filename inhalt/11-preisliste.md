@@ -1,12 +1,12 @@
 ---
 nummer: 11
 titel: Preisliste für Vertriebler
-kurz: Pakete, Zusatzbausteine, Hosting-Stufen und Zusatzleistungen auf einer Seite. Stand 01.10.2026.
+kurz: Pakete, Zusatzbausteine, Hosting-Stufen, Software-Module und Zusatzleistungen auf einer Seite. Stand 06.10.2026.
 ---
 
 # Preisliste für Vertriebler
 
-Stand 01.10.2026. Alle Preise sind Endpreise, es kommt keine Umsatzsteuer dazu. Quelle für die Website-Preise ist der Preisrechner. Ändert sich dort etwas, bekommen Sie eine neue Liste. Was hier nicht steht, hat keinen Preis, den Sie nennen dürfen.
+Stand 06.10.2026. Alle Preise sind Endpreise, es kommt keine Umsatzsteuer dazu. Quelle für die Website-Preise ist der Preisrechner. Ändert sich dort etwas, bekommen Sie eine neue Liste. Was hier nicht steht, hat keinen Preis, den Sie nennen dürfen.
 
 ## Website
 
@@ -71,6 +71,16 @@ Nicht als Baustein buchbar: die mitarbeitende Funktion. Einen Baustein "Terminan
 - Übergabe der Website als Paket bei Vertragsende: 99 € Pauschale.
 - Die mitarbeitende Funktion ist nicht Teil des Hostings. Sie gehört zum Paket Groß und läuft in jeder Stufe.
 
+## Software-Module
+
+Einmalpreis je Modul, Einrichtung beim Betrieb inklusive. Updates und Hilfe nur mit Hosting bei Michael Henning. Nur, was unter Verkaufshilfen im Portal steht:
+
+| Modul | Preis | Passt zu |
+|---|---|---|
+| Kostenrechner für Ihre Kunden | 200 € einmalig | Handwerk, Garten- und Landschaftsbau, Reinigung, Umzug |
+
+Provision 35 %, wenn das Modul im Erstauftrag mitverkauft wird. Module mit KI: der Betrieb zahlt seinen Verbrauch bei Anthropic selbst, das ist kein Preis von dekaru.
+
 ## Zusatzleistungen
 
 | Leistung | Preis | Voraussetzung | Wann |
@@ -89,4 +99,4 @@ Bewertungs-Aufsteller: die Druckkosten von etwa 15 bis 30 € zahlt der Betrieb 
 | Telefon | "ab 600 €", sonst keine Zahl |
 | Erstgespräch, auch mit dem Schema im Portal | "ab 600 €", Hosting "ab 19 € im Monat", das Gratisquartal |
 | Zweittermin, Stufe 1 | Michael Henning nennt die Zahl |
-| Zweittermin, Stufe 2 | die drei Pakete mit Preis, die Zusatzbausteine, die Summe aus dem Preisrechner, die Hosting-Stufe, die Zusatzleistungen. Ohne Nachlass |
+| Zweittermin, Stufe 2 | die drei Pakete mit Preis, die Zusatzbausteine, die Summe aus dem Preisrechner, die Hosting-Stufe, die Zusatzleistungen, verkaufbare Software-Module. Ohne Nachlass |

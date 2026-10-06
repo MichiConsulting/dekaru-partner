@@ -130,6 +130,10 @@ Beides klingt nach "bei Google gefunden werden", und Kunden fragen, ob sie doppe
 
 Das eine macht die Website auffindbar, das andere den Betrieb auf der Karte sichtbar.
 
+## Software-Module: etwas anderes als die Funktion
+
+Neben Paketen und Bausteinen gibt es Software-Module, einzeln gekauft, mit eigenem Einmalpreis (Kapitel 12). Heute verkaufbar ist der **Kostenrechner**: Besucher rechnen sich einen unverbindlichen Richtwert aus und schicken ihn mit der Anfrage. Ein Modul ist nicht die mitarbeitende Funktion, und die Funktion ist kein Modul. Angeboten wird nur, was unter Verkaufshilfen im Portal steht.
+
 ## Was immer dazugehört, aber nicht im Preis steckt
 
 - **Hosting** ist getrennt vom einmaligen Website-Preis und optional. Kapitel 3. Bei Groß ist es die Voraussetzung dafür, dass die Funktion läuft.

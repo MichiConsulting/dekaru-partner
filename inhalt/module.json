@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "stand": "2026-10-06",
+  "hinweis": "Texte zu den Software-Modulen, die ein Betrieb sehen darf: Schema, Steckbrief zum Zeigen, Preisrechner. Angezeigt wird ein Modul nur, wenn es in app/src/data/module.json steht (verkaufbar laut dekaru-rechnungen). Keine Preise in dieser Datei. Interne Hinweise für Vertriebler stehen in verkaufshilfen.json.",
+  "module": [
+    {
+      "schluessel": "modul-kostenrechner",
+      "name": "Kostenrechner für Ihre Kunden",
+      "art": "besucher",
+      "kurz": "Besucher rechnen sich vorab einen unverbindlichen Richtwert aus und schicken ihn mit ihrer Anfrage.",
+      "schemaBranchen": ["handwerk"],
+      "templates": ["handwerk", "garten", "reinigung", "umzug"],
+      "einleitung": "Auf Ihrer Website gibt ein Besucher ein paar Angaben ein, zum Beispiel Fläche, Zimmer oder Extras, und sieht sofort einen unverbindlichen Richtwert als Spanne. Mit einem Knopf übernimmt er Angaben und Spanne in seine Anfrage.",
+      "nutzen": [
+        "Weniger Anrufe nur wegen eines groben Preises.",
+        "Anfragen kommen mit den wichtigsten Angaben, Sie müssen weniger nachfragen.",
+        "Wer anfragt, kennt die Größenordnung schon vorher."
+      ],
+      "kannNicht": [
+        "Kein verbindliches Angebot. Unter jedem Ergebnis steht: Unverbindlicher Richtwert, kein Angebot.",
+        "Keine Buchung und keine Zahlung. Das Angebot machen weiterhin Sie.",
+        "Keine Sonderfälle. Er rechnet nach festen Regeln mit den Preisen, die Sie vorgeben.",
+        "Ohne JavaScript im Browser zeigt die Seite statt des Rechners Ihre Telefonnummer und das Kontaktformular."
+      ],
+      "voraussetzungen": [
+        "Eine Website von dekaru für Handwerk, Garten- und Landschaftsbau, Reinigung oder Umzug.",
+        "Sie kennen Ihre Preise grob, etwa je Quadratmeter, je Stunde oder als Pauschale.",
+        "Kein Google-Konto, kein KI-Dienst, kein zusätzliches Abo."
+      ],
+      "einrichtung": "Felder und Preise legen Sie beim Bau der Website gemeinsam mit Michael Henning fest, bis zu zwölf Angaben. Die Einrichtung ist im Preis enthalten.",
+      "daten": "Gerechnet wird nur im Browser des Besuchers, gespeichert wird nichts. Schickt er das Ergebnis ab, geht es mit dem normalen Kontaktformular an Ihr Postfach, auf demselben Weg wie jede Anfrage. Ihre Datenschutzerklärung bekommt dazu einen eigenen Abschnitt.",
+      "laufend": "Einmal gekauft. Updates und Hilfe gibt es, solange Ihre Website bei Michael Henning gehostet wird. Neue Preise für den Rechner schicken Sie per Mail, wie jede Änderung an der Website."
+    }
+  ]
+}

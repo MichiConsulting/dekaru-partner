@@ -1,0 +1,58 @@
+---
+// Fassung zum Zeigen und Mitgeben: der Steckbrief fuer den Betrieb, ohne
+// Preis, ohne Provision, ohne interne Hinweise, ohne Namen des Vertrieblers.
+// Gedruckt ein A4-Blatt (Druckregeln in styles/verkaufshilfen.css), Kopf und
+// Fuss des Portals fallen beim Druck weg. Nur Texte aus inhalt/module.json,
+// die module.ts auf Preise prueft; tests/verkaufshilfen.test.ts prueft das
+// fertige Markup zusaetzlich auf "€".
+import '../../../styles/verkaufshilfen.css';
+import Layout from '../../../layouts/Layout.astro';
+import { findeVerkaufbaresModul } from '../../../lib/module.ts';
+
+const modul = findeVerkaufbaresModul(Astro.params.schluessel);
+if (!modul) return new Response(null, { status: 404 });
+---
+
+<Layout titel={`${modul.name}, zum Zeigen`} aktiv="verkaufshilfen">
+  <div class="blatt-leiste">
+    <a class="btn btn--zweit btn--klein" href={`/verkaufshilfen/${modul.schluessel}`}>Zurück zum Steckbrief</a>
+    <button type="button" class="btn btn--klein" data-drucken hidden>Drucken oder als PDF sichern</button>
+    <span class="meta">Ohne Preis. Darf gezeigt und mitgegeben werden.</span>
+  </div>
+
+  <article class="blatt" data-blatt>
+    <p class="blatt__marke">Software für Ihre Website</p>
+    <h1>{modul.name}</h1>
+    <p class="blatt__lead">{modul.einleitung}</p>
+
+    <section>
+      <h2>Was das Modul Ihnen abnimmt</h2>
+      <ul>{modul.nutzen.map((s) => <li>{s}</li>)}</ul>
+    </section>
+    <section>
+      <h2>Was es nicht kann</h2>
+      <ul>{modul.kannNicht.map((s) => <li>{s}</li>)}</ul>
+    </section>
+    <section>
+      <h2>Was Sie brauchen</h2>
+      <ul>{modul.voraussetzungen.map((s) => <li>{s}</li>)}</ul>
+    </section>
+    <section>
+      <h2>Einrichtung</h2>
+      <p>{modul.einrichtung}</p>
+    </section>
+    <section>
+      <h2>Ihre Daten</h2>
+      <p>{modul.daten}</p>
+    </section>
+    <section>
+      <h2>Danach</h2>
+      <p>{modul.laufend}</p>
+    </section>
+
+    <p class="blatt__fuss">dekaru, Michael Henning, dekaru.de. Den Preis nennt Ihnen Michael Henning im Angebot, als Festpreis.</p>
+  </article>
+  <script>
+    import '../../../scripts/drucken.ts';
+  </script>
+</Layout>

@@ -28,7 +28,7 @@ Was jede Seite mitbringt:
 - Kein Tracking ohne Einwilligung.
 - Verschlüsselte Verbindung, Impressum und Datenschutzerklärung sind immer dabei.
 
-Dazu kommen laufendes Hosting mit Pflege (Kapitel 3) und drei Zusatzleistungen rund um Google (Kapitel 5).
+Dazu kommen laufendes Hosting mit Pflege (Kapitel 3), drei Zusatzleistungen rund um Google (Kapitel 5) und Software-Module, die dem Betrieb zusätzlich Arbeit abnehmen (Kapitel 12). Von den Modulen bieten Sie nur an, was im Portal unter Verkaufshilfen steht, heute ist das der Kostenrechner.
 
 ## Die vier Argumente, die überall tragen
 

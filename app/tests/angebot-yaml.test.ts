@@ -117,6 +117,19 @@ describe('Angebots-YAML', () => {
     expect(t).toMatch(/"hostingTarif": null/);
   });
 
+  it('schreibt ein Software-Modul als freie Position mit Preis aus dem Sync', () => {
+    const t = erzeugeAngebotYaml(bogen({ ...GROSS, branche: 'Umzug', 'm_modul-kostenrechner': 'on', 'z_gbp-einrichtung': '' }), KONTEXT).inhalt;
+    expect(t).toMatch(/^positionen:$/m);
+    expect(t).toMatch(/# Software-Modul modul-kostenrechner \(leistungen\.module\), Stufe klein/);
+    expect(t).toMatch(/beschreibung: "Software-Modul: Kostenrechner für Ihre Kunden, einmalig, Einrichtung inklusive"\n    menge: 1\n    einheit: "Pauschale"\n    einzelpreis: 200\.00/);
+    // Ein nicht verkaufbares Modul landet nie als Position im Angebot.
+    const b = bogen({ ...GROSS, 'z_gbp-einrichtung': '' });
+    b.daten.auswahl.module = ['modul-terminbuchung'];
+    const t2 = erzeugeAngebotYaml(b, KONTEXT).inhalt;
+    expect(t2).not.toMatch(/^positionen:/m);
+    expect(t2).toMatch(/# Modul modul-terminbuchung ist zurzeit nicht verkaufbar/);
+  });
+
   it('lehnt einen Bogen ohne Paket ab', () => {
     const b = bogen(GROSS);
     b.daten.auswahl.paket = 'riesig' as never;
@@ -146,5 +159,8 @@ describe('Angebots-YAML', () => {
     const mittel = parse(erzeugeAngebotYaml(bogen({ ...GROSS, paket: 'mittel', b_galerie: 'on', b_team: 'on' }), KONTEXT).inhalt);
     expect(() => bauePaketPositionen(mittel, komponenten)).not.toThrow();
     expect(bauePaketPositionen(mittel, komponenten).positionen.map((p) => p.beschreibung)).toContain('Team-Seite');
+    // Mit Modul: die freie Position liest der Parser mit Preis.
+    const mitModul = parse(erzeugeAngebotYaml(bogen({ ...GROSS, branche: 'Umzug', 'm_modul-kostenrechner': 'on' }), KONTEXT).inhalt) as { positionen: { beschreibung: string; einzelpreis: number }[] };
+    expect(mitModul.positionen.map((p) => p.einzelpreis)).toEqual([249, 200]);
   });
 });

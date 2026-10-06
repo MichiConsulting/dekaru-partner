@@ -9,10 +9,10 @@
 // kaeme: Paket und Bausteine nennt die Datei nur mit Schluessel, den Preis
 // setzt das Angebotssystem aus seiner eigenen preise.json. Nur die freien
 // Positionen (Zusatzleistungen) und die Hosting-Option tragen den Preis, weil
-// das Format es so verlangt.
+// das Format es so verlangt. Software-Module ebenso als freie Positionen.
 
 import type { Briefing } from './briefing.ts';
-import { ALLE_POSTEN, FUNKTION, HOSTING, berechne, findePaket, findeTarif, findeZusatzleistung, type Auswahl } from './preise.ts';
+import { ALLE_POSTEN, FUNKTION, HOSTING, berechne, findeModul, findePaket, findeTarif, findeZusatzleistung, type Auswahl } from './preise.ts';
 
 export interface YamlKontext {
   vertrieblerName: string;
@@ -115,7 +115,21 @@ function positionenBlock(auswahl: Auswahl): string[] {
     zeilen.push(`    einheit: ${yamlText(z.einheit)}`);
     zeilen.push(`    einzelpreis: ${z.preis.toFixed(2)}`);
   }
-  return zeilen.length ? ['positionen:', ...zeilen] : [];
+  // Software-Module als freie Positionen, Preis aus src/data/module.json
+  // (abgeleitet aus derselben preise.json, die das Angebotssystem liest).
+  for (const schluessel of new Set(auswahl.module ?? [])) {
+    const m = findeModul(schluessel);
+    if (!m) {
+      zeilen.push(`  # Modul ${schluessel} ist zurzeit nicht verkaufbar und fehlt deshalb. Mit dem Kunden klären.`);
+      continue;
+    }
+    zeilen.push(`  # Software-Modul ${m.schluessel} (leistungen.module), Stufe ${m.stufe}. Einrichtung inklusive, Updates und Hilfe nur mit Hosting.`);
+    zeilen.push(`  - beschreibung: ${yamlText(`Software-Modul: ${m.name}, einmalig, Einrichtung inklusive`)}`);
+    zeilen.push('    menge: 1');
+    zeilen.push(`    einheit: ${yamlText('Pauschale')}`);
+    zeilen.push(`    einzelpreis: ${m.preis.toFixed(2)}`);
+  }
+  return zeilen.some((z) => z.startsWith('  -')) ? ['positionen:', ...zeilen] : zeilen;
 }
 
 function jaNein(wert: string | undefined): string {
