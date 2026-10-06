@@ -1,13 +1,49 @@
 {
   "_hinweis": "Erzeugt mit scripts/module-sync.mjs aus dekaru-rechnungen/preise.json (leistungen.module). Enthaelt nur verkaufbare Module. Nicht von Hand aendern. Nach jeder Aenderung dort: npm run module-sync",
   "quelle": "dekaru-rechnungen/preise.json (leistungen.module)",
-  "regel": "Software-Module gibt es nur zum Website-Paket Gross (entschieden 06.10.2026). Einmalpreis, Einrichtung beim Betrieb (Google, Anthropic, Betriebs-Skript) ist im Preis enthalten. Updates und Hilfe nur mit Hosting bei dekaru. Nur Eintraege mit verkaufbar true anbieten. Provision 35 Prozent, wenn im Erstauftrag verkauft. Entschieden am 06.10.2026.",
+  "regel": "Software-Module gibt es nur zum Website-Paket Gross (entschieden 06.10.2026). Einmalpreis, Einrichtung beim Betrieb (Google, Anthropic, Betriebs-Skript) ist im Preis enthalten. Updates und Hilfe nur mit Hosting bei dekaru. Nur Eintraege mit verkaufbar true anbieten. Provision 35 Prozent, wenn im Erstauftrag verkauft. Entschieden am 06.10.2026. Am 06.10.2026 hat Michi alle gebauten Module freigegeben, auch vor dem Test mit echtem Schluessel bzw. Google-Konto (es gibt noch keine Vertriebler). Vor dem ersten Verkauf trotzdem einmal echt testen.",
   "module": [
     {
       "schluessel": "modul-kostenrechner",
       "preis": 200,
       "einheit": "einmalig",
       "stufe": "klein"
+    },
+    {
+      "schluessel": "modul-beitrags-schreiber",
+      "preis": 200,
+      "einheit": "einmalig",
+      "stufe": "klein"
+    },
+    {
+      "schluessel": "modul-bewertungs-assistent",
+      "preis": 200,
+      "einheit": "einmalig",
+      "stufe": "klein"
+    },
+    {
+      "schluessel": "modul-speisekarte",
+      "preis": 300,
+      "einheit": "einmalig",
+      "stufe": "mittel"
+    },
+    {
+      "schluessel": "modul-angebots-assistent",
+      "preis": 300,
+      "einheit": "einmalig",
+      "stufe": "mittel"
+    },
+    {
+      "schluessel": "modul-anfrage-fotos",
+      "preis": 300,
+      "einheit": "einmalig",
+      "stufe": "mittel"
+    },
+    {
+      "schluessel": "modul-lagerliste",
+      "preis": 300,
+      "einheit": "einmalig",
+      "stufe": "mittel"
     }
   ],
   "erzeugt": "2026-10-06"

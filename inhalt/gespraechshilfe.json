@@ -3,7 +3,15 @@
   "stand": "2026-10-06",
   "titel": "Gesprächshilfe für Vertriebler",
   "einleitung": "Sechs Sätze lernen Sie wortgleich, alles andere sagen Sie in eigenen Worten.",
-  "themen": ["Preis", "Ablauf", "Hosting", "Vertrauen", "Kein Interesse", "Recht und Datenschutz", "Software"],
+  "themen": [
+    "Preis",
+    "Ablauf",
+    "Hosting",
+    "Vertrauen",
+    "Kein Interesse",
+    "Recht und Datenschutz",
+    "Software"
+  ],
   "eintraege": [
     {
       "id": "g01",
@@ -13,7 +21,11 @@
       "pflicht": true,
       "hinweis": "Der erste Satz muss drei Dinge klären: wer anruft, für wen und worum es geht. So verlangt es § 7 UWG. Nie im eigenen Namen auftreten, nie \"wir von dekaru\". Kein Ort, keine Nähe.",
       "uebung": {
-        "luecken": ["Michael Henning", "Betriebe", "Moment"],
+        "luecken": [
+          "Michael Henning",
+          "Betriebe",
+          "Moment"
+        ],
         "teile": [
           "Guten Tag,",
           "mein Name ist {{Ihr Name}},",
@@ -31,8 +43,18 @@
       "pflicht": true,
       "hinweis": "Am Telefon und im Erstgespräch ist \"ab 600 €\" die einzige Zahl. Nie verhandeln, nie eine zweite Zahl nennen. Die Pakete kommen erst im Zweittermin auf den Tisch.",
       "uebung": {
-        "luecken": ["600 €", "Angebot", "Festpreis"],
-        "teile": ["Jede Website", "beginnt bei 600 €.", "Was Ihre kostet,", "steht im Angebot,", "als Festpreis."]
+        "luecken": [
+          "600 €",
+          "Angebot",
+          "Festpreis"
+        ],
+        "teile": [
+          "Jede Website",
+          "beginnt bei 600 €.",
+          "Was Ihre kostet,",
+          "steht im Angebot,",
+          "als Festpreis."
+        ]
       }
     },
     {
@@ -43,7 +65,11 @@
       "pflicht": true,
       "hinweis": "Es gibt noch keine abgeschlossenen Kundenprojekte. Das wird nicht umschifft. Nie Kunden erfinden, nie die vier Gestaltungsbeispiele auf dekaru.de als Kunden ausgeben.",
       "uebung": {
-        "luecken": ["offen", "Aufmerksamkeit", "fertig gebaut"],
+        "luecken": [
+          "offen",
+          "Aufmerksamkeit",
+          "fertig gebaut"
+        ],
         "teile": [
           "Er fängt gerade an,",
           "das sage ich Ihnen offen.",
@@ -63,8 +89,17 @@
       "pflicht": true,
       "hinweis": "Keine Bauzeit nennen, weder Tage noch Wochen, auch nicht ungefähr. Hat der Betrieb einen festen Anlass, etwa eine Eröffnung, fragen Sie danach und notieren ihn. Der Termin richtet sich danach.",
       "uebung": {
-        "luecken": ["Fertigstellungstermin", "Angebot", "gilt"],
-        "teile": ["Den Fertigstellungstermin", "bekommen Sie", "im Angebot,", "und der gilt."]
+        "luecken": [
+          "Fertigstellungstermin",
+          "Angebot",
+          "gilt"
+        ],
+        "teile": [
+          "Den Fertigstellungstermin",
+          "bekommen Sie",
+          "im Angebot,",
+          "und der gilt."
+        ]
       }
     },
     {
@@ -75,8 +110,18 @@
       "pflicht": true,
       "hinweis": "Wer die Vorschau vorab bekommt, sieht sie ohne Erklärung und sagt ab. Bleibt es bei der Mail: Wiedervorlage in vier Wochen, nichts verschicken. Werbemails brauchen ohnehin eine Einwilligung.",
       "uebung": {
-        "luecken": ["Vorschau", "Termin", "nicht"],
-        "teile": ["Die Vorschau", "zeigen wir Ihnen gern", "im Termin,", "per Mail", "verschicken wir sie nicht."]
+        "luecken": [
+          "Vorschau",
+          "Termin",
+          "nicht"
+        ],
+        "teile": [
+          "Die Vorschau",
+          "zeigen wir Ihnen gern",
+          "im Termin,",
+          "per Mail",
+          "verschicken wir sie nicht."
+        ]
       }
     },
     {
@@ -87,7 +132,11 @@
       "pflicht": true,
       "hinweis": "Das Gratisquartal ist die einzige Zusage, die Sie machen dürfen. Genau drei Monate, nicht \"bis zu\", nur zusammen mit einer neuen Website, nie als Nachlass auf die Website. Es steht so auf dekaru.de und gilt für alle.",
       "uebung": {
-        "luecken": ["drei", "frei", "sechs"],
+        "luecken": [
+          "drei",
+          "frei",
+          "sechs"
+        ],
         "teile": [
           "Buchen Sie das Hosting",
           "mit der Website,",
@@ -361,34 +410,34 @@
     {
       "id": "g40",
       "thema": "Software",
-      "frage": "Brauche ich dafür ein KI-Abo?",
-      "antwort": "Nein. Der Kostenrechner, den Herr Henning heute anbietet, kommt ganz ohne KI aus. Wo ein Modul KI nutzt, läuft sie über ein eigenes Konto Ihres Betriebs, abgerechnet nach Verbrauch, ohne Abo.",
+      "frage": "Brauche ich dafür ein KI-Abo, und was kostet das laufend?",
+      "antwort": "Nein, kein Abo. Module mit KI laufen über ein eigenes Konto Ihres Betriebs bei Anthropic. Sie zahlen nur Ihren Verbrauch, bei normaler Nutzung Cent-Beträge bis wenige Euro im Monat. Das Modul selbst kaufen Sie einmal, Updates und Hilfe gibt es mit dem Hosting ab 19 € im Monat.",
       "pflicht": false,
-      "hinweis": "Ein Claude-Abo lässt sich nicht offiziell mit fremder Software verbinden, deshalb der eigene Schlüssel bei Anthropic. Kein Modul nennen, das nicht unter Verkaufshilfen steht, auch nicht als Beispiel."
+      "hinweis": "Ein Claude-Abo lässt sich nicht offiziell mit fremder Software verbinden, deshalb der eigene Schlüssel. Bei der KI nicht genauer werden, auch nicht mit Zahlen aus den Modulen. Den Modulpreis nennen Sie nur in Stufe 2 im Zweittermin, aus dem Preisrechner."
     },
     {
       "id": "g41",
       "thema": "Software",
-      "frage": "Was kostet mich das laufend?",
-      "antwort": "Der Kostenrechner kostet laufend nichts extra. Updates und Hilfe gibt es mit dem Hosting, das beginnt bei 19 € im Monat.",
+      "frage": "Geht das auch ganz ohne KI?",
+      "antwort": "Ja. Kostenrechner, Speisekarte und Lagerliste brauchen keine KI. Auch die Werkbank läuft ohne Schlüssel, dann eben ohne die KI-Helfer. Nur der Beitrags-Schreiber braucht ihn immer.",
       "pflicht": false,
-      "hinweis": "Den Modulpreis nennen Sie nur in Stufe 2 im Zweittermin, aus dem Preisrechner. Fragt jemand nach Modulen mit KI: dort kommen beim Betrieb Verbrauchskosten bei Anthropic dazu, bei normaler Nutzung Cent-Beträge bis wenige Euro im Monat. Nicht genauer werden, nichts versprechen."
+      "hinweis": "Beim Bewertungs-Assistenten gehen ohne Schlüssel nur die fertigen Vorlagen, beim Angebots-Assistenten alles von Hand, die Anfrage mit Fotos ohne Assistent. Den Schlüssel kann der Betrieb später nachrüsten, das richtet Michael Henning ein. Google Workspace für Anfrage mit Fotos und Lagerliste bezahlt der Betrieb selbst bei Google, dazu keine Zahl nennen."
     },
     {
       "id": "g42",
       "thema": "Software",
       "frage": "Wo liegen meine Daten? Sieht Herr Henning meine Anfragen?",
-      "antwort": "Der Kostenrechner rechnet im Browser Ihres Besuchers und speichert nichts. Schickt der Besucher das Ergebnis ab, geht es mit dem normalen Kontaktformular in Ihr Postfach, auf demselben Weg wie jede Anfrage, ohne dass etwas gespeichert wird.",
+      "antwort": "Bei Herrn Henning landet nichts. Die Werkzeuge der Werkbank speichern auf Ihrem Gerät, die Anfrage mit Fotos und die Lagerliste in Ihrem eigenen Google-Konto. Der Kostenrechner schickt sein Ergebnis mit dem normalen Kontaktformular, wie jede Anfrage, ohne dass etwas gespeichert wird.",
       "pflicht": false,
-      "hinweis": "Nicht sagen, dass dekaru beim Kostenrechner gar nicht dazwischen ist: das Ergebnis läuft wie jede Anfrage über den Formulardienst. \"Ihre Daten bleiben bei Ihnen\" gilt für Module, die im Google-Konto des Betriebs laufen, und davon ist heute keines verkaufbar."
+      "hinweis": "Nicht sagen, dass dekaru beim Kostenrechner gar nicht dazwischen ist: das Ergebnis läuft wie jede Anfrage über den Formulardienst. \"Ihre Daten bleiben bei Ihnen\" stimmt für die Werkbank, die Anfrage mit Fotos und die Lagerliste."
     },
     {
       "id": "g43",
       "thema": "Software",
-      "frage": "Was, wenn die KI Unsinn schreibt?",
-      "antwort": "Der Kostenrechner nutzt keine KI, er rechnet nach festen Regeln mit Ihren Preisen. Und wo ein Modul KI nutzt, macht sie nur Vorschläge, entscheiden tun Sie.",
+      "frage": "Was, wenn die KI Unsinn schreibt? Geht das dann online?",
+      "antwort": "Nein. Die KI macht nur Vorschläge, entscheiden tun Sie. Beitrags-Schreiber und Bewertungs-Assistent stellen nichts selbst online, Sie prüfen, kopieren und stellen ein. Beim Angebots-Assistenten kommen Preise immer aus Ihrer eigenen Liste.",
       "pflicht": false,
-      "hinweis": "Keine Fehlerfreiheit versprechen. Wenn der Betrieb tiefer fragt: \"Das klären wir mit Herrn Henning.\""
+      "hinweis": "Keine Fehlerfreiheit versprechen. Es gibt keine Verbindung zu Instagram, Facebook oder Google, keine Reichweite und keine Bewertungen versprechen. Wenn der Betrieb tiefer fragt: \"Das klären wir mit Herrn Henning.\""
     },
     {
       "id": "g44",
@@ -397,30 +446,6 @@
       "antwort": "Updates und Hilfe zu den Modulen gibt es nur, solange die Website bei Herrn Henning gehostet wird. Was beim Wechsel mit einem Modul im Einzelnen passiert, klärt er vorher mit Ihnen.",
       "pflicht": false,
       "hinweis": "Im Bauplan noch offen. Nichts zusagen, weder \"läuft weiter\" noch \"fällt weg\". Die mitarbeitende Funktion entfällt ohne Hosting, das ist etwas anderes, siehe Thema Hosting."
-    },
-    {
-      "id": "g45",
-      "thema": "Software",
-      "frage": "Kann ich das auch ganz ohne KI nutzen?",
-      "antwort": "Ja, der Kostenrechner braucht keine KI und kein zusätzliches Konto. Mehr kann ich Ihnen heute dazu nicht anbieten.",
-      "pflicht": false,
-      "hinweis": "Eine Werkbank ohne Schlüssel ist in Arbeit. Nicht ansprechen, nicht als \"kommt bald\" ankündigen."
-    },
-    {
-      "id": "g46",
-      "thema": "Software",
-      "frage": "Ist der Preis aus dem Kostenrechner verbindlich?",
-      "antwort": "Nein. Er zeigt einen unverbindlichen Richtwert als Spanne, das steht auch so darunter. Das Angebot machen weiterhin Sie.",
-      "pflicht": false,
-      "hinweis": "Unter jedem Ergebnis steht \"Unverbindlicher Richtwert, kein Angebot.\" Das sagen Sie genau so."
-    },
-    {
-      "id": "g47",
-      "thema": "Software",
-      "frage": "Muss ich das selbst einrichten?",
-      "antwort": "Nein. Die Einrichtung macht Herr Henning mit Ihnen zusammen, sie ist im Preis enthalten. Beim Kostenrechner legen Sie dabei Felder und Preise fest.",
-      "pflicht": false,
-      "hinweis": "Sie richten nichts ein, auch keine Konten bei Google oder Anthropic. Keine Zugangsdaten aufnehmen, auch nicht auf dem Briefing-Bogen."
     },
     {
       "id": "g48",
@@ -433,18 +458,42 @@
     {
       "id": "g49",
       "thema": "Software",
-      "frage": "Geht der Kostenrechner auch mit dem kleineren Paket?",
-      "antwort": "Nein, Software-Module gibt es nur zum Paket Groß. Groß ist das Paket, in dem Ihre Website mitarbeitet und Anfragen entgegennimmt. Der Rechner erweitert genau das.",
+      "frage": "Geht ein Modul auch mit dem kleineren Paket, und auch in meiner Branche?",
+      "antwort": "Mit dem kleineren Paket nicht, Software-Module gibt es nur zum Paket Groß. Groß ist das Paket, in dem Ihre Website mitarbeitet, ein Modul erweitert genau das. Die Branche ist dagegen egal: Jedes Modul können Sie wählen, im Schema stehen nur die passenden zuerst.",
       "pflicht": false,
-      "hinweis": "Gilt für jedes Modul und für Klein wie Mittel, keine Ausnahme zusagen. Nicht drängen: Bleibt der Betrieb bei Mittel, bleibt es bei Mittel ohne Modul. Paketpreise erst im Zweittermin, in Stufe 2 aus dem Preisrechner."
+      "hinweis": "Keine Ausnahme zu Klein oder Mittel zusagen, nicht drängen. Die Branche ist nur eine Empfehlung. Ausnahme aus Vorsicht: Praxen keine Anfrage mit Fotos anbieten, bei Bewertungen und Beiträgen an Michael Henning verweisen. Was der Betrieb vormerkt, steht im Link zum Nachschicken und kommt so in den Briefing-Bogen."
     },
     {
-      "id": "g50",
+      "id": "g51",
       "thema": "Software",
-      "frage": "Gibt es den Kostenrechner auch für meine Branche?",
-      "antwort": "Ja. Jedes Modul können Sie wählen, egal in welcher Branche, zum Paket Groß. Im Schema stehen die, die oft zu Ihrer Branche passen, zuerst. Aussuchen dürfen Sie aus allen.",
+      "frage": "Was ist diese Werkbank, und muss ich das selbst einrichten?",
+      "antwort": "Die Werkbank ist eine App, die im Browser auf Ihrem Handy, Tablet oder Rechner läuft, nichts zu installieren außer einem Symbol auf dem Startbildschirm. Ihre Daten bleiben auf diesem Gerät. Einrichten müssen Sie nichts: Das macht Herr Henning mit Ihnen zusammen, für jedes Modul, und es ist im Preis enthalten.",
       "pflicht": false,
-      "hinweis": "Die Branche ist nur eine Empfehlung, keine Sperre. Was der Betrieb im Schema vormerkt, steht im Link zum Nachschicken, und der Link übernimmt die Module in den Briefing-Bogen. Nur Module anbieten, die unter Verkaufshilfen stehen."
+      "hinweis": "Auf alten, schwachen Geräten läuft sie langsamer, das ehrlich sagen. Fragen zu mehreren Geräten an Michael Henning. Sie richten nichts ein, auch keine Konten bei Google oder Anthropic, und nehmen keine Zugangsdaten, keine PIN und keinen Schlüssel auf, auch nicht auf dem Briefing-Bogen."
+    },
+    {
+      "id": "g52",
+      "thema": "Software",
+      "frage": "Wozu brauche ich eine PIN, und was, wenn ich sie vergesse?",
+      "antwort": "Die PIN verschlüsselt alles in der Werkbank, mindestens 8 Zeichen, am besten ein kurzer Satz. Vergessen Sie sie und haben keine Sicherung, sind die Daten weg. Das kann niemand zurückholen, auch Herr Henning nicht. Deshalb regelmäßig eine Sicherung anlegen, die Werkbank erinnert daran.",
+      "pflicht": false,
+      "hinweis": "Das nicht kleinreden. Die PIN nie selbst aufschreiben oder erfragen. Die Sicherung ist eine Datei mit eigenem Kennwort, die der Betrieb auf einem zweiten Gerät oder Stick ablegt."
+    },
+    {
+      "id": "g53",
+      "thema": "Software",
+      "frage": "Brauche ich dafür Google Workspace?",
+      "antwort": "Für die Anfrage mit Fotos ja, und für die Lagerliste, wenn Ihr Team bucht. Nur mit Workspace gibt es einen Vertrag mit Google zur Auftragsverarbeitung. Für die übrigen Module brauchen Sie kein Google-Konto.",
+      "pflicht": false,
+      "hinweis": "Workspace bezahlt der Betrieb selbst bei Google, keine Zahl nennen. Ohne Workspace keine Anfrage mit Fotos, auch nicht \"erst mal mit Gmail\". Bucht bei der Lagerliste nur der Inhaber allein, klärt Michael Henning das."
+    },
+    {
+      "id": "g54",
+      "thema": "Software",
+      "frage": "Wo landen die Fotos, die meine Kunden schicken?",
+      "antwort": "In einem eigenen Ordner in Ihrem Google Drive, nicht bei Herrn Henning. Sie bekommen eine Mail mit dem Link. Standortdaten werden schon vorher entfernt, und die Fotos löschen sich nach einer Frist, die Sie festlegen.",
+      "pflicht": false,
+      "hinweis": "Nicht für Praxen und nicht für Fotos von Personen oder Beschwerden, das wären Gesundheitsdaten. Fragt eine Praxis danach, an Michael Henning verweisen. Der Assistent ist freiwillig, dann gehen Beschreibung und Fotos auch an Anthropic."
     }
   ]
 }

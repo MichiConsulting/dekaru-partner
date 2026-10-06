@@ -52,7 +52,15 @@ export interface ModulText {
   einrichtung: string;
   daten: string;
   laufend: string;
+  /**
+   * "So funktioniert es": genau drei kurze Schritte fuer das Mini-Schema im
+   * Schema und auf der Fassung zum Zeigen. Ohne Preis.
+   */
+  soGehts: string[];
 }
+
+/** Genau so viele Schritte hat "So funktioniert es". */
+export const SO_GEHTS_SCHRITTE = 3;
 
 export interface Frage {
   frage: string;
@@ -126,6 +134,8 @@ export function pruefeModulTexte(roh: unknown): { texte: ModulText[]; fehler: st
     for (const feld of ['name', 'kurz', 'einleitung', 'einrichtung', 'daten', 'laufend'] as const) if (!istText(m[feld])) f.push(`${wo}: ${feld} fehlt.`);
     if (!ARTEN.includes(m.art as ModulArt)) f.push(`${wo}: art muss besucher oder inhaber sein.`);
     for (const feld of ['nutzen', 'kannNicht', 'voraussetzungen'] as const) if (!istListe(m[feld])) f.push(`${wo}: ${feld} braucht mindestens einen Eintrag.`);
+    if (!istListe(m.soGehts, SO_GEHTS_SCHRITTE) || m.soGehts.length !== SO_GEHTS_SCHRITTE) f.push(`${wo}: soGehts braucht genau ${SO_GEHTS_SCHRITTE} Schritte.`);
+    else if (m.soGehts.some((s) => s.split(/\s+/).length > 16)) f.push(`${wo}: soGehts, jeder Schritt höchstens 16 Wörter.`);
     if (!Array.isArray(m.schemaBranchen) || m.schemaBranchen.some((b) => !BRANCHEN_IDS.includes(b))) f.push(`${wo}: schemaBranchen nur aus ${BRANCHEN_IDS.join(', ')}.`);
     if (!istListe(m.templates) || m.templates.some((t) => !TEMPLATES.has(t))) f.push(`${wo}: templates nur aus ${[...TEMPLATES].join(', ')}.`);
     else if (Array.isArray(m.schemaBranchen)) {
@@ -134,7 +144,7 @@ export function pruefeModulTexte(roh: unknown): { texte: ModulText[]; fehler: st
       if (ohne.length) f.push(`${wo}: empfohlen für ${ohne.join(', ')}, aber dafür fehlt die Vorlage in templates.`);
     }
     if (f.length === 0) {
-      const saetze = [m.name!, m.kurz!, m.einleitung!, m.einrichtung!, m.daten!, m.laufend!, ...m.nutzen!, ...m.kannNicht!, ...m.voraussetzungen!];
+      const saetze = [m.name!, m.kurz!, m.einleitung!, m.einrichtung!, m.daten!, m.laufend!, ...m.nutzen!, ...m.kannNicht!, ...m.voraussetzungen!, ...m.soGehts!];
       for (const s of saetze) f.push(...textFehler(s, wo, true));
     }
     if (f.length) {
@@ -235,6 +245,8 @@ export interface SchemaModulEintrag {
   art: ModulArt;
   /** Ein Satz fuer den Betrieb. */
   nutzen: string;
+  /** Drei Schritte fuer "So funktioniert es". */
+  soGehts: string[];
 }
 
 /** Ab so vielen Modulen gruppiert das Schema nach Art (fuer Kunden, fuer Sie). */
@@ -245,7 +257,7 @@ export const ART_TITEL: Record<ModulArt, string> = {
   inhaber: 'Werkzeuge für Sie',
 };
 
-const zuEintrag = (m: Modul): SchemaModulEintrag => ({ schluessel: m.schluessel, kurz: kurzSchluessel(m.schluessel), name: m.name, art: m.art, nutzen: m.kurz });
+const zuEintrag = (m: Modul): SchemaModulEintrag => ({ schluessel: m.schluessel, kurz: kurzSchluessel(m.schluessel), name: m.name, art: m.art, nutzen: m.kurz, soGehts: m.soGehts });
 
 /** "modul-kostenrechner" wird "kostenrechner". */
 export function kurzSchluessel(schluessel: string): string {

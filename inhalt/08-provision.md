@@ -34,7 +34,7 @@ Rund 29,4 % sind 35 geteilt durch 1,19. Von dem, was Ihnen bleibt, gehen noch Ei
 
 Auf alles Einmalige, das auf der Rechnung steht: das Website-Paket, die gebuchten Zusatzbausteine **und die Zusatzleistungen** Google-Profil und Aufsteller. Der Sichtbarkeits-Check zählt nur, wenn er im Erstauftrag mitverkauft wird. Später gebucht ist er Folgegeschäft ohne Provision.
 
-**Software-Module** zählen genauso, wenn sie im Erstauftrag mitverkauft werden: 35 % auf den Modulpreis, beim Kostenrechner für 200 € also 70 €. Module gibt es nur zum Paket Groß, im Erstauftrag steht dann also immer auch Groß. Kauft der Betrieb ein Modul später dazu, ist das ein Folgegeschäft ohne Provision (Kapitel 12).
+**Software-Module** zählen genauso, wenn sie im Erstauftrag mitverkauft werden: 35 % auf den Modulpreis, bei einem Modul für 200 € also 70 €, bei einem für 300 € 105 €. Module gibt es nur zum Paket Groß, im Erstauftrag steht dann also immer auch Groß. Kauft der Betrieb ein Modul später dazu, ist das ein Folgegeschäft ohne Provision (Kapitel 12).
 
 | | Preis | Ihre 35 % |
 |---|---|---|

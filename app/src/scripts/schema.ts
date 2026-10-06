@@ -47,8 +47,18 @@ if (wurzel) {
 
   // ── Branche
   const branchenWahl = [...schema.querySelectorAll<HTMLAnchorElement>('[data-branche-wahl]')];
+  // Mini-Schemata der Module stehen nur in der Branche aus der Adresse im
+  // Quelltext. Fuer jede andere Branche werden sie beim Wechsel kopiert.
+  function fuelleMiniSchemata(): void {
+    for (const platz of schema.querySelectorAll<HTMLElement>('[data-ms-platz]')) {
+      const vorlage = schema.querySelector(`.ms.ms--${platz.dataset.msPlatz}`);
+      if (vorlage) platz.replaceWith(vorlage.cloneNode(true));
+    }
+  }
+
   function setzeBranche(id: string): void {
     schema.dataset.branche = id;
+    fuelleMiniSchemata();
     for (const el of schema.querySelectorAll<HTMLElement>('[data-fuer-branche]')) el.hidden = el.dataset.fuerBranche !== id;
     for (const a of branchenWahl) {
       if (a.dataset.brancheWahl === id) a.setAttribute('aria-current', 'true');

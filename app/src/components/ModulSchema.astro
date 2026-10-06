@@ -1,0 +1,208 @@
+---
+// Mini-Schema je Software-Modul: drei Stationen mit Pfeilen, was hineingeht,
+// was passiert, was herauskommt. Genutzt im Schema (Schritt Funktion, in jeder
+// Modulkarte) und als stehendes Bild auf der Fassung zum Zeigen.
+//
+// Regeln (siehe styles/modul-schema.css):
+//   - Nur span und svg, damit es in einem <summary> stehen darf.
+//   - Beschriftung als HTML, die SVG-Zeichen kommen aus ModulSchemaSymbole.astro.
+//   - Rein schmueckend (aria-hidden): Name, Nutzen und "So funktioniert es"
+//     sagen dasselbe in Worten.
+//   - Ohne Bewegung ist der Endzustand zu sehen, vollstaendig. Bewegung gibt
+//     es nur im Schema mit Skript, im aktiven Schritt, hoechstens dreimal.
+//   - Keine Preise, kein Eurozeichen (tests/schema.test.ts).
+//
+// Ein Modul ohne Eintrag hier zeigt kein Mini-Schema, die Karte bleibt
+// trotzdem vollstaendig. Die Liste steht in lib/modul-schema.ts,
+// tests/modul-schema.test.ts verlangt eins fuer jedes verkaufbare Modul.
+
+import '../styles/schema-farben.css';
+import '../styles/modul-schema.css';
+import { hatMiniSchema } from '../lib/modul-schema.ts';
+
+interface Props {
+  /** Schluessel ohne "modul-", z. B. "kostenrechner". */
+  kurz: string;
+}
+
+const { kurz } = Astro.props;
+const bekannt = hatMiniSchema(kurz);
+---
+
+{
+  bekannt && (
+    <span class:list={['ms', `ms--${kurz}`]} aria-hidden="true">
+      {kurz === 'kostenrechner' && (
+        <>
+          <span class="ms__teil">
+            <span class="ms__titel">Ihre Website</span>
+            <span class="ms-feld">
+              <span class="ms-feld__name">Fläche</span>
+              <span class="ms-regler"><span class="ms-regler__knopf ms-a-schieben" /></span>
+            </span>
+            <span class="ms-feld">
+              <span class="ms-kasten"><svg class="ms-kasten__haken ms-a-b"><use href="#ms-haken" /></svg></span>
+              <span class="ms-feld__name">Extras</span>
+            </span>
+          </span>
+          <svg class="ms__pfeil"><use href="#ms-pfeil" /></svg>
+          <span class="ms__teil">
+            <span class="ms__titel">Richtwert</span>
+            <span class="ms-spanne"><span class="ms-spanne__balken ms-a-wachsen" /></span>
+            <span class="ms__klein">als Spanne</span>
+          </span>
+          <svg class="ms__pfeil ms-a-c"><use href="#ms-pfeil" /></svg>
+          <span class="ms__teil ms-a-c">
+            <svg class="ms__zeichen"><use href="#ms-dokument" /></svg>
+            <span class="ms__titel">Anfrage</span>
+            <span class="ms-marke ms-a-d">übernommen</span>
+          </span>
+        </>
+      )}
+      {kurz === 'anfrage-fotos' && (
+        <>
+          <span class="ms__teil">
+            <span class="ms-handy">
+              <svg class="ms__zeichen ms__zeichen--gross"><use href="#ms-handy" /></svg>
+            </span>
+            <span class="ms__titel">Handyfoto</span>
+            <span class="ms__klein">ohne Standort</span>
+          </span>
+          <svg class="ms__pfeil"><use href="#ms-pfeil" /></svg>
+          <span class="ms__teil">
+            <span class="ms-ordner">
+              <svg class="ms__zeichen ms__zeichen--gross"><use href="#ms-ordner" /></svg>
+              <svg class="ms-ordner__foto ms-a-fliegen"><use href="#ms-foto" /></svg>
+            </span>
+            <span class="ms__titel">Ihr Google Drive</span>
+          </span>
+          <svg class="ms__pfeil ms-a-c"><use href="#ms-pfeil" /></svg>
+          <span class="ms__teil ms-a-c">
+            <svg class="ms__zeichen ms__zeichen--gross"><use href="#ms-mail" /></svg>
+            <span class="ms__titel">Mail an Sie</span>
+            <span class="ms-marke ms-a-d">mit Link</span>
+          </span>
+        </>
+      )}
+      {kurz === 'lagerliste' && (
+        <>
+          <span class="ms__teil">
+            <span class="ms__titel">Buchen</span>
+            <span class="ms-knopf ms-a-druecken">nehmen 4</span>
+            <span class="ms__klein">Dübel</span>
+          </span>
+          <svg class="ms__pfeil"><use href="#ms-pfeil" /></svg>
+          <span class="ms__teil">
+            <span class="ms__titel">Bestand</span>
+            <span class="ms-zahl">
+              <span class="ms-zahl__alt ms-a-alt">12</span>
+              <span class="ms-zahl__neu ms-a-neu">8</span>
+            </span>
+            <span class="ms__klein">Minimum 10</span>
+          </span>
+          <svg class="ms__pfeil ms-a-c"><use href="#ms-pfeil" /></svg>
+          <span class="ms__teil">
+            <span class="ms__titel">Nachbestellen</span>
+            <span class="ms-liste">
+              <span class="ms-liste__kopf">Lieferant A</span>
+              <span class="ms-liste__zeile ms-a-rutschen">Dübel</span>
+            </span>
+          </span>
+        </>
+      )}
+      {kurz === 'bewertungs-assistent' && (
+        <>
+          <span class="ms__teil">
+            <span class="ms__titel">Bewertung</span>
+            <span class="ms-sterne">
+              <svg class="ms-stern ms-a-stern1"><use href="#ms-stern" /></svg>
+              <svg class="ms-stern ms-a-stern2"><use href="#ms-stern" /></svg>
+              <svg class="ms-stern ms-a-stern3"><use href="#ms-stern" /></svg>
+              <svg class="ms-stern ms-stern--leer"><use href="#ms-stern" /></svg>
+            </span>
+            <span class="ms-zeilen"><span /><span /></span>
+          </span>
+          <svg class="ms__pfeil"><use href="#ms-pfeil" /></svg>
+          <span class="ms__teil ms__teil--breit">
+            <span class="ms__titel">Zwei Vorschläge</span>
+            <span class="ms-vorschlag ms-a-b">Vorschlag 1</span>
+            <span class="ms-vorschlag ms-a-c">Vorschlag 2</span>
+          </span>
+          <svg class="ms__pfeil ms-a-d"><use href="#ms-pfeil" /></svg>
+          <span class="ms__teil ms-a-d">
+            <svg class="ms__zeichen ms__zeichen--gross"><use href="#ms-browser" /></svg>
+            <span class="ms__titel">bei Google</span>
+            <span class="ms__klein">von Ihnen</span>
+          </span>
+        </>
+      )}
+      {kurz === 'beitrags-schreiber' && (
+        <>
+          <span class="ms__teil">
+            <svg class="ms__zeichen ms__zeichen--gross"><use href="#ms-foto" /></svg>
+            <span class="ms-chip ms-a-a">Terrasse</span>
+            <span class="ms-chip ms-a-b">fertig</span>
+          </span>
+          <svg class="ms__pfeil"><use href="#ms-pfeil" /></svg>
+          <span class="ms__teil ms__teil--breit">
+            <span class="ms-beitrag">
+              <span class="ms-beitrag__bild"><svg class="ms__zeichen"><use href="#ms-foto" /></svg></span>
+              <span class="ms-zeilen ms-a-zeilen"><span /><span /><span /></span>
+              <span class="ms-beitrag__tags ms-a-c">#terrasse #garten</span>
+            </span>
+          </span>
+          <svg class="ms__pfeil ms-a-d"><use href="#ms-pfeil" /></svg>
+          <span class="ms__teil ms-a-d">
+            <span class="ms__titel">Instagram</span>
+            <span class="ms__titel">Facebook</span>
+            <span class="ms__titel">Google</span>
+          </span>
+        </>
+      )}
+      {kurz === 'speisekarte' && (
+        <>
+          <span class="ms__teil ms__teil--breit">
+            <span class="ms__titel">Einträge</span>
+            <span class="ms-eintrag">Pasta <span class="ms-code ms-a-a">A, C</span></span>
+            <span class="ms-eintrag">Salat <span class="ms-code ms-a-b">G</span></span>
+          </span>
+          <svg class="ms__pfeil"><use href="#ms-pfeil" /></svg>
+          <span class="ms__teil ms-a-c">
+            <svg class="ms__zeichen ms__zeichen--gross"><use href="#ms-drucker" /></svg>
+            <span class="ms__titel">gedruckte Karte</span>
+            <span class="ms__klein">mit Legende</span>
+          </span>
+          <svg class="ms__pfeil ms-a-d"><use href="#ms-pfeil" /></svg>
+          <span class="ms__teil ms-a-d">
+            <svg class="ms__zeichen ms__zeichen--gross"><use href="#ms-browser" /></svg>
+            <span class="ms__titel">Website</span>
+            <span class="ms__klein">per Datei</span>
+          </span>
+        </>
+      )}
+      {kurz === 'angebots-assistent' && (
+        <>
+          <span class="ms__teil">
+            <span class="ms-raum">
+              <span class="ms-raum__mass ms-raum__mass--oben ms-a-a">4,2 m</span>
+              <span class="ms-raum__mass ms-raum__mass--seite ms-a-b">3,5 m</span>
+            </span>
+            <span class="ms__titel">Aufmaß</span>
+          </span>
+          <svg class="ms__pfeil"><use href="#ms-pfeil" /></svg>
+          <span class="ms__teil ms__teil--breit">
+            <span class="ms__titel">Positionen</span>
+            <span class="ms-position ms-a-c">Wände 38,5 m²</span>
+            <span class="ms-position ms-a-c2">Decke 14,7 m²</span>
+          </span>
+          <svg class="ms__pfeil ms-a-d"><use href="#ms-pfeil" /></svg>
+          <span class="ms__teil ms-a-d">
+            <svg class="ms__zeichen ms__zeichen--gross"><use href="#ms-dokument" /></svg>
+            <span class="ms__titel">Angebot</span>
+            <span class="ms-marke">PDF</span>
+          </span>
+        </>
+      )}
+    </span>
+  )
+}

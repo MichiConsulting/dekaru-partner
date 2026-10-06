@@ -7,10 +7,14 @@
 // fertige Markup zusaetzlich auf "€".
 import '../../../styles/verkaufshilfen.css';
 import Layout from '../../../layouts/Layout.astro';
-import { findeVerkaufbaresModul } from '../../../lib/module.ts';
+import ModulSchema from '../../../components/ModulSchema.astro';
+import ModulSchemaSymbole from '../../../components/ModulSchemaSymbole.astro';
+import { findeVerkaufbaresModul, kurzSchluessel } from '../../../lib/module.ts';
 
 const modul = findeVerkaufbaresModul(Astro.params.schluessel);
 if (!modul) return new Response(null, { status: 404 });
+// Werkzeuge fuer den Inhaber laufen nicht auf der Website.
+const marke = modul.art === 'besucher' ? 'Software für Ihre Website' : 'Software für Ihren Betrieb';
 ---
 
 <Layout titel={`${modul.name}, zum Zeigen`} aktiv="verkaufshilfen">
@@ -21,9 +25,18 @@ if (!modul) return new Response(null, { status: 404 });
   </div>
 
   <article class="blatt" data-blatt>
-    <p class="blatt__marke">Software für Ihre Website</p>
+    <ModulSchemaSymbole />
+    <p class="blatt__marke">{marke}</p>
     <h1>{modul.name}</h1>
     <p class="blatt__lead">{modul.einleitung}</p>
+
+    <section class="blatt__so" aria-labelledby="so-titel">
+      <h2 id="so-titel">So funktioniert es</h2>
+      <div class="blatt__so-inhalt">
+        <ModulSchema kurz={kurzSchluessel(modul.schluessel)} />
+        <ol class="blatt__schritte">{modul.soGehts.map((s) => <li>{s}</li>)}</ol>
+      </div>
+    </section>
 
     <section>
       <h2>Was das Modul Ihnen abnimmt</h2>

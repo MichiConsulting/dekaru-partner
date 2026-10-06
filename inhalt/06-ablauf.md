@@ -20,7 +20,7 @@ Zum Erklären gibt es **das Schema im Portal**: ein animiertes, farbiges Schaubi
 
 - die Bausteine der Website
 - die fertigen Farbpaletten: erst eine Farbgruppe, etwa Blau oder Erdtöne, dann die Paletten darin. Der Betrieb tippt eine an und sieht Knöpfe und Text darin. Ganz oben stehen ein paar, die oft zu seiner Branche passen, alle anderen gehen genauso. Gefällt ihm eine, tragen Sie ihren Code (etwa HW-2 oder BL-2) im Briefing-Bogen unter Farbpalette ein
-- was die mitarbeitende Funktion, heute die Online-Terminanfrage im Paket Groß, dem Betrieb abnimmt, und darunter unter "Im Paket Groß zusätzlich möglich" die Software-Module, die heute verkauft werden und zur Branche passen, nur mit Namen und Nutzen (Kapitel 12)
+- was die mitarbeitende Funktion, heute die Online-Terminanfrage im Paket Groß, dem Betrieb abnimmt, und darunter unter "Im Paket Groß zusätzlich möglich" alle Software-Module, die heute verkauft werden, die zur Branche passenden zuerst, jedes mit einem kleinen bewegten Schaubild, Namen und Nutzen. Antippen zeigt in drei Schritten, wie es funktioniert (Kapitel 12)
 - den Weg der Daten: Formular auf der Website, Formulardienst von dekaru, Mail an den Betrieb, gespeichert wird nichts
 - wie es nach dem Erstgespräch weitergeht
 

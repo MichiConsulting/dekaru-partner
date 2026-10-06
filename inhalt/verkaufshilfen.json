@@ -57,6 +57,240 @@
         "Nicht sagen, dass dekaru nicht dazwischen ist. Das Ergebnis geht mit dem Kontaktformular über den Formulardienst, wie jede Anfrage, gespeichert wird dort nichts.",
         "Die Preise im Rechner sind beim Bau Beispielwerte, bis der Betrieb seine eigenen festlegt. Nichts zu einzelnen Preisen im Rechner zusagen."
       ]
+    },
+    {
+      "schluessel": "modul-beitrags-schreiber",
+      "fuerWen": "Betriebe mit Paket Groß, die Instagram, Facebook oder ihr Google-Profil selbst pflegen und dafür zu wenig Zeit haben. Wählbar in jeder Branche, oft passend bei Gastronomie, Friseur, Handwerk und Garten. Wer gar nichts postet und es auch nicht vorhat, braucht ihn nicht.",
+      "einstieg": "Sie hatten erzählt, dass Instagram oft liegen bleibt: Wäre es eine Hilfe, wenn aus einem Foto und zwei Stichworten in kurzer Zeit ein fertiger Beitrag entsteht, den Sie nur noch prüfen?",
+      "fragen": [
+        {
+          "frage": "Postet das Programm dann selbst?",
+          "antwort": "Nein. Es schreibt den Text, Sie prüfen ihn, kopieren ihn und stellen ihn ein wie gewohnt. Ohne Ihr Zutun wird nichts veröffentlicht."
+        },
+        {
+          "frage": "Was ist diese Werkbank?",
+          "antwort": "Eine App, die im Browser auf Ihrem Handy, Tablet oder Rechner läuft. Nichts zu installieren außer einem Symbol auf dem Startbildschirm. Ihre Daten bleiben auf diesem Gerät."
+        },
+        {
+          "frage": "Wozu die PIN?",
+          "antwort": "Sie verschlüsselt alles in der Werkbank, auch Ihren Schlüssel bei Anthropic. Mindestens 8 Zeichen, am besten ein kurzer Satz. Wichtig: Wer die PIN vergisst und keine Sicherung hat, verliert die Daten. Das kann auch Herr Henning nicht zurückholen."
+        },
+        {
+          "frage": "Brauche ich dafür ein Abo bei einer KI?",
+          "antwort": "Nein. Sie legen ein eigenes Konto bei Anthropic an und zahlen nur, was Sie verbrauchen. Bei normaler Nutzung sind das kleine Beträge, und Sie setzen selbst eine Grenze."
+        },
+        {
+          "frage": "Klingt das nicht nach Maschine?",
+          "antwort": "Die Werkbank kennt Ihren Betrieb und Ihren Ton aus dem Profil. Und Sie lesen jeden Text, bevor er rausgeht, ändern dürfen Sie alles."
+        },
+        {
+          "frage": "Muss ich das selbst einrichten?",
+          "antwort": "Nein. Herr Henning richtet die Werkbank im Einrichtungstermin mit Ihnen auf Ihrem Gerät ein, das ist im Preis enthalten."
+        }
+      ],
+      "intern": [
+        "Nur zum Paket Groß. Im Erstgespräch nur den Nutzen, keinen Preis. Stufe klein.",
+        "Braucht Claude. Ohne Anthropic-Schlüssel schreibt das Modul nichts. Laufende Kosten nur als \"Cent-Beträge bis wenige Euro im Monat\", nie genauer, auch nicht die Zahlen aus der App.",
+        "Läuft in der Werkbank auf dem Gerät des Inhabers. dekaru sieht nichts, ist hier auch nicht dazwischen. Foto und Stichworte gehen direkt an Anthropic.",
+        "Praxen: nicht von sich aus anbieten. Für Heilberufe gelten eigene Werberegeln. Fragt eine Praxis danach, an Michael Henning verweisen.",
+        "Kein Versprechen zu Reichweite, Followern oder mehr Kunden. Es spart Schreibzeit, mehr nicht.",
+        "Die Einrichtung macht Michael Henning im Einrichtungstermin. Sie nehmen keine Zugangsdaten, keine PIN und keinen Schlüssel auf."
+      ]
+    },
+    {
+      "schluessel": "modul-bewertungs-assistent",
+      "fuerWen": "Betriebe mit Paket Groß und einem Google-Unternehmensprofil, die Bewertungen beantworten wollen und es aus Zeitmangel oder Unsicherheit liegen lassen, besonders bei Kritik. Wählbar in jeder Branche, oft passend bei Gastronomie, Friseur und Handwerk.",
+      "einstieg": "Sie hatten erzählt, dass Sie Bewertungen bei Google oft nicht beantworten: Wäre es eine Hilfe, wenn Sie zu jeder Bewertung zwei oder drei fertige Antworten bekommen und nur noch eine auswählen?",
+      "fragen": [
+        {
+          "frage": "Antwortet das Programm selbst bei Google?",
+          "antwort": "Nein. Es gibt keine Verbindung zu Google. Sie kopieren die Bewertung hinein, wählen einen Vorschlag und fügen ihn selbst bei Google ein."
+        },
+        {
+          "frage": "Geht das auch ohne KI?",
+          "antwort": "Zum Teil. Für Bewertungen nur mit Sternen gibt es fertige Vorlagen, die gehen ohne KI. Vorschläge zu einer bestimmten Bewertung schreibt Claude, dafür brauchen Sie ein eigenes Konto bei Anthropic."
+        },
+        {
+          "frage": "Was ist mit einer gefälschten Bewertung?",
+          "antwort": "Löschen kann das Programm nichts. Es sagt Ihnen, dass Sie niemanden öffentlich beschuldigen und die Bewertung über Ihr Google-Profil melden. Google prüft sie dann."
+        },
+        {
+          "frage": "Wozu die PIN?",
+          "antwort": "Sie verschlüsselt alles in der Werkbank auf Ihrem Gerät. Mindestens 8 Zeichen. Ohne PIN und ohne Sicherung sind die Daten weg, auch Herr Henning kann sie nicht zurückholen."
+        },
+        {
+          "frage": "Bekommt jemand die Bewertungen meiner Kunden?",
+          "antwort": "Für einen Vorschlag geht der Text der Bewertung an Anthropic, Namen, die Sie angeben, vorher durch Platzhalter ersetzt. Bei Herrn Henning kommt nichts an."
+        },
+        {
+          "frage": "Muss ich das selbst einrichten?",
+          "antwort": "Nein. Herr Henning richtet die Werkbank im Einrichtungstermin mit Ihnen ein, das ist im Preis enthalten."
+        }
+      ],
+      "intern": [
+        "Nur zum Paket Groß. Im Erstgespräch nur den Nutzen, keinen Preis. Stufe klein.",
+        "Vorschläge brauchen Claude, die Vorlagen nicht. Das ehrlich so sagen, nicht \"geht auch ohne KI\" ohne Einschränkung.",
+        "Keine Bewertungen kaufen, tauschen oder bestellen, auch nicht als Tipp. Das verbietet Google, das Modul weist darauf hin.",
+        "Praxen: nicht anbieten. Schon eine Antwort kann verraten, dass jemand Patient war, das berührt die Schweigepflicht. Fragt eine Praxis danach, an Michael Henning verweisen.",
+        "Läuft in der Werkbank auf dem Gerät des Inhabers, dekaru sieht nichts.",
+        "Die Einrichtung macht Michael Henning. Sie nehmen keine Zugangsdaten auf."
+      ]
+    },
+    {
+      "schluessel": "modul-speisekarte",
+      "fuerWen": "Gastronomie mit Speise-, Getränke- oder Tageskarte und Dienstleister mit fester Preisliste wie Friseur oder Kosmetik, jeweils mit Paket Groß. Wählbar in jeder Branche. Wer seine Karte heute in Word oder beim Grafiker pflegt, hat den größten Nutzen.",
+      "einstieg": "Sie hatten erzählt, dass die Karte jedes Mal ein Akt ist: Wäre es eine Hilfe, wenn Sie Preise und Allergene an einer Stelle pflegen und die Karte danach mit einem Klick sauber drucken?",
+      "fragen": [
+        {
+          "frage": "Ändert sich dann auch die Website von selbst?",
+          "antwort": "Nein. Die Werkbank erzeugt eine Datei für die Website. Die schicken Sie Herrn Henning, er setzt sie als Änderung ein, mit Hosting aus Ihrem Kontingent."
+        },
+        {
+          "frage": "Wer ist für die Allergene verantwortlich?",
+          "antwort": "Sie. Die Werkbank hilft beim Kennzeichnen und setzt die Legende, die Angaben selbst machen und prüfen Sie. Ein Vorschlag von Claude ist nur ein Vorschlag."
+        },
+        {
+          "frage": "Brauche ich dafür KI?",
+          "antwort": "Nein. Pflegen, prüfen und drucken geht ohne. Mit eigenem Konto bei Anthropic helfen zusätzlich Vorschläge für Beschreibungen, eine englische Fassung und Allergene."
+        },
+        {
+          "frage": "Geht das auch für eine Preisliste beim Friseur?",
+          "antwort": "Ja, als Preisliste mit Größen oder ab-Preisen, ohne Allergene."
+        },
+        {
+          "frage": "Wozu die PIN?",
+          "antwort": "Sie verschlüsselt Ihre Karten auf Ihrem Gerät. Mindestens 8 Zeichen. Machen Sie regelmäßig eine Sicherung, ohne PIN und Sicherung sind die Karten weg."
+        },
+        {
+          "frage": "Muss ich das selbst einrichten?",
+          "antwort": "Nein. Herr Henning richtet die Werkbank mit Ihnen ein, mit Logo und Farben für den Druck. Das ist im Preis enthalten."
+        }
+      ],
+      "intern": [
+        "Nur zum Paket Groß. Im Erstgespräch nur den Nutzen, keinen Preis. Stufe mittel.",
+        "Nicht sagen, dass die Website sich von selbst aktualisiert. Die Datei geht an Michael Henning, er setzt sie ein. Das zählt als Änderung aus dem Hosting-Kontingent.",
+        "Keine Rechtsberatung zu Allergenen oder Zusatzstoffen. Verantwortlich bleibt der Betrieb, das steht auch in der App.",
+        "Claude ist optional. Ohne Schlüssel funktioniert alles außer den drei Helfern.",
+        "Läuft in der Werkbank auf dem Gerät des Inhabers, dekaru sieht nur die Datei, die der Betrieb selbst schickt.",
+        "Die Einrichtung macht Michael Henning. Sie nehmen keine Zugangsdaten auf."
+      ]
+    },
+    {
+      "schluessel": "modul-angebots-assistent",
+      "fuerWen": "Handwerksbetriebe und Garten- und Landschaftsbau mit Paket Groß, die nach jedem Aufmaß ein Angebot schreiben, oft abends. Wählbar in jeder Branche, gebaut für Arbeit nach Maß. Wer schon eine Handwerkersoftware mit Angeboten nutzt, braucht ihn eher nicht.",
+      "einstieg": "Sie hatten erzählt, dass Angebote meist abends am Schreibtisch entstehen: Wäre es eine Hilfe, wenn aus Aufmaß, Fotos und Stichpunkten direkt nach dem Termin ein fertiges Angebot als PDF wird?",
+      "fragen": [
+        {
+          "frage": "Erfindet die KI dann Preise?",
+          "antwort": "Nein. Claude sieht Ihre Preise gar nicht. Es schlägt nur Positionen aus Ihrer eigenen Leistungsliste vor, Preis und Bezeichnung kommen immer aus Ihrer Liste."
+        },
+        {
+          "frage": "Kann ich damit auch Rechnungen schreiben?",
+          "antwort": "Nein. Es schreibt Angebote. Für Rechnungen gelten weitere Pflichtangaben, dafür bleibt Ihr bisheriger Weg."
+        },
+        {
+          "frage": "Gehen Kundendaten an die KI?",
+          "antwort": "Nein. Name und Anschrift der Kundschaft bleiben auf Ihrem Gerät. An Anthropic gehen nur Fotos, Maße und Stichpunkte, und nur, wenn Sie Vorschläge haben möchten."
+        },
+        {
+          "frage": "Geht das auch ohne KI?",
+          "antwort": "Ja. Aufmaß, Positionen, Summen und PDF gehen von Hand. Nur die Vorschläge für Positionen brauchen ein Konto bei Anthropic."
+        },
+        {
+          "frage": "Wozu die PIN?",
+          "antwort": "Sie verschlüsselt Angebote und Kundendaten auf Ihrem Gerät. Mindestens 8 Zeichen. Machen Sie regelmäßig eine Sicherung, ohne PIN und Sicherung sind die Angebote weg."
+        },
+        {
+          "frage": "Muss ich das selbst einrichten?",
+          "antwort": "Nein. Herr Henning richtet die Werkbank mit Ihnen ein, mit Briefkopf und Steuerangaben. Die Leistungsliste legen Sie dabei gemeinsam an. Das ist im Preis enthalten."
+        }
+      ],
+      "intern": [
+        "Nur zum Paket Groß. Im Erstgespräch nur den Nutzen, keinen Preis. Stufe mittel.",
+        "Nie als Rechnungsprogramm verkaufen, auch nicht \"mit kleinen Änderungen\". Keine E-Rechnung.",
+        "Die Leistungsliste muss der Betrieb liefern. Ohne Liste keine Vorschläge. Ein Import aus Excel ist nicht eingebaut, das ehrlich sagen.",
+        "Claude ist optional, ohne Schlüssel geht alles von Hand.",
+        "Läuft in der Werkbank auf dem Gerät des Inhabers. Wer auf zwei Geräten arbeitet, hat zwei getrennte Bestände. Fragen dazu an Michael Henning.",
+        "Die Einrichtung macht Michael Henning. Sie nehmen keine Zugangsdaten auf."
+      ]
+    },
+    {
+      "schluessel": "modul-anfrage-fotos",
+      "fuerWen": "Betriebe mit Paket Groß, die oft erst nach einer Besichtigung sagen können, worum es geht: Handwerk, Garten- und Landschaftsbau, Reinigung, Umzug. Voraussetzung ist Google Workspace. Nicht für Praxen und nicht für Anliegen, bei denen Personen oder Körperstellen auf die Fotos kämen.",
+      "einstieg": "Sie hatten erzählt, dass Sie oft hinfahren müssen, nur um zu sehen, worum es geht: Wäre es eine Hilfe, wenn Ihre Kunden die Fotos gleich mit der Anfrage über Ihre Website schicken?",
+      "fragen": [
+        {
+          "frage": "Wo landen die Fotos?",
+          "antwort": "In einem eigenen Ordner in Ihrem Google Drive, nicht bei Herrn Henning. Sie bekommen eine Mail mit dem Link dazu. Freigegeben wird nichts."
+        },
+        {
+          "frage": "Brauche ich dafür Google Workspace?",
+          "antwort": "Ja. Nur mit Workspace gibt es einen Vertrag mit Google zur Auftragsverarbeitung, und über die Fotos kommen Daten Ihrer Kunden herein. Mit einem kostenlosen Gmail-Konto bietet er das Modul nicht an."
+        },
+        {
+          "frage": "Was ist mit dem Standort auf den Fotos?",
+          "antwort": "Der fällt weg. Die Fotos werden schon im Browser des Kunden verkleinert, Standort und Kameradaten werden dabei entfernt."
+        },
+        {
+          "frage": "Bleiben die Fotos für immer?",
+          "antwort": "Nein. Sie löschen sich nach einer Frist, die Sie festlegen, von selbst. Was Sie selbst herunterladen oder weiterleiten, liegt dann bei Ihnen."
+        },
+        {
+          "frage": "Was macht der Assistent?",
+          "antwort": "Er ist freiwillig. Er schreibt Ihnen eine kurze Zusammenfassung mit Antwortentwurf in die Mail. Dafür gehen Beschreibung und Fotos an Anthropic, nie Name, Telefon oder Mail. Der Kunde sieht den Entwurf nie."
+        },
+        {
+          "frage": "Muss ich das selbst einrichten?",
+          "antwort": "Nein. Herr Henning richtet das Programm in Ihrem Google-Konto gemeinsam mit Ihnen ein und verbindet es mit der Website. Das ist im Preis enthalten."
+        }
+      ],
+      "intern": [
+        "Nur zum Paket Groß und nur mit Google Workspace beim Betrieb. Ohne Workspace nicht anbieten, auch nicht \"erst mal mit Gmail\".",
+        "Praxen: nicht anbieten. Fotos von Beschwerden oder Körperstellen sind Gesundheitsdaten nach Art. 9 DSGVO, dafür ist das Modul nicht gebaut. Fragt eine Praxis danach, an Michael Henning verweisen. Bei Friseur, Kosmetik und Tattoo ebenso Finger weg, sobald Personen auf die Fotos kämen.",
+        "Hier stimmt der Satz \"dekaru ist nicht dazwischen\": Die Fotos gehen direkt in das Google-Konto des Betriebs.",
+        "Der Assistent ist optional und braucht einen Anthropic-Schlüssel. Laufende Kosten nur als \"Cent-Beträge bis wenige Euro im Monat\".",
+        "Im Erstgespräch nur den Nutzen, keinen Preis. Stufe mittel.",
+        "Die Einrichtung macht Michael Henning im Google-Konto des Betriebs. Sie nehmen keine Zugangsdaten auf."
+      ]
+    },
+    {
+      "schluessel": "modul-lagerliste",
+      "fuerWen": "Betriebe mit Paket Groß und einem Lager, das mehrere Leute nutzen, vor allem Handwerk und Garten- und Landschaftsbau. Für ein Team ist Google Workspace Voraussetzung. Wählbar in jeder Branche.",
+      "einstieg": "Sie hatten erzählt, dass im Lager oft etwas fehlt, wenn man es braucht: Wäre es eine Hilfe, wenn Ihr Team Material am Handy bucht und Sie eine fertige Nachbestell-Liste je Lieferant bekommen?",
+      "fragen": [
+        {
+          "frage": "Bestellt das Programm dann selbst?",
+          "antwort": "Nein. Es legt Ihnen je Lieferant eine Liste oder einen Mail-Entwurf in Ihr Postfach. Abschicken tun Sie."
+        },
+        {
+          "frage": "Brauche ich dafür Google Workspace?",
+          "antwort": "Für ein Team ja. Dann bucht jede Person mit dem eigenen Konto, und es gibt einen Vertrag mit Google zur Auftragsverarbeitung. Bucht nur der Inhaber selbst, klärt Herr Henning das mit Ihnen."
+        },
+        {
+          "frage": "Sieht man, wer was genommen hat?",
+          "antwort": "Ja, jede Buchung steht mit Zeit und Kürzel im Verlauf. Das sind Daten Ihrer Beschäftigten. Sagen Sie Ihrem Team vorher, wozu der Verlauf dient und wann er gelöscht wird."
+        },
+        {
+          "frage": "Geht das auch im Keller ohne Netz?",
+          "antwort": "Nein, eine Buchung braucht Netz. Ohne Empfang meldet die Seite das, und Sie buchen danach mit demselben Knopf noch einmal."
+        },
+        {
+          "frage": "Brauche ich dafür KI?",
+          "antwort": "Nein. Die Lagerliste nutzt keine KI und braucht kein Konto bei Anthropic."
+        },
+        {
+          "frage": "Muss ich das selbst einrichten?",
+          "antwort": "Nein. Herr Henning richtet die Lagerliste in Ihrem Google-Konto mit Ihnen ein und übernimmt auf Wunsch Ihre vorhandene Liste. Das ist im Preis enthalten."
+        }
+      ],
+      "intern": [
+        "Nur zum Paket Groß. Im Erstgespräch nur den Nutzen, keinen Preis. Stufe mittel.",
+        "Für ein Team nur mit Google Workspace. Bucht nur der Inhaber allein, geht es technisch auch mit Gmail. Das entscheidet Michael Henning, Sie sagen dazu nichts zu.",
+        "Gibt es einen Betriebsrat, bestimmt er bei so einer Aufzeichnung mit. Nur als Hinweis an Michael Henning weitergeben, keine Rechtsberatung.",
+        "Nicht als Warenwirtschaft oder Buchhaltung verkaufen. Keine Einkaufspreise, keine Rechnungen, kein automatisches Bestellen.",
+        "Läuft im Google-Konto des Betriebs, dekaru ist nicht dazwischen und sieht nichts.",
+        "Die Einrichtung macht Michael Henning. Sie nehmen keine Zugangsdaten auf."
+      ]
     }
   ]
 }

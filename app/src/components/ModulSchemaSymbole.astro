@@ -1,0 +1,58 @@
+---
+// Kleine Zeichen fuer die Mini-Schemata der Software-Module, einmal je Seite.
+// ModulSchema.astro verweist mit <use href="#ms-..."> darauf, damit die
+// Zeichen nicht in jeder Karte (sieben Module mal sieben Branchen) neu
+// im Quelltext stehen. Nur Linien, Farbe ueber currentColor.
+---
+
+<svg class="ms-symbole" width="0" height="0" aria-hidden="true" focusable="false">
+  <symbol id="ms-pfeil" viewBox="0 0 28 12">
+    <path d="M2 6h22M19 1.5 24.5 6 19 10.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+  </symbol>
+  <symbol id="ms-handy" viewBox="0 0 24 24">
+    <rect x="6.5" y="2" width="11" height="20" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.8" />
+    <path d="M10.5 18.5h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+  </symbol>
+  <symbol id="ms-foto" viewBox="0 0 24 24">
+    <rect x="2.5" y="4.5" width="19" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.8" />
+    <circle cx="8" cy="9.5" r="1.7" fill="currentColor" />
+    <path d="M3 17l5-4.2 3.6 3 3-2.4L21 17.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+  </symbol>
+  <symbol id="ms-ordner" viewBox="0 0 24 24">
+    <path d="M2.5 7.2a2 2 0 0 1 2-2h4.6l2.1 2.2h8.3a2 2 0 0 1 2 2v8.4a2 2 0 0 1-2 2H4.5a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+  </symbol>
+  <symbol id="ms-mail" viewBox="0 0 24 24">
+    <rect x="2.5" y="5.5" width="19" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.8" />
+    <path d="m3 6.5 9 6.5 9-6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+  </symbol>
+  <symbol id="ms-dokument" viewBox="0 0 24 24">
+    <path d="M6 2.5h8.5L19 7v14.5H6Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+    <path d="M14.5 2.5V7H19M8.8 12h7.4M8.8 15.5h7.4M8.8 19h4.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+  </symbol>
+  <symbol id="ms-drucker" viewBox="0 0 24 24">
+    <path d="M7 8V3h10v5M7 17H4.5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h15a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+    <path d="M7 13.5h10v8H7Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+  </symbol>
+  <symbol id="ms-browser" viewBox="0 0 24 24">
+    <rect x="2.5" y="4" width="19" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.8" />
+    <path d="M2.5 8.5h19M6.5 12.5h11M6.5 16h7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+  </symbol>
+  <symbol id="ms-stern" viewBox="0 0 24 24">
+    <path d="M12 3.2l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.6l-5.2 2.7 1-5.8-4.3-4.1 5.9-.8Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" />
+  </symbol>
+  <symbol id="ms-funke" viewBox="0 0 24 24">
+    <path d="M12 3v4M12 17v4M3 12h4M17 12h4M6.2 6.2l2.6 2.6M15.2 15.2l2.6 2.6M6.2 17.8l2.6-2.6M15.2 8.8l2.6-2.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+  </symbol>
+  <symbol id="ms-haken" viewBox="0 0 24 24">
+    <path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+  </symbol>
+</svg>
+
+<style is:global>
+  .ms-symbole {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+</style>

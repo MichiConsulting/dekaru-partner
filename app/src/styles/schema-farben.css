@@ -1,0 +1,79 @@
+/*
+ * Farbtoken des Schemas (--sc-*), hell, dunkel nach Systemeinstellung, dunkel
+ * nach Wahl. Eigene Datei, weil auch die Fassung zum Zeigen unter
+ * Verkaufshilfen die Mini-Schemata der Module zeigt (modul-schema.css), ohne
+ * das ganze Schema zu laden. tests/schema.test.ts prueft, dass alle drei
+ * Bloecke dieselben Variablen haben und Text auf Flaeche 4.5:1 erreicht.
+ */
+
+:root {
+  --sc-orange-flaeche: #fde9d9;
+  --sc-orange-text: #6b2d00;
+  --sc-orange-rand: #d9772e;
+  --sc-blau-flaeche: #dde9fb;
+  --sc-blau-text: #12386b;
+  --sc-blau-rand: #4a7fc9;
+  --sc-tuerkis-flaeche: #d6f1ea;
+  --sc-tuerkis-text: #0b4a40;
+  --sc-tuerkis-rand: #2f9b88;
+  --sc-violett-flaeche: #ece3fb;
+  --sc-violett-text: #43207a;
+  --sc-violett-rand: #8a64cf;
+  --sc-gruen-flaeche: #e0f3d9;
+  --sc-gruen-text: #1d4a12;
+  --sc-gruen-rand: #4f9a3a;
+  --sc-gelb-flaeche: #fbf0c8;
+  --sc-gelb-text: #574000;
+  --sc-gelb-rand: #c9a227;
+  --sc-moos-flaeche: #edf0d4;
+  --sc-moos-text: #3a420c;
+  --sc-moos-rand: #8c9b2c;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --sc-orange-flaeche: #3a2213;
+    --sc-orange-text: #ffcfaa;
+    --sc-orange-rand: #e08a48;
+    --sc-blau-flaeche: #15263e;
+    --sc-blau-text: #bcd6ff;
+    --sc-blau-rand: #5d8fd6;
+    --sc-tuerkis-flaeche: #0f2f2a;
+    --sc-tuerkis-text: #a2e6d8;
+    --sc-tuerkis-rand: #3cae99;
+    --sc-violett-flaeche: #281b3e;
+    --sc-violett-text: #d8c6ff;
+    --sc-violett-rand: #9a78dc;
+    --sc-gruen-flaeche: #172f19;
+    --sc-gruen-text: #b8e7a9;
+    --sc-gruen-rand: #62ad4c;
+    --sc-gelb-flaeche: #32290d;
+    --sc-gelb-text: #f2d77e;
+    --sc-gelb-rand: #c9a227;
+    --sc-moos-flaeche: #252a10;
+    --sc-moos-text: #dce6a2;
+    --sc-moos-rand: #9cad38;
+  }
+}
+:root[data-theme='dark'] {
+  --sc-orange-flaeche: #3a2213;
+  --sc-orange-text: #ffcfaa;
+  --sc-orange-rand: #e08a48;
+  --sc-blau-flaeche: #15263e;
+  --sc-blau-text: #bcd6ff;
+  --sc-blau-rand: #5d8fd6;
+  --sc-tuerkis-flaeche: #0f2f2a;
+  --sc-tuerkis-text: #a2e6d8;
+  --sc-tuerkis-rand: #3cae99;
+  --sc-violett-flaeche: #281b3e;
+  --sc-violett-text: #d8c6ff;
+  --sc-violett-rand: #9a78dc;
+  --sc-gruen-flaeche: #172f19;
+  --sc-gruen-text: #b8e7a9;
+  --sc-gruen-rand: #62ad4c;
+  --sc-gelb-flaeche: #32290d;
+  --sc-gelb-text: #f2d77e;
+  --sc-gelb-rand: #c9a227;
+  --sc-moos-flaeche: #252a10;
+  --sc-moos-text: #dce6a2;
+  --sc-moos-rand: #9cad38;
+}

@@ -165,7 +165,7 @@ describe('Briefing-Bogen: Felder', () => {
   });
 
   it('liest vorgemerkte Module aus einem Schema-Link', () => {
-    expect(moduleAusSchemaLink('https://partner.dekaru.de/schema?branche=gastro&palette=BL-2&module=kostenrechner,beitrags-schreiber#schritt-4')).toEqual(['modul-kostenrechner']);
+    expect(moduleAusSchemaLink('https://partner.dekaru.de/schema?branche=gastro&palette=BL-2&module=speisekarte,kostenrechner,reel-werkstatt#schritt-4')).toEqual(['modul-kostenrechner', 'modul-speisekarte']);
     expect(moduleAusSchemaLink('/schema?module=kostenrechner')).toEqual(['modul-kostenrechner']);
     expect(moduleAusSchemaLink('kostenrechner')).toEqual(['modul-kostenrechner']);
     expect(moduleAusSchemaLink('https://partner.dekaru.de/schema?branche=gastro')).toEqual([]);
