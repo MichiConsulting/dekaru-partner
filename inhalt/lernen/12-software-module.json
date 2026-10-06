@@ -59,13 +59,13 @@
         "Sie bieten nur Module an, die unter Verkaufshilfen stehen, und nur zum Paket Groß. Groß ist das Paket, in dem die Website mitarbeitet, ein Modul erweitert das."
       ],
       "zitat": "Der Kostenrechner gehört zum Paket Groß. Da arbeitet Ihre Website ohnehin schon mit, und der Rechner macht daraus noch mehr.",
-      "merke": "Kein Modul zu Klein oder Mittel, keines als \"kommt bald\". Preisrechner und Briefing-Bogen lassen Module nur bei Groß ankreuzen."
+      "merke": "Kein Modul zu Klein oder Mittel, keines als \"kommt bald\". Jede Branche darf jedes Modul wählen, die Branche ist nur eine Empfehlung."
     },
     {
       "titel": "Steckbrief Kostenrechner",
       "icon": "liste",
       "saetze": [
-        "Besucher geben ein paar Angaben ein und sehen einen unverbindlichen Richtwert als Spanne, den sie mit der Anfrage schicken. Für Handwerk, Garten- und Landschaftsbau, Reinigung und Umzug."
+        "Besucher geben ein paar Angaben ein und sehen einen unverbindlichen Richtwert als Spanne, den sie mit der Anfrage schicken. Wählbar in jeder Branche, passt oft bei Handwerk, Garten, Reinigung und Umzug."
       ],
       "liste": [
         "Nimmt ab: Anrufe nur wegen eines groben Preises",
@@ -79,7 +79,7 @@
       "titel": "Wann Sie Module ansprechen",
       "icon": "weg",
       "saetze": [
-        "Am Telefon gar nicht. Im Erstgespräch zeigt das Schema passende Module beim Paket Groß, nur mit Nutzen. Im Zweittermin nach der Website ein passendes Modul, wenn Groß steht, Interesse im Briefing-Bogen ankreuzen."
+        "Am Telefon gar nicht. Im Erstgespräch zeigt das Schema jedes Modul beim Paket Groß, passende zuerst, der Betrieb kann vormerken. Im Zweittermin nach der Website ein Modul, wenn Groß steht, im Briefing-Bogen ankreuzen."
       ],
       "merke": "Unter Verkaufshilfen gibt es zu jedem Modul eine Fassung ohne Preis zum Zeigen und Mitgeben."
     }
