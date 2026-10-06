@@ -1,55 +1,69 @@
 ---
 /**
- * Feld "Farbpalette" im Briefing-Bogen (Teil B): die Paletten aus dem
- * Template-System als Auswahl mit Farbfeldern, dazu "Noch offen".
- * Mit JavaScript sind nur die Paletten der gewaehlten Branche sichtbar
- * (scripts/briefing-palette.ts), ohne stehen alle Gruppen untereinander.
+ * Feld "Farbpalette" im Briefing-Bogen (Teil B): alle Paletten des Katalogs,
+ * nach Farbgruppen. Jede Gruppe ist ein aufklappbarer Abschnitt (details,
+ * geht ohne JavaScript): erst Gruppe oeffnen, dann Palette waehlen. Die Gruppe
+ * mit der aktuellen Wahl ist offen. Dazu "Noch offen".
+ *
+ * Seit 06.10.2026 haengt die Auswahl nicht mehr an der Branche. Passt eine
+ * Palette nicht zum Design des Templates (wenige Faelle, Tattoo ist dunkel),
+ * meldet das der Server beim Einreichen (paletteZumTemplate).
  */
 import type { Feld } from '../lib/briefing.ts';
-import { BRIEFING_ZU_TEMPLATE, PALETTE_OFFEN, PALETTEN_BRANCHEN, farbfelder } from '../lib/paletten.ts';
+import { FARBGRUPPEN, GRUPPE_INSPIRIERT, HINWEIS_NAMEN, PALETTE_OFFEN, farbfelder, findePalette, gruppenStreifen, palettenDerGruppe, zusatzZeile } from '../lib/paletten.ts';
 
 interface Props {
   feld: Feld;
   wert: string | undefined;
 }
 const { feld, wert } = Astro.props;
-const gewaehlt = wert || PALETTE_OFFEN;
-// Briefing-Branche je Template-Branche, fuer das Ein- und Ausblenden.
-const briefingName = Object.fromEntries(Object.entries(BRIEFING_ZU_TEMPLATE).map(([name, id]) => [id, name]));
+const gewaehlt = findePalette(wert);
+const offen = !gewaehlt;
 ---
 
-<fieldset class="feld bp" data-briefing-palette>
+<fieldset class="feld bp">
   <legend>{feld.label}</legend>
   {feld.hilfe && <p class="feld__hilfe">{feld.hilfe}</p>}
   <label class="bp__offen">
-    <input type="radio" name={feld.name} value={PALETTE_OFFEN} checked={gewaehlt === PALETTE_OFFEN} />
+    <input type="radio" name={feld.name} value={PALETTE_OFFEN} checked={offen} />
     Noch offen
   </label>
-  {
-    PALETTEN_BRANCHEN.map((b) => (
-      <div class="bp__gruppe" data-palette-gruppe={briefingName[b.id] ?? ''}>
-        <p class="bp__branche">{briefingName[b.id] ?? b.label}</p>
-        <ul class="bp__liste">
-          {b.paletten.map((p) => (
-            <li>
-              <label class="bp__wahl">
-                <input type="radio" name={feld.name} value={p.code} checked={gewaehlt === p.code} />
-                <span class="bp__felder" aria-hidden="true">
-                  {farbfelder(p).map((f) => (
-                    <span style={`background:${f.farbe}`} />
-                  ))}
-                </span>
-                <span class="bp__text">
-                  <strong>{p.code}</strong> {p.name}
-                  <span class="bp__charakter">{p.charakter}</span>
-                </span>
-              </label>
-            </li>
-          ))}
-        </ul>
-      </div>
-    ))
-  }
+  {gewaehlt && (
+    <p class="bp__aktuell">Gewählt: <strong>{gewaehlt.code}</strong> {gewaehlt.name}</p>
+  )}
+  <div class="bp__gruppen">
+    {
+      FARBGRUPPEN.map((g) => (
+        <details class="bp__gruppe" open={gewaehlt?.gruppe === g.kuerzel}>
+          <summary class="bp__summary">
+            <span class="bp__streifen" style={`background:${gruppenStreifen(g)}`} aria-hidden="true" />
+            <span class="bp__gruppenname">{g.label}</span>
+            <span class="bp__anzahl">{g.codes.length}</span>
+          </summary>
+          <ul class="bp__liste">
+            {palettenDerGruppe(g).map((p) => (
+              <li>
+                <label class="bp__wahl">
+                  <input type="radio" name={feld.name} value={p.code} checked={gewaehlt?.code === p.code} />
+                  <span class="bp__felder" aria-hidden="true">
+                    {farbfelder(p).map((f) => (
+                      <span style={`background:${f.farbe}`} />
+                    ))}
+                  </span>
+                  <span class="bp__text">
+                    <strong>{p.code}</strong> {p.name}
+                    <span class="bp__charakter">{p.charakter}</span>
+                    {zusatzZeile(p) && <span class="bp__charakter">{zusatzZeile(p)}</span>}
+                  </span>
+                </label>
+              </li>
+            ))}
+          </ul>
+          {g.kuerzel === GRUPPE_INSPIRIERT && <p class="bp__hinweis">{HINWEIS_NAMEN}</p>}
+        </details>
+      ))
+    }
+  </div>
 </fieldset>
 
 <style>
@@ -70,14 +84,54 @@ const briefingName = Object.fromEntries(Object.entries(BRIEFING_ZU_TEMPLATE).map
     min-height: 32px;
     font-weight: 400;
   }
-  .bp__gruppe {
-    margin-top: var(--space-m);
+  .bp__aktuell {
+    margin: var(--space-xs) 0 0;
+    font-size: var(--text-small);
   }
-  .bp__gruppe[hidden] {
+  .bp__gruppen {
+    display: grid;
+    gap: var(--space-xs);
+    margin-top: var(--space-s);
+  }
+  .bp__gruppe {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    min-width: 0;
+  }
+  .bp__summary {
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: var(--space-s);
+    min-height: 44px;
+    padding: var(--space-xs) var(--space-m);
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .bp__summary::-webkit-details-marker {
     display: none;
   }
-  .bp__branche {
-    margin: 0 0 var(--space-xs);
+  /* Eigenes Auf-zu-Zeichen: die Zeile ist ein Raster, der Standardpfeil fehlt. */
+  .bp__summary::after {
+    content: '+';
+    width: 1em;
+    text-align: center;
+    font-size: 1.2em;
+    line-height: 1;
+    color: var(--text-muted);
+  }
+  .bp__gruppe[open] > .bp__summary::after {
+    content: '\2212';
+  }
+  .bp__streifen {
+    display: block;
+    height: 20px;
+    border-radius: 3px;
+    border: 1px solid var(--border-strong);
+  }
+  .bp__anzahl {
+    font-weight: 400;
     font-size: var(--text-small);
     color: var(--text-muted);
   }
@@ -87,7 +141,7 @@ const briefingName = Object.fromEntries(Object.entries(BRIEFING_ZU_TEMPLATE).map
     gap: var(--space-s);
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 0 var(--space-m) var(--space-m);
     max-width: none;
   }
   .bp__liste li {
@@ -103,7 +157,7 @@ const briefingName = Object.fromEntries(Object.entries(BRIEFING_ZU_TEMPLATE).map
     padding: var(--space-s) var(--space-m);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    background: var(--surface);
+    background: var(--bg);
     font-weight: 400;
     cursor: pointer;
   }
@@ -131,8 +185,10 @@ const briefingName = Object.fromEntries(Object.entries(BRIEFING_ZU_TEMPLATE).map
     font-size: var(--text-small);
     color: var(--text-muted);
   }
+  .bp__hinweis {
+    margin: 0;
+    padding: 0 var(--space-m) var(--space-m);
+    font-size: var(--text-small);
+    color: var(--text-muted);
+  }
 </style>
-
-<script>
-  import '../scripts/briefing-palette.ts';
-</script>
