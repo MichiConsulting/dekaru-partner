@@ -20,7 +20,7 @@ Zum Erklären gibt es **das Schema im Portal**: ein animiertes, farbiges Schaubi
 
 - die Bausteine der Website
 - die fertigen Farbpaletten: erst eine Farbgruppe, etwa Blau oder Erdtöne, dann die Paletten darin. Der Betrieb tippt eine an und sieht Knöpfe und Text darin. Ganz oben stehen ein paar, die oft zu seiner Branche passen, alle anderen gehen genauso. Gefällt ihm eine, tragen Sie ihren Code (etwa HW-2 oder BL-2) im Briefing-Bogen unter Farbpalette ein
-- was die mitarbeitende Funktion, heute die Online-Terminanfrage im Paket Groß, dem Betrieb abnimmt, und darunter die Software-Module, die heute verkauft werden und zur Branche passen, nur mit Namen und Nutzen (Kapitel 12)
+- was die mitarbeitende Funktion, heute die Online-Terminanfrage im Paket Groß, dem Betrieb abnimmt, und darunter unter "Im Paket Groß zusätzlich möglich" die Software-Module, die heute verkauft werden und zur Branche passen, nur mit Namen und Nutzen (Kapitel 12)
 - den Weg der Daten: Formular auf der Website, Formulardienst von dekaru, Mail an den Betrieb, gespeichert wird nichts
 - wie es nach dem Erstgespräch weitergeht
 
@@ -39,7 +39,7 @@ Fragen Sie direkt: "Entscheiden Sie das selbst oder redet da noch jemand mit?"
 
 **3. Ich baue die Vorschau.** Mit den echten Daten des Betriebs, aus Ihrer Notiz. Das ist Arbeit, die ich in einen Termin stecke, bevor klar ist, ob etwas daraus wird. Deshalb zwei Bitten: einen geplatzten Termin sofort melden, nicht erst im Wochenbericht. Und die Notiz aus dem Gespräch mitschicken, auch wenn sie kurz ist. Je besser die Vorschau trifft, desto eher wird daraus Ihre Provision.
 
-**4. Zweittermin mit der Vorschau.** Vor Ort oder per Video, wie es für den Betrieb passt. Die Vorschau wird gemeinsam angeschaut, nie vorab verschickt. Nach der Website ist Platz für ein passendes Software-Modul, wenn der Betrieb im Erstgespräch einen Anlass genannt hat (Kapitel 12, Verkaufshilfen im Portal). Sagt der Inhaber Ja, füllen Sie mit ihm den **Briefing-Bogen** aus und kreuzen dort auch gewünschte Module an. Rechnen Sie dafür mit zwanzig Minuten. Aus dem Bogen entstehen Angebot, Verträge und die Website. Was dort fehlt, fehlt auf der Seite.
+**4. Zweittermin mit der Vorschau.** Vor Ort oder per Video, wie es für den Betrieb passt. Die Vorschau wird gemeinsam angeschaut, nie vorab verschickt. Nach der Website ist Platz für ein passendes Software-Modul, wenn der Betrieb das Paket Groß nimmt und im Erstgespräch einen Anlass genannt hat (Kapitel 12, Verkaufshilfen im Portal). Zu Klein oder Mittel gibt es kein Modul. Sagt der Inhaber Ja, füllen Sie mit ihm den **Briefing-Bogen** aus und kreuzen dort auch gewünschte Module an. Rechnen Sie dafür mit zwanzig Minuten. Aus dem Bogen entstehen Angebot, Verträge und die Website. Was dort fehlt, fehlt auf der Seite.
 
 **5. Angebot, Werkvertrag, AVV.** Kommen von mir per Mail, der Kunde unterschreibt bei mir. Im Angebot steht der **Fertigstellungstermin als Datum**, im Werkvertrag ist er verbindlich. Sie unterschreiben nichts in meinem Namen und versprechen nichts, was nach Vertrag klingt.
 
@@ -108,7 +108,7 @@ Bleibt die Rückmeldung aus, fragen Sie nach. Das ist Teil der Abmachung, keine 
 
 ## Der Briefing-Bogen: drei Regeln
 
-1. **Nur ankreuzen, was auf der Preisliste steht.** Das gilt auch für Software-Module: Der Bogen bietet nur die verkaufbaren an. Alles andere kommt als Sonderwunsch auf den Bogen, ohne Zusage und ohne Preis.
+1. **Nur ankreuzen, was auf der Preisliste steht.** Das gilt auch für Software-Module: Der Bogen bietet nur die verkaufbaren an, und ankreuzen lassen sie sich nur bei Paket Groß. Alles andere kommt als Sonderwunsch auf den Bogen, ohne Zusage und ohne Preis.
 2. **Keine Passwörter, keine Zugangsdaten auf den Bogen.** Nicht auf Papier, nicht per Mail, nicht per Messenger. Die kläre ich direkt mit dem Kunden.
 3. **Was Sie versprochen haben, steht wörtlich auf dem Bogen.** Das schützt Sie, den Kunden und die Provision.
 

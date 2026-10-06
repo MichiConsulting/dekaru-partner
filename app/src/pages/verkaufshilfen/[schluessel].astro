@@ -6,7 +6,7 @@
 import '../../styles/verkaufshilfen.css';
 import Layout from '../../layouts/Layout.astro';
 import { findeVerkaufbaresModul } from '../../lib/module.ts';
-import { PROVISION_PROZENT, euro } from '../../lib/preise.ts';
+import { MODULE_PAKET_NAME, PROVISION_PROZENT, euro } from '../../lib/preise.ts';
 import { darfPreiseSehen, ladeStufe } from '../../lib/stufe.ts';
 
 const modul = findeVerkaufbaresModul(Astro.params.schluessel);
@@ -41,7 +41,7 @@ const stufeName: Record<string, string> = { klein: 'klein', mittel: 'mittel', gr
   <section class="karte">
     <h2>Für wen</h2>
     <p style="max-width:var(--measure)">{modul.fuerWen}</p>
-    <p class="meta">Lässt sich bauen für: {modul.briefingBranchen.join(', ')}.</p>
+    <p class="meta" data-nur-paket><strong>Nur zum Paket {MODULE_PAKET_NAME}</strong>, wie die mitarbeitende Funktion. Lässt sich bauen für: {modul.briefingBranchen.join(', ')}.</p>
     <h3>Gesprächseinstieg</h3>
     <blockquote class="vh-zitat">„{modul.einstieg}“</blockquote>
   </section>

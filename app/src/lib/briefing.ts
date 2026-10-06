@@ -15,7 +15,7 @@
 
 import type { Db } from './db.ts';
 import { holeKunde, isoDatum, istUuid } from './kunden.ts';
-import { auswahlAusFeldern, findePaket, leereAuswahl, type Auswahl } from './preise.ts';
+import { MODULE_NUR_MIT, MODULE_PAKET_NAME, auswahlAusFeldern, findeModul, findePaket, leereAuswahl, moduleMoeglich, type Auswahl } from './preise.ts';
 import { ALLE_PALETTEN, BRIEFING_ZU_TEMPLATE, PALETTE_OFFEN, findePalette, passtZuTemplate } from './paletten.ts';
 import { moduleZurBranche } from './module.ts';
 
@@ -282,6 +282,12 @@ export function pruefeBriefing(eingabe: Record<string, unknown>): Pruefung {
   if (auswahl.bausteine.individuell && !felder.individuell_beschreibung) fehlend.push('Individuelles Feature, Beschreibung');
   const palettenFehler = paletteZumTemplate(felder.branche, felder.farbpalette);
   if (palettenFehler) fehlend.push(palettenFehler);
+  // Software-Module gibt es nur mit Paket Gross. Die Auswahl bleibt gespeichert
+  // (Zwischenspeichern geht), nur Einreichen nicht: nichts wird still geloescht.
+  const fremdeModule = moduleMoeglich(paket) ? [] : auswahl.module.map((s) => findeModul(s)?.name).filter((n): n is string => Boolean(n));
+  if (fremdeModule.length > 0) {
+    fehlend.push(`Software-Module gibt es ${MODULE_NUR_MIT}. Bitte Paket ${MODULE_PAKET_NAME} wählen oder abwählen: ${fremdeModule.join(', ')}.`);
+  }
   // Software-Module lassen sich nur in bestimmten Website-Vorlagen bauen.
   fehlend.push(...moduleZurBranche(felder.branche, auswahl.module));
 

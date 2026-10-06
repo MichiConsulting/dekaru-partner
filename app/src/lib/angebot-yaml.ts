@@ -12,7 +12,7 @@
 // das Format es so verlangt. Software-Module ebenso als freie Positionen.
 
 import type { Briefing } from './briefing.ts';
-import { ALLE_POSTEN, FUNKTION, HOSTING, berechne, findeModul, findePaket, findeTarif, findeZusatzleistung, type Auswahl } from './preise.ts';
+import { ALLE_POSTEN, FUNKTION, HOSTING, berechne, findeModul, findePaket, findeTarif, findeZusatzleistung, MODULE_NUR_MIT, moduleMoeglich, type Auswahl } from './preise.ts';
 
 export interface YamlKontext {
   vertrieblerName: string;
@@ -117,6 +117,11 @@ function positionenBlock(auswahl: Auswahl): string[] {
   }
   // Software-Module als freie Positionen, Preis aus src/data/module.json
   // (abgeleitet aus derselben preise.json, die das Angebotssystem liest).
+  // Seit 06.10.2026 nur mit Paket Gross. Ein aelterer Bogen ohne Gross behaelt
+  // seine Positionen, bekommt aber einen Kommentar zum Klaeren.
+  if ((auswahl.module ?? []).length > 0 && !moduleMoeglich(auswahl.paket)) {
+    zeilen.push(`  # Achtung: Software-Module gibt es ${MODULE_NUR_MIT}. Paket oder Module vor dem Angebot mit dem Kunden klären.`);
+  }
   for (const schluessel of new Set(auswahl.module ?? [])) {
     const m = findeModul(schluessel);
     if (!m) {

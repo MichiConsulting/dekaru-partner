@@ -151,11 +151,22 @@ describe('Briefing-Bogen: Felder', () => {
   });
 
   it('nimmt verkaufbare Software-Module auf und prueft die Branche', () => {
-    const mit = pruefeBriefing(vollstaendig({ 'm_modul-kostenrechner': 'on', 'm_modul-terminbuchung': 'on' }));
+    const mit = pruefeBriefing(vollstaendig({ paket: 'gross', 'm_modul-kostenrechner': 'on', 'm_modul-terminbuchung': 'on' }));
     expect(mit.daten.auswahl.module).toEqual(['modul-kostenrechner']);
     expect(mit.fehlend).toEqual([]);
-    const gastro = pruefeBriefing(vollstaendig({ branche: 'Gastronomie', 'm_modul-kostenrechner': 'on' }));
+    const gastro = pruefeBriefing(vollstaendig({ paket: 'gross', branche: 'Gastronomie', 'm_modul-kostenrechner': 'on' }));
     expect(gastro.fehlend.some((f) => /Kostenrechner für Ihre Kunden lässt sich für die Branche Gastronomie nicht bauen/.test(f))).toBe(true);
+  });
+
+  it('nimmt Software-Module nur mit Paket Groß an, behaelt sie aber beim Speichern', () => {
+    for (const paket of ['klein', 'mittel']) {
+      const ohne = pruefeBriefing(vollstaendig({ paket, 'm_modul-kostenrechner': 'on' }));
+      // Einreichen geht nicht, Zwischenspeichern schon: keine Sperre, Auswahl bleibt.
+      expect(ohne.sperren).toEqual([]);
+      expect(ohne.fehlend).toEqual(['Software-Module gibt es nur mit Paket Groß. Bitte Paket Groß wählen oder abwählen: Kostenrechner für Ihre Kunden.']);
+      expect(ohne.daten.auswahl.module).toEqual(['modul-kostenrechner']);
+    }
+    expect(pruefeBriefing(vollstaendig({ paket: 'mittel' })).fehlend).toEqual([]);
   });
 });
 
@@ -229,7 +240,8 @@ describe('Briefing-Bogen: Speichern und Zugriff', () => {
     const mitFarbe = await speichereBriefing(db, anna.id, bogenAnna, pruefeBriefing({ firmenname: 'X', farbpalette: 'offen' }).daten);
     expect(mitFarbe?.farbpalette).toBe('offen');
 
-    const voll = pruefeBriefing(vollstaendig({ farbpalette: 'HW-2', 'm_modul-kostenrechner': 'on' }));
+    const voll = pruefeBriefing(vollstaendig({ paket: 'gross', farbpalette: 'HW-2', 'm_modul-kostenrechner': 'on' }));
+    expect(voll.fehlend).toEqual([]);
     const eingereicht = await reicheEin(db, anna.id, bogenAnna, voll.daten, new Date('2026-10-04T10:00:00Z'));
     expect(eingereicht?.status).toBe('eingereicht');
     expect(eingereicht?.farbpalette).toBe('HW-2');
@@ -298,5 +310,31 @@ describe('Briefing-Bogen: Speichern und Zugriff', () => {
     const b = (await erstelleBriefing(db, bert.id, kundeBert.id))!;
     expect(await loescheBriefing(db, bert.id, b.id)).toBe(true);
     expect(await holeBriefing(db, bert.id, b.id)).toBeNull();
+  });
+});
+
+describe('Briefing-Bogen: Module ohne Paket Groß', () => {
+  it('ein gespeicherter Bogen mit Modul ohne Groß zeigt beim Oeffnen den Hinweis und behaelt das Kreuz', async () => {
+    const { experimental_AstroContainer: AstroContainer } = await import('astro/container');
+    const { default: BogenSeite } = await import('../src/pages/briefing/[id].astro');
+    const kunde = await erstelleKunde(db, anna.id, pruefeKunde({ name: 'Umzüge Alt', status: 'zweittermin' }).wert);
+    const b = (await erstelleBriefing(db, anna.id, kunde.id))!;
+    // So lag ein Bogen vor der Regel vom 06.10.2026 in der Datenbank.
+    const alt = pruefeBriefing(vollstaendig({ branche: 'Umzug', paket: 'mittel', 'm_modul-kostenrechner': 'on' }));
+    await speichereBriefing(db, anna.id, b.id, alt.daten);
+    const container = await AstroContainer.create();
+    const antwort = await container.renderToResponse(BogenSeite, {
+      request: new Request(`http://localhost/briefing/${b.id}`),
+      params: { id: b.id },
+      locals: { db, benutzer: anna, csrf: 'x', sitzungId: 's' },
+    });
+    const html = await antwort.text();
+    const feld = /<input[^>]*name="m_modul-kostenrechner"[^>]*>/.exec(html)?.[0] ?? '';
+    expect(feld).toMatch(/\schecked/);
+    expect(feld).not.toMatch(/\sdisabled/);
+    expect(html).not.toMatch(/data-module-warnung hidden/);
+    expect(html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ')).toContain('Software-Module gibt es nur mit Paket Groß. Angekreuzt ist Kostenrechner für Ihre Kunden');
+    // Nichts wurde still geloescht.
+    expect((await holeBriefing(db, anna.id, b.id))?.daten.auswahl.module).toEqual(['modul-kostenrechner']);
   });
 });

@@ -185,6 +185,37 @@
   color: var(--text);
   margin-top: 2px;
 }
+.posten__nur-gross {
+  display: inline-block;
+  margin-top: var(--space-xs);
+  padding: 2px 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  font-size: var(--text-small);
+  font-weight: 500;
+  color: var(--text);
+}
+.posten__nur-gross[hidden] {
+  display: none;
+}
+/* Software-Modul ohne Paket Gross: ausgegraut ist nur das Kaestchen, der Text
+   bleibt voll lesbar (Kontrast). */
+.posten--gesperrt {
+  background: var(--surface-2);
+}
+.posten--gesperrt .posten__text label {
+  cursor: not-allowed;
+}
+.posten__wahl input[type='checkbox']:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.module__status {
+  margin-bottom: var(--space-m);
+}
+.module__status[hidden] {
+  display: none;
+}
 .posten__preis {
   flex: 0 0 auto;
   min-width: 7em;

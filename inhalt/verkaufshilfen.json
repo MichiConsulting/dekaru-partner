@@ -5,19 +5,19 @@
   "zweittermin": {
     "titel": "Module im Zweittermin ansprechen",
     "schritte": [
-      "Erst die Website. Ein Modul kommt zur Sprache, wenn die Vorschau besprochen ist und das Paket steht, nicht vorher.",
+      "Erst die Website. Ein Modul kommt zur Sprache, wenn die Vorschau besprochen ist und das Paket Groß steht, nicht vorher. Zu Klein oder Mittel gibt es kein Modul.",
       "An das anknüpfen, was der Betrieb im Erstgespräch erzählt hat, zum Beispiel Anrufe nur wegen eines groben Preises. Ihre Notizen und der Schritt Funktion im Schema helfen dabei.",
       "Nur Module ansprechen, die hier stehen und zur Branche passen. Keine Liste vorlesen, eine Frage reicht.",
       "Ehrlich sagen, was das Modul nicht kann. Das steht in jedem Steckbrief.",
       "Stufe 1: Nutzen erklären, Interesse im Briefing-Bogen ankreuzen, den Preis nennt Michael Henning. Stufe 2: den Preis aus dem Preisrechner nennen, ohne Nachlass.",
       "Sagt der Betrieb nein, bleibt es dabei. Kein zweiter Anlauf im selben Termin."
     ],
-    "merke": "Ein Modul, das im Erstauftrag mitverkauft wird, bringt 35 % Provision. Kauft der Betrieb es später, ist es ein Folgegeschäft ohne Provision."
+    "merke": "Module gibt es nur zum Paket Groß. Ein Modul, das im Erstauftrag mitverkauft wird, bringt 35 % Provision. Kauft der Betrieb es später, ist es ein Folgegeschäft ohne Provision."
   },
   "module": [
     {
       "schluessel": "modul-kostenrechner",
-      "fuerWen": "Betriebe, deren Preis sich aus wenigen Angaben grob ableiten lässt: Fläche, Zimmer, Stunden, Menge. Typisch sind Umzug, Reinigung, Garten- und Landschaftsbau und Maler. Bei Betrieben, die fast nur nach Besichtigung kalkulieren, passt er weniger.",
+      "fuerWen": "Betriebe mit Paket Groß, deren Preis sich aus wenigen Angaben grob ableiten lässt: Fläche, Zimmer, Stunden, Menge. Typisch sind Umzug, Reinigung, Garten- und Landschaftsbau und Maler. Bei Betrieben, die fast nur nach Besichtigung kalkulieren, passt er weniger.",
       "einstieg": "Sie hatten erzählt, dass viele nur wegen eines groben Preises anrufen: Wäre es eine Hilfe, wenn Ihre Kunden sich den vorher auf der Website selbst ausrechnen?",
       "fragen": [
         {
@@ -41,12 +41,17 @@
           "antwort": "Dann schicken Sie die neuen Preise per Mail an Herrn Henning, wie jede andere Änderung an der Website."
         },
         {
+          "frage": "Geht das auch mit dem kleineren Paket?",
+          "antwort": "Nein. Den Kostenrechner gibt es nur zum Paket Groß. Da arbeitet Ihre Website ohnehin schon mit und nimmt Anfragen entgegen, der Rechner erweitert genau das."
+        },
+        {
           "frage": "Schreckt ein Preis auf der Website nicht ab?",
           "antwort": "Sie legen fest, wie er rechnet, und er zeigt eine Spanne statt eines festen Betrags. Wer dann anfragt, kennt die Größenordnung schon."
         }
       ],
       "intern": [
-        "Im Erstgespräch nur den Nutzen, keinen Preis. Das Schema zeigt ihn bei Handwerk im Schritt Funktion.",
+        "Nur zum Paket Groß, wie die mitarbeitende Funktion. Zu Klein oder Mittel nicht anbieten, auch nicht als Ausnahme. Preisrechner und Briefing-Bogen lassen ihn nur bei Groß ankreuzen.",
+        "Im Erstgespräch nur den Nutzen, keinen Preis. Das Schema zeigt ihn bei Handwerk, Umzug, Reinigung und Garten im Schritt Funktion unter \"Im Paket Groß zusätzlich möglich\".",
         "Nur für Websites aus den Vorlagen Handwerk, Garten- und Landschaftsbau, Reinigung und Umzug. Für andere Branchen nicht anbieten.",
         "Nicht als KI verkaufen. Er rechnet mit festen Regeln und braucht keinen Anthropic-Schlüssel.",
         "Nicht sagen, dass dekaru nicht dazwischen ist. Das Ergebnis geht mit dem Kontaktformular über den Formulardienst, wie jede Anfrage, gespeichert wird dort nichts.",

@@ -83,14 +83,18 @@ export const PALETTE_OFFEN = 'offen';
 
 /**
  * Schema-Branchen des Erstgespraechs auf Template-Branchen. Das Schema kennt
- * nur vier Gespraechsbranchen: Friseur gehoert im Template-System zu
- * "dienstleister" (Beauty), Praxis zu "gesundheit".
+ * sieben Gespraechsbranchen: Friseur gehoert im Template-System zu
+ * "dienstleister" (Beauty), Praxis zu "gesundheit", Umzug, Reinigung und
+ * Garten haben je ein gleichnamiges Template (seit 06.10.2026).
  */
 export const SCHEMA_ZU_TEMPLATE: Record<string, string> = {
   handwerk: 'handwerk',
   gastro: 'gastro',
   friseur: 'dienstleister',
   praxis: 'gesundheit',
+  umzug: 'umzug',
+  reinigung: 'reinigung',
+  garten: 'garten',
 };
 
 /**

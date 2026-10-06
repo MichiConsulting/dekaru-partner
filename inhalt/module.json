@@ -8,7 +8,7 @@
       "name": "Kostenrechner für Ihre Kunden",
       "art": "besucher",
       "kurz": "Besucher rechnen sich vorab einen unverbindlichen Richtwert aus und schicken ihn mit ihrer Anfrage.",
-      "schemaBranchen": ["handwerk"],
+      "schemaBranchen": ["handwerk", "umzug", "reinigung", "garten"],
       "templates": ["handwerk", "garten", "reinigung", "umzug"],
       "einleitung": "Auf Ihrer Website gibt ein Besucher ein paar Angaben ein, zum Beispiel Fläche, Zimmer oder Extras, und sieht sofort einen unverbindlichen Richtwert als Spanne. Mit einem Knopf übernimmt er Angaben und Spanne in seine Anfrage.",
       "nutzen": [
@@ -23,7 +23,7 @@
         "Ohne JavaScript im Browser zeigt die Seite statt des Rechners Ihre Telefonnummer und das Kontaktformular."
       ],
       "voraussetzungen": [
-        "Eine Website von dekaru für Handwerk, Garten- und Landschaftsbau, Reinigung oder Umzug.",
+        "Eine Website von dekaru im Paket Groß, für Handwerk, Garten- und Landschaftsbau, Reinigung oder Umzug.",
         "Sie kennen Ihre Preise grob, etwa je Quadratmeter, je Stunde oder als Pauschale.",
         "Kein Google-Konto, kein KI-Dienst, kein zusätzliches Abo."
       ],

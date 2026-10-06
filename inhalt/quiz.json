@@ -1231,6 +1231,21 @@
       "aussage": "Konten bei Google und Anthropic richtet Michael Henning im Einrichtungstermin mit dem Betrieb ein, nicht der Vertriebler.",
       "richtig": true,
       "erklaerung": "Die Einrichtung ist im Modulpreis enthalten und läuft über Michael Henning. Sie richten nichts ein und nehmen keine Zugangsdaten auf."
+    },
+    {
+      "id": "q72",
+      "typ": "multiple-choice",
+      "kapitel": "12-software-module",
+      "frage": "Ein Umzugsbetrieb nimmt das Paket Mittel und möchte dazu den Kostenrechner. Was sagen Sie?",
+      "optionen": [
+        "\"Kein Problem, den buche ich Ihnen dazu.\"",
+        "\"Den Kostenrechner gibt es nur zum Paket Groß. Da arbeitet die Website ohnehin schon mit, und der Rechner erweitert das.\"",
+        "\"Bei Mittel kostet er etwas mehr, den Preis nennt Herr Henning.\"",
+        "\"Nehmen Sie Mittel, den Rechner bauen wir später als Ausnahme ein.\""
+      ],
+      "richtig": [1],
+      "mehrfach": false,
+      "erklaerung": "Software-Module gibt es nur zum Paket Groß, wie die mitarbeitende Funktion. Zu Klein oder Mittel bieten Sie keines an, auch nicht als Ausnahme. Ob der Betrieb doch Groß nimmt, entscheidet er selbst."
     }
   ]
 }
