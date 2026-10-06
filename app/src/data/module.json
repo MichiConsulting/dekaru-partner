@@ -1,7 +1,7 @@
 {
   "_hinweis": "Erzeugt mit scripts/module-sync.mjs aus dekaru-rechnungen/preise.json (leistungen.module). Enthaelt nur verkaufbare Module. Nicht von Hand aendern. Nach jeder Aenderung dort: npm run module-sync",
   "quelle": "dekaru-rechnungen/preise.json (leistungen.module)",
-  "regel": "Software-Module: Einmalpreis, Einrichtung beim Betrieb (Google, Anthropic, Betriebs-Skript) ist im Preis enthalten. Updates und Hilfe nur mit Hosting bei dekaru. Nur Eintraege mit verkaufbar true anbieten. Provision 35 Prozent, wenn im Erstauftrag verkauft. Entschieden am 06.10.2026.",
+  "regel": "Software-Module gibt es nur zum Website-Paket Gross (entschieden 06.10.2026). Einmalpreis, Einrichtung beim Betrieb (Google, Anthropic, Betriebs-Skript) ist im Preis enthalten. Updates und Hilfe nur mit Hosting bei dekaru. Nur Eintraege mit verkaufbar true anbieten. Provision 35 Prozent, wenn im Erstauftrag verkauft. Entschieden am 06.10.2026.",
   "module": [
     {
       "schluessel": "modul-kostenrechner",
