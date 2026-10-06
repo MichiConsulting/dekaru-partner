@@ -230,4 +230,17 @@ describe('Seite /schema', () => {
     expect(text).not.toMatch(/Dekaru|DEKARU/);
     expect(text).not.toMatch(/von mir|bei mir/);
   });
+
+  it.each(['umzug', 'reinigung', 'garten'])('Branche %s: eigene Texte, Datenweg, Kostenrechner im Paket Groß, keine Bauzeit', async (id) => {
+    const html = await rendere(id);
+    const text = nurText(html);
+    expect(html).toMatch(new RegExp(`data-branche="${id}"`));
+    expect(html).toMatch(new RegExp(`class="branche branche--${id}" href="/schema\\?branche=${id}#schritt-1"[^>]*aria-current="true"`));
+    expect(text).toContain('Formulardienst von dekaru');
+    expect(text).toMatch(/Inhalt der Anfrage nicht gespeichert/);
+    expect(text).toContain('Im Paket Groß zusätzlich möglich');
+    expect(text).toContain('Kostenrechner für Ihre Kunden');
+    expect(text).not.toMatch(/\b(\d+|ein|zwei|drei|vier|fünf|sechs|sieben|acht|zehn)\s+(Werk)?(Tagen?|Wochen?)\b/i);
+    expect(text).not.toMatch(/Fotoanfrage|Anfrage mit Fotos/);
+  });
 });

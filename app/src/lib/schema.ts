@@ -9,8 +9,10 @@
 
 import { ALLE_POSTEN, FUNKTION, GRUNDLEISTUNG, HOSTING, PAKETE, PREIS_AB, euro, type PaketSchluessel } from './preise.ts';
 
-export type BrancheId = 'handwerk' | 'gastro' | 'friseur' | 'praxis';
-export const BRANCHEN_IDS: BrancheId[] = ['handwerk', 'gastro', 'friseur', 'praxis'];
+// Seit 06.10.2026 sieben Branchen: Umzug, Reinigung und Garten haben eigene
+// Templates und sind die Branchen, fuer die sich der Kostenrechner bauen laesst.
+export type BrancheId = 'handwerk' | 'gastro' | 'friseur' | 'praxis' | 'umzug' | 'reinigung' | 'garten';
+export const BRANCHEN_IDS: BrancheId[] = ['handwerk', 'gastro', 'friseur', 'praxis', 'umzug', 'reinigung', 'garten'];
 export const BRANCHE_VORGABE: BrancheId = 'handwerk';
 
 export interface Punkt {
@@ -128,6 +130,72 @@ export const BRANCHEN: Record<BrancheId, Branche> = {
     besucher: 'Ein Kunde',
     leistungsliste: 'Leistungsübersicht',
     datenHinweis: 'Am Formular steht: Bitte keine Gesundheitsangaben. Die gehören ins Gespräch, nicht in eine Mail.',
+  },
+  umzug: {
+    id: 'umzug',
+    name: 'Umzug',
+    beispiele: 'Umzüge, Möbeltransport, Entrümpelung, Montage',
+    heute: [
+      { titel: 'Das Telefon klingelt beim Tragen', text: 'Mit dem Schrank auf der Treppe geht keiner ran. Die Mailbox füllt sich.' },
+      { titel: 'Zuerst kommt die Preisfrage', text: 'Was kostet ein Umzug mit drei Zimmern? Ohne Angaben lässt sich das am Telefon kaum sagen.' },
+      { titel: 'Angaben fehlen', text: 'Stockwerk, Aufzug, Menge: Was für ein Angebot nötig ist, fragen Sie oft mehrmals nach.' },
+      { titel: 'Und die Website?', text: 'Sieht man dort, was Sie übernehmen und wie man Sie erreicht, auch auf dem Handy?' },
+    ],
+    funktion: TERMIN,
+    felder: ['Name', 'Telefon oder Mail', 'Zimmer, Stockwerk, Aufzug', 'Wunschtermin'],
+    beispielAnfrage: { zeit: 'Samstag, 21:10 Uhr', text: 'Umzug mit 3 Zimmern, 2. Stock ohne Aufzug. Wunschtermin: Ende des Monats.' },
+    abnahme: [
+      { titel: 'Kein Anruf beim Tragen', text: 'Die Anfrage kommt als Mail, Sie lesen sie nach dem Einsatz.' },
+      { titel: 'Die wichtigen Angaben stehen drin', text: 'Zimmer, Stockwerk und Wunschtermin. Sie müssen weniger nachfragen.' },
+      { titel: 'Sie bestätigen selbst', text: 'Sie prüfen, ob der Termin passt, und melden sich. Nichts wird automatisch gebucht.' },
+    ],
+    besucher: 'Ein Kunde',
+    leistungsliste: 'Leistungsübersicht',
+    datenHinweis: 'Bei einem Umzug stehen oft zwei Adressen in der Anfrage. Auch die liegen danach nur in Ihrem Postfach.',
+  },
+  reinigung: {
+    id: 'reinigung',
+    name: 'Reinigung',
+    beispiele: 'Gebäude, Büros, Fenster, Haushalte',
+    heute: [
+      { titel: 'Das Telefon klingelt im Einsatz', text: 'Mit Handschuhen und Eimer geht keiner ran. Zurückgerufen wird erst abends.' },
+      { titel: 'Jeder fragt nach dem Preis', text: 'Was kostet die Reinigung für ein Büro? Ohne Fläche und Rhythmus ist das schwer zu sagen.' },
+      { titel: 'Angaben auf Zetteln', text: 'Fläche, Rhythmus und Wunschtag werden notiert, nachgefragt und wieder notiert.' },
+      { titel: 'Und die Website?', text: 'Steht dort, was Sie reinigen und für wen, auch auf dem Handy?' },
+    ],
+    funktion: TERMIN,
+    felder: ['Name', 'Telefon oder Mail', 'Was gereinigt werden soll, ungefähre Fläche', 'Wunschtermin'],
+    beispielAnfrage: { zeit: 'Donnerstag, 20:45 Uhr', text: 'Büro mit etwa 120 Quadratmetern, einmal pro Woche. Beginn gern zum Monatsanfang.' },
+    abnahme: [
+      { titel: 'Kein Telefon im Einsatz', text: 'Anfragen kommen als Mail und warten, bis Sie fertig sind.' },
+      { titel: 'Fläche und Rhythmus stehen drin', text: 'Sie sehen sofort, worum es geht, und können das Angebot vorbereiten.' },
+      { titel: 'Sie bestätigen selbst', text: 'Sie vereinbaren den Termin wie bisher. Nichts wird automatisch gebucht.' },
+    ],
+    besucher: 'Ein Kunde',
+    leistungsliste: 'Leistungsübersicht',
+    datenHinweis: 'Am Formular steht: Bitte keine Schlüssel- oder Alarmcodes eintragen. Die klären Sie persönlich.',
+  },
+  garten: {
+    id: 'garten',
+    name: 'Garten- und Landschaftsbau',
+    beispiele: 'Gartenpflege, Pflaster, Baumpflege, Zäune',
+    heute: [
+      { titel: 'Das Telefon klingelt im Beet', text: 'Mit Erde an den Händen oder auf dem Bagger geht keiner ran.' },
+      { titel: 'Im Frühjahr wollen alle gleichzeitig', text: 'Die Anfragen stapeln sich, die Rückrufliste wird jeden Abend länger.' },
+      { titel: 'Erst einmal vorbeikommen', text: 'Ohne Fläche und Wunsch lässt sich am Telefon kaum etwas sagen.' },
+      { titel: 'Und die Website?', text: 'Zeigt sie Ihre Arbeiten mit Bildern, auch auf dem Handy?' },
+    ],
+    funktion: TERMIN,
+    felder: ['Name', 'Telefon oder Mail', 'Was gemacht werden soll, ungefähre Fläche', 'Wunschtermin'],
+    beispielAnfrage: { zeit: 'Sonntag, 18:30 Uhr', text: 'Hecke schneiden und Rasen neu anlegen, etwa 200 Quadratmeter. Wunschtermin: im April.' },
+    abnahme: [
+      { titel: 'Kein Anruf auf der Baustelle', text: 'Die Anfrage kommt als Mail, Sie lesen sie nach Feierabend.' },
+      { titel: 'Auftrag und Fläche stehen drin', text: 'Sie wissen vor dem Rückruf, worum es geht, und planen die Besichtigung.' },
+      { titel: 'Sie bestätigen selbst', text: 'Sie entscheiden, wann es passt. Nichts wird automatisch gebucht.' },
+    ],
+    besucher: 'Ein Kunde',
+    leistungsliste: 'Leistungsübersicht',
+    datenHinweis: 'Die Adresse des Gartens steht nur in der Mail an Sie. Für die Besichtigung melden Sie sich wie gewohnt.',
   },
 };
 

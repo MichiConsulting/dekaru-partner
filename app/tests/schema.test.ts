@@ -10,6 +10,7 @@ import type { Benutzer } from '../src/lib/auth.ts';
 import { HOSTING, HOSTING_TARIFE, PAKETE, PREIS_AB, euro, findeModul } from '../src/lib/preise.ts';
 import { BRANCHEN, BRANCHEN_IDS, anzahlBausteine, bausteine, findeBranche } from '../src/lib/schema.ts';
 import { verfuegbareModule } from '../src/lib/schema-module.ts';
+import { VERKAUFBARE_MODULE } from '../src/lib/module.ts';
 import { ALLE_PALETTEN, FARBGRUPPEN, HINWEIS_NAMEN, SCHEMA_ZU_TEMPLATE, empfohlenePaletten, findePalette, palettenBranche, paletteFuerSchema, probeStil, schemaDaten } from '../src/lib/paletten.ts';
 import { neueDb, vertriebler } from './helfer.ts';
 
@@ -85,17 +86,80 @@ describe('Seite /erstgespraech', () => {
 
   it('zeigt Module nur in passenden Branchen und nie, was noch nicht verkauft wird', async () => {
     // Namen aus dekaru-rechnungen/preise.json, die heute nicht verkaufbar sind.
-    const nichtVerkaufbar = ['Terminbuchung', 'Tischreservierung', 'Reel-Werkstatt', 'Beitrags-Schreiber', 'Bewertungs-Assistent', 'Angebots-Assistent', 'Schicht- und Urlaubsplan', 'Lagerliste', 'Anfrage mit Fotos', 'Speisekarte und Preisliste'];
+    const nichtVerkaufbar = ['Terminbuchung', 'Tischreservierung', 'Reel-Werkstatt', 'Beitrags-Schreiber', 'Bewertungs-Assistent', 'Angebots-Assistent', 'Schicht- und Urlaubsplan', 'Lagerliste', 'Anfrage mit Fotos', 'Fotoanfrage', 'Speisekarte und Preisliste'];
     for (const id of BRANCHEN_IDS) {
       const { schema } = await rendere(id);
       for (const name of nichtVerkaufbar) expect(schema, name).not.toContain(name);
-      const block = schema.match(new RegExp(`<div class="module"[^>]*data-fuer-branche="${id}"[^>]*>`))?.[0] ?? null;
-      expect(Boolean(block), id).toBe(verfuegbareModule(id).length > 0);
-      if (block) expect(block).not.toContain('hidden');
+      // Schritt 4: der Block der gewaehlten Branche, sichtbar, mit Modulen genau dann, wenn es welche gibt.
+      const schritt4 = schema.slice(schema.indexOf('id="schritt-4"'), schema.indexOf('id="schritt-5"'));
+      const eigener = schritt4.slice(schritt4.indexOf(`data-fuer-branche="${id}"`));
+      const bis = eigener.indexOf('data-fuer-branche=', 10);
+      const block = bis > -1 ? eigener.slice(0, bis) : eigener;
+      expect(block.includes('data-module'), id).toBe(verfuegbareModule(id).length > 0);
     }
-    const { schema } = await rendere('handwerk');
-    expect(nurText(schema)).toContain('Kostenrechner für Ihre Kunden');
-    expect(schema).not.toMatch(/<div class="module"[^>]*data-fuer-branche="(gastro|friseur|praxis)"/);
+    for (const id of ['handwerk', 'umzug', 'reinigung', 'garten']) {
+      const text = nurText((await rendere(id)).schema);
+      expect(text, id).toContain('Kostenrechner für Ihre Kunden');
+      expect(text, id).toContain('Im Paket Groß zusätzlich möglich');
+      expect(text, id).toContain('nur zu einer Website im Paket Groß');
+    }
+  });
+
+  it('zeigt die Module in Schritt 2 als Zeile nur beim Paket Groß, nicht als Baustein', async () => {
+    const { schema } = await rendere('umzug');
+    expect(schema).toMatch(/<div data-fuer-branche="umzug"(?! hidden)[^>]*>\s*<p class="bausteine-module" data-in="gross"/);
+    expect(schema).toMatch(/<div data-fuer-branche="garten" hidden[^>]*>\s*<p class="bausteine-module"/);
+    expect(nurText(schema)).toMatch(/Nur im Paket Groß dazu wählbar:\s+Kostenrechner für Ihre Kunden\. Mehr dazu in Schritt 4\./);
+    expect(schema).not.toMatch(/data-fuer-branche="(gastro|friseur|praxis)"[^>]*>\s*<p class="bausteine-module"/);
+    // Die Zahl der Bausteine bleibt, Module sind kein Teil des Pakets.
+    for (const p of PAKETE) expect(anzahlBausteine(bausteine(BRANCHEN.umzug), p.schluessel)).toBe(anzahlBausteine(bausteine(BRANCHEN.handwerk), p.schluessel));
+    // CSS: die Zeile verschwindet bei Klein und Mittel.
+    expect(css).toContain(".schema[data-paket='klein'] .bausteine-module:not([data-in~='klein'])");
+    expect(css).toContain(".schema[data-paket='mittel'] .bausteine-module:not([data-in~='mittel'])");
+  });
+});
+
+describe('Die sieben Branchen', () => {
+  it('hat Umzug, Reinigung und Garten mit eigenen Texten fuer jeden Schritt', () => {
+    expect(BRANCHEN_IDS).toEqual(['handwerk', 'gastro', 'friseur', 'praxis', 'umzug', 'reinigung', 'garten']);
+    const gesehen = new Set<string>();
+    for (const id of BRANCHEN_IDS) {
+      const b = BRANCHEN[id];
+      expect(b.heute).toHaveLength(4);
+      expect(b.felder).toHaveLength(4);
+      expect(b.abnahme).toHaveLength(3);
+      expect(b.funktion).toBe(id === 'gastro' ? 'Online-Tischanfrage' : 'Online-Terminanfrage');
+      // Keine Branche schreibt die Saetze einer anderen ab.
+      for (const p of [...b.heute.slice(0, 3), ...b.abnahme]) {
+        if (p.titel === 'Sie bestätigen selbst') continue;
+        expect(gesehen.has(p.text), `${id}: ${p.text}`).toBe(false);
+        gesehen.add(p.text);
+      }
+      expect(gesehen.has(b.beispielAnfrage.text)).toBe(false);
+      gesehen.add(b.beispielAnfrage.text);
+    }
+    for (const id of ['umzug', 'reinigung', 'garten'] as const) expect(findeBranche(id).id).toBe(id);
+  });
+
+  it.each(['umzug', 'reinigung', 'garten'] as const)('%s: gleichnamiges Template, dessen Paletten und der Kostenrechner', async (id) => {
+    expect(SCHEMA_ZU_TEMPLATE[id]).toBe(id);
+    const { schema } = await rendere(id);
+    const standard = palettenBranche(id)!.standard;
+    expect(standard).toMatch(/^(UM|RE|GT)-1$/);
+    expect(schema).toMatch(new RegExp(`<div class="empfehlung" data-fuer-branche="${id}"(?! hidden)`));
+    expect(schema).toContain(`data-palette-wahl="${standard}"`);
+    expect(nurText(schema)).toContain(`Die Vorschau zeigt Palette ${standard}`);
+    expect(verfuegbareModule(id).map((m) => m.schluessel)).toEqual(['modul-kostenrechner']);
+    expect(schema).toMatch(new RegExp(`<input[^>]*value="http://localhost/schema\\?branche=${id}"`));
+    expect(schema).toMatch(new RegExp(`class="branche branche--${id}" href="/erstgespraech\\?branche=${id}#schritt-1"[^>]*aria-current="true"`));
+  });
+
+  it('jede Schema-Branche hat ein Template mit Palettenempfehlung', () => {
+    for (const id of BRANCHEN_IDS) expect(empfohlenePaletten(SCHEMA_ZU_TEMPLATE[id]).length, id).toBeGreaterThanOrEqual(4);
+  });
+
+  it('hat fuer jede Branche eine Kartenfarbe in schema.css', () => {
+    for (const id of BRANCHEN_IDS) expect(css, id).toContain(`.branche--${id} {`);
   });
 });
 
@@ -235,14 +299,21 @@ describe('Bausteine', () => {
 
 describe('Module', () => {
   it('zeigt nur verkaufbare Module der passenden Branche, ohne Preis', () => {
-    // Heute verkaufbar: nur der Kostenrechner, und der nur im Handwerk.
-    expect(verfuegbareModule('handwerk').map((m) => m.schluessel)).toEqual(['modul-kostenrechner']);
+    // Heute verkaufbar: nur der Kostenrechner, in Handwerk, Umzug, Reinigung und Garten.
+    for (const b of ['handwerk', 'umzug', 'reinigung', 'garten'] as const) expect(verfuegbareModule(b).map((m) => m.schluessel)).toEqual(['modul-kostenrechner']);
     for (const b of ['gastro', 'friseur', 'praxis'] as const) expect(verfuegbareModule(b)).toEqual([]);
     for (const b of BRANCHEN_IDS) {
       for (const m of verfuegbareModule(b)) {
         expect(findeModul(m.schluessel), m.schluessel).not.toBeNull();
         expect(`${m.name} ${m.kurz}`).not.toMatch(/€|\d+\s*Euro/);
       }
+    }
+  });
+
+  it('Schema-Branchen eines Moduls passen genau zu seinen Templates', () => {
+    for (const m of VERKAUFBARE_MODULE) {
+      const erwartet = BRANCHEN_IDS.filter((b) => m.templates.includes(SCHEMA_ZU_TEMPLATE[b]));
+      expect([...m.schemaBranchen].sort(), m.schluessel).toEqual([...erwartet].sort());
     }
   });
 });

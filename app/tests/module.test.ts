@@ -78,7 +78,7 @@ describe('Module im Portal', () => {
     expect(VERKAUFBARE_MODULE.map((m) => [m.schluessel, m.preis, m.provision])).toEqual([['modul-kostenrechner', 200, 70]]);
     const k = VERKAUFBARE_MODULE[0];
     expect(k.name).toBe('Kostenrechner für Ihre Kunden');
-    expect(k.schemaBranchen).toEqual(['handwerk']);
+    expect(k.schemaBranchen).toEqual(['handwerk', 'umzug', 'reinigung', 'garten']);
     expect(k.briefingBranchen.sort()).toEqual(['Garten- und Landschaftsbau', 'Handwerk', 'Reinigung', 'Umzug']);
   });
 

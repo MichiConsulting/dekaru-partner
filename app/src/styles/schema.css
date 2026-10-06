@@ -28,6 +28,9 @@
   --sc-gelb-flaeche: #fbf0c8;
   --sc-gelb-text: #574000;
   --sc-gelb-rand: #c9a227;
+  --sc-moos-flaeche: #edf0d4;
+  --sc-moos-text: #3a420c;
+  --sc-moos-rand: #8c9b2c;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
@@ -49,6 +52,9 @@
     --sc-gelb-flaeche: #32290d;
     --sc-gelb-text: #f2d77e;
     --sc-gelb-rand: #c9a227;
+    --sc-moos-flaeche: #252a10;
+    --sc-moos-text: #dce6a2;
+    --sc-moos-rand: #9cad38;
   }
 }
 :root[data-theme='dark'] {
@@ -70,6 +76,9 @@
   --sc-gelb-flaeche: #32290d;
   --sc-gelb-text: #f2d77e;
   --sc-gelb-rand: #c9a227;
+  --sc-moos-flaeche: #252a10;
+  --sc-moos-text: #dce6a2;
+  --sc-moos-rand: #9cad38;
 }
 
 /* ── Grundgeruest ── */
@@ -349,6 +358,21 @@ html.modus-bereit .schema:not(.schema--js) .schritt:not(#schritt-0) {
   --fl-flaeche: var(--sc-blau-flaeche);
   --fl-text: var(--sc-blau-text);
   --fl-rand: var(--sc-blau-rand);
+}
+.branche--umzug {
+  --fl-flaeche: var(--sc-gelb-flaeche);
+  --fl-text: var(--sc-gelb-text);
+  --fl-rand: var(--sc-gelb-rand);
+}
+.branche--reinigung {
+  --fl-flaeche: var(--sc-tuerkis-flaeche);
+  --fl-text: var(--sc-tuerkis-text);
+  --fl-rand: var(--sc-tuerkis-rand);
+}
+.branche--garten {
+  --fl-flaeche: var(--sc-moos-flaeche);
+  --fl-text: var(--sc-moos-text);
+  --fl-rand: var(--sc-moos-rand);
 }
 
 /* ── Karten (Schritt 1 und 3) ── */
@@ -631,6 +655,21 @@ html.modus-bereit .schema:not(.schema--js) .schritt:not(#schritt-0) {
 }
 .module {
   margin-top: 1.4em;
+}
+/* Schritt 2: Hinweis auf Software-Module, nur beim Paket mit Modulen. */
+.bausteine-module {
+  margin: 1em 0 0;
+  padding: 0.6em 0.8em;
+  border: 2px dashed var(--sc-blau-rand);
+  border-radius: 8px;
+  background: var(--sc-blau-flaeche);
+  color: var(--sc-blau-text);
+  max-width: none;
+}
+.schema[data-paket='klein'] .bausteine-module:not([data-in~='klein']),
+.schema[data-paket='mittel'] .bausteine-module:not([data-in~='mittel']),
+.schema[data-paket='gross'] .bausteine-module:not([data-in~='gross']) {
+  display: none;
 }
 
 /* ── 4: Datenweg ── */

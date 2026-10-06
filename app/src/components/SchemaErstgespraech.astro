@@ -13,7 +13,7 @@
 // "leiste" von der jeweiligen Seite.
 import '../styles/schema.css';
 import { BRANCHEN, BRANCHEN_IDS, PAKETE_MIT_FUNKTION, PAKET_REIHE, PREISANGABEN, anzahlBausteine, bausteine, type Branche } from '../lib/schema.ts';
-import { PAKETE } from '../lib/preise.ts';
+import { MODULE_PAKETE, MODULE_PAKET_NAME, PAKETE } from '../lib/preise.ts';
 import { verfuegbareModule } from '../lib/schema-module.ts';
 import {
   FARBGRUPPEN,
@@ -198,6 +198,21 @@ const paketMitFunktion = PAKETE_MIT_FUNKTION.join(' und ');
             ))}
           </ul>
         ))
+      }
+      {
+        // Software-Module gibt es nur mit Paket Gross. Kein Baustein (sie sind
+        // nicht im Paket enthalten und aendern die Zahl der Bausteine nicht),
+        // sondern eine Zeile, die nur beim Paket Gross erscheint. Aussen die
+        // Branche (hidden), innen das Paket (CSS), damit sich beides nicht stoert.
+        varianten.map(({ b, module }) =>
+          module.length > 0 ? (
+            <div data-fuer-branche={b.id} hidden={b.id !== branche.id}>
+              <p class="bausteine-module" data-in={MODULE_PAKETE.join(' ')}>
+                <strong>Nur im Paket {MODULE_PAKET_NAME} dazu wählbar:</strong> {module.map((m) => m.name).join(', ')}. Mehr dazu in Schritt 4.
+              </p>
+            </div>
+          ) : null,
+        )
       }
       <ul class="legende" aria-label="Farben der Bausteine">
         <li><span class="legende__farbe baustein--grund" aria-hidden="true"></span>In jedem Paket</li>
@@ -405,31 +420,30 @@ const paketMitFunktion = PAKETE_MIT_FUNKTION.join(' und ');
                 </li>
               ))}
             </ul>
+            {
+              // Verkaufbare Software-Module der Branche (lib/module.ts). Seit
+              // 06.10.2026 nur zum Paket Gross, deshalb direkt hier beim Paket
+              // mit der mitarbeitenden Funktion: Module erweitern sie. Nur Name
+              // und Nutzen, kein Preis.
+              module.length > 0 && (
+                <div class="module" data-module>
+                  <p class="ablauf__kopf">Im Paket {MODULE_PAKET_NAME} zusätzlich möglich</p>
+                  <ul class="karten karten--blau">
+                    {module.map((m, i) => (
+                      <li class="karte-sc" style={`--i:${i + 5}`}>
+                        <strong>{m.name}</strong>
+                        <span>{m.kurz}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <p class="schritt__klein">Software, die zusätzlich mitarbeitet. Einmal gekauft und von Michael Henning für Sie eingerichtet, nur zu einer Website im Paket {MODULE_PAKET_NAME}.</p>
+                </div>
+              )
+            }
           </div>
         ))
       }
       <p class="schritt__klein">Eine Anfrage ist keine feste Buchung: Sie entscheiden und melden sich zurück. Die Funktion gibt es nur im Paket {paketMitFunktion} und solange die Website bei Michael Henning gehostet wird.</p>
-      {
-        // Verkaufbare Software-Module der Branche (lib/module.ts). Bewusst
-        // unter dem Satz zur Funktion, damit sie nicht wie ein Teil von Gross
-        // wirken. Nur Name und Nutzen, kein Preis.
-        varianten.map(({ b, module }) =>
-          module.length > 0 ? (
-            <div class="module" data-fuer-branche={b.id} hidden={b.id !== branche.id} data-module>
-              <p class="ablauf__kopf">Software, die zusätzlich mitarbeitet</p>
-              <ul class="karten karten--blau">
-                {module.map((m, i) => (
-                  <li class="karte-sc" style={`--i:${i + 5}`}>
-                    <strong>{m.name}</strong>
-                    <span>{m.kurz}</span>
-                  </li>
-                ))}
-              </ul>
-              <p class="schritt__klein">Einmal gekauft und von Michael Henning für Sie eingerichtet.</p>
-            </div>
-          ) : null,
-        )
-      }
     </section>
 
     <!-- 5: Der Weg der Daten -->

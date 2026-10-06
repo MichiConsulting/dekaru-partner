@@ -8,7 +8,7 @@
       "name": "Kostenrechner für Ihre Kunden",
       "art": "besucher",
       "kurz": "Besucher rechnen sich vorab einen unverbindlichen Richtwert aus und schicken ihn mit ihrer Anfrage.",
-      "schemaBranchen": ["handwerk"],
+      "schemaBranchen": ["handwerk", "umzug", "reinigung", "garten"],
       "templates": ["handwerk", "garten", "reinigung", "umzug"],
       "einleitung": "Auf Ihrer Website gibt ein Besucher ein paar Angaben ein, zum Beispiel Fläche, Zimmer oder Extras, und sieht sofort einen unverbindlichen Richtwert als Spanne. Mit einem Knopf übernimmt er Angaben und Spanne in seine Anfrage.",
       "nutzen": [
