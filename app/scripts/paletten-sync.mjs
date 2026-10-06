@@ -35,19 +35,25 @@ const HEX = /^#[0-9a-f]{6}$/;
 
 /** Plausibilitaet, damit eine kaputte Quelle nicht still ins Portal wandert. */
 function pruefe(daten) {
+  if (!Array.isArray(daten.paletten) || daten.paletten.length === 0) throw new Error('paletten.json hat keine Paletten.');
+  if (!Array.isArray(daten.gruppen) || daten.gruppen.length === 0) throw new Error('paletten.json hat keine Farbgruppen.');
   if (!Array.isArray(daten.branchen) || daten.branchen.length === 0) throw new Error('paletten.json hat keine Branchen.');
   const codes = new Set();
-  for (const b of daten.branchen) {
-    if (!b.id || !b.label || !Array.isArray(b.paletten) || b.paletten.length === 0) throw new Error(`Branche ${b.id ?? '?'} unvollstaendig.`);
-    for (const p of b.paletten) {
-      if (!/^[A-Z]{2}-\d{1,2}$/.test(p.code)) throw new Error(`Ungueltiger Palettencode ${p.code}.`);
-      if (codes.has(p.code)) throw new Error(`Palettencode ${p.code} doppelt.`);
-      codes.add(p.code);
-      for (const t of ['bg', 'surface', 'ink', 'ink-soft', 'accent', 'accent-deep', 'on-accent', 'border']) {
-        if (!HEX.test(p.farben?.[t] ?? '')) throw new Error(`Palette ${p.code}: Farbe ${t} fehlt oder ist kein Hex-Wert.`);
-      }
-      if (!HEX.test(p.link ?? '')) throw new Error(`Palette ${p.code}: Linkfarbe fehlt.`);
+  for (const p of daten.paletten) {
+    // Gleiches Format wie die Spalte briefings.farbpalette (Migration 010).
+    if (!/^[A-Z]{2}-\d{1,2}$/.test(p.code)) throw new Error(`Ungueltiger Palettencode ${p.code}.`);
+    if (codes.has(p.code)) throw new Error(`Palettencode ${p.code} doppelt.`);
+    codes.add(p.code);
+    for (const t of ['bg', 'surface', 'ink', 'ink-soft', 'muted', 'accent', 'accent-deep', 'on-accent', 'border']) {
+      if (!HEX.test(p.farben?.[t] ?? '')) throw new Error(`Palette ${p.code}: Farbe ${t} fehlt oder ist kein Hex-Wert.`);
     }
+    if (!HEX.test(p.link ?? '')) throw new Error(`Palette ${p.code}: Linkfarbe fehlt.`);
+    if (!Array.isArray(p.vorlagen) || p.vorlagen.length === 0) throw new Error(`Palette ${p.code}: vorlagen fehlt.`);
+  }
+  const inGruppen = daten.gruppen.flatMap((g) => g.codes);
+  if (inGruppen.length !== codes.size || inGruppen.some((c) => !codes.has(c))) throw new Error('Farbgruppen und Paletten passen nicht zusammen.');
+  for (const b of daten.branchen) {
+    if (!b.id || !b.label || !codes.has(b.standard)) throw new Error(`Branche ${b.id ?? '?'} unvollstaendig.`);
   }
 }
 
@@ -77,12 +83,12 @@ export function stimmtUeberein(quelle, ziel) {
 const istHauptlauf = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 if (istHauptlauf) {
   const quelle = leseQuelle();
-  const anzahl = quelle.branchen.reduce((n, b) => n + b.paletten.length, 0);
+  const anzahl = quelle.paletten.length;
   if (process.argv.includes('--pruefen')) {
     const gleich = stimmtUeberein(quelle, leseZiel());
     console.log(gleich ? `src/data/paletten.json ist aktuell (${anzahl} Paletten).` : 'src/data/paletten.json weicht von dekaru-templates ab. Lauf ohne --pruefen gleicht ab.');
     process.exit(gleich ? 0 : 1);
   }
   writeFileSync(ZIEL, `${JSON.stringify({ ...quelle, erzeugt: new Date().toISOString().slice(0, 10) }, null, 2)}\n`);
-  console.log(`src/data/paletten.json geschrieben: ${anzahl} Paletten in ${quelle.branchen.length} Branchen.`);
+  console.log(`src/data/paletten.json geschrieben: ${anzahl} Paletten in ${quelle.gruppen.length} Farbgruppen.`);
 }
