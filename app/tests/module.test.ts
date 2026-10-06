@@ -27,6 +27,7 @@ import {
   textFehler,
 } from '../src/lib/module.ts';
 import { modulAbschnitte } from '../src/lib/schema-module.ts';
+import { BRIEFING_ZU_TEMPLATE } from '../src/lib/paletten.ts';
 import { BRANCHEN_IDS, type BrancheId } from '../src/lib/schema.ts';
 
 function quelleMit(module: unknown[]): string {
@@ -85,7 +86,9 @@ describe('Module im Portal', () => {
     const k = VERKAUFBARE_MODULE[0];
     expect(k.name).toBe('Kostenrechner für Ihre Kunden');
     expect(k.schemaBranchen).toEqual(['handwerk', 'umzug', 'reinigung', 'garten']);
-    expect(k.briefingBranchen.sort()).toEqual(['Garten- und Landschaftsbau', 'Handwerk', 'Reinigung', 'Umzug']);
+    // Bauen laesst er sich seit dem Branch module-alle-branchen in dekaru-templates in allen zehn Vorlagen.
+    expect(k.briefingBranchen.sort()).toEqual(Object.keys(BRIEFING_ZU_TEMPLATE).sort());
+    expect(k.empfohlenFuer).toEqual(['Handwerk', 'Umzug', 'Reinigung', 'Garten- und Landschaftsbau']);
   });
 
   it('zeigt ein Modul ohne Text nicht an und meldet es', () => {
