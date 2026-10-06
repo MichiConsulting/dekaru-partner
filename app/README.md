@@ -42,8 +42,8 @@ dekaru-partner/
   app/               dieses Portal
     astro.config.mjs Astro 6, SSR, Vercel-Adapter, Region fra1 in vercel.json
     db/migrationen/  Schema als SQL, wiederholbar
-    scripts/         db-migrate, admin-anlegen, provision-import, preise-sync
-    src/data/        preise.json, abgeleitet aus dekaru-website und dekaru-rechnungen
+    scripts/         db-migrate, admin-anlegen, provision-import, preise-sync, module-sync
+    src/data/        preise.json und module.json, abgeleitet aus dekaru-website und dekaru-rechnungen
     src/lib/         Logik ohne Astro-Abhängigkeit, dadurch testbar
     src/pages/       Seiten und Endpunkte
     tests/           Vitest, laufen gegen PGlite im Speicher
@@ -269,6 +269,27 @@ und den Hinweis, dass Michael Henning den Preis nennt; die Prüfung liegt auf
 dem Server, nicht im Markup. Ohne JavaScript rechnet der Knopf
 **Berechnen** auf dem Server, mit JavaScript aktualisiert sich die Summe
 sofort (`src/scripts/preisrechner.ts`).
+
+**Software-Module und Verkaufshilfen.** Welche Module verkauft werden,
+steht in `dekaru-rechnungen/preise.json` unter `leistungen.module`
+(`verkaufbar`). `npm run module-sync` kopiert nur die verkaufbaren, mit
+Schlüssel, Preis, Einheit und Stufe, nach `src/data/module.json`;
+`npm run module-pruefen` und `tests/module.test.ts` melden Abweichungen.
+`absender.json` wird nie gelesen. Ein Modul ist im Portal genau dann
+verkaufbar, wenn es dort steht. Texte kommen aus `../inhalt/module.json`
+(für Betriebe, ohne Preis, auch im Bundle des Preisrechners) und
+`../inhalt/verkaufshilfen.json` (nur für Vertriebler, nur auf dem Server),
+zusammengeführt in `src/lib/module.ts`. Es erscheint nur, was in allen
+dreien steht. Verwendet in: Schema Schritt Funktion (nur Name und Nutzen,
+nur passende Branchen, unter dem Satz zur Funktion), `/verkaufshilfen`
+(Übersicht, Tipp für den Zweittermin), `/verkaufshilfen/<schluessel>`
+(Steckbrief mit Preis und Provision, je nach Stufe der Hinweis, wer den Preis
+nennt), `/verkaufshilfen/<schluessel>/zeigen` (ohne Preis, druckbar als
+A4, Kopf und Fuß fallen weg, Knopf über `src/scripts/drucken.ts`),
+Preisrechner (Schritt 4, Felder `m_<schluessel>`, zählt ins Einmalige und in
+die Provision) und Briefing-Bogen (ankreuzen in Teil B, gespeichert im JSON
+`daten.auswahl.module`, keine Migration; passt ein Modul nicht zur Branche,
+fehlt eine Angabe; in der Angebots-Eingabe als freie Position mit Preis).
 
 **Briefing-Bogen.** Der Bogen aus Blatt 11 als Formular (`/briefing`), immer
 an einen Betrieb aus "Meine Kunden" gebunden, Teil A wird daraus vorbelegt.
