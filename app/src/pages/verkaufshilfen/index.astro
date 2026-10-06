@@ -30,7 +30,7 @@ const benutzer = Astro.locals.benutzer!;
         <li class="vh-modul">
           <h3>{m.name}</h3>
           <p>{m.kurz}</p>
-          <p class="meta">Passt zu: {m.briefingBranchen.join(', ')}</p>
+          <p class="meta">Passt oft zu: {m.empfohlenFuer.join(', ')}. Wählbar in jeder Branche.</p>
           <div class="aktionen">
             <a class="btn btn--klein" href={`/verkaufshilfen/${m.schluessel}`}>Steckbrief</a>
             <a class="btn btn--zweit btn--klein" href={`/verkaufshilfen/${m.schluessel}/zeigen`}>Zum Zeigen und Drucken</a>

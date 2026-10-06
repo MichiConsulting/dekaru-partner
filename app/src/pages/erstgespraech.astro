@@ -11,16 +11,19 @@ import Layout from '../layouts/Layout.astro';
 import SchemaErstgespraech from '../components/SchemaErstgespraech.astro';
 import { findeBranche } from '../lib/schema.ts';
 import { gruppeFuerSchema, paletteFuerSchema } from '../lib/paletten.ts';
+import { moduleAusAdresse, moduleFuerAdresse } from '../lib/module.ts';
 
 const branche = findeBranche(Astro.url.searchParams.get('branche'));
 const palette = paletteFuerSchema(Astro.url.searchParams.get('palette'));
 const gruppe = gruppeFuerSchema(Astro.url.searchParams.get('gruppe'));
 // Ohne JavaScript steht der Link fertig da. Mit JavaScript baut ihn
 // scripts/schema-link.ts beim Klick neu, mit der dann gewaehlten Branche,
-// Farbgruppe und Palette (gleiche Reihenfolge der Parameter).
+// Farbgruppe, Palette und vorgemerkten Modulen (gleiche Reihenfolge der Parameter).
 const linkParameter = new URLSearchParams({ branche: branche.id });
 if (gruppe) linkParameter.set('gruppe', gruppe.kuerzel);
 if (palette) linkParameter.set('palette', palette.code);
+const merkliste = moduleAusAdresse(Astro.url.searchParams.get('module'));
+if (merkliste.length) linkParameter.set('module', moduleFuerAdresse(merkliste));
 const oeffentlicherLink = new URL(`/schema?${linkParameter.toString()}`, Astro.url.origin).href;
 ---
 

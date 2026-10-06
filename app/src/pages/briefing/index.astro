@@ -3,6 +3,7 @@ import '../../styles/vertrieb.css';
 import Layout from '../../layouts/Layout.astro';
 import { STATUS_LABEL, listeBriefings } from '../../lib/briefing.ts';
 import { listeKunden } from '../../lib/kunden.ts';
+import { moduleAusAdresse, moduleFuerAdresse } from '../../lib/module.ts';
 
 const benutzer = Astro.locals.benutzer!;
 const db = Astro.locals.db;
@@ -10,6 +11,8 @@ const csrf = Astro.locals.csrf ?? '';
 const briefings = await listeBriefings(db, benutzer.id);
 const kunden = await listeKunden(db, benutzer.id);
 const ok = Astro.url.searchParams.get('ok');
+// /briefing?module=kostenrechner fuellt das Feld vor, etwa aus einem Schema-Link.
+const vorgemerkt = moduleFuerAdresse(moduleAusAdresse(Astro.url.searchParams.get('module')));
 ---
 
 <Layout titel="Briefing" aktiv="briefing">
@@ -34,6 +37,11 @@ const ok = Astro.url.searchParams.get('ok');
           <option value="">Bitte wählen</option>
           {kunden.map((k) => <option value={k.id}>{k.name}{k.ort ? `, ${k.ort}` : ''}</option>)}
         </select>
+      </div>
+      <div class="feld">
+        <label for="schema_link">Link aus dem Schema, optional</label>
+        <input id="schema_link" name="schema_link" type="text" inputmode="url" autocomplete="off" value={vorgemerkt} aria-describedby="schema_link-hinweis" />
+        <p class="meta" id="schema_link-hinweis">Hat der Betrieb im Schema Software-Module vorgemerkt, den Link hier einfügen. Die Module stehen dann schon angekreuzt im Bogen.</p>
       </div>
       <button type="submit" class="btn">Bogen anlegen</button>
     </form>

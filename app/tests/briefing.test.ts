@@ -17,6 +17,7 @@ import {
   holeBriefingAdmin,
   listeBriefings,
   loescheBriefing,
+  moduleAusSchemaLink,
   paletteZumTemplate,
   pruefeBriefing,
   reicheEin,
@@ -24,6 +25,7 @@ import {
   speichereBriefing,
 } from '../src/lib/briefing.ts';
 import { ALLE_PALETTEN, BRIEFING_ZU_TEMPLATE, palettenBranche } from '../src/lib/paletten.ts';
+import { leereAuswahl } from '../src/lib/preise.ts';
 
 let db: Db;
 let anna: Benutzer;
@@ -150,12 +152,25 @@ describe('Briefing-Bogen: Felder', () => {
     expect(pruefeBriefing(vollstaendig({ email: 'keine-adresse' })).sperren.length).toBe(1);
   });
 
-  it('nimmt verkaufbare Software-Module auf und prueft die Branche', () => {
+  it('nimmt verkaufbare Software-Module auf, in jeder Branche', () => {
     const mit = pruefeBriefing(vollstaendig({ paket: 'gross', 'm_modul-kostenrechner': 'on', 'm_modul-terminbuchung': 'on' }));
     expect(mit.daten.auswahl.module).toEqual(['modul-kostenrechner']);
     expect(mit.fehlend).toEqual([]);
-    const gastro = pruefeBriefing(vollstaendig({ paket: 'gross', branche: 'Gastronomie', 'm_modul-kostenrechner': 'on' }));
-    expect(gastro.fehlend.some((f) => /Kostenrechner für Ihre Kunden lässt sich für die Branche Gastronomie nicht bauen/.test(f))).toBe(true);
+    // Seit 06.10.2026 keine Sperre nach Branche: Gastronomie mit Groß und Kostenrechner geht durch.
+    for (const branche of Object.keys(BRIEFING_ZU_TEMPLATE)) {
+      const r = pruefeBriefing(vollstaendig({ paket: 'gross', branche, 'm_modul-kostenrechner': 'on' }));
+      expect(r.fehlend.filter((f) => /Kostenrechner|Branche/.test(f)), branche).toEqual([]);
+      expect(r.daten.auswahl.module, branche).toEqual(['modul-kostenrechner']);
+    }
+  });
+
+  it('liest vorgemerkte Module aus einem Schema-Link', () => {
+    expect(moduleAusSchemaLink('https://partner.dekaru.de/schema?branche=gastro&palette=BL-2&module=kostenrechner,beitrags-schreiber#schritt-4')).toEqual(['modul-kostenrechner']);
+    expect(moduleAusSchemaLink('/schema?module=kostenrechner')).toEqual(['modul-kostenrechner']);
+    expect(moduleAusSchemaLink('kostenrechner')).toEqual(['modul-kostenrechner']);
+    expect(moduleAusSchemaLink('https://partner.dekaru.de/schema?branche=gastro')).toEqual([]);
+    expect(moduleAusSchemaLink('')).toEqual([]);
+    expect(moduleAusSchemaLink('quatsch, terminbuchung')).toEqual([]);
   });
 
   it('nimmt Software-Module nur mit Paket Groß an, behaelt sie aber beim Speichern', () => {
@@ -217,6 +232,17 @@ describe('Briefing-Bogen: Speichern und Zugriff', () => {
     expect(b.daten.felder.ort).toBe('Nagold');
     expect(b.daten.felder.unterzeichner).toBe('Herr Sturm');
     expect(b.daten.felder.kontaktformular).toBe('on');
+    expect(b.daten.auswahl.module).toEqual([]);
+  });
+
+  it('uebernimmt beim Anlegen die Module aus dem Schema, aber nie das Paket', async () => {
+    const b = (await erstelleBriefing(db, anna.id, kundeAnna.id, ['modul-kostenrechner', 'modul-terminbuchung']))!;
+    expect(b.daten.auswahl.module).toEqual(['modul-kostenrechner']);
+    // Das Paket bleibt die normale Vorbelegung, Module setzen nie Groß.
+    expect(b.daten.auswahl.paket).toBe(leereAuswahl().paket);
+    // Ohne Groß warnt der Bogen beim Einreichen wie sonst.
+    expect(pruefeBriefing(vollstaendig({ 'm_modul-kostenrechner': 'on', paket: 'mittel' })).fehlend.join(' ')).toMatch(/nur mit Paket Groß/);
+    await loescheBriefing(db, anna.id, b.id);
   });
 
   it('Vertriebler B sieht und aendert den Bogen von A nicht', async () => {

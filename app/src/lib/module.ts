@@ -22,8 +22,8 @@
 import texteRoh from '../../../inhalt/module.json' with { type: 'json' };
 import hilfenRoh from '../../../inhalt/verkaufshilfen.json' with { type: 'json' };
 import { MODULE, findeModul, provisionAuf, type ModulPosten } from './preise.ts';
-import { BRANCHEN_IDS, type BrancheId } from './schema.ts';
-import { BRIEFING_ZU_TEMPLATE } from './paletten.ts';
+import { BRANCHEN, BRANCHEN_IDS, type BrancheId } from './schema.ts';
+import { BRIEFING_ZU_TEMPLATE, SCHEMA_ZU_TEMPLATE } from './paletten.ts';
 
 export type ModulArt = 'besucher' | 'inhaber';
 
@@ -34,9 +34,16 @@ export interface ModulText {
   art: ModulArt;
   /** Ein Satz fuer das Schema, Sie-Form, ohne Preis. */
   kurz: string;
-  /** In welchen Branchen des Schemas das Modul erscheint. */
+  /**
+   * Fuer welche Branchen des Schemas das Modul eine Empfehlung ist ("Passt oft
+   * zu Ihrer Branche"). Seit 06.10.2026 keine Sperre mehr: jedes verkaufbare
+   * Modul erscheint in jeder Branche, die empfohlenen nur zuerst.
+   */
   schemaBranchen: BrancheId[];
-  /** In welchen Website-Vorlagen es sich bauen laesst (Template-Branchen aus dekaru-templates). */
+  /**
+   * In welchen Website-Vorlagen es sich bauen laesst (Template-Branchen aus
+   * dekaru-templates). Muss jede empfohlene Schema-Branche abdecken.
+   */
   templates: string[];
   einleitung: string;
   nutzen: string[];
@@ -76,6 +83,8 @@ export interface Modul extends ModulText, ModulHilfe {
   provision: number;
   /** Briefing-Branchen (Teil B), fuer die sich das Modul bauen laesst. */
   briefingBranchen: string[];
+  /** Namen der Schema-Branchen, zu denen es oft passt. Nur Empfehlung, keine Sperre. */
+  empfohlenFuer: string[];
 }
 
 const ARTEN: ModulArt[] = ['besucher', 'inhaber'];
@@ -119,6 +128,11 @@ export function pruefeModulTexte(roh: unknown): { texte: ModulText[]; fehler: st
     for (const feld of ['nutzen', 'kannNicht', 'voraussetzungen'] as const) if (!istListe(m[feld])) f.push(`${wo}: ${feld} braucht mindestens einen Eintrag.`);
     if (!Array.isArray(m.schemaBranchen) || m.schemaBranchen.some((b) => !BRANCHEN_IDS.includes(b))) f.push(`${wo}: schemaBranchen nur aus ${BRANCHEN_IDS.join(', ')}.`);
     if (!istListe(m.templates) || m.templates.some((t) => !TEMPLATES.has(t))) f.push(`${wo}: templates nur aus ${[...TEMPLATES].join(', ')}.`);
+    else if (Array.isArray(m.schemaBranchen)) {
+      // Empfehlen nur, was sich auch bauen laesst.
+      const ohne = m.schemaBranchen.filter((b) => !m.templates!.includes(SCHEMA_ZU_TEMPLATE[b]));
+      if (ohne.length) f.push(`${wo}: empfohlen für ${ohne.join(', ')}, aber dafür fehlt die Vorlage in templates.`);
+    }
     if (f.length === 0) {
       const saetze = [m.name!, m.kurz!, m.einleitung!, m.einrichtung!, m.daten!, m.laufend!, ...m.nutzen!, ...m.kannNicht!, ...m.voraussetzungen!];
       for (const s of saetze) f.push(...textFehler(s, wo, true));
@@ -191,7 +205,7 @@ export function fuehreZusammen(posten: ModulPosten[], texte: ModulText[], hilfen
     if (!text) fehler.push(`${p.schluessel} ist verkaufbar, hat aber keinen gültigen Text in inhalt/module.json. Es wird nicht angezeigt.`);
     if (!hilfe) fehler.push(`${p.schluessel} ist verkaufbar, hat aber keine gültige Verkaufshilfe in inhalt/verkaufshilfen.json. Es wird nicht angezeigt.`);
     if (!text || !hilfe) continue;
-    module.push({ ...text, ...hilfe, name: text.name, preis: p.preis, stufe: p.stufe, einheit: p.einheit, provision: provisionAuf(p.preis), briefingBranchen: briefingBranchen(text.templates) });
+    module.push({ ...text, ...hilfe, name: text.name, preis: p.preis, stufe: p.stufe, einheit: p.einheit, provision: provisionAuf(p.preis), briefingBranchen: briefingBranchen(text.templates), empfohlenFuer: text.schemaBranchen.map((b) => BRANCHEN[b].name) });
   }
   return { module, fehler };
 }
@@ -212,21 +226,61 @@ export function findeVerkaufbaresModul(schluessel: string | undefined | null): M
   return VERKAUFBARE_MODULE.find((m) => m.schluessel === schluessel) ?? null;
 }
 
-/** Fuer das Schema: verkaufbare Module der Branche, nur Name und Nutzen. */
-export function moduleFuerSchema(branche: BrancheId, module: Modul[] = VERKAUFBARE_MODULE): { schluessel: string; name: string; kurz: string }[] {
-  return module.filter((m) => m.schemaBranchen.includes(branche)).map((m) => ({ schluessel: m.schluessel, name: m.name, kurz: m.kurz }));
+/** Was das Schema von einem Modul zeigt. Kein Preis. */
+export interface SchemaModulEintrag {
+  schluessel: string;
+  /** Schluessel ohne "modul-", so steht er in der Adresse (?module=kostenrechner). */
+  kurz: string;
+  name: string;
+  art: ModulArt;
+  /** Ein Satz fuer den Betrieb. */
+  nutzen: string;
+}
+
+/** Ab so vielen Modulen gruppiert das Schema nach Art (fuer Kunden, fuer Sie). */
+export const MODULE_GRUPPIEREN_AB = 5;
+
+export const ART_TITEL: Record<ModulArt, string> = {
+  besucher: 'Für Ihre Kunden auf der Website',
+  inhaber: 'Werkzeuge für Sie',
+};
+
+const zuEintrag = (m: Modul): SchemaModulEintrag => ({ schluessel: m.schluessel, kurz: kurzSchluessel(m.schluessel), name: m.name, art: m.art, nutzen: m.kurz });
+
+/** "modul-kostenrechner" wird "kostenrechner". */
+export function kurzSchluessel(schluessel: string): string {
+  return schluessel.replace(/^modul-/, '');
 }
 
 /**
- * Briefing: passt ein angekreuztes Modul zur gewaehlten Branche? Liefert je
- * unpassendem Modul einen Hinweis. Ohne Branche keiner.
+ * Fuer das Schema: alle verkaufbaren Module, egal welche Branche. Die zur
+ * Branche empfohlenen zuerst, die uebrigen danach. Nur Name und Nutzen.
  */
-export function moduleZurBranche(branche: string | undefined, schluessel: string[], module: Modul[] = VERKAUFBARE_MODULE): string[] {
-  if (!branche) return [];
-  const template = BRIEFING_ZU_TEMPLATE[branche];
-  if (!template) return [];
-  return schluessel
-    .map((s) => module.find((m) => m.schluessel === s))
-    .filter((m): m is Modul => Boolean(m) && !m!.templates.includes(template))
-    .map((m) => `${m.name} lässt sich für die Branche ${branche} nicht bauen. Passend: ${m.briefingBranchen.join(', ')}. Bitte abwählen oder mit Michael Henning klären.`);
+export function moduleFuerSchema(branche: BrancheId, module: Modul[] = VERKAUFBARE_MODULE): { empfohlen: SchemaModulEintrag[]; weitere: SchemaModulEintrag[] } {
+  return {
+    empfohlen: module.filter((m) => m.schemaBranchen.includes(branche)).map(zuEintrag),
+    weitere: module.filter((m) => !m.schemaBranchen.includes(branche)).map(zuEintrag),
+  };
+}
+
+/**
+ * Merkliste aus der Adresse (?module=kostenrechner,beitrags-schreiber). Nur
+ * verkaufbare Module, ohne Doppelte, in der Reihenfolge der Modulliste.
+ * Unbekanntes faellt still weg. Liefert die vollen Schluessel.
+ */
+export function moduleAusAdresse(wert: string | null | undefined, module: Modul[] = VERKAUFBARE_MODULE): string[] {
+  if (!wert) return [];
+  const gewuenscht = new Set(
+    wert
+      .split(',')
+      .map((t) => t.trim().toLowerCase())
+      .filter(Boolean)
+      .map((t) => (t.startsWith('modul-') ? t : `modul-${t}`)),
+  );
+  return module.filter((m) => gewuenscht.has(m.schluessel)).map((m) => m.schluessel);
+}
+
+/** Wert fuer ?module= aus vollen Schluesseln, leer ohne Auswahl. */
+export function moduleFuerAdresse(schluessel: string[]): string {
+  return schluessel.map(kurzSchluessel).join(',');
 }
