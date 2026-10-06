@@ -73,7 +73,7 @@ Nicht als Baustein buchbar: die mitarbeitende Funktion. Einen Baustein "Terminan
 
 ## Software-Module
 
-Einmalpreis je Modul, Einrichtung beim Betrieb inklusive. Updates und Hilfe nur mit Hosting bei Michael Henning. Nur, was unter Verkaufshilfen im Portal steht:
+Nur zum Paket Groß, wie die mitarbeitende Funktion. Einmalpreis je Modul, Einrichtung beim Betrieb inklusive. Updates und Hilfe nur mit Hosting bei Michael Henning. Nur, was unter Verkaufshilfen im Portal steht:
 
 | Modul | Preis | Passt zu |
 |---|---|---|

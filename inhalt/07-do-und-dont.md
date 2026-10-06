@@ -47,7 +47,7 @@ Die eine Ausnahme ist das **Gratisquartal**: drei Monate Hosting frei, wenn der 
 
 **Nichts versprechen, was es nicht gibt.** Kein Redaktionssystem zum Selbst-Ändern. Keine Tischreservierung, keine Terminbuchung mit Kalender. Keine "Backups", sondern ein gesicherter Quellstand. Keine Referenzkunden. Keine Muster vom Aufsteller. Keine Filterung, dass nur zufriedene Kunden bei Google landen. Und nichts Unfertiges: keine Funktion und kein Software-Modul, das erst geplant ist oder gerade entsteht, auch nicht als "kommt bald". Software-Module bieten Sie nur an, wenn sie im Portal unter Verkaufshilfen stehen.
 
-**Software-Module ehrlich erklären.** Kein KI-Abo versprechen, der Betrieb nutzt einen eigenen Schlüssel und zahlt nach Verbrauch. Die laufenden Kosten dafür nennen Sie nur als "Cent-Beträge bis wenige Euro im Monat", nie genauer. Beim Kostenrechner nicht sagen, dass dekaru gar nicht dazwischen ist: das Ergebnis geht mit dem Kontaktformular über den Formulardienst. Was ein Modul nicht kann, sagen Sie dazu, es steht im Steckbrief.
+**Software-Module ehrlich erklären.** Kein KI-Abo versprechen, der Betrieb nutzt einen eigenen Schlüssel und zahlt nach Verbrauch. Die laufenden Kosten dafür nennen Sie nur als "Cent-Beträge bis wenige Euro im Monat", nie genauer. Beim Kostenrechner nicht sagen, dass dekaru gar nicht dazwischen ist: das Ergebnis geht mit dem Kontaktformular über den Formulardienst. Was ein Modul nicht kann, sagen Sie dazu, es steht im Steckbrief. Und Module gibt es nur zum Paket Groß: zu Klein oder Mittel sagen Sie keines zu, auch nicht als Ausnahme.
 
 **Schema ja, Demo nein.** Im Erstgespräch zeigen Sie das Schema im Portal. Es veranschaulicht, was der Betrieb bekommt, es ist keine Demo und keine Vorschau. Es zeigt nur, was heute verkauft wird, und mehr als dort steht, sagen Sie nicht zu. Den Weg der Daten erklären Sie so, wie er heute ist: Formular, Formulardienst von dekaru, Mail an den Betrieb, gespeichert wird nichts. Die gebaute Seite mit seinen Daten sieht der Betrieb erst im Zweittermin. Das Schema dürfen Sie dem Betrieb nach dem Termin als Link schicken, den Link kopieren Sie im Portal. Die Vorschau nie: sie wird im Termin besprochen und erst nach Fertigstellung übergeben.
 
@@ -65,7 +65,7 @@ Die eine Ausnahme ist das **Gratisquartal**: drei Monate Hosting frei, wenn der 
 | nur geschäftliche Nummern | Privatnummern, auch aus dem Impressum |
 | "ab 600 €" am Telefon | Festpreis oder Rabatt am Telefon |
 | im Erstgespräch das Schema im Portal | eine Demo oder eine Funktion, die es noch nicht gibt |
-| Software-Module aus den Verkaufshilfen im Portal | ein Modul, das dort nicht steht, auch nicht als "kommt bald" |
+| Software-Module aus den Verkaufshilfen im Portal, nur zum Paket Groß | ein Modul zu Klein oder Mittel, oder eines, das dort nicht steht, auch nicht als "kommt bald" |
 | "eigener Schlüssel, Abrechnung nach Verbrauch" | "KI-Abo" oder eine genaue Zahl für die laufenden KI-Kosten |
 | Paketpreis und Bausteine aus dem Preisrechner (Stufe 2) | Nachlass, Sonderpreis, "nur diese Woche" |
 | das Gratisquartal beim Hosting, genau drei Monate | andere Gratismonate, Rabatt auf die Website |

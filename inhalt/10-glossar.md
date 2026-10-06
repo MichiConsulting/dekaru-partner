@@ -33,10 +33,10 @@ kurz: Die Begriffe aus diesem Blatt, kurz erklärt.
 | **Kleinunternehmer** | Ich rechne nach § 19 UStG ohne Umsatzsteuer ab. Alle Preise sind Endpreise, Ihre Provision wird auf den Rechnungsbetrag gerechnet. |
 | **Kontingent** | Die Zahl der Änderungen, die im Monat in der Hosting-Stufe enthalten sind: 3, 5 oder 10. Verfällt am Monatsende. Gilt ab Abnahme. |
 | **Korrekturrunde** | Eine Runde Änderungen an der fertigen Website vor der Abnahme, im Werkvertrag enthalten. Hat mit dem Hosting-Kontingent nichts zu tun. |
-| **Kostenrechner** | Software-Modul für die Website: Besucher rechnen sich einen unverbindlichen Richtwert aus und schicken ihn mit der Anfrage. Heute das einzige verkaufbare Modul, 200 € einmalig, für Handwerk, Garten- und Landschaftsbau, Reinigung und Umzug. |
+| **Kostenrechner** | Software-Modul für die Website: Besucher rechnen sich einen unverbindlichen Richtwert aus und schicken ihn mit der Anfrage. Heute das einzige verkaufbare Modul, 200 € einmalig, nur zum Paket Groß, für Handwerk, Garten- und Landschaftsbau, Reinigung und Umzug. |
 | **Mitarbeitende Funktion** | Ein Teil der Website, der dem Betrieb Arbeit abnimmt. Heute: die Online-Terminanfrage. Nur im Paket Groß, nie als Baustein, und nur solange die Website bei mir gehostet wird, egal in welcher Stufe. |
-| **Modul** | Kurz für Software-Modul: Software, die dem Betrieb zusätzlich zur Website Arbeit abnimmt. Einmal gekauft, Updates und Hilfe nur mit Hosting. Angeboten wird nur, was unter Verkaufshilfen steht. Nicht dasselbe wie die mitarbeitende Funktion. |
-| **Paket** | Eine der drei festen Website-Größen: Klein 600 €, Mittel 1.300 €, Groß 1.600 €. Fester Inhalt, fester Preis. Groß ist empfohlen. |
+| **Modul** | Kurz für Software-Modul: Software, die dem Betrieb zusätzlich zur Website Arbeit abnimmt. Nur zum Paket Groß. Einmal gekauft, Updates und Hilfe nur mit Hosting. Angeboten wird nur, was unter Verkaufshilfen steht. Nicht dasselbe wie die mitarbeitende Funktion. |
+| **Paket** | Eine der drei festen Website-Größen: Klein 600 €, Mittel 1.300 €, Groß 1.600 €. Fester Inhalt, fester Preis. Groß ist empfohlen und das einzige Paket mit mitarbeitender Funktion und Software-Modulen. |
 | **Preisrechner** | Das Werkzeug, aus dem jeder Website-Preis entsteht: Paket plus Zusatzbausteine. Was er ausgibt, ist der Preis. |
 | **Quellstand** | Der vollständige, versionierte Bauplan der Website, aus dem sie jederzeit neu bereitgestellt werden kann. Ersetzt das klassische Backup. |
 | **Redaktionssystem** | Ein System, mit dem der Kunde Inhalte selbst ändern könnte. Gibt es bei dekaru nicht, wird nicht in Aussicht gestellt. |
