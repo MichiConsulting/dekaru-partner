@@ -11,7 +11,10 @@
 // keine Sitzung, und es soll nie ein Name aus dem Portal auftauchen.
 // Die Kopfleiste ueber den Schritten (Hinweise, Knoepfe) kommt als Slot
 // "leiste" von der jeweiligen Seite.
+import '../styles/schema-farben.css';
 import '../styles/schema.css';
+import ModulSchema from './ModulSchema.astro';
+import ModulSchemaSymbole from './ModulSchemaSymbole.astro';
 import { BRANCHEN, BRANCHEN_IDS, PAKETE_MIT_FUNKTION, PAKET_REIHE, PREISANGABEN, anzahlBausteine, bausteine, type Branche } from '../lib/schema.ts';
 import { MODULE_PAKETE, MODULE_PAKET_NAME, PAKETE } from '../lib/preise.ts';
 import { modulAbschnitte, verfuegbareModule } from '../lib/schema-module.ts';
@@ -443,6 +446,7 @@ const paketMitFunktion = PAKETE_MIT_FUNKTION.join(' und ');
         // ist eine Merkliste in der Adresse (?module=), gespeichert wird nichts.
         alleModule.length > 0 && (
           <div class="module" data-module>
+            <ModulSchemaSymbole />
             <p class="ablauf__kopf">Im Paket {MODULE_PAKET_NAME} zusätzlich möglich</p>
             {varianten.map(({ b, abschnitte }) => (
               <div data-fuer-branche={b.id} hidden={b.id !== branche.id}>
@@ -455,8 +459,19 @@ const paketMitFunktion = PAKETE_MIT_FUNKTION.join(' und ');
                         <ul class="karten karten--blau">
                           {g.module.map((m, i) => (
                             <li class="karte-sc modul-karte" style={`--i:${i + 5}`}>
-                              <strong>{m.name}</strong>
-                              <span>{m.nutzen}</span>
+                              <details class="modul-so">
+                                <summary>
+                                  <ModulSchema kurz={m.kurz} />
+                                  <strong class="modul-so__name">{m.name}</strong>
+                                  <span class="modul-so__nutzen">{m.nutzen}</span>
+                                  <span class="modul-so__knopf">So funktioniert es</span>
+                                </summary>
+                                <ol class="modul-so__schritte">
+                                  {m.soGehts.map((s) => (
+                                    <li>{s}</li>
+                                  ))}
+                                </ol>
+                              </details>
                               <a
                                 class="modul-wahl"
                                 role="button"

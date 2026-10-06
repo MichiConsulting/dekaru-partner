@@ -399,7 +399,8 @@ describe('Browser-Skript', () => {
 // ---------------------------------------------------------------------------
 // Farben
 
-const css = lies('../src/styles/schema.css');
+// Farbtoken stehen in schema-farben.css, davor gelesen, damit block() sie zuerst findet.
+const css = lies('../src/styles/schema-farben.css') + lies('../src/styles/schema.css') + lies('../src/styles/modul-schema.css');
 const globalCss = lies('../src/styles/global.css');
 
 function block(quelle: string, selektor: string): Map<string, string> {
@@ -442,7 +443,9 @@ describe('schema.css', () => {
     const proben = [...probeStil(ALLE_PALETTEN[0]).matchAll(/(--pl-[a-z-]+):/g)].map((t) => t[1]);
     const bekannt = new Set([...hell.keys(), ...gHell.keys(), '--fl-flaeche', '--fl-text', '--fl-rand', '--i', ...proben]);
     // Auch die Seite selbst (SVG-Attribute).
-    const seite = lies('../src/components/SchemaErstgespraech.astro');
+    const seite = lies('../src/components/SchemaErstgespraech.astro') + lies('../src/components/ModulSchema.astro') + lies('../src/components/ModulSchemaSymbole.astro');
+    // --ms-* setzt modul-schema.css selbst auf .ms.
+    for (const t of css.matchAll(/(--ms-[a-z-]+)\s*:/g)) bekannt.add(t[1]);
     for (const quelle of [css, seite]) {
       for (const t of quelle.matchAll(/var\((--[a-z0-9-]+)/g)) expect(bekannt.has(t[1]), `${t[1]} ist nirgends definiert`).toBe(true);
     }

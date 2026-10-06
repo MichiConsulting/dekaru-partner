@@ -1,0 +1,661 @@
+/*
+ * Mini-Schemata der Software-Module (components/ModulSchema.astro).
+ * Im Schema in jeder Modulkarte, auf der Fassung zum Zeigen als stehendes Bild.
+ *
+ * Farben nur ueber --ms-*, die hier auf die Schema-Token (schema-farben.css)
+ * und global.css zeigen. Text steht nur auf Paaren, die tests/schema.test.ts
+ * mit 4.5:1 prueft (--sc-<familie>-text auf --sc-<familie>-flaeche) oder auf
+ * --text/--text-muted vor --surface. Randfarben nur fuer Linien und Zeichen.
+ *
+ * Bewegung: nur im Schema mit Skript, nur im aktiven Schritt, nur ohne
+ * "Bewegung reduzieren", hoechstens dreimal. Jeder Zustand bei 100 % ist der
+ * normale Zustand, ohne Bewegung ist also alles vollstaendig zu sehen.
+ * "Noch einmal abspielen" startet den Schritt neu und damit auch diese.
+ */
+
+.ms {
+  --ms-flaeche: var(--surface);
+  --ms-text: var(--text);
+  --ms-leise: var(--text-muted);
+  --ms-linie: var(--border-strong);
+  --ms-linie-hell: var(--border);
+  --ms-akzent: var(--sc-blau-rand);
+  --ms-gut-flaeche: var(--sc-gruen-flaeche);
+  --ms-gut-text: var(--sc-gruen-text);
+  --ms-gut-rand: var(--sc-gruen-rand);
+  --ms-warm-flaeche: var(--sc-orange-flaeche);
+  --ms-warm-text: var(--sc-orange-text);
+  --ms-warm-rand: var(--sc-orange-rand);
+  --ms-gelb-flaeche: var(--sc-gelb-flaeche);
+  --ms-gelb-text: var(--sc-gelb-text);
+  --ms-stern: var(--sc-gelb-rand);
+  --ms-vio-flaeche: var(--sc-violett-flaeche);
+  --ms-vio-text: var(--sc-violett-text);
+  --ms-tuerkis-flaeche: var(--sc-tuerkis-flaeche);
+  --ms-tuerkis-text: var(--sc-tuerkis-text);
+  --ms-tag-text: var(--sc-blau-text);
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.35em;
+  min-height: 7.4em;
+  padding: 0.75em 0.55em;
+  border: 1px solid var(--ms-linie-hell);
+  border-radius: 8px;
+  background: var(--ms-flaeche);
+  color: var(--ms-text);
+  font-family: var(--font-body);
+  font-size: 0.8em;
+  font-weight: 400;
+  line-height: 1.25;
+  text-align: center;
+}
+/* Mittlere Station breiter, wo dort mehr steht. */
+.ms--bewertungs-assistent,
+.ms--beitrags-schreiber,
+.ms--angebots-assistent {
+  grid-template-columns: minmax(0, 0.85fr) auto minmax(0, 1.3fr) auto minmax(0, 0.85fr);
+}
+.ms--lagerliste {
+  grid-template-columns: minmax(0, 0.95fr) auto minmax(0, 0.8fr) auto minmax(0, 1.25fr);
+}
+.ms--speisekarte {
+  grid-template-columns: minmax(0, 1.3fr) auto minmax(0, 0.9fr) auto minmax(0, 0.9fr);
+}
+.ms svg {
+  display: block;
+  overflow: visible;
+}
+.karte-sc .ms span,
+.ms span {
+  line-height: 1.25;
+}
+.ms .ms__teil {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3em;
+  min-width: 0;
+}
+.ms .ms__titel {
+  font-weight: 600;
+  hyphens: manual;
+}
+.ms .ms__klein {
+  font-size: 0.92em;
+  color: var(--ms-leise);
+}
+.ms .ms__pfeil {
+  width: 1.5em;
+  height: 0.7em;
+  color: var(--ms-akzent);
+}
+.ms .ms__zeichen {
+  width: 1.4em;
+  height: 1.4em;
+  color: var(--ms-akzent);
+}
+.ms .ms__zeichen--gross {
+  width: 2.1em;
+  height: 2.1em;
+}
+.ms .ms-marke {
+  padding: 0.1em 0.5em;
+  border-radius: 999px;
+  background: var(--ms-gut-flaeche);
+  color: var(--ms-gut-text);
+  font-size: 0.92em;
+  font-weight: 600;
+}
+
+/* Kostenrechner */
+.ms .ms-feld {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+}
+.ms .ms-regler {
+  position: relative;
+  display: block;
+  width: 2.8em;
+  height: 0.3em;
+  border-radius: 999px;
+  background: var(--ms-linie);
+}
+.ms .ms-regler__knopf {
+  position: absolute;
+  top: 50%;
+  left: 70%;
+  width: 0.85em;
+  height: 0.85em;
+  margin: -0.425em 0 0 -0.425em;
+  border-radius: 50%;
+  background: var(--ms-akzent);
+}
+.ms .ms-kasten {
+  display: inline-grid;
+  place-items: center;
+  width: 1em;
+  height: 1em;
+  border: 1.5px solid var(--ms-akzent);
+  border-radius: 3px;
+}
+.ms .ms-kasten__haken {
+  width: 0.85em;
+  height: 0.85em;
+  color: var(--ms-akzent);
+}
+.ms .ms-spanne {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 5.5em;
+  height: 0.75em;
+  border-radius: 999px;
+  background: var(--ms-linie-hell);
+}
+.ms .ms-spanne__balken {
+  position: absolute;
+  inset: 0 18% 0 28%;
+  border-radius: 999px;
+  background: var(--ms-gut-rand);
+  transform-origin: left center;
+}
+
+/* Anfrage mit Fotos */
+.ms .ms-ordner {
+  position: relative;
+  display: block;
+}
+.ms .ms-ordner__foto {
+  position: absolute;
+  left: 50%;
+  top: 56%;
+  width: 1.05em;
+  height: 1.05em;
+  margin: -0.525em 0 0 -0.525em;
+  border-radius: 2px;
+  background: var(--ms-flaeche);
+  color: var(--ms-warm-rand);
+}
+
+/* Lagerliste */
+.ms .ms-knopf {
+  padding: 0.25em 0.55em;
+  border: 1.5px solid var(--ms-warm-rand);
+  border-radius: 6px;
+  background: var(--ms-warm-flaeche);
+  color: var(--ms-warm-text);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.ms .ms-zahl {
+  position: relative;
+  display: block;
+  min-width: 1.6em;
+  font-family: var(--font-display);
+  font-size: 1.75em;
+  font-weight: 700;
+  line-height: 1;
+}
+.ms .ms-zahl__alt {
+  position: absolute;
+  inset: 0;
+  line-height: 1;
+  opacity: 0;
+}
+.ms .ms-zahl__neu {
+  display: block;
+  line-height: 1;
+}
+.ms .ms-liste {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+  width: 100%;
+  max-width: 7.5em;
+  padding: 0.3em;
+  border: 1.5px dashed var(--ms-linie);
+  border-radius: 6px;
+}
+.ms .ms-liste__kopf {
+  font-weight: 600;
+  white-space: nowrap;
+}
+.ms .ms-liste__zeile {
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  background: var(--ms-gelb-flaeche);
+  color: var(--ms-gelb-text);
+}
+
+/* Bewertungs-Assistent */
+.ms .ms-sterne {
+  display: flex;
+  gap: 0.12em;
+}
+.ms .ms-stern {
+  width: 1em;
+  height: 1em;
+  color: var(--ms-stern);
+}
+.ms .ms-stern--leer {
+  color: var(--ms-linie);
+}
+.ms .ms-zeilen {
+  display: flex;
+  flex-direction: column;
+  gap: 0.24em;
+  width: 100%;
+  max-width: 4.6em;
+}
+.ms .ms-zeilen > span {
+  display: block;
+  height: 0.3em;
+  border-radius: 2px;
+  background: var(--ms-linie);
+  transform-origin: left center;
+}
+.ms .ms-zeilen > span:nth-child(2) {
+  width: 72%;
+}
+.ms .ms-zeilen > span:nth-child(3) {
+  width: 86%;
+}
+.ms .ms-vorschlag {
+  width: 100%;
+  max-width: 8.5em;
+  padding: 0.2em 0.45em;
+  border-radius: 5px;
+  background: var(--ms-vio-flaeche);
+  color: var(--ms-vio-text);
+  font-weight: 600;
+}
+
+/* Beitrags-Schreiber */
+.ms .ms-chip {
+  padding: 0.08em 0.5em;
+  border: 1.5px solid var(--ms-akzent);
+  border-radius: 999px;
+}
+.ms .ms-beitrag {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  width: 100%;
+  max-width: 8.5em;
+  padding: 0.35em;
+  border: 1.5px solid var(--ms-linie);
+  border-radius: 6px;
+  text-align: left;
+}
+.ms .ms-beitrag .ms-zeilen {
+  max-width: none;
+}
+.ms .ms-beitrag__bild {
+  display: grid;
+  place-items: center;
+  height: 1.9em;
+  border-radius: 4px;
+  background: var(--ms-warm-flaeche);
+}
+.ms .ms-beitrag__bild .ms__zeichen {
+  color: var(--ms-warm-text);
+}
+.ms .ms-beitrag__tags {
+  color: var(--ms-tag-text);
+  font-weight: 600;
+}
+
+/* Speisekarte */
+.ms .ms-eintrag {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.4em;
+  width: 100%;
+  max-width: 7.5em;
+  padding-bottom: 0.15em;
+  border-bottom: 1px dotted var(--ms-linie);
+}
+.ms .ms-code {
+  padding: 0 0.35em;
+  border-radius: 4px;
+  background: var(--ms-warm-flaeche);
+  color: var(--ms-warm-text);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Angebots-Assistent */
+.ms .ms-raum {
+  position: relative;
+  display: block;
+  width: 3.2em;
+  height: 2.3em;
+  margin: 1.2em 2.9em 0.1em 0;
+  border: 2px solid var(--ms-akzent);
+  border-radius: 2px;
+}
+.ms .ms-raum__mass {
+  position: absolute;
+  white-space: nowrap;
+  font-size: 0.92em;
+  font-weight: 600;
+}
+.ms .ms-raum__mass--oben {
+  bottom: calc(100% + 0.2em);
+  left: 50%;
+  transform: translateX(-50%);
+}
+.ms .ms-raum__mass--seite {
+  top: 50%;
+  left: calc(100% + 0.35em);
+  transform: translateY(-50%);
+}
+.ms .ms-position {
+  padding: 0.15em 0.45em;
+  border-radius: 5px;
+  background: var(--ms-tuerkis-flaeche);
+  color: var(--ms-tuerkis-text);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ── Bewegung ── */
+@keyframes ms-a {
+  0%,
+  8% {
+    opacity: 0;
+    transform: translateY(0.35em);
+  }
+  18%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ms-b {
+  0%,
+  24% {
+    opacity: 0;
+    transform: translateY(0.35em);
+  }
+  34%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ms-c {
+  0%,
+  40% {
+    opacity: 0;
+    transform: translateY(0.35em);
+  }
+  50%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ms-c2 {
+  0%,
+  50% {
+    opacity: 0;
+    transform: translateY(0.35em);
+  }
+  60%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ms-d {
+  0%,
+  60% {
+    opacity: 0;
+    transform: translateY(0.35em);
+  }
+  70%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ms-schieben {
+  0%,
+  6% {
+    transform: translateX(-1.8em);
+  }
+  30%,
+  100% {
+    transform: none;
+  }
+}
+@keyframes ms-wachsen {
+  0%,
+  28% {
+    transform: scaleX(0.2);
+  }
+  46%,
+  100% {
+    transform: none;
+  }
+}
+@keyframes ms-fliegen {
+  0%,
+  6% {
+    opacity: 0;
+    transform: translate(-5.2em, -0.3em) scale(1.3);
+  }
+  12% {
+    opacity: 1;
+  }
+  38%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ms-druecken {
+  0%,
+  8% {
+    transform: none;
+  }
+  13% {
+    transform: scale(0.88);
+  }
+  20%,
+  100% {
+    transform: none;
+  }
+}
+@keyframes ms-alt {
+  0%,
+  26% {
+    opacity: 1;
+  }
+  36%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes ms-neu {
+  0%,
+  28% {
+    opacity: 0;
+    transform: translateY(-0.3em);
+  }
+  40%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ms-rutschen {
+  0%,
+  46% {
+    opacity: 0;
+    transform: translateX(-1.6em);
+  }
+  58%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ms-stern1 {
+  0%,
+  6% {
+    color: var(--ms-linie);
+  }
+  12%,
+  100% {
+    color: var(--ms-stern);
+  }
+}
+@keyframes ms-stern2 {
+  0%,
+  12% {
+    color: var(--ms-linie);
+  }
+  18%,
+  100% {
+    color: var(--ms-stern);
+  }
+}
+@keyframes ms-stern3 {
+  0%,
+  18% {
+    color: var(--ms-linie);
+  }
+  24%,
+  100% {
+    color: var(--ms-stern);
+  }
+}
+@keyframes ms-zeilen {
+  0%,
+  22% {
+    transform: scaleX(0);
+  }
+  40%,
+  100% {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .schema--js .ist-aktiv .ms {
+    --ms-dauer: 4.4s;
+    --ms-start: calc(0.9s + var(--i, 0) * 0.12s);
+  }
+  .schema--js .ist-aktiv .ms .ms-a-a,
+  .schema--js .ist-aktiv .ms .ms-a-b,
+  .schema--js .ist-aktiv .ms .ms-a-c,
+  .schema--js .ist-aktiv .ms .ms-a-c2,
+  .schema--js .ist-aktiv .ms .ms-a-d,
+  .schema--js .ist-aktiv .ms .ms-a-schieben,
+  .schema--js .ist-aktiv .ms .ms-a-wachsen,
+  .schema--js .ist-aktiv .ms .ms-a-fliegen,
+  .schema--js .ist-aktiv .ms .ms-a-druecken,
+  .schema--js .ist-aktiv .ms .ms-a-alt,
+  .schema--js .ist-aktiv .ms .ms-a-neu,
+  .schema--js .ist-aktiv .ms .ms-a-rutschen,
+  .schema--js .ist-aktiv .ms .ms-a-stern1,
+  .schema--js .ist-aktiv .ms .ms-a-stern2,
+  .schema--js .ist-aktiv .ms .ms-a-stern3,
+  .schema--js .ist-aktiv .ms .ms-a-zeilen > span {
+    animation-duration: var(--ms-dauer);
+    animation-delay: var(--ms-start);
+    animation-iteration-count: 3;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: both;
+  }
+  .schema--js .ist-aktiv .ms .ms-a-a {
+    animation-name: ms-a;
+  }
+  .schema--js .ist-aktiv .ms .ms-a-b {
+    animation-name: ms-b;
+  }
+  .schema--js .ist-aktiv .ms .ms-a-c {
+    animation-name: ms-c;
+  }
+  .schema--js .ist-aktiv .ms .ms-a-c2 {
+    animation-name: ms-c2;
+  }
+  .schema--js .ist-aktiv .ms .ms-a-d {
+    animation-name: ms-d;
+  }
+  .schema--js .ist-aktiv .ms .ms-a-schieben {
+    animation-name: ms-schieben;
+  }
+  .schema--js .ist-aktiv .ms .ms-a-wachsen {
+    animation-name: ms-wachsen;
+  }
+  .schema--js .ist-aktiv .ms .ms-a-fliegen {
+    animation-name: ms-fliegen;
+  }
+  .schema--js .ist-aktiv .ms .ms-a-druecken {
+    animation-name: ms-druecken;
+  }
+  .schema--js .ist-aktiv .ms .ms-a-alt {
+    animation-name: ms-alt;
+  }
+  .schema--js .ist-aktiv .ms .ms-a-neu {
+    animation-name: ms-neu;
+  }
+  .schema--js .ist-aktiv .ms .ms-a-rutschen {
+    animation-name: ms-rutschen;
+  }
+  .schema--js .ist-aktiv .ms .ms-a-stern1 {
+    animation-name: ms-stern1;
+  }
+  .schema--js .ist-aktiv .ms .ms-a-stern2 {
+    animation-name: ms-stern2;
+  }
+  .schema--js .ist-aktiv .ms .ms-a-stern3 {
+    animation-name: ms-stern3;
+  }
+  .schema--js .ist-aktiv .ms .ms-a-zeilen > span {
+    animation-name: ms-zeilen;
+  }
+  .schema--js .ist-aktiv .ms .ms-a-zeilen > span:nth-child(2) {
+    animation-delay: calc(var(--ms-start) + 0.15s);
+  }
+  .schema--js .ist-aktiv .ms .ms-a-zeilen > span:nth-child(3) {
+    animation-delay: calc(var(--ms-start) + 0.3s);
+  }
+}
+
+/* Druck (Fassung zum Zeigen): helles Papier, egal welches Farbschema. */
+@media print {
+  .ms {
+    --ms-flaeche: #ffffff;
+    --ms-text: #141414;
+    --ms-leise: #4a4a4a;
+    --ms-linie: #8f8f8f;
+    --ms-linie-hell: #c9c9c5;
+    --ms-akzent: #4a7fc9;
+    --ms-gut-flaeche: #e0f3d9;
+    --ms-gut-text: #1d4a12;
+    --ms-gut-rand: #4f9a3a;
+    --ms-warm-flaeche: #fde9d9;
+    --ms-warm-text: #6b2d00;
+    --ms-warm-rand: #d9772e;
+    --ms-gelb-flaeche: #fbf0c8;
+    --ms-gelb-text: #574000;
+    --ms-stern: #c9a227;
+    --ms-vio-flaeche: #ece3fb;
+    --ms-vio-text: #43207a;
+    --ms-tuerkis-flaeche: #d6f1ea;
+    --ms-tuerkis-text: #0b4a40;
+    --ms-tag-text: #12386b;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    break-inside: avoid;
+  }
+}

@@ -150,18 +150,18 @@
         "Weniger Abende am Schreibtisch: Das Angebot entsteht direkt nach dem Termin.",
         "Flächen, Wände und Umfang rechnet die Werkbank aus, Abzüge für Fenster und Türen eingeschlossen.",
         "Ihre Preise bleiben Ihre Preise. Claude sieht sie nicht und kann keine erfinden.",
-        "Nummer, Summen, Rabatt und Umsatzsteuer oder Hinweis für Kleinunternehmer stimmen von selbst."
+        "Nummer, Summen, Rabatt und Umsatzsteuer stimmen von selbst."
       ],
       "kannNicht": [
         "Keine Rechnungen. Es schreibt Angebote, für Rechnungen gelten weitere Pflichtangaben.",
         "Kein Versand. Das PDF schicken Sie selbst.",
-        "Fotos werden nicht gespeichert. Sie bleiben, solange die Seite offen ist, und lassen sich als Anlage drucken.",
+        "Fotos werden nicht gespeichert, nur als Anlage mitgedruckt.",
         "Ohne Claude-Schlüssel gibt es keine Vorschläge für Positionen, alles andere geht von Hand."
       ],
       "voraussetzungen": [
         "Eine Website von dekaru im Paket Groß, in jeder Branche.",
         "Ihre Leistungsliste mit Positionen und Preisen. Die legen Sie einmal an.",
-        "Ein Tablet, Smartphone oder Rechner mit aktuellem Browser und eine PIN mit mindestens 8 Zeichen.",
+        "Ein Gerät mit aktuellem Browser und eine PIN mit mindestens 8 Zeichen.",
         "Für die Vorschläge ein eigenes Konto bei Anthropic mit Schlüssel. Ohne Schlüssel geht alles von Hand."
       ],
       "einrichtung": "Michael Henning richtet die Werkbank im Einrichtungstermin mit Ihnen auf Ihrem Gerät ein: PIN, Briefkopf, Steuerangaben, auf Wunsch Konto bei Anthropic. Die Leistungsliste legen Sie dabei gemeinsam an. Die Einrichtung ist im Preis enthalten.",

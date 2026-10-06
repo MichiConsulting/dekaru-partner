@@ -137,6 +137,29 @@
   color: var(--text-muted);
 }
 
+/* So funktioniert es: Mini-Schema neben drei Schritten, schmal untereinander. */
+.blatt__so-inhalt {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-m) var(--space-l);
+  align-items: center;
+}
+.blatt__so-inhalt .ms {
+  font-size: 15px;
+}
+.blatt__schritte {
+  margin: 0;
+  padding-left: 1.4em;
+}
+.blatt__schritte li + li {
+  margin-top: var(--space-xs);
+}
+@media (max-width: 640px) {
+  .blatt__so-inhalt {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 @media print {
   @page {
     size: A4;
@@ -163,29 +186,29 @@
     max-width: none;
     background: #ffffff;
     color: #141414;
-    font-size: 10pt;
-    line-height: 1.4;
+    font-size: 9.5pt;
+    line-height: 1.35;
   }
   .blatt h1 {
     font-size: 20pt;
     margin-bottom: 4mm;
   }
   .blatt__lead {
-    font-size: 11pt;
+    font-size: 10.5pt;
     margin-bottom: 3mm;
   }
   .blatt h2 {
-    font-size: 11pt;
-    margin: 4mm 0 1.5mm;
+    font-size: 10.5pt;
+    margin: 3mm 0 1mm;
   }
   .blatt p {
     margin: 0;
   }
   .blatt li + li {
-    margin-top: 0.5mm;
+    margin-top: 0.3mm;
   }
   .blatt__fuss {
-    margin-top: 6mm;
+    margin-top: 4mm;
     padding-top: 2mm;
   }
   .blatt__marke,
@@ -197,5 +220,13 @@
   }
   .blatt section {
     break-inside: avoid;
+  }
+  .blatt__so-inhalt {
+    grid-template-columns: 1fr 1fr;
+    gap: 3mm 6mm;
+  }
+  .blatt__so-inhalt .ms {
+    font-size: 9.5pt;
+    min-height: 0;
   }
 }
