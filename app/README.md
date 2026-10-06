@@ -280,16 +280,23 @@ verkaufbar, wenn es dort steht. Texte kommen aus `../inhalt/module.json`
 (für Betriebe, ohne Preis, auch im Bundle des Preisrechners) und
 `../inhalt/verkaufshilfen.json` (nur für Vertriebler, nur auf dem Server),
 zusammengeführt in `src/lib/module.ts`. Es erscheint nur, was in allen
-dreien steht. Verwendet in: Schema Schritt Funktion (nur Name und Nutzen,
-nur passende Branchen, unter dem Satz zur Funktion), `/verkaufshilfen`
+dreien steht. **Seit 06.10.2026 gibt es Module nur zum Paket Groß**
+(`MODULE_PAKETE` und `moduleMoeglich` in `src/lib/preise.ts`, abgeleitet aus
+den Paketen mit Funktion). Verwendet in: Schema Schritt Funktion (nur Name
+und Nutzen, nur passende Branchen, unter "Im Paket Groß zusätzlich möglich",
+dazu in Schritt Bausteine eine Zeile, die nur beim Paket Groß erscheint), `/verkaufshilfen`
 (Übersicht, Tipp für den Zweittermin), `/verkaufshilfen/<schluessel>`
 (Steckbrief mit Preis und Provision, je nach Stufe der Hinweis, wer den Preis
 nennt), `/verkaufshilfen/<schluessel>/zeigen` (ohne Preis, druckbar als
 A4, Kopf und Fuß fallen weg, Knopf über `src/scripts/drucken.ts`),
 Preisrechner (Schritt 4, Felder `m_<schluessel>`, zählt ins Einmalige und in
-die Provision) und Briefing-Bogen (ankreuzen in Teil B, gespeichert im JSON
-`daten.auswahl.module`, keine Migration; passt ein Modul nicht zur Branche,
-fehlt eine Angabe; in der Angebots-Eingabe als freie Position mit Preis).
+die Provision, nur bei Groß; ohne Groß ausgegraut, ein Paketwechsel weg von
+Groß nimmt gewählte Module sichtbar heraus) und Briefing-Bogen (ankreuzen in
+Teil B, nur bei Groß, gespeichert im JSON `daten.auswahl.module`, keine
+Migration; passt ein Modul nicht zur Branche oder fehlt Groß, fehlt eine
+Angabe beim Einreichen; ein alter Bogen mit Modul ohne Groß behält das Kreuz
+und zeigt eine Warnung; in der Angebots-Eingabe als freie Position mit
+Preis).
 
 **Briefing-Bogen.** Der Bogen aus Blatt 11 als Formular (`/briefing`), immer
 an einen Betrieb aus "Meine Kunden" gebunden, Teil A wird daraus vorbelegt.

@@ -286,7 +286,8 @@ Hier liegen die Texte dazu, je Modul unter demselben `schluessel`:
 
 - `module.json`: was ein Betrieb sehen darf, ohne Preis. `name`, `art`
   (besucher oder inhaber), `kurz` (ein Satz für das Schema), `schemaBranchen`
-  (handwerk, gastro, friseur, praxis), `templates` (Website-Vorlagen, in
+  (handwerk, gastro, friseur, praxis, umzug, reinigung, garten; passend zu
+  `templates`, das prüft ein Test), `templates` (Website-Vorlagen, in
   denen sich das Modul bauen lässt), `einleitung`, `nutzen`, `kannNicht`,
   `voraussetzungen` (Listen), `einrichtung`, `daten`, `laufend`. Daraus
   entstehen das Schema, die Fassung zum Zeigen unter Verkaufshilfen und die
