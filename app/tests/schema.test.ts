@@ -122,8 +122,10 @@ describe('Schritt Farben', () => {
     expect(schema).toMatch(/data-gruppen-uebersicht hidden/);
     expect(schema).toContain('data-gruppe="BL"');
     expect(schema).toContain('href="/erstgespraech?branche=gastro#schritt-3" data-gruppe-zurueck');
-    // Der Hinweis zu den Namen erscheint nur in der Gruppe IN.
+    // Der Hinweis zu den Namen steht in der Gruppe IN und immer unten im Schritt,
+    // damit er auch bei einer gewaehlten IN-Palette ohne offene Gruppe sichtbar ist.
     expect(schema).toMatch(/data-hinweis-namen hidden/);
+    expect(nurText(schema)).toContain(HINWEIS_NAMEN);
     const inspiriert = await rendere('gastro', '&gruppe=IN');
     expect(inspiriert.schema).not.toMatch(/data-hinweis-namen hidden/);
     expect(nurText(inspiriert.schema)).toContain(HINWEIS_NAMEN);
