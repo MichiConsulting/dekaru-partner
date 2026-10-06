@@ -1,0 +1,87 @@
+{
+  "kapitel": "12-software-module",
+  "karten": [
+    {
+      "titel": "Was ein Modul ist",
+      "icon": "zahnrad",
+      "saetze": [
+        "Software, die dem Betrieb zusätzlich zur Website Arbeit abnimmt. Einmal kaufen, laufend nur Hosting mit Updates und Hilfe. Die Einrichtung beim Betrieb macht Michael Henning, sie ist im Preis enthalten."
+      ],
+      "merke": "Ein Modul ist nicht die mitarbeitende Funktion. Die gehört zum Paket Groß, Module werden einzeln gekauft."
+    },
+    {
+      "titel": "Zwei Arten",
+      "icon": "bildschirm",
+      "saetze": [
+        "Werkzeuge für den Inhaber laufen in der Werkbank, einer App im Browser auf seinem Gerät. Funktionen für Besucher laufen auf der Website. Manche brauchen das Betriebs-Skript im Google-Konto des Betriebs."
+      ],
+      "grafik": "module-zwei-arten.svg",
+      "merke": "Heute verkaufbar ist genau eines: der Kostenrechner, eine Funktion für Besucher."
+    },
+    {
+      "titel": "Daten bleiben beim Betrieb",
+      "icon": "schild",
+      "saetze": [
+        "Gespeichert wird im Browser des Betriebs oder in seinen eigenen Konten, nie bei dekaru. Beim Kostenrechner geht das Ergebnis mit dem normalen Kontaktformular über den Formulardienst, gespeichert wird dort nichts."
+      ],
+      "merke": "\"dekaru ist gar nicht dazwischen\" gilt erst für Module über das Betriebs-Skript, nicht für den Kostenrechner."
+    },
+    {
+      "titel": "KI ohne Abo",
+      "icon": "euro",
+      "saetze": [
+        "Module mit KI nutzen einen eigenen Schlüssel des Betriebs bei Anthropic, kein Abo. Er zahlt nur den Verbrauch, bei normaler Nutzung Cent-Beträge bis wenige Euro im Monat.",
+        "Module über das Betriebs-Skript brauchen ein Google-Konto, am besten Google Workspace."
+      ],
+      "merke": "Keine genaue Zahl versprechen. Der Kostenrechner braucht weder KI noch Google-Konto."
+    },
+    {
+      "titel": "Preise und Provision",
+      "icon": "euro",
+      "saetze": [
+        "Einmalpreis nach Stufe. Im Erstgespräch kein Modulpreis. Im Zweittermin nennt ihn in Stufe 1 Michael Henning, in Stufe 2 Sie aus dem Preisrechner."
+      ],
+      "tabelle": {
+        "kopf": ["Stufe", "Preis", "Heute verkaufbar"],
+        "zeilen": [
+          ["klein", "200 €", "Kostenrechner"],
+          ["mittel", "300 €", "keines"],
+          ["groß", "400 €", "keines"],
+          ["sehr groß", "500 €", "keines"]
+        ]
+      },
+      "merke": "35 % Provision, wenn das Modul im Erstauftrag mitverkauft wird. Beim Kostenrechner 70 €. Später gekauft: Folgegeschäft ohne Provision."
+    },
+    {
+      "titel": "Nur, was verkaufbar ist",
+      "icon": "warnung",
+      "saetze": [
+        "Sie bieten nur Module an, die unter Verkaufshilfen stehen. Alles andere gibt es heute nicht, auch nicht als \"kommt bald\"."
+      ],
+      "zitat": "Das bietet er heute nicht an. Was es heute gibt, zeige ich Ihnen gern.",
+      "merke": "Was im Portal nicht steht, versprechen Sie nicht."
+    },
+    {
+      "titel": "Steckbrief Kostenrechner",
+      "icon": "liste",
+      "saetze": [
+        "Besucher geben ein paar Angaben ein und sehen einen unverbindlichen Richtwert als Spanne, den sie mit der Anfrage schicken. Für Handwerk, Garten- und Landschaftsbau, Reinigung und Umzug."
+      ],
+      "liste": [
+        "Nimmt ab: Anrufe nur wegen eines groben Preises",
+        "Kann nicht: verbindliches Angebot, Buchung, Sonderfälle",
+        "Braucht: grobe Preise des Betriebs, sonst nichts",
+        "Einmalig 200 €, Stufe klein"
+      ],
+      "zitat": "Sie hatten erzählt, dass viele nur wegen eines groben Preises anrufen: Wäre es eine Hilfe, wenn Ihre Kunden sich den vorher auf der Website selbst ausrechnen?"
+    },
+    {
+      "titel": "Wann Sie Module ansprechen",
+      "icon": "weg",
+      "saetze": [
+        "Am Telefon gar nicht. Im Erstgespräch zeigt das Schema passende Module, nur mit Nutzen. Im Zweittermin nach der Website ein passendes Modul, Interesse im Briefing-Bogen ankreuzen."
+      ],
+      "merke": "Unter Verkaufshilfen gibt es zu jedem Modul eine Fassung ohne Preis zum Zeigen und Mitgeben."
+    }
+  ]
+}
