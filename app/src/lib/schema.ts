@@ -173,7 +173,7 @@ export const BRANCHEN: Record<BrancheId, Branche> = {
     ],
     besucher: 'Ein Kunde',
     leistungsliste: 'Leistungsübersicht',
-    datenHinweis: 'Am Formular steht: Bitte keine Schlüssel- oder Alarmcodes eintragen. Die klären Sie persönlich.',
+    datenHinweis: 'Schlüssel- oder Alarmcodes gehören nicht in eine Anfrage. Die klären Sie persönlich mit Ihrem Kunden.',
   },
   garten: {
     id: 'garten',
