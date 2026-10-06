@@ -1,0 +1,67 @@
+---
+// Verkaufshilfen: je verkaufbarem Software-Modul ein Steckbrief zum Lesen und
+// eine Fassung ohne Preis zum Zeigen oder Ausdrucken, dazu der Tipp fuer den
+// Zweittermin. Was hier nicht steht, wird nicht angeboten. Die Liste kommt
+// aus lib/module.ts (src/data/module.json plus inhalt/).
+import '../../styles/verkaufshilfen.css';
+import Layout from '../../layouts/Layout.astro';
+import { MODUL_FEHLER, VERKAUFBARE_MODULE, VERKAUFSHILFEN_EINLEITUNG, ZWEITTERMIN } from '../../lib/module.ts';
+
+const benutzer = Astro.locals.benutzer!;
+---
+
+<Layout titel="Verkaufshilfen" aktiv="verkaufshilfen">
+  <h1>Verkaufshilfen</h1>
+  <p style="max-width:var(--measure)">{VERKAUFSHILFEN_EINLEITUNG}</p>
+
+  {benutzer.rolle === 'admin' && MODUL_FEHLER.length > 0 && (
+    <div class="meldung meldung--fehler">
+      <p><strong>Nur für den Admin sichtbar:</strong> Fehler in den Moduldaten. Betroffene Module werden nicht angezeigt.</p>
+      <ul>{MODUL_FEHLER.map((f) => <li>{f}</li>)}</ul>
+    </div>
+  )}
+
+  <h2>Software-Module, die Sie heute anbieten dürfen</h2>
+  {VERKAUFBARE_MODULE.length === 0 ? (
+    <p class="hinweis">Zurzeit gibt es kein Modul, das Sie anbieten dürfen. Fragt ein Betrieb danach: „Das bietet er heute nicht an.“</p>
+  ) : (
+    <ul class="vh-module">
+      {VERKAUFBARE_MODULE.map((m) => (
+        <li class="vh-modul">
+          <h3>{m.name}</h3>
+          <p>{m.kurz}</p>
+          <p class="meta">Passt zu: {m.briefingBranchen.join(', ')}</p>
+          <div class="aktionen">
+            <a class="btn btn--klein" href={`/verkaufshilfen/${m.schluessel}`}>Steckbrief</a>
+            <a class="btn btn--zweit btn--klein" href={`/verkaufshilfen/${m.schluessel}/zeigen`}>Zum Zeigen und Drucken</a>
+          </div>
+        </li>
+      ))}
+    </ul>
+  )}
+
+  <section class="karte" aria-labelledby="vh-erst">
+    <h2 id="vh-erst">Im Erstgespräch</h2>
+    <p style="max-width:var(--measure)">
+      Das Schema zeigt passende Module im Schritt Funktion, nur mit Namen und Nutzen. Mehr sagen Sie dazu nicht, keinen Preis und nichts, was dort nicht
+      steht. Was den Betrieb interessiert, notieren Sie für den Zweittermin.
+    </p>
+    <p><a href="/erstgespraech">Zum Schema</a></p>
+  </section>
+
+  {ZWEITTERMIN && (
+    <section class="karte" aria-labelledby="vh-zweit">
+      <h2 id="vh-zweit">{ZWEITTERMIN.titel}</h2>
+      <ol class="vh-schritte">{ZWEITTERMIN.schritte.map((s) => <li>{s}</li>)}</ol>
+      <p class="hinweis" style="margin:var(--space-l) 0 0">{ZWEITTERMIN.merke}</p>
+    </section>
+  )}
+
+  <section class="karte" aria-labelledby="vh-mehr">
+    <h2 id="vh-mehr">Mehr dazu</h2>
+    <ul>
+      <li><a href="/gespraech?thema=Software">Gesprächshilfe, Thema Software</a>: typische Fragen und kurze Antworten</li>
+      <li><a href="/lernen/12-software-module">Kapitel 12, Software-Module</a>: Grundsätze, Preise, Provision</li>
+    </ul>
+  </section>
+</Layout>
