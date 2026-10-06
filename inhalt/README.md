@@ -3,7 +3,7 @@
 Quelle für das Informationsblatt (PDF unter `pdf/`) und für das Partner-Portal
 (`app/`). Beides liest dieselben Dateien, damit es keine zwei Wahrheiten gibt.
 
-Stand der Inhalte: 05.10.2026 (Entscheidungen von Michi vom 01.10.2026, zur Steuer auf die Provision vom 04.10.2026 und zum Schema im Erstgespräch vom 05.10.2026 eingearbeitet, Hintergrund in `~/dekaru/brain/projekte/software-baukasten/00-BAUPLAN.md`). Fachliche Quellen sind die Blätter unter
+Stand der Inhalte: 06.10.2026 (Entscheidungen von Michi vom 01.10.2026, zur Steuer auf die Provision vom 04.10.2026, zum Schema im Erstgespräch vom 05.10.2026 und zu den Preisen der Software-Module vom 06.10.2026 eingearbeitet, Hintergrund in `~/dekaru/brain/projekte/software-baukasten/00-BAUPLAN.md`). Fachliche Quellen sind die Blätter unter
 `~/dekaru/brain/projekte/vertrieb-partner/` (Blatt 13 für Hosting, 04 für
 Provision, 06 für Do und Don't, 14 für die Website-Pakete),
 `dekaru-website/site/src/data/preise.ts` (Paket- und Bausteinpreise), `hosting.ts` (Hosting-Tarife) und
@@ -27,6 +27,7 @@ Eine Datei je Kapitel, Reihenfolge über die Nummer im Dateinamen:
 | `09-einwaende.md` | Häufige Einwände und ehrliche Antworten |
 | `10-glossar.md` | Glossar |
 | `11-preisliste.md` | Preisliste für Vertriebler (Anhang) |
+| `12-software-module.md` | Software-Module: Grundsätze, Preise, Provision, Steckbriefe der verkaufbaren Module |
 
 ### Frontmatter
 
@@ -156,6 +157,7 @@ prüft das näherungsweise, `npm run pruefe-grafiken` misst es im Browser.
 | `do-dont-ampel.svg` | Immer, im Zweifel, nie als Ampel |
 | `provision-balken.svg` | Provision je Paket als Balken |
 | `anlauf-wochen.svg` | Sechs bis zehn Wochen bis zum ersten Geld |
+| `module-zwei-arten.svg` | Werkzeuge für den Inhaber und Funktionen für Besucher, mit dem, was heute verkaufbar ist |
 
 ## quiz.json
 
@@ -227,7 +229,7 @@ gehört es hier nachgezogen.
   "stand": "2026-10-02",
   "titel": "...",
   "einleitung": "Sechs Sätze lernen Sie wortgleich, alles andere sagen Sie in eigenen Worten.",
-  "themen": ["Preis", "Ablauf", "Hosting", "Vertrauen", "Kein Interesse", "Recht und Datenschutz"],
+  "themen": ["Preis", "Ablauf", "Hosting", "Vertrauen", "Kein Interesse", "Recht und Datenschutz", "Software"],
   "eintraege": [ ... ]
 }
 ```
@@ -237,7 +239,7 @@ Jeder Eintrag:
 | Feld | Pflicht | Inhalt |
 |---|---|---|
 | `id` | ja | eindeutig, `g01` ... |
-| `thema` | ja | genau eines der sechs Themen oben, wortgleich |
+| `thema` | ja | genau eines der sieben Themen oben, wortgleich |
 | `frage` | ja | so, wie der Kunde fragt |
 | `antwort` | ja | kurz, gesprochen, Sie-Form, ein bis drei Sätze. Der Vertriebler spricht von "Herrn Henning" oder "er" |
 | `pflicht` | ja | `true` bei den sechs Sätzen, die wortgleich gelernt werden. Alles andere `false` |
@@ -272,3 +274,29 @@ Was in keiner Antwort steht: ein Ortsbezug, eine Bauzeit in Tagen oder Wochen,
 Preise außer "ab 600 €" und den Hosting-Zahlen, Referenzkunden, Floskeln,
 lange Gedankenstriche. Fehlerhafte Einträge überspringt das Portal und listet
 sie dem Admin unter `/gespraech` auf. Prüfen: `cd app && npm test`.
+
+## module.json und verkaufshilfen.json: Software-Module
+
+Welche Module verkauft werden und was sie kosten, steht nicht hier, sondern in
+`dekaru-rechnungen/preise.json` unter `leistungen.module` (Schalter
+`verkaufbar`). `npm run module-sync` in `app/` kopiert die verkaufbaren davon
+nach `app/src/data/module.json`. Nur was dort steht, zeigt das Portal.
+
+Hier liegen die Texte dazu, je Modul unter demselben `schluessel`:
+
+- `module.json`: was ein Betrieb sehen darf, ohne Preis. `name`, `art`
+  (besucher oder inhaber), `kurz` (ein Satz für das Schema), `schemaBranchen`
+  (handwerk, gastro, friseur, praxis), `templates` (Website-Vorlagen, in
+  denen sich das Modul bauen lässt), `einleitung`, `nutzen`, `kannNicht`,
+  `voraussetzungen` (Listen), `einrichtung`, `daten`, `laufend`. Daraus
+  entstehen das Schema, die Fassung zum Zeigen unter Verkaufshilfen und die
+  Namen im Preisrechner. Diese Datei landet im Bundle des Preisrechners.
+- `verkaufshilfen.json`: nur für Vertriebler. `einleitung`, `zweittermin`
+  (Tipp mit `titel`, `schritte`, `merke`) und je Modul `fuerWen`, `einstieg`
+  (ein Satz), `fragen` (frage, antwort ohne Preis), `intern`.
+
+Ein Text ohne Eintrag in `app/src/data/module.json` zeigt nichts an. So kann
+ein Steckbrief vorbereitet werden, bevor das Modul verkaufbar ist. Fehlt
+umgekehrt zu einem verkaufbaren Modul ein Text, schlägt `npm test` an.
+Geprüft werden auch Preise in Texten für Betriebe, lange Gedankenstriche,
+Bauzeiten und "kommt bald".

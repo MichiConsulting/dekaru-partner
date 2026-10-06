@@ -10,10 +10,12 @@ kurz: Die Begriffe aus diesem Blatt, kurz erklärt.
 |---|---|
 | **Abnahme** | Der Kunde prüft die fertige Website und erklärt sie für in Ordnung. Danach wird die Restzahlung fällig, und das Hosting-Kontingent beginnt. |
 | **Änderung** | Ein Anliegen an einer Stelle der Website, Aufwand bis etwa 15 Minuten. Öffnungszeiten, ein Preis, ein Bild. Gezählt nach Anliegen, erst nach Umsetzung. |
+| **Anthropic-Schlüssel** | Ein Zugang des Betriebs zu Claude, der KI von Anthropic, für Module mit KI. Er gehört dem Betrieb, der nur seinen Verbrauch zahlt, kein Abo. Richte ich beim Betrieb ein. |
 | **Anzahlung** | Die Hälfte des Website-Preises bei Auftrag. Der Rest bei Übergabe. Davon wird nicht abgewichen. |
 | **AuthCode** | Der Code, mit dem eine Domain zu einem anderen Anbieter umziehen kann. Der Kunde bekommt ihn auf Anfrage kostenlos. |
 | **AVV** | Auftragsverarbeitungsvertrag nach Art. 28 DSGVO. Nötig, sobald über die Website Daten von Besuchern verarbeitet werden, etwa über ein Formular. Kommt von mir, gehört zum Betreuungsvertrag. |
 | **Betreuungsvertrag** | Der Vertrag über Hosting und Pflege. Regelt Stufe, Änderungen, Laufzeit, Kündigung, Übergabe. |
+| **Betriebs-Skript** | Ein kleines Programm im eigenen Google-Konto des Betriebs. Nimmt Anfragen von Website-Modulen an und legt sie in seiner Tabelle und seinem Postfach ab. dekaru ist dabei nicht dazwischen. Heute läuft darüber kein verkaufbares Modul. |
 | **BFSG** | Barrierefreiheitsstärkungsgesetz, gilt seit Juni 2025. Websites von Betrieben müssen barrierefrei nutzbar sein. Viele Baukasten-Seiten erfüllen das nicht. |
 | **Briefing-Bogen** | Das Formular, das Sie im Zweittermin mit dem Kunden ausfüllen, nachdem er Ja gesagt hat. Daraus entstehen Angebot, Verträge und Website. |
 | **Cold Visit** | Unangemeldeter Besuch im Betrieb, um den Inhaber zu sprechen. In Ihrem ganzen Gebiet erlaubt, nur bei Gewerbetreibenden, nicht zur Stoßzeit. |
@@ -31,7 +33,9 @@ kurz: Die Begriffe aus diesem Blatt, kurz erklärt.
 | **Kleinunternehmer** | Ich rechne nach § 19 UStG ohne Umsatzsteuer ab. Alle Preise sind Endpreise, Ihre Provision wird auf den Rechnungsbetrag gerechnet. |
 | **Kontingent** | Die Zahl der Änderungen, die im Monat in der Hosting-Stufe enthalten sind: 3, 5 oder 10. Verfällt am Monatsende. Gilt ab Abnahme. |
 | **Korrekturrunde** | Eine Runde Änderungen an der fertigen Website vor der Abnahme, im Werkvertrag enthalten. Hat mit dem Hosting-Kontingent nichts zu tun. |
+| **Kostenrechner** | Software-Modul für die Website: Besucher rechnen sich einen unverbindlichen Richtwert aus und schicken ihn mit der Anfrage. Heute das einzige verkaufbare Modul, 200 € einmalig, für Handwerk, Garten- und Landschaftsbau, Reinigung und Umzug. |
 | **Mitarbeitende Funktion** | Ein Teil der Website, der dem Betrieb Arbeit abnimmt. Heute: die Online-Terminanfrage. Nur im Paket Groß, nie als Baustein, und nur solange die Website bei mir gehostet wird, egal in welcher Stufe. |
+| **Modul** | Kurz für Software-Modul: Software, die dem Betrieb zusätzlich zur Website Arbeit abnimmt. Einmal gekauft, Updates und Hilfe nur mit Hosting. Angeboten wird nur, was unter Verkaufshilfen steht. Nicht dasselbe wie die mitarbeitende Funktion. |
 | **Paket** | Eine der drei festen Website-Größen: Klein 600 €, Mittel 1.300 €, Groß 1.600 €. Fester Inhalt, fester Preis. Groß ist empfohlen. |
 | **Preisrechner** | Das Werkzeug, aus dem jeder Website-Preis entsteht: Paket plus Zusatzbausteine. Was er ausgibt, ist der Preis. |
 | **Quellstand** | Der vollständige, versionierte Bauplan der Website, aus dem sie jederzeit neu bereitgestellt werden kann. Ersetzt das klassische Backup. |
@@ -41,8 +45,10 @@ kurz: Die Begriffe aus diesem Blatt, kurz erklärt.
 | **Stufe 1 / Stufe 2** | Stufe 1: die ersten fünf Zweittermine gemeinsam mit mir, ich nenne den Preis. Stufe 2: Sie allein, Sie nennen Paketpreis und Bausteine aus dem Preisrechner. |
 | **Umbau** | Bis zu drei Stunden Arbeit an der Website, etwa ein Bereich neu gestaltet. Bei Plus zwei im Jahr, mit Grenzen. Sonst ein eigener Auftrag. |
 | **UWG** | Gesetz gegen den unlauteren Wettbewerb. § 7 erlaubt Kaltakquise bei Gewerbetreibenden unter engen Bedingungen: geschäftliche Nummer, geschäftlicher Anlass, klare Absenderangabe. |
+| **Verkaufshilfen** | Bereich im Portal: je verkaufbarem Modul ein Steckbrief mit Preis und eine Fassung ohne Preis zum Zeigen und Ausdrucken. Was dort nicht steht, wird nicht angeboten. |
 | **Vorschau** | Die gebaute Website mit den echten Daten des Betriebs, die im Zweittermin gezeigt wird. Nie per Mail. |
 | **Warteschlange** | Aufträge werden in der Reihenfolge begonnen, in der die Anzahlung eingeht. Ein harter Anlass kann vorgezogen werden. Es gibt kein Limit an Abschlüssen. |
+| **Werkbank** | Eine App im Browser auf dem Gerät des Inhabers, in der die Werkzeuge für den Inhaber laufen. Daten und Schlüssel bleiben auf seinem Gerät. Heute läuft darin kein verkaufbares Modul. |
 | **Werktag** | Montag bis Freitag ohne gesetzliche Feiertage in Baden-Württemberg. Bei angekündigtem Urlaub ruht die Zeit. |
 | **Werkvertrag** | Der Vertrag über den Bau der Website. Kommt von mir, der Kunde unterschreibt bei mir. |
 | **Wiedervorlage** | Ein Betrieb, der jetzt nicht will, aber nicht widersprochen hat. Wird zu einem späteren Zeitpunkt noch einmal angesprochen. |
