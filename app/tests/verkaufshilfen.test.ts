@@ -1,4 +1,6 @@
 // Verkaufshilfen: Uebersicht, Steckbrief mit Preis, Fassung zum Zeigen ohne Preis.
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import Uebersicht from '../src/pages/verkaufshilfen/index.astro';
@@ -74,6 +76,41 @@ describe('Preisrechner mit Modulen', () => {
     expect(html).toMatch(/name="m_modul-kostenrechner"[^>]*checked/);
     expect(text).toContain('Kostenrechner für Ihre Kunden 200 €');
     expect(text).toContain('1.800 €');
+  });
+
+  it('sperrt Module ohne Paket Groß und rechnet sie nicht mit', async () => {
+    for (const paket of ['klein', 'mittel']) {
+      const html = await (await rendere(Preisrechner, `/preisrechner?paket=${paket}`, chef)).text();
+      const feld = /<input[^>]*name="m_modul-kostenrechner"[^>]*>/.exec(html)?.[0] ?? '';
+      expect(feld).toMatch(/\sdisabled/);
+      expect(feld).not.toMatch(/\schecked/);
+      expect(html).toMatch(/class="posten posten--gesperrt"[^>]*data-modul="modul-kostenrechner"/);
+      expect(html).toMatch(/data-nur-gross(?![^>]*hidden)[^>]*>nur mit Paket Groß</);
+      expect(html).toMatch(/data-module-warnung hidden/);
+    }
+    const gross = await (await rendere(Preisrechner, '/preisrechner?paket=gross', chef)).text();
+    expect(/<input[^>]*name="m_modul-kostenrechner"[^>]*>/.exec(gross)?.[0]).not.toMatch(/\sdisabled/);
+    expect(gross).toMatch(/data-nur-gross hidden/);
+    expect(nurText(hauptteil(gross))).toContain('Nur mit Paket Groß.');
+  });
+
+  it('laesst ein angekreuztes Modul ohne Groß angekreuzt, warnt und rechnet es nicht', async () => {
+    const html = await (await rendere(Preisrechner, '/preisrechner?paket=mittel&m_modul-kostenrechner=on', chef)).text();
+    const feld = /<input[^>]*name="m_modul-kostenrechner"[^>]*>/.exec(html)?.[0] ?? '';
+    expect(feld).toMatch(/\schecked/);
+    expect(feld).not.toMatch(/\sdisabled/);
+    expect(html).not.toMatch(/data-module-warnung hidden/);
+    const text = nurText(hauptteil(html));
+    expect(text).toContain('Software-Module gibt es nur mit Paket Groß. Angekreuzt ist Kostenrechner für Ihre Kunden');
+    expect(text).toContain('Nicht mitgerechnet: Kostenrechner für Ihre Kunden.');
+    expect(text).not.toContain('Kostenrechner für Ihre Kunden 200 €');
+  });
+
+  it('das Skript nimmt Module erst beim Paketwechsel heraus und sagt es sichtbar', () => {
+    const skript = readFileSync(fileURLToPath(new URL('../src/scripts/preisrechner.ts', import.meta.url)), 'utf8');
+    expect(skript).toContain("moduleAbgleichen(form, ziel.name === 'paket')");
+    expect(skript).toContain('moduleAbgleichen(form, false);');
+    expect(skript).toContain('herausgenommen. Software-Module gibt es');
   });
 
   it('Stufe 1 sieht im Preisrechner weiterhin keine Zahl ausser ab 600 Euro', async () => {

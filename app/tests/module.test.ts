@@ -11,7 +11,7 @@ import { leseQuelle, leseZiel, quelleVorhanden, stimmtUeberein } from '../script
 import moduleDaten from '../src/data/module.json';
 import texteRoh from '../../inhalt/module.json';
 import hilfenRoh from '../../inhalt/verkaufshilfen.json';
-import { MODULE, auswahlAusFeldern, berechne, findeModul, leereAuswahl } from '../src/lib/preise.ts';
+import { MODULE, MODULE_NUR_MIT, MODULE_PAKETE, PAKETE, auswahlAusFeldern, berechne, findeModul, leereAuswahl, moduleMoeglich } from '../src/lib/preise.ts';
 import {
   MODUL_FEHLER,
   VERKAUFBARE_MODULE,
@@ -132,6 +132,27 @@ describe('Module im Preisrechner', () => {
     expect(mit.summeEinmalig).toBe(ohne.summeEinmalig + 200);
     expect(mit.provisionEinmalig).toBe(ohne.provisionEinmalig + 70);
     expect(mit.zeilen.filter((z) => z.art === 'modul')).toEqual([{ art: 'modul', schluessel: 'modul-kostenrechner', bezeichnung: 'Kostenrechner für Ihre Kunden', betrag: 200 }]);
+  });
+
+  it('gibt Module nur zum Paket Groß, wie die mitarbeitende Funktion', () => {
+    expect(MODULE_PAKETE).toEqual(['gross']);
+    expect(MODULE_PAKETE).toEqual(PAKETE.filter((p) => p.funktion).map((p) => p.schluessel));
+    expect(MODULE_NUR_MIT).toBe('nur mit Paket Groß');
+    expect(moduleMoeglich('gross')).toBe(true);
+    for (const p of ['klein', 'mittel', '', null, undefined, 'quatsch'] as const) expect(moduleMoeglich(p as never)).toBe(false);
+  });
+
+  it('rechnet ohne Paket Groß kein Modul mit und sagt das', () => {
+    for (const paket of ['klein', 'mittel'] as const) {
+      const ohne = berechne(leereAuswahl(paket));
+      const mit = berechne({ ...leereAuswahl(paket), module: ['modul-kostenrechner'] });
+      expect(mit.summeModule).toBe(0);
+      expect(mit.summeEinmalig).toBe(ohne.summeEinmalig);
+      expect(mit.provisionEinmalig).toBe(ohne.provisionEinmalig);
+      expect(mit.zeilen.some((z) => z.art === 'modul')).toBe(false);
+      expect(mit.hinweise).toContain('Software-Module gibt es nur mit Paket Groß. Nicht mitgerechnet: Kostenrechner für Ihre Kunden.');
+      expect(ohne.hinweise.join(' ')).not.toMatch(/Software-Module/);
+    }
   });
 
   it('kommt mit alten Briefings ohne Feld module zurecht', () => {

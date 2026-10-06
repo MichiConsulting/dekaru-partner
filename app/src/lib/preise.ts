@@ -93,6 +93,27 @@ export const MODULE: ModulPosten[] = (modulPreise.module as Omit<ModulPosten, 'n
   const text = (modulTexte.module as { schluessel: string; name: string }[]).find((t) => t.schluessel === m.schluessel);
   return text ? [{ ...m, name: text.name }] : [];
 });
+/**
+ * Software-Module gibt es nur zum Paket mit der mitarbeitenden Funktion,
+ * heute Gross (Entscheidung vom 06.10.2026, steht auch als Regel in
+ * dekaru-rechnungen/preise.json). Gross ist das Paket, in dem die Website
+ * mitarbeitet; Module erweitern das. Ueberall im Portal gilt diese eine Liste.
+ */
+export const MODULE_PAKETE: PaketSchluessel[] = (daten.pakete as Paket[]).filter((p) => p.funktion).map((p) => p.schluessel);
+/** "Groß", fuer Texte wie "nur mit Paket Groß". */
+export const MODULE_PAKET_NAME: string = (daten.pakete as Paket[])
+  .filter((p) => p.funktion)
+  .map((p) => p.name)
+  .join(' und ');
+/** Kurzer Hinweis neben jedem Modul. */
+export const MODULE_NUR_MIT = `nur mit Paket ${MODULE_PAKET_NAME}`;
+
+/** Darf zu diesem Paket ein Software-Modul verkauft werden? */
+export function moduleMoeglich(paket: Pick<Paket, 'schluessel'> | PaketSchluessel | null | undefined): boolean {
+  const s = typeof paket === 'string' ? paket : paket?.schluessel;
+  return Boolean(s) && MODULE_PAKETE.includes(s as PaketSchluessel);
+}
+
 export const PREIS_AB: number = Math.min(...PAKETE.map((p) => p.preis));
 export const PAKET_EMPFOHLEN: Paket = PAKETE.find((p) => p.empfohlen) ?? PAKETE[0];
 
@@ -277,11 +298,17 @@ export function berechne(auswahl: Auswahl): Ergebnis {
   }
   let summeModule = 0;
   // Doppelte Schluessel zaehlen einmal, unbekannte (nicht verkaufbare) gar nicht.
-  for (const schluessel of new Set(auswahl.module ?? [])) {
-    const m = findeModul(schluessel);
-    if (!m) continue;
-    summeModule += m.preis;
-    zeilen.push({ art: 'modul', schluessel: m.schluessel, bezeichnung: m.name, betrag: m.preis });
+  // Ohne Paket Gross zaehlt kein Modul. Die Auswahl selbst bleibt unangetastet
+  // (auswahlAusFeldern filtert nicht), damit ein gespeicherter Briefing-Bogen
+  // nichts still verliert; der Hinweis sagt, was fehlt.
+  const gewaehlteModule = [...new Set(auswahl.module ?? [])].map((s) => findeModul(s)).filter((m): m is ModulPosten => m !== null);
+  if (moduleMoeglich(paket)) {
+    for (const m of gewaehlteModule) {
+      summeModule += m.preis;
+      zeilen.push({ art: 'modul', schluessel: m.schluessel, bezeichnung: m.name, betrag: m.preis });
+    }
+  } else if (gewaehlteModule.length > 0) {
+    hinweise.push(`Software-Module gibt es ${MODULE_NUR_MIT}. Nicht mitgerechnet: ${gewaehlteModule.map((m) => m.name).join(', ')}.`);
   }
   if (nachAbsprache > 0) hinweise.push('Ein individuelles Feature hat keinen Listenpreis. Den Preis nennt nur Michael Henning, er kommt als Nachtrag ins Angebot.');
 

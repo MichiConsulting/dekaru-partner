@@ -16,10 +16,15 @@ import {
   HOSTING,
   HOSTING_TARIFE,
   MODULE,
+  MODULE_NUR_MIT,
+  MODULE_PAKETE,
+  MODULE_PAKET_NAME,
   PAKETE,
   ZUSATZLEISTUNGEN,
   enthaltenIn,
   euro,
+  findeModul,
+  moduleMoeglich,
   paketInhalte,
   type Auswahl,
 } from '../lib/preise.ts';
@@ -43,6 +48,14 @@ const anzahlVon = (schluessel: string) => {
   return typeof w === 'number' ? w : 0;
 };
 const gewaehlt = (schluessel: string) => Boolean(auswahl.bausteine[schluessel]);
+
+// Software-Module nur mit Paket Gross. Ohne Gross ist ein Modul ausgegraut und
+// nicht anklickbar. Ausnahme: ein schon angekreuztes Modul (alter
+// Briefing-Bogen) bleibt aktiv und angekreuzt, sonst schickte der Browser es
+// nicht mit und es ginge beim Speichern still verloren. Dann steht eine
+// Warnung darueber. scripts/preisrechner.ts haelt das beim Paketwechsel aktuell.
+const modulErlaubt = moduleMoeglich(auswahl.paket);
+const moduleOhneGross = modulErlaubt ? [] : auswahl.module.map((s) => findeModul(s)).filter((m) => m !== null);
 ---
 
 <fieldset class="pakete-feld">
@@ -125,24 +138,47 @@ const gewaehlt = (schluessel: string) => Boolean(auswahl.bausteine[schluessel]);
 </section>
 
 {MODULE.length > 0 && (
-  <>
+  <div data-module-bereich data-module-pakete={MODULE_PAKETE.join(' ')} data-module-paket-name={MODULE_PAKET_NAME}>
     <h2 class="rechner__schritt">{ueberschriften && '4. '}Software-Module</h2>
-    <p class="meta">Einmalig, Einrichtung beim Betrieb inklusive. Updates und Hilfe nur mit Hosting bei dekaru. Nur, was hier steht, ist verkaufbar.</p>
+    <p class="meta">
+      <strong>Nur mit Paket {MODULE_PAKET_NAME}.</strong> {MODULE_PAKET_NAME} ist das Paket, in dem die Website mitarbeitet, ein Modul erweitert das.
+      Einmalig, Einrichtung beim Betrieb inklusive. Updates und Hilfe nur mit Hosting bei dekaru. Nur, was hier steht, ist verkaufbar.
+    </p>
+    <div class="meldung meldung--fehler" role="alert" data-module-warnung hidden={moduleOhneGross.length === 0}>
+      <p>
+        <strong>Software-Module gibt es {MODULE_NUR_MIT}.</strong> Angekreuzt ist <span data-module-warnung-namen>{moduleOhneGross.map((m) => m!.name).join(', ')}</span>.
+        Bitte Paket {MODULE_PAKET_NAME} wählen oder das Modul abwählen. Eingereicht werden kann der Bogen so nicht.
+      </p>
+    </div>
+    <p class="hinweis module__status" role="status" aria-live="polite" data-module-status hidden></p>
     <section class="gruppe" aria-label="Software-Module">
-      {MODULE.map((m) => (
-        <div class="posten" data-modul={m.schluessel}>
-          <div class="posten__text">
-            <label for={`m-${m.schluessel}`}>{m.name}</label>
-            <span class="posten__hinweis"><a href={`/verkaufshilfen/${m.schluessel}`}>Steckbrief und Voraussetzungen</a></span>
+      {MODULE.map((m) => {
+        const an = auswahl.module.includes(m.schluessel);
+        return (
+          <div class:list={['posten', !modulErlaubt && !an && 'posten--gesperrt']} data-modul={m.schluessel}>
+            <div class="posten__text">
+              <label for={`m-${m.schluessel}`}>{m.name}</label>
+              <span class="posten__hinweis"><a href={`/verkaufshilfen/${m.schluessel}`}>Steckbrief und Voraussetzungen</a></span>
+              <span class="posten__nur-gross" data-nur-gross hidden={modulErlaubt}>{MODULE_NUR_MIT}</span>
+            </div>
+            {zeigePreise && <span class="posten__preis">{euro(m.preis)}</span>}
+            <div class="posten__wahl">
+              <input
+                id={`m-${m.schluessel}`}
+                name={`m_${m.schluessel}`}
+                type="checkbox"
+                data-modul-feld
+                checked={an}
+                disabled={!modulErlaubt && !an}
+                aria-describedby={`m-${m.schluessel}-regel`}
+              />
+              <span class="sr-only" id={`m-${m.schluessel}-regel`}>{MODULE_NUR_MIT}</span>
+            </div>
           </div>
-          {zeigePreise && <span class="posten__preis">{euro(m.preis)}</span>}
-          <div class="posten__wahl">
-            <input id={`m-${m.schluessel}`} name={`m_${m.schluessel}`} type="checkbox" checked={auswahl.module.includes(m.schluessel)} />
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </section>
-  </>
+  </div>
 )}
 
 <fieldset>
