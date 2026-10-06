@@ -1,7 +1,7 @@
 ---
 /**
  * Die Eingabefelder des Preisrechners: Paket, Zusatzbausteine,
- * Zusatzleistungen, Hosting. Echte Formularfelder, damit alles ohne
+ * Zusatzleistungen, Software-Module (nur verkaufbare), Hosting. Echte Formularfelder, damit alles ohne
  * JavaScript funktioniert (GET im Preisrechner, POST im Briefing). Die
  * Feldnamen liest auswahlAusFeldern in lib/preise.ts.
  *
@@ -15,6 +15,7 @@ import {
   GRUPPEN,
   HOSTING,
   HOSTING_TARIFE,
+  MODULE,
   PAKETE,
   ZUSATZLEISTUNGEN,
   enthaltenIn,
@@ -123,8 +124,29 @@ const gewaehlt = (schluessel: string) => Boolean(auswahl.bausteine[schluessel]);
   ))}
 </section>
 
+{MODULE.length > 0 && (
+  <>
+    <h2 class="rechner__schritt">{ueberschriften && '4. '}Software-Module</h2>
+    <p class="meta">Einmalig, Einrichtung beim Betrieb inklusive. Updates und Hilfe nur mit Hosting bei dekaru. Nur, was hier steht, ist verkaufbar.</p>
+    <section class="gruppe" aria-label="Software-Module">
+      {MODULE.map((m) => (
+        <div class="posten" data-modul={m.schluessel}>
+          <div class="posten__text">
+            <label for={`m-${m.schluessel}`}>{m.name}</label>
+            <span class="posten__hinweis"><a href={`/verkaufshilfen/${m.schluessel}`}>Steckbrief und Voraussetzungen</a></span>
+          </div>
+          {zeigePreise && <span class="posten__preis">{euro(m.preis)}</span>}
+          <div class="posten__wahl">
+            <input id={`m-${m.schluessel}`} name={`m_${m.schluessel}`} type="checkbox" checked={auswahl.module.includes(m.schluessel)} />
+          </div>
+        </div>
+      ))}
+    </section>
+  </>
+)}
+
 <fieldset>
-  <legend class="rechner__schritt">{ueberschriften && '4. '}Hosting</legend>
+  <legend class="rechner__schritt">{ueberschriften && (MODULE.length > 0 ? '5. ' : '4. ')}Hosting</legend>
   <p class="meta">Monatlich, optional, nach der Mindestlaufzeit monatlich kündbar. Bei Groß läuft die {FUNKTION.name} nur mit Hosting bei dekaru.</p>
   <div class="hosting">
     {HOSTING_TARIFE.map((t) => (

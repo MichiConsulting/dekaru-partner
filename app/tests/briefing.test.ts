@@ -133,7 +133,7 @@ describe('Briefing-Bogen: Felder', () => {
     const voll = pruefeBriefing(vollstaendig());
     expect(voll.sperren).toEqual([]);
     expect(voll.fehlend).toEqual([]);
-    expect(voll.daten.auswahl).toEqual({ paket: 'mittel', bausteine: { unterseite: 2, team: true }, zusatzleistungen: [], hosting: { tarif: 'basis', zahlweise: 'monatlich', gratisquartal: false } });
+    expect(voll.daten.auswahl).toEqual({ paket: 'mittel', bausteine: { unterseite: 2, team: true }, zusatzleistungen: [], module: [], hosting: { tarif: 'basis', zahlweise: 'monatlich', gratisquartal: false } });
   });
 
   it('kennt die Abhaengigkeiten aus Blatt 11', () => {
@@ -148,6 +148,14 @@ describe('Briefing-Bogen: Felder', () => {
     // Falsches Datum und falsche Mail sperren.
     expect(pruefeBriefing(vollstaendig({ zulieferung_bis: '01.11.2026' })).sperren.length).toBe(1);
     expect(pruefeBriefing(vollstaendig({ email: 'keine-adresse' })).sperren.length).toBe(1);
+  });
+
+  it('nimmt verkaufbare Software-Module auf und prueft die Branche', () => {
+    const mit = pruefeBriefing(vollstaendig({ 'm_modul-kostenrechner': 'on', 'm_modul-terminbuchung': 'on' }));
+    expect(mit.daten.auswahl.module).toEqual(['modul-kostenrechner']);
+    expect(mit.fehlend).toEqual([]);
+    const gastro = pruefeBriefing(vollstaendig({ branche: 'Gastronomie', 'm_modul-kostenrechner': 'on' }));
+    expect(gastro.fehlend.some((f) => /Kostenrechner für Ihre Kunden lässt sich für die Branche Gastronomie nicht bauen/.test(f))).toBe(true);
   });
 });
 
@@ -221,11 +229,13 @@ describe('Briefing-Bogen: Speichern und Zugriff', () => {
     const mitFarbe = await speichereBriefing(db, anna.id, bogenAnna, pruefeBriefing({ firmenname: 'X', farbpalette: 'offen' }).daten);
     expect(mitFarbe?.farbpalette).toBe('offen');
 
-    const voll = pruefeBriefing(vollstaendig({ farbpalette: 'HW-2' }));
+    const voll = pruefeBriefing(vollstaendig({ farbpalette: 'HW-2', 'm_modul-kostenrechner': 'on' }));
     const eingereicht = await reicheEin(db, anna.id, bogenAnna, voll.daten, new Date('2026-10-04T10:00:00Z'));
     expect(eingereicht?.status).toBe('eingereicht');
     expect(eingereicht?.farbpalette).toBe('HW-2');
     expect(eingereicht?.daten.felder.farbpalette).toBe('HW-2');
+    // Module stehen im JSON des Bogens, ohne eigene Spalte.
+    expect(eingereicht?.daten.auswahl.module).toEqual(['modul-kostenrechner']);
     expect(eingereicht?.eingereichtAm?.toISOString()).toBe('2026-10-04T10:00:00.000Z');
 
     // Danach aendert der Vertriebler nichts mehr.
@@ -250,6 +260,10 @@ describe('Briefing-Bogen: Speichern und Zugriff', () => {
     expect(html).toContain('palette: &quot;HW-2&quot;');
     expect(html).toMatch(/class="admin-palette__felder"[^>]*>\s*<span style="background:#007083"/);
     expect(html).not.toContain('passt nicht zum Design');
+    // Angekreuzte Software-Module sind in der Admin-Ansicht sichtbar, mit Preis in der Summe.
+    expect(html).toMatch(/data-briefing-module[^>]*>\s*Kostenrechner für Ihre Kunden\s*</);
+    const summe = html.slice(html.indexOf('data-aufstellung')).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    expect(summe).toContain('Kostenrechner für Ihre Kunden 200 €');
   });
 
   it('der Admin sieht alle eingereichten Boegen, keine Entwuerfe, markiert und gibt zurueck', async () => {
