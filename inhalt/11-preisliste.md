@@ -75,13 +75,21 @@ Nicht als Baustein buchbar: die mitarbeitende Funktion. Einen Baustein "Terminan
 
 Nur zum Paket Groß, wie die mitarbeitende Funktion. Einmalpreis je Modul, Einrichtung beim Betrieb inklusive. Updates und Hilfe nur mit Hosting bei Michael Henning. Nur, was unter Verkaufshilfen im Portal steht:
 
-| Modul | Preis | Passt oft zu |
-|---|---|---|
-| Kostenrechner für Ihre Kunden | 200 € einmalig | Handwerk, Garten- und Landschaftsbau, Reinigung, Umzug |
+| Modul | Stufe | Preis | Ihre 35 % | Passt oft zu |
+|---|---|---|---|---|
+| Kostenrechner für Ihre Kunden | klein | 200 € einmalig | 70 € | Handwerk, Garten- und Landschaftsbau, Reinigung, Umzug |
+| Beitrags-Schreiber | klein | 200 € einmalig | 70 € | alle außer Praxis |
+| Bewertungs-Assistent | klein | 200 € einmalig | 70 € | alle außer Praxis |
+| Speisekarte und Preisliste | mittel | 300 € einmalig | 105 € | Gastronomie, Friseur und Kosmetik |
+| Angebots-Assistent Handwerk | mittel | 300 € einmalig | 105 € | Handwerk, Garten- und Landschaftsbau |
+| Anfrage mit Fotos | mittel | 300 € einmalig | 105 € | Handwerk, Garten- und Landschaftsbau, Reinigung, Umzug. Nur mit Google Workspace, nie für Praxen |
+| Material- und Lagerliste | mittel | 300 € einmalig | 105 € | Handwerk, Garten- und Landschaftsbau. Für ein Team nur mit Google Workspace |
+
+Die Stufen groß (400 €) und sehr groß (500 €) sind heute leer: Terminbuchung, Tischreservierung, Schichtplan und Reel-Werkstatt gibt es nicht zu kaufen.
 
 Jedes Modul ist in jeder Branche wählbar. Die Spalte "Passt oft zu" ist nur eine Empfehlung.
 
-Provision 35 %, wenn das Modul im Erstauftrag mitverkauft wird. Module mit KI: der Betrieb zahlt seinen Verbrauch bei Anthropic selbst, das ist kein Preis von dekaru.
+Provision 35 %, wenn das Modul im Erstauftrag mitverkauft wird. Module mit KI (Beitrags-Schreiber, Bewertungs-Assistent, wahlweise Speisekarte, Angebots-Assistent und der Assistent der Anfrage mit Fotos): der Betrieb zahlt seinen Verbrauch bei Anthropic selbst, das ist kein Preis von dekaru. Google Workspace bezahlt der Betrieb ebenfalls selbst bei Google.
 
 ## Zusatzleistungen
 

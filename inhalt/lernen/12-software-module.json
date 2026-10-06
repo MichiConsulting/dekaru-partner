@@ -13,27 +13,58 @@
       "titel": "Zwei Arten",
       "icon": "bildschirm",
       "saetze": [
-        "Werkzeuge für den Inhaber laufen in der Werkbank, einer App im Browser auf seinem Gerät. Funktionen für Besucher laufen auf der Website. Manche brauchen das Betriebs-Skript im Google-Konto des Betriebs."
+        "Werkzeuge für den Inhaber laufen in der Werkbank, einer App im Browser auf seinem Gerät, oder in seiner Google-Tabelle. Funktionen für Besucher laufen auf der Website."
       ],
       "grafik": "module-zwei-arten.svg",
-      "merke": "Heute verkaufbar ist genau eines: der Kostenrechner, eine Funktion für Besucher."
+      "merke": "Heute verkaufbar sind sieben: zwei für Besucher, Kostenrechner und Anfrage mit Fotos, und fünf Werkzeuge für den Inhaber."
+    },
+    {
+      "titel": "Die sieben Module",
+      "icon": "liste",
+      "saetze": [
+        "Jedes Modul ist in jeder Branche wählbar, die Branche ist nur eine Empfehlung. Was jedes Modul braucht, steht hier."
+      ],
+      "tabelle": {
+        "kopf": ["Modul", "Stufe", "Braucht"],
+        "zeilen": [
+          ["Kostenrechner", "klein", "grobe Preise, sonst nichts"],
+          ["Beitrags-Schreiber", "klein", "Anthropic-Schlüssel"],
+          ["Bewertungs-Assistent", "klein", "Anthropic, Vorlagen ohne"],
+          ["Speisekarte und Preisliste", "mittel", "nichts, Anthropic wahlweise"],
+          ["Angebots-Assistent", "mittel", "Leistungsliste, Anthropic wahlweise"],
+          ["Anfrage mit Fotos", "mittel", "Google Workspace"],
+          ["Lagerliste", "mittel", "Workspace für ein Team"]
+        ]
+      },
+      "merke": "Was es nicht gibt, gibt es nicht: keine Terminbuchung, keine Tischreservierung, kein Schichtplan, keine Reel-Werkstatt, auch nicht als \"kommt bald\"."
+    },
+    {
+      "titel": "Werkbank, PIN und Sicherung",
+      "icon": "schild",
+      "saetze": [
+        "Die Werkbank verschlüsselt alle Daten auf dem Gerät mit einer PIN von mindestens 8 Zeichen. Sie läuft auch ohne Anthropic-Schlüssel, dann ohne die KI-Helfer."
+      ],
+      "merke": "PIN vergessen und keine Sicherung heißt: Daten weg, auch Michael Henning kann sie nicht zurückholen. Das sagen Sie offen."
     },
     {
       "titel": "Daten bleiben beim Betrieb",
-      "icon": "schild",
+      "icon": "server",
       "saetze": [
-        "Gespeichert wird im Browser des Betriebs oder in seinen eigenen Konten, nie bei dekaru. Beim Kostenrechner geht das Ergebnis mit dem normalen Kontaktformular über den Formulardienst, gespeichert wird dort nichts."
+        "Gespeichert wird auf dem Gerät des Inhabers oder in seinem Google-Konto, nie bei dekaru. Beim Kostenrechner geht das Ergebnis mit dem Kontaktformular über den Formulardienst, gespeichert wird dort nichts."
       ],
-      "merke": "\"dekaru ist gar nicht dazwischen\" gilt erst für Module über das Betriebs-Skript, nicht für den Kostenrechner."
+      "merke": "\"dekaru ist nicht dazwischen\" gilt für Anfrage mit Fotos, Lagerliste und die Werkbank, nicht für den Kostenrechner."
     },
     {
-      "titel": "KI ohne Abo",
-      "icon": "euro",
+      "titel": "KI, Google und Praxen",
+      "icon": "warnung",
       "saetze": [
-        "Module mit KI nutzen einen eigenen Schlüssel des Betriebs bei Anthropic, kein Abo. Er zahlt nur den Verbrauch, bei normaler Nutzung Cent-Beträge bis wenige Euro im Monat.",
-        "Module über das Betriebs-Skript brauchen ein Google-Konto, am besten Google Workspace."
+        "KI läuft über einen eigenen Schlüssel des Betriebs bei Anthropic, kein Abo. Anfrage mit Fotos nur mit Google Workspace, die Lagerliste im Team ebenso."
       ],
-      "merke": "Keine genaue Zahl versprechen. Der Kostenrechner braucht weder KI noch Google-Konto."
+      "liste": [
+        "Laufende KI-Kosten nur als \"Cent-Beträge bis wenige Euro im Monat\"",
+        "Praxen: keine Anfrage mit Fotos, Gesundheitsdaten",
+        "Praxen fragen nach Bewertungen oder Beiträgen: an Michael Henning verweisen"
+      ]
     },
     {
       "titel": "Preise und Provision",
@@ -42,45 +73,23 @@
         "Einmalpreis nach Stufe. Im Erstgespräch kein Modulpreis. Im Zweittermin nennt ihn in Stufe 1 Michael Henning, in Stufe 2 Sie aus dem Preisrechner."
       ],
       "tabelle": {
-        "kopf": ["Stufe", "Preis", "Heute verkaufbar"],
+        "kopf": ["Stufe", "Preis", "Ihre 35 %"],
         "zeilen": [
-          ["klein", "200 €", "Kostenrechner"],
-          ["mittel", "300 €", "keines"],
-          ["groß", "400 €", "keines"],
-          ["sehr groß", "500 €", "keines"]
+          ["klein", "200 €", "70 €"],
+          ["mittel", "300 €", "105 €"],
+          ["groß", "400 €", "heute keines"],
+          ["sehr groß", "500 €", "heute keines"]
         ]
       },
-      "merke": "35 % Provision, wenn das Modul im Erstauftrag mitverkauft wird. Beim Kostenrechner 70 €. Später gekauft: Folgegeschäft ohne Provision."
+      "merke": "Provision nur, wenn das Modul im Erstauftrag mitverkauft wird. Später gekauft: Folgegeschäft ohne Provision."
     },
     {
-      "titel": "Nur verkaufbar, nur mit Groß",
-      "icon": "warnung",
-      "saetze": [
-        "Sie bieten nur Module an, die unter Verkaufshilfen stehen, und nur zum Paket Groß. Groß ist das Paket, in dem die Website mitarbeitet, ein Modul erweitert das."
-      ],
-      "zitat": "Der Kostenrechner gehört zum Paket Groß. Da arbeitet Ihre Website ohnehin schon mit, und der Rechner macht daraus noch mehr.",
-      "merke": "Kein Modul zu Klein oder Mittel, keines als \"kommt bald\". Jede Branche darf jedes Modul wählen, die Branche ist nur eine Empfehlung."
-    },
-    {
-      "titel": "Steckbrief Kostenrechner",
-      "icon": "liste",
-      "saetze": [
-        "Besucher geben ein paar Angaben ein und sehen einen unverbindlichen Richtwert als Spanne, den sie mit der Anfrage schicken. Wählbar in jeder Branche, passt oft bei Handwerk, Garten, Reinigung und Umzug."
-      ],
-      "liste": [
-        "Nimmt ab: Anrufe nur wegen eines groben Preises",
-        "Kann nicht: verbindliches Angebot, Buchung, Sonderfälle",
-        "Braucht: grobe Preise des Betriebs, sonst nichts",
-        "Einmalig 200 €, Stufe klein, nur zum Paket Groß"
-      ],
-      "zitat": "Sie hatten erzählt, dass viele nur wegen eines groben Preises anrufen: Wäre es eine Hilfe, wenn Ihre Kunden sich den vorher auf der Website selbst ausrechnen?"
-    },
-    {
-      "titel": "Wann Sie Module ansprechen",
+      "titel": "Nur mit Groß, und wann",
       "icon": "weg",
       "saetze": [
-        "Am Telefon gar nicht. Im Erstgespräch zeigt das Schema jedes Modul beim Paket Groß, passende zuerst, der Betrieb kann vormerken. Im Zweittermin nach der Website ein Modul, wenn Groß steht, im Briefing-Bogen ankreuzen."
+        "Module nur zum Paket Groß. Am Telefon gar nicht. Im Erstgespräch zeigt das Schema jedes Modul mit Schaubild, der Betrieb merkt vor. Im Zweittermin nach der Website ein Modul, im Briefing-Bogen ankreuzen."
       ],
+      "zitat": "Die Module gehören zum Paket Groß. Da arbeitet Ihre Website ohnehin schon mit, und ein Modul nimmt Ihnen noch mehr ab.",
       "merke": "Unter Verkaufshilfen gibt es zu jedem Modul eine Fassung ohne Preis zum Zeigen und Mitgeben."
     }
   ]

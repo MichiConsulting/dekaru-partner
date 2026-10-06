@@ -289,8 +289,9 @@ Hier liegen die Texte dazu, je Modul unter demselben `schluessel`:
   (handwerk, gastro, friseur, praxis, umzug, reinigung, garten; passend zu
   `templates`, das prüft ein Test), `templates` (Website-Vorlagen, in
   denen sich das Modul bauen lässt), `einleitung`, `nutzen`, `kannNicht`,
-  `voraussetzungen` (Listen), `einrichtung`, `daten`, `laufend`. Daraus
-  entstehen das Schema, die Fassung zum Zeigen unter Verkaufshilfen und die
+  `voraussetzungen` (Listen), `einrichtung`, `daten`, `laufend` und
+  `soGehts` (genau drei kurze Schritte für "So funktioniert es" am
+  Mini-Schema, je höchstens 16 Wörter). Daraus entstehen das Schema, die Fassung zum Zeigen unter Verkaufshilfen und die
   Namen im Preisrechner. Diese Datei landet im Bundle des Preisrechners.
 - `verkaufshilfen.json`: nur für Vertriebler. `einleitung`, `zweittermin`
   (Tipp mit `titel`, `schritte`, `merke`) und je Modul `fuerWen`, `einstieg`

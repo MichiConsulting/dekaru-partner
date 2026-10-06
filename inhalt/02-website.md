@@ -132,7 +132,7 @@ Das eine macht die Website auffindbar, das andere den Betrieb auf der Karte sich
 
 ## Software-Module: etwas anderes als die Funktion
 
-Neben Paketen und Bausteinen gibt es Software-Module mit eigenem Einmalpreis (Kapitel 12), **nur zum Paket Groß**. Groß ist das Paket, in dem die Website mitarbeitet, ein Modul erweitert das. Zu Klein und Mittel gibt es kein Modul. Heute verkaufbar ist der **Kostenrechner**: Besucher rechnen sich einen unverbindlichen Richtwert aus und schicken ihn mit der Anfrage. Ein Modul ist nicht die mitarbeitende Funktion: die Funktion steckt im Paket Groß, ein Modul kommt einzeln dazu. Angeboten wird nur, was unter Verkaufshilfen im Portal steht.
+Neben Paketen und Bausteinen gibt es Software-Module mit eigenem Einmalpreis (Kapitel 12), **nur zum Paket Groß**. Groß ist das Paket, in dem die Website mitarbeitet, ein Modul erweitert das. Zu Klein und Mittel gibt es kein Modul. Heute verkaufbar sind sieben: zwei für Besucher der Website (**Kostenrechner**, **Anfrage mit Fotos**) und fünf Werkzeuge für den Inhaber (**Beitrags-Schreiber**, **Bewertungs-Assistent**, **Speisekarte und Preisliste**, **Angebots-Assistent Handwerk**, **Material- und Lagerliste**). Ein Modul ist nicht die mitarbeitende Funktion: die Funktion steckt im Paket Groß, ein Modul kommt einzeln dazu. Angeboten wird nur, was unter Verkaufshilfen im Portal steht.
 
 ## Was immer dazugehört, aber nicht im Preis steckt
 
