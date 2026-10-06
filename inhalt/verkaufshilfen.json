@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "stand": "2026-10-06",
+  "einleitung": "Je Modul, das Sie heute anbieten dürfen, ein Steckbrief zum Nachlesen und eine Fassung ohne Preis zum Zeigen oder Ausdrucken. Was hier nicht steht, bieten Sie nicht an, auch nicht als „kommt bald“.",
+  "zweittermin": {
+    "titel": "Module im Zweittermin ansprechen",
+    "schritte": [
+      "Erst die Website. Ein Modul kommt zur Sprache, wenn die Vorschau besprochen ist und das Paket steht, nicht vorher.",
+      "An das anknüpfen, was der Betrieb im Erstgespräch erzählt hat, zum Beispiel Anrufe nur wegen eines groben Preises. Ihre Notizen und der Schritt Funktion im Schema helfen dabei.",
+      "Nur Module ansprechen, die hier stehen und zur Branche passen. Keine Liste vorlesen, eine Frage reicht.",
+      "Ehrlich sagen, was das Modul nicht kann. Das steht in jedem Steckbrief.",
+      "Stufe 1: Nutzen erklären, Interesse im Briefing-Bogen ankreuzen, den Preis nennt Michael Henning. Stufe 2: den Preis aus dem Preisrechner nennen, ohne Nachlass.",
+      "Sagt der Betrieb nein, bleibt es dabei. Kein zweiter Anlauf im selben Termin."
+    ],
+    "merke": "Ein Modul, das im Erstauftrag mitverkauft wird, bringt 35 % Provision. Kauft der Betrieb es später, ist es ein Folgegeschäft ohne Provision."
+  },
+  "module": [
+    {
+      "schluessel": "modul-kostenrechner",
+      "fuerWen": "Betriebe, deren Preis sich aus wenigen Angaben grob ableiten lässt: Fläche, Zimmer, Stunden, Menge. Typisch sind Umzug, Reinigung, Garten- und Landschaftsbau und Maler. Bei Betrieben, die fast nur nach Besichtigung kalkulieren, passt er weniger.",
+      "einstieg": "Sie hatten erzählt, dass viele nur wegen eines groben Preises anrufen: Wäre es eine Hilfe, wenn Ihre Kunden sich den vorher auf der Website selbst ausrechnen?",
+      "fragen": [
+        {
+          "frage": "Ist der Preis dann verbindlich?",
+          "antwort": "Nein. Der Rechner zeigt einen unverbindlichen Richtwert als Spanne, das steht auch so darunter. Das Angebot machen weiterhin Sie."
+        },
+        {
+          "frage": "Brauche ich dafür KI oder ein Google-Konto?",
+          "antwort": "Nein, weder noch. Der Rechner rechnet nach festen Regeln mit Ihren Preisen, ganz ohne KI."
+        },
+        {
+          "frage": "Speichert der Rechner etwas über meine Kunden?",
+          "antwort": "Nein. Er rechnet im Browser des Besuchers. Erst wenn der Besucher das Ergebnis mit dem Kontaktformular abschickt, kommt es bei Ihnen an, auf demselben Weg wie jede Anfrage."
+        },
+        {
+          "frage": "Muss ich das selbst einrichten?",
+          "antwort": "Nein. Felder und Preise legen Sie beim Bau gemeinsam mit Herrn Henning fest, die Einrichtung ist im Preis enthalten."
+        },
+        {
+          "frage": "Was, wenn sich meine Preise ändern?",
+          "antwort": "Dann schicken Sie die neuen Preise per Mail an Herrn Henning, wie jede andere Änderung an der Website."
+        },
+        {
+          "frage": "Schreckt ein Preis auf der Website nicht ab?",
+          "antwort": "Sie legen fest, wie er rechnet, und er zeigt eine Spanne statt eines festen Betrags. Wer dann anfragt, kennt die Größenordnung schon."
+        }
+      ],
+      "intern": [
+        "Im Erstgespräch nur den Nutzen, keinen Preis. Das Schema zeigt ihn bei Handwerk im Schritt Funktion.",
+        "Nur für Websites aus den Vorlagen Handwerk, Garten- und Landschaftsbau, Reinigung und Umzug. Für andere Branchen nicht anbieten.",
+        "Nicht als KI verkaufen. Er rechnet mit festen Regeln und braucht keinen Anthropic-Schlüssel.",
+        "Nicht sagen, dass dekaru nicht dazwischen ist. Das Ergebnis geht mit dem Kontaktformular über den Formulardienst, wie jede Anfrage, gespeichert wird dort nichts.",
+        "Die Preise im Rechner sind beim Bau Beispielwerte, bis der Betrieb seine eigenen festlegt. Nichts zu einzelnen Preisen im Rechner zusagen."
+      ]
+    }
+  ]
+}

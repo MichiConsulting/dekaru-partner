@@ -405,23 +405,31 @@ const paketMitFunktion = PAKETE_MIT_FUNKTION.join(' und ');
                 </li>
               ))}
             </ul>
-            {module.length > 0 && (
-              <div class="module">
-                <p class="ablauf__kopf">Weitere Funktionen für Ihren Betrieb</p>
-                <ul class="karten karten--blau">
-                  {module.map((m, i) => (
-                    <li class="karte-sc" style={`--i:${i + 5}`}>
-                      <strong>{m.name}</strong>
-                      <span>{m.kurz}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </div>
         ))
       }
       <p class="schritt__klein">Eine Anfrage ist keine feste Buchung: Sie entscheiden und melden sich zurück. Die Funktion gibt es nur im Paket {paketMitFunktion} und solange die Website bei Michael Henning gehostet wird.</p>
+      {
+        // Verkaufbare Software-Module der Branche (lib/module.ts). Bewusst
+        // unter dem Satz zur Funktion, damit sie nicht wie ein Teil von Gross
+        // wirken. Nur Name und Nutzen, kein Preis.
+        varianten.map(({ b, module }) =>
+          module.length > 0 ? (
+            <div class="module" data-fuer-branche={b.id} hidden={b.id !== branche.id} data-module>
+              <p class="ablauf__kopf">Software, die zusätzlich mitarbeitet</p>
+              <ul class="karten karten--blau">
+                {module.map((m, i) => (
+                  <li class="karte-sc" style={`--i:${i + 5}`}>
+                    <strong>{m.name}</strong>
+                    <span>{m.kurz}</span>
+                  </li>
+                ))}
+              </ul>
+              <p class="schritt__klein">Einmal gekauft und von Michael Henning für Sie eingerichtet.</p>
+            </div>
+          ) : null,
+        )
+      }
     </section>
 
     <!-- 5: Der Weg der Daten -->

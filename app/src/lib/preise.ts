@@ -8,6 +8,11 @@
 // Server. Es gibt dadurch nur eine Rechnung.
 
 import daten from '../data/preise.json' with { type: 'json' };
+// Software-Module: Preise aus dem Sync (nur verkaufbare), Namen aus dem
+// Inhalt fuer Betriebe. Bewusst nicht inhalt/verkaufshilfen.json, das sind
+// interne Hinweise, und diese Datei landet ueber den Preisrechner im Bundle.
+import modulPreise from '../data/module.json' with { type: 'json' };
+import modulTexte from '../../../inhalt/module.json' with { type: 'json' };
 
 export const PREISE = daten;
 
@@ -52,6 +57,15 @@ export interface Zusatzleistung {
   nutzen: string;
 }
 
+/** Ein verkaufbares Software-Modul mit Preis. Nur was in src/data/module.json steht und einen Text in inhalt/module.json hat. */
+export interface ModulPosten {
+  schluessel: string;
+  name: string;
+  preis: number;
+  einheit: string;
+  stufe: string;
+}
+
 export interface HostingTarif {
   id: HostingId;
   name: string;
@@ -70,6 +84,15 @@ export const HOSTING_TARIFE = daten.hosting.tarife as HostingTarif[];
 export const HOSTING = daten.hosting;
 /** Zusatzleistungen, die der Vertriebler anbieten darf: alles ohne Voraussetzung (die Einzelaenderung haengt am Hosting). */
 export const ZUSATZLEISTUNGEN = (daten.zusatzleistungen as Zusatzleistung[]).filter((z) => !z.voraussetzung);
+/**
+ * Verkaufbare Software-Module. Ein Modul ohne Text in inhalt/module.json
+ * bleibt draussen (tests/module.test.ts meldet das), damit nie ein
+ * Schluessel oder ein Name ohne Umlaute im Portal steht.
+ */
+export const MODULE: ModulPosten[] = (modulPreise.module as Omit<ModulPosten, 'name'>[]).flatMap((m) => {
+  const text = (modulTexte.module as { schluessel: string; name: string }[]).find((t) => t.schluessel === m.schluessel);
+  return text ? [{ ...m, name: text.name }] : [];
+});
 export const PREIS_AB: number = Math.min(...PAKETE.map((p) => p.preis));
 export const PAKET_EMPFOHLEN: Paket = PAKETE.find((p) => p.empfohlen) ?? PAKETE[0];
 
@@ -90,6 +113,11 @@ export function findeZusatzleistung(schluessel: string): Zusatzleistung | null {
   return ZUSATZLEISTUNGEN.find((z) => z.schluessel === schluessel) ?? null;
 }
 
+/** Nur verkaufbare Module. Alles andere gibt es im Portal nicht. */
+export function findeModul(schluessel: string): ModulPosten | null {
+  return MODULE.find((m) => m.schluessel === schluessel) ?? null;
+}
+
 // ---------------------------------------------------------------------------
 // Auswahl
 
@@ -104,11 +132,13 @@ export interface Auswahl {
   /** Zahl bei "anzahl" (zusaetzlich zum Enthaltenen), Wahrheitswert bei "schalter" und "anfrage". */
   bausteine: Record<string, number | boolean>;
   zusatzleistungen: string[];
+  /** Schluessel verkaufbarer Software-Module. Alte Briefings ohne das Feld bekommen [] (leereAuswahl). */
+  module: string[];
   hosting: HostingAuswahl;
 }
 
 export function leereAuswahl(paket: PaketSchluessel = PAKET_EMPFOHLEN.schluessel): Auswahl {
-  return { paket, bausteine: {}, zusatzleistungen: [], hosting: { tarif: null, zahlweise: 'monatlich', gratisquartal: false } };
+  return { paket, bausteine: {}, zusatzleistungen: [], module: [], hosting: { tarif: null, zahlweise: 'monatlich', gratisquartal: false } };
 }
 
 type Lesbar = { get(name: string): string | null } | Record<string, string | undefined>;
@@ -121,7 +151,7 @@ function wert(quelle: Lesbar, name: string): string | null {
 
 /**
  * Liest die Auswahl aus einem Formular oder einer Query. Feldnamen:
- * paket, b_<schluessel> (Zahl oder "on"), z_<schluessel> ("on"),
+ * paket, b_<schluessel> (Zahl oder "on"), z_<schluessel> ("on"), m_<schluessel> ("on"),
  * hosting (start, basis, plus, keins), zahlweise, gratisquartal.
  * Unbekanntes wird ignoriert, Werte werden begrenzt.
  */
@@ -142,6 +172,10 @@ export function auswahlAusFeldern(quelle: Lesbar, vorgabe: PaketSchluessel = PAK
     const roh = wert(quelle, `z_${z.schluessel}`);
     if (roh === 'on' || roh === '1' || roh === 'true') auswahl.zusatzleistungen.push(z.schluessel);
   }
+  for (const m of MODULE) {
+    const roh = wert(quelle, `m_${m.schluessel}`);
+    if (roh === 'on' || roh === '1' || roh === 'true') auswahl.module.push(m.schluessel);
+  }
   const tarif = findeTarif(wert(quelle, 'hosting'));
   auswahl.hosting.tarif = tarif?.id ?? null;
   auswahl.hosting.zahlweise = wert(quelle, 'zahlweise') === 'jaehrlich' ? 'jaehrlich' : 'monatlich';
@@ -154,7 +188,7 @@ export function auswahlAusFeldern(quelle: Lesbar, vorgabe: PaketSchluessel = PAK
 // Rechnung
 
 export interface Zeile {
-  art: 'paket' | 'baustein' | 'zusatzleistung';
+  art: 'paket' | 'baustein' | 'zusatzleistung' | 'modul';
   schluessel: string;
   bezeichnung: string;
   /** Betrag in Euro. null bei "nach Absprache". */
@@ -182,7 +216,9 @@ export interface Ergebnis {
   /** Paket plus Bausteine, wie der Rechner auf dekaru.de. */
   summeWebsite: number;
   summeZusatzleistungen: number;
-  /** Alles Einmalige: Website plus Zusatzleistungen. Darauf gibt es die Provision. */
+  /** Software-Module, einmalig. */
+  summeModule: number;
+  /** Alles Einmalige: Website, Zusatzleistungen und Module. Darauf gibt es die Provision (Module nur im Erstauftrag). */
   summeEinmalig: number;
   provisionEinmalig: number;
   /** Bausteine ohne Listenpreis, die gewaehlt sind. */
@@ -239,14 +275,23 @@ export function berechne(auswahl: Auswahl): Ergebnis {
     summeZusatzleistungen += z.preis;
     zeilen.push({ art: 'zusatzleistung', schluessel: z.schluessel, bezeichnung: z.name, betrag: z.preis });
   }
+  let summeModule = 0;
+  // Doppelte Schluessel zaehlen einmal, unbekannte (nicht verkaufbare) gar nicht.
+  for (const schluessel of new Set(auswahl.module ?? [])) {
+    const m = findeModul(schluessel);
+    if (!m) continue;
+    summeModule += m.preis;
+    zeilen.push({ art: 'modul', schluessel: m.schluessel, bezeichnung: m.name, betrag: m.preis });
+  }
   if (nachAbsprache > 0) hinweise.push('Ein individuelles Feature hat keinen Listenpreis. Den Preis nennt nur Michael Henning, er kommt als Nachtrag ins Angebot.');
 
-  const summeEinmalig = summeWebsite + summeZusatzleistungen;
+  const summeEinmalig = summeWebsite + summeZusatzleistungen + summeModule;
   return {
     paket,
     zeilen,
     summeWebsite,
     summeZusatzleistungen,
+    summeModule,
     summeEinmalig,
     provisionEinmalig: provisionAuf(summeEinmalig),
     nachAbsprache,
