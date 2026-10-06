@@ -140,7 +140,7 @@
 @media print {
   @page {
     size: A4;
-    margin: 16mm 18mm;
+    margin: 14mm 16mm;
   }
   :root,
   body {
@@ -163,8 +163,30 @@
     max-width: none;
     background: #ffffff;
     color: #141414;
+    font-size: 10pt;
+    line-height: 1.4;
+  }
+  .blatt h1 {
+    font-size: 20pt;
+    margin-bottom: 4mm;
+  }
+  .blatt__lead {
     font-size: 11pt;
-    line-height: 1.5;
+    margin-bottom: 3mm;
+  }
+  .blatt h2 {
+    font-size: 11pt;
+    margin: 4mm 0 1.5mm;
+  }
+  .blatt p {
+    margin: 0;
+  }
+  .blatt li + li {
+    margin-top: 0.5mm;
+  }
+  .blatt__fuss {
+    margin-top: 6mm;
+    padding-top: 2mm;
   }
   .blatt__marke,
   .blatt__fuss {
