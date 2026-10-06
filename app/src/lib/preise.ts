@@ -109,7 +109,7 @@ export const MODULE_PAKET_NAME: string = (daten.pakete as Paket[])
 export const MODULE_NUR_MIT = `nur mit Paket ${MODULE_PAKET_NAME}`;
 
 /** Darf zu diesem Paket ein Software-Modul verkauft werden? */
-export function moduleMoeglich(paket: Pick<Paket, 'schluessel'> | PaketSchluessel | null | undefined): boolean {
+export function moduleMoeglich(paket: Pick<Paket, 'schluessel'> | string | null | undefined): boolean {
   const s = typeof paket === 'string' ? paket : paket?.schluessel;
   return Boolean(s) && MODULE_PAKETE.includes(s as PaketSchluessel);
 }
