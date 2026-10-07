@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" id="g-mz" viewBox="0 0 320 338" role="img" aria-labelledby="mz-t mz-d" fill="currentColor" font-family="Inter, system-ui, sans-serif" font-size="12">
   <title id="mz-t">Zwei Arten von Software-Modulen</title>
-  <desc id="mz-d">Werkzeuge für den Inhaber laufen in der Werkbank, einer App im Browser auf seinem Gerät, verschlüsselt mit seiner PIN, die Lagerliste in seiner Google-Tabelle. Heute verkaufbar sind fünf, etwa der Beitrags-Schreiber. Funktionen für Besucher laufen auf der Website, heute verkaufbar sind Kostenrechner und Anfrage mit Fotos. Für beide gilt: einmal kaufen, Updates und Hilfe nur mit Hosting, Daten bleiben beim Betrieb.</desc>
+  <desc id="mz-d">Werkzeuge für den Inhaber laufen in der Werkbank, einer App im Browser auf seinem Gerät, verschlüsselt mit seiner PIN, Lagerliste und Schichtplan in seiner Google-Tabelle. Heute verkaufbar sind sechs, etwa der Schichtplan. Funktionen für Besucher laufen auf der Website, heute verkaufbar sind vier: Kostenrechner, Anfrage mit Fotos, Terminbuchung und Tischreservierung. Für beide gilt: einmal kaufen, Updates und Hilfe nur mit Hosting, Daten bleiben beim Betrieb.</desc>
   <style>
     #g-mz .f1{fill:var(--lk-f1,#ece6da)}#g-mz .f2{fill:var(--lk-f2,#e2e7ec)}#g-mz .f3{fill:var(--lk-f3,#cfcfc9)}#g-mz .ink{fill:var(--lk-ink,#141414)}
     #g-mz .ln{stroke:var(--lk-ink,#141414);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}#g-mz .mu{fill:var(--lk-muted,#5f5f5f)}#g-mz .h{font-weight:700}#g-mz .t{font-size:13px;font-weight:700}
@@ -16,16 +16,16 @@
   <text x="62" y="45">laufen in der Werkbank</text>
   <text x="16" y="72">Eine App im Browser auf seinem Gerät.</text>
   <text x="16" y="88">Daten verschlüsselt mit seiner PIN.</text>
-  <text class="h" x="16" y="112">Heute fünf, etwa Beitrags-Schreiber</text>
+  <text class="h" x="16" y="112">Heute sechs, etwa der Schichtplan</text>
 
   <!-- Website: Seite mit Formularzeilen -->
   <rect class="ln" x="16" y="140" width="34" height="28" rx="3"/>
   <path class="ln" d="M22 150h22M22 158h14"/>
   <text class="t" x="62" y="152">Funktionen für Besucher</text>
   <text x="62" y="169">laufen auf der Website</text>
-  <text x="16" y="196">Besucher nutzen sie, der Betrieb</text>
-  <text x="16" y="212">bekommt das Ergebnis per Anfrage.</text>
-  <text class="h" x="16" y="236">Heute: Kostenrechner, Anfrage mit Fotos</text>
+  <text x="16" y="196">Besucher nutzen sie, das Ergebnis</text>
+  <text x="16" y="212">kommt per Mail oder in den Kalender.</text>
+  <text class="h" x="16" y="236">Heute vier, etwa die Terminbuchung</text>
 
   <text class="t" x="16" y="274">Für beide</text>
   <text x="16" y="292">Einmal kaufen, Einrichtung inklusive.</text>

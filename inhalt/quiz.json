@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "stand": "2026-10-06",
+  "stand": "2026-10-07",
   "titel": "Lernfragen zum Informationsblatt für dekaru-Vertriebler",
   "typen": {
     "multiple-choice": "Eine Frage, mehrere Optionen. 'richtig' ist eine Liste von Indizes (0-basiert) in 'optionen'. Enthält sie mehr als einen Index, sind mehrere Antworten richtig und 'mehrfach' ist true.",
@@ -1211,7 +1211,7 @@
       "id": "q70",
       "typ": "multiple-choice",
       "kapitel": "12-software-module",
-      "frage": "Ein Betrieb fragt im Erstgespräch nach einer Online-Terminbuchung mit Kalender. Was sagen Sie?",
+      "frage": "Ein Betrieb fragt im Erstgespräch nach einer Software, die ihm Reels für Instagram schneidet. Unter Verkaufshilfen steht keine. Was sagen Sie?",
       "optionen": [
         "\"Kommt bald, ich setze Sie auf die Liste.\"",
         "\"Das bietet er heute nicht an. Was es heute gibt, zeige ich Ihnen gern.\"",
@@ -1222,7 +1222,7 @@
         1
       ],
       "mehrfach": false,
-      "erklaerung": "Eine Terminbuchung mit Kalender ist nicht verkaufbar. Was es heute gibt, ist die Online-Terminanfrage im Paket Groß, bei der der Betrieb selbst bestätigt."
+      "erklaerung": "Angeboten wird nur, was unter Verkaufshilfen steht. Alles andere gibt es heute nicht, auch nicht als \"kommt bald\" und nicht als Zusage, die Herr Henning später einlösen soll."
     },
     {
       "id": "q71",
@@ -1359,6 +1359,50 @@
       ],
       "mehrfach": false,
       "erklaerung": "Die PIN, mindestens 8 Zeichen, verschlüsselt alle Daten auf dem Gerät. Ohne PIN lässt sich nichts entschlüsseln, auch nicht durch dekaru. Nur eine Sicherung hilft."
+    },
+    {
+      "id": "q81",
+      "typ": "multiple-choice",
+      "kapitel": "12-software-module",
+      "frage": "Ein Friseursalon nimmt das Paket Groß und fragt: \"Ist da nicht schon eine Terminbuchung drin?\" Was ist richtig?",
+      "optionen": [
+        "\"Ja, die Terminbuchung mit Kalender steckt im Paket Groß.\"",
+        "\"Im Paket Groß ist die Terminanfrage dabei: Ihre Kunden schicken einen Wunschtermin, und Sie melden sich zurück. Mit der Terminbuchung als Modul steht der Termin sofort in Ihrem Kalender.\"",
+        "\"Mit der Terminbuchung fällt die Terminanfrage aus dem Paket Groß heraus, deshalb wird Groß günstiger.\"",
+        "\"Die Terminbuchung gibt es zu jedem Paket, auch zu Mittel.\""
+      ],
+      "richtig": [
+        1
+      ],
+      "mehrfach": false,
+      "erklaerung": "Die Online-Terminanfrage ist die mitarbeitende Funktion und bleibt in jedem Paket Groß. Die Terminbuchung ist ein Modul dazu, mit eigenem Preis und nur zu Groß. Ist sie eingerichtet, tritt sie auf der Website an die Stelle der Anfrage, an Paket und Preis von Groß ändert das nichts."
+    },
+    {
+      "id": "q82",
+      "typ": "wahr-falsch",
+      "kapitel": "12-software-module",
+      "aussage": "Bei der Tischreservierung können Gäste ihre Allergien gleich mit angeben, damit die Küche Bescheid weiß.",
+      "richtig": false,
+      "erklaerung": "Dafür gibt es bewusst kein Feld, Allergien wären Gesundheitsdaten. Website und Bestätigung bitten den Gast, Allergien direkt beim Betrieb anzusprechen. Den Anlass wählt der Gast nur aus einer festen Liste."
+    },
+    {
+      "id": "q83",
+      "typ": "multiple-choice",
+      "kapitel": "12-software-module",
+      "frage": "Was gilt für den Schicht- und Urlaubsplan? Mehrere Antworten sind richtig.",
+      "optionen": [
+        "Er warnt zum Beispiel bei zu kurzer Ruhezeit, sperrt aber nichts.",
+        "Er ersetzt die Zeiterfassung und ist rechtssicher.",
+        "Krankheit steht im Plan nur als abwesend, ohne Grund.",
+        "Für ein Team braucht der Betrieb Google Workspace."
+      ],
+      "richtig": [
+        0,
+        2,
+        3
+      ],
+      "mehrfach": true,
+      "erklaerung": "Der Plan enthält geplante Zeiten und warnt beim Planen, er ist keine Zeiterfassung und keine Rechtsberatung. Gründe und Krankheiten gehören nicht hinein. Nur mit Workspace sieht jede Person mit dem eigenen Konto genau das, was sie sehen darf."
     }
   ]
 }

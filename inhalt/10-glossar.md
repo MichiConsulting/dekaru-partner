@@ -15,7 +15,7 @@ kurz: Die Begriffe aus diesem Blatt, kurz erklärt.
 | **AuthCode** | Der Code, mit dem eine Domain zu einem anderen Anbieter umziehen kann. Der Kunde bekommt ihn auf Anfrage kostenlos. |
 | **AVV** | Auftragsverarbeitungsvertrag nach Art. 28 DSGVO. Nötig, sobald über die Website Daten von Besuchern verarbeitet werden, etwa über ein Formular. Kommt von mir, gehört zum Betreuungsvertrag. |
 | **Betreuungsvertrag** | Der Vertrag über Hosting und Pflege. Regelt Stufe, Änderungen, Laufzeit, Kündigung, Übergabe. |
-| **Betriebs-Skript** | Ein kleines Programm im eigenen Google-Konto des Betriebs. Nimmt Anfragen von Website-Modulen an und legt sie in seiner Tabelle und seinem Postfach ab. dekaru ist dabei nicht dazwischen. Heute laufen darüber die Anfrage mit Fotos und, als eigenes Skript, die Material- und Lagerliste. |
+| **Betriebs-Skript** | Ein kleines Programm im eigenen Google-Konto des Betriebs. Nimmt Anfragen von Website-Modulen an und legt sie in seiner Tabelle und seinem Postfach ab. dekaru ist dabei nicht dazwischen. Heute laufen darüber Anfrage mit Fotos, Terminbuchung und Tischreservierung und, als eigene Skripte, die Material- und Lagerliste und der Schicht- und Urlaubsplan. |
 | **BFSG** | Barrierefreiheitsstärkungsgesetz, gilt seit Juni 2025. Websites von Betrieben müssen barrierefrei nutzbar sein. Viele Baukasten-Seiten erfüllen das nicht. |
 | **Briefing-Bogen** | Das Formular, das Sie im Zweittermin mit dem Kunden ausfüllen, nachdem er Ja gesagt hat. Daraus entstehen Angebot, Verträge und Website. |
 | **Cold Visit** | Unangemeldeter Besuch im Betrieb, um den Inhaber zu sprechen. In Ihrem ganzen Gebiet erlaubt, nur bei Gewerbetreibenden, nicht zur Stoßzeit. |
@@ -27,7 +27,7 @@ kurz: Die Begriffe aus diesem Blatt, kurz erklärt.
 | **Gestaltungsbeispiele** | Die vier erfundenen Beispielseiten auf dekaru.de: Trattoria, Tattoo-Studio, Metallbau, Kanzlei. Zeigen die Machart, sind keine Kunden. |
 | **Gratisquartal** | Genau drei Monate Hosting frei, nur zusammen mit einer neuen Website, danach mindestens sechs bezahlte Monate. Öffentliche Kondition auf dekaru.de, gilt für alle. Die einzige Zusage, die Sie machen dürfen. |
 | **Gebiet** | Ihre Liste aus Städten und Landkreisen. Dort spricht nur ein Vertriebler Betriebe an. Es regelt die Zuordnung, nicht die Entfernung zu mir. |
-| **Google Workspace** | Das bezahlte Google-Konto für Firmen, mit eigener Domain. Nur damit gibt es einen Vertrag mit Google zur Auftragsverarbeitung. Voraussetzung für die Anfrage mit Fotos und für die Lagerliste im Team. Bezahlt der Betrieb selbst bei Google. |
+| **Google Workspace** | Das bezahlte Google-Konto für Firmen, mit eigener Domain. Nur damit gibt es einen Vertrag mit Google zur Auftragsverarbeitung. Voraussetzung für die Anfrage mit Fotos und für Lagerliste und Schichtplan im Team, empfohlen für Terminbuchung und Tischreservierung. Bezahlt der Betrieb selbst bei Google. |
 | **Handelsvertreter** | Ihre rechtliche Rolle nach § 84 HGB: selbstständig, auf Provision, ohne Weisungen zu Zeiten und Quoten. Die Provision ist brutto, Steuern und Abgaben darauf tragen Sie selbst. |
 | **Hosting** | Betrieb und Pflege der Website durch mich: Server, Domain, HTTPS, Updates, gesicherter Quellstand, Änderungen. Drei Stufen: Start, Basis, Plus. |
 | **HTTPS** | Verschlüsselte Verbindung zwischen Besucher und Website. Immer dabei. |
@@ -35,7 +35,7 @@ kurz: Die Begriffe aus diesem Blatt, kurz erklärt.
 | **Kontingent** | Die Zahl der Änderungen, die im Monat in der Hosting-Stufe enthalten sind: 3, 5 oder 10. Verfällt am Monatsende. Gilt ab Abnahme. |
 | **Korrekturrunde** | Eine Runde Änderungen an der fertigen Website vor der Abnahme, im Werkvertrag enthalten. Hat mit dem Hosting-Kontingent nichts zu tun. |
 | **Kostenrechner** | Software-Modul für die Website: Besucher rechnen sich einen unverbindlichen Richtwert aus und schicken ihn mit der Anfrage. Stufe klein, 200 € einmalig, nur zum Paket Groß, in jeder Branche wählbar. Braucht weder KI noch Google-Konto. |
-| **Mitarbeitende Funktion** | Ein Teil der Website, der dem Betrieb Arbeit abnimmt. Heute: die Online-Terminanfrage. Nur im Paket Groß, nie als Baustein, und nur solange die Website bei mir gehostet wird, egal in welcher Stufe. |
+| **Mitarbeitende Funktion** | Ein Teil der Website, der dem Betrieb Arbeit abnimmt. Heute: die Online-Terminanfrage, in der Gastronomie die Online-Tischanfrage. Der Betrieb meldet sich auf jede Anfrage selbst zurück. Nur im Paket Groß, nie als Baustein, und nur solange die Website bei mir gehostet wird, egal in welcher Stufe. |
 | **Modul** | Kurz für Software-Modul: Software, die dem Betrieb zusätzlich zur Website Arbeit abnimmt. Nur zum Paket Groß. Einmal gekauft, Updates und Hilfe nur mit Hosting. Angeboten wird nur, was unter Verkaufshilfen steht. Nicht dasselbe wie die mitarbeitende Funktion. |
 | **Paket** | Eine der drei festen Website-Größen: Klein 600 €, Mittel 1.300 €, Groß 1.600 €. Fester Inhalt, fester Preis. Groß ist empfohlen und das einzige Paket mit mitarbeitender Funktion und Software-Modulen. |
 | **PIN (Werkbank)** | Das Kennwort des Inhabers für die Werkbank, mindestens 8 Zeichen. Es verschlüsselt alle Daten auf dem Gerät. Vergessen und keine Sicherung heißt: Daten weg, auch Michael Henning kann sie nicht zurückholen. |
@@ -43,8 +43,11 @@ kurz: Die Begriffe aus diesem Blatt, kurz erklärt.
 | **Quellstand** | Der vollständige, versionierte Bauplan der Website, aus dem sie jederzeit neu bereitgestellt werden kann. Ersetzt das klassische Backup. |
 | **Redaktionssystem** | Ein System, mit dem der Kunde Inhalte selbst ändern könnte. Gibt es bei dekaru nicht, wird nicht in Aussicht gestellt. |
 | **Schema** | Das animierte Schaubild im Portal, das Sie im Erstgespräch zeigen, auf Laptop, Tablet oder per Bildschirmfreigabe. Zeigt die Bausteine der Website, was die mitarbeitende Funktion abnimmt, den Weg der Daten und wie es weitergeht. Keine Demo, keine Vorschau, und nur, was heute verkauft wird. |
+| **Schicht- und Urlaubsplan** | Software-Modul, ein Werkzeug für den Betrieb: Dienstplan in der eigenen Google-Tabelle mit Seite fürs Handy, Urlaubsanträge, Warnungen etwa bei zu kurzer Ruhezeit. Keine Rechtsberatung, keine Zeiterfassung, keine Krankheitsgründe. Stufe groß, 400 € einmalig, fürs Team nur mit Google Workspace. |
 | **Stichtag** | Der 25. eines Monats. Bei Start werden alle Änderungen, die bis dahin da sind, in den letzten Werktagen des Monats gesammelt umgesetzt. |
 | **Stufe 1 / Stufe 2** | Stufe 1: die ersten fünf Zweittermine gemeinsam mit mir, ich nenne den Preis. Stufe 2: Sie allein, Sie nennen Paketpreis und Bausteine aus dem Preisrechner. |
+| **Terminbuchung** | Software-Modul für die Website: Kunden buchen eine freie Zeit selbst, der Termin steht sofort im Google-Kalender des Betriebs, mit Erinnerung. Die Weiterentwicklung der Online-Terminanfrage, die im Paket Groß enthalten bleibt. Stufe groß, 400 € einmalig. |
+| **Tischreservierung** | Software-Modul für die Website: Gäste reservieren nach Personenzahl, Tag und Uhrzeit, nur wo ein Platz frei ist. Kein Feld für Allergien. Die Weiterentwicklung der Online-Tischanfrage, die im Paket Groß enthalten bleibt. Stufe groß, 400 € einmalig. |
 | **Umbau** | Bis zu drei Stunden Arbeit an der Website, etwa ein Bereich neu gestaltet. Bei Plus zwei im Jahr, mit Grenzen. Sonst ein eigener Auftrag. |
 | **UWG** | Gesetz gegen den unlauteren Wettbewerb. § 7 erlaubt Kaltakquise bei Gewerbetreibenden unter engen Bedingungen: geschäftliche Nummer, geschäftlicher Anlass, klare Absenderangabe. |
 | **Verkaufshilfen** | Bereich im Portal: je verkaufbarem Modul ein Steckbrief mit Preis und eine Fassung ohne Preis zum Zeigen und Ausdrucken. Was dort nicht steht, wird nicht angeboten. |

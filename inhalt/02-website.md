@@ -41,7 +41,9 @@ Was nicht teurer wird: die Machart. Klein ist genauso auf dem Handy gebaut, gena
 
 ## Die mitarbeitende Funktion, nur in Groß
 
-Die Website nimmt dem Betrieb eine Aufgabe ab. **Heute ist das die Online-Terminanfrage:** ein Formular mit Wunschtermin, die Anfrage kommt per Mail beim Betrieb an. Geplant sind je Branche Reservierung (Gastro), Terminbuchung (Friseur, Praxis) und Anfrage mit Foto-Upload (Handwerk). Geplant heißt: nicht versprochen. Verkauft wird, was es heute gibt.
+Die Website nimmt dem Betrieb eine Aufgabe ab. **Heute ist das die Online-Terminanfrage:** ein Formular mit Wunschtermin, die Anfrage kommt per Mail beim Betrieb an, und der Betrieb meldet sich zurück. In der Gastronomie heißt sie Online-Tischanfrage. Sie ist in jedem Paket Groß enthalten.
+
+Wer mehr will, nimmt ein Software-Modul dazu (unten und Kapitel 12). Die **Terminbuchung** und die **Tischreservierung** sind die Weiterentwicklung der Anfrage: Der Kunde wählt selbst eine freie Zeit, und der Termin oder Tisch steht sofort fest, ohne Rückruf. Sie kosten extra und ersetzen auf der Website die Anfrage, an Groß ändert das nichts.
 
 Drei Regeln, die Sie kennen müssen:
 
@@ -132,7 +134,7 @@ Das eine macht die Website auffindbar, das andere den Betrieb auf der Karte sich
 
 ## Software-Module: etwas anderes als die Funktion
 
-Neben Paketen und Bausteinen gibt es Software-Module mit eigenem Einmalpreis (Kapitel 12), **nur zum Paket Groß**. Groß ist das Paket, in dem die Website mitarbeitet, ein Modul erweitert das. Zu Klein und Mittel gibt es kein Modul. Heute verkaufbar sind sieben: zwei für Besucher der Website (**Kostenrechner**, **Anfrage mit Fotos**) und fünf Werkzeuge für den Inhaber (**Beitrags-Schreiber**, **Bewertungs-Assistent**, **Speisekarte und Preisliste**, **Angebots-Assistent Handwerk**, **Material- und Lagerliste**). Ein Modul ist nicht die mitarbeitende Funktion: die Funktion steckt im Paket Groß, ein Modul kommt einzeln dazu. Angeboten wird nur, was unter Verkaufshilfen im Portal steht.
+Neben Paketen und Bausteinen gibt es Software-Module mit eigenem Einmalpreis (Kapitel 12), **nur zum Paket Groß**. Groß ist das Paket, in dem die Website mitarbeitet, ein Modul erweitert das. Zu Klein und Mittel gibt es kein Modul. Heute verkaufbar sind zehn: vier für Besucher der Website (**Kostenrechner**, **Anfrage mit Fotos**, **Terminbuchung mit Erinnerung**, **Tischreservierung**) und sechs Werkzeuge für den Inhaber (**Beitrags-Schreiber**, **Bewertungs-Assistent**, **Speisekarte und Preisliste**, **Angebots-Assistent Handwerk**, **Material- und Lagerliste**, **Schicht- und Urlaubsplan**). Ein Modul ist nicht die mitarbeitende Funktion: die Funktion steckt im Paket Groß, ein Modul kommt einzeln dazu. Das gilt auch für Terminbuchung und Tischreservierung: Bei der Anfrage meldet sich der Betrieb zurück, bei der Buchung steht der Termin sofort im Kalender. Angeboten wird nur, was unter Verkaufshilfen im Portal steht.
 
 ## Was immer dazugehört, aber nicht im Preis steckt
 
