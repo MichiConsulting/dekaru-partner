@@ -26,6 +26,8 @@ import {
 } from '../src/lib/briefing.ts';
 import { ALLE_PALETTEN, BRIEFING_ZU_TEMPLATE, palettenBranche } from '../src/lib/paletten.ts';
 import { leereAuswahl } from '../src/lib/preise.ts';
+import { leereDaten } from '../src/lib/briefing.ts';
+import { ALLE_STILE } from '../src/lib/stile.ts';
 
 let db: Db;
 let anna: Benutzer;
@@ -362,5 +364,39 @@ describe('Briefing-Bogen: Module ohne Paket Groß', () => {
     expect(html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ')).toContain('Software-Module gibt es nur mit Paket Groß. Angekreuzt ist Kostenrechner für Ihre Kunden');
     // Nichts wurde still geloescht.
     expect((await holeBriefing(db, anna.id, b.id))?.daten.auswahl.module).toEqual(['modul-kostenrechner']);
+  });
+});
+
+describe('Briefing-Bogen: Stil und Bewegung', () => {
+  it('belegt Standard der Branche und ruhig vor', () => {
+    expect(leereDaten().felder.stil).toBe('standard');
+    expect(leereDaten().felder.bewegung).toBe('ruhig');
+    const stil = TEILE.flatMap((t) => t.felder).find((f) => f.name === 'stil')!;
+    expect(stil.pflicht).toBeFalsy();
+    expect(stil.optionen!.map((o) => o.wert)).toEqual(['standard', 'offen', ...ALLE_STILE.map((s) => s.kennung)]);
+  });
+
+  it('nimmt nur bekannte Werte und speichert sie im JSON des Bogens', () => {
+    expect(pruefeBriefing(vollstaendig({ stil: 'plakat', bewegung: 'verspielt' })).daten.felder).toMatchObject({ stil: 'plakat', bewegung: 'verspielt' });
+    expect(pruefeBriefing(vollstaendig({ stil: 'offen' })).daten.felder.stil).toBe('offen');
+    const falsch = pruefeBriefing(vollstaendig({ stil: 'barock', bewegung: 'wild' }));
+    expect(falsch.daten.felder.stil).toBeUndefined();
+    expect(falsch.daten.felder.bewegung).toBeUndefined();
+    // Alter Bogen ohne die Felder: nichts fehlt.
+    expect(falsch.fehlend).toEqual([]);
+  });
+
+  it('meldet beim Einreichen einen hellen Stil mit dunkler Palette, Zwischenspeichern geht', () => {
+    const p = pruefeBriefing(vollstaendig({ branche: 'Handwerk', farbpalette: 'DK-1', stil: 'werkstatt' }));
+    expect(p.sperren).toEqual([]);
+    expect(p.fehlend).toEqual([expect.stringMatching(/^Stil Werkstatt gibt es nur hell, die Farbpalette DK-1 .* ist dunkel\./)]);
+    expect(pruefeBriefing(vollstaendig({ branche: 'Handwerk', farbpalette: 'DK-1', stil: 'raster' })).fehlend).toEqual([]);
+    expect(pruefeBriefing(vollstaendig({ branche: 'Handwerk', farbpalette: 'DK-1', stil: 'standard' })).fehlend).toEqual([]);
+  });
+
+  it('erlaubt in Tattoo nur Stile mit dunkler Fassung', () => {
+    const p = pruefeBriefing(vollstaendig({ branche: 'Tattoo', farbpalette: 'BL-2', stil: 'frisch' }));
+    expect(p.fehlend).toEqual([expect.stringMatching(/^Stil Frisch gibt es nur hell, die Branche hat ein dunkles Design/)]);
+    expect(pruefeBriefing(vollstaendig({ branche: 'Tattoo', stil: 'stille' })).fehlend).toEqual([]);
   });
 });

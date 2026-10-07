@@ -1,0 +1,169 @@
+---
+/**
+ * Felder "Stil der Website" und "Bewegung auf der Seite" im Briefing-Bogen
+ * (Teil B). Kennungen aus dem Template-System (src/data/stile.json), Texte aus
+ * inhalt/stile.json. Geht ohne JavaScript.
+ *
+ * Stil: "Standard der Branche" ist vorbelegt, dazu "Noch offen" und die sechs
+ * Stile mit Beschreibung, Leitidee und "passt zu". Ob Stil und Palette
+ * zusammenpassen, prueft der Server beim Einreichen (stilZurPalette).
+ * Bewegung: vier Stufen, Standard ruhig.
+ *
+ * Nur im Bogen, nie im Schema des Erstgespraechs.
+ */
+import type { Feld } from '../lib/briefing.ts';
+import { BRIEFING_ZU_TEMPLATE } from '../lib/paletten.ts';
+import { ALLE_STILE, BEWEGUNGSSTUFEN, BEWEGUNG_STANDARD, STANDARD_JE_BRANCHE, STIL_OFFEN, STIL_STANDARD, findeBewegung, findeStil, modiText } from '../lib/stile.ts';
+
+interface Props {
+  feld: Feld;
+  wert: string | undefined;
+}
+const { feld, wert } = Astro.props;
+const istStil = feld.typ === 'stil';
+
+// Alter Bogen ohne Feld: wie die Vorbelegung.
+const stilWert = findeStil(wert) || wert === STIL_OFFEN ? wert : STIL_STANDARD;
+const bewegungWert = findeBewegung(wert)?.wert ?? BEWEGUNG_STANDARD;
+
+const aufzaehlung = (xs: string[]) => (xs.length > 1 ? `${xs.slice(0, -1).join(', ')} und ${xs[xs.length - 1]}` : xs.join(''));
+const nurHell = ALLE_STILE.filter((s) => !s.modi.includes('dunkel')).map((s) => s.name);
+const mitDunkel = ALLE_STILE.filter((s) => s.modi.includes('dunkel')).map((s) => s.name);
+const name = (k: string) => findeStil(k)?.name ?? k;
+const standards = Object.entries(BRIEFING_ZU_TEMPLATE)
+  .filter(([, t]) => STANDARD_JE_BRANCHE[t])
+  .map(([label, t]) => {
+    const st = STANDARD_JE_BRANCHE[t];
+    return { label, hell: name(st.hell), dunkel: st.dunkel !== st.hell ? name(st.dunkel) : null };
+  });
+---
+
+{istStil ? (
+  <fieldset class="feld bs" data-feld="stil">
+    <legend>{feld.label}</legend>
+    {feld.hilfe && <p class="feld__hilfe">{feld.hilfe}</p>}
+    <div class="bs__liste">
+      <label class="bs__wahl">
+        <input type="radio" name={feld.name} value={STIL_STANDARD} checked={stilWert === STIL_STANDARD} />
+        <span class="bs__text">
+          <strong>Standard der Branche</strong>
+          <span class="bs__zeile">Der Stil, der zur Branche passt. Mit einer dunklen Palette nimmt die Seite von selbst die dunkle Fassung.</span>
+        </span>
+      </label>
+      <label class="bs__wahl">
+        <input type="radio" name={feld.name} value={STIL_OFFEN} checked={stilWert === STIL_OFFEN} />
+        <span class="bs__text">
+          <strong>Noch offen</strong>
+          <span class="bs__zeile">Nicht besprochen, Michael Henning klärt es mit dem Betrieb.</span>
+        </span>
+      </label>
+      {ALLE_STILE.map((s) => (
+        <label class="bs__wahl">
+          <input type="radio" name={feld.name} value={s.kennung} checked={stilWert === s.kennung} />
+          <span class="bs__text">
+            <strong>{s.name}</strong> <span class="bs__art">{s.beschreibung}, {modiText(s)}</span>
+            <span class="bs__zeile">{s.leitidee}</span>
+            <span class="bs__zeile">Passt zu: {s.passtZu}</span>
+          </span>
+        </label>
+      ))}
+    </div>
+    <details class="bs__standard">
+      <summary>Welcher Stil ist der Standard?</summary>
+      <ul>
+        {standards.map((x) => (
+          <li>
+            {x.label}: {x.hell}
+            {x.dunkel && `, mit dunkler Palette ${x.dunkel}`}
+          </li>
+        ))}
+      </ul>
+      <p>{aufzaehlung(nurHell)} gibt es nur hell. Für Tattoo und für dunkle Paletten gehen nur {aufzaehlung(mitDunkel)}.</p>
+    </details>
+  </fieldset>
+) : (
+  <fieldset class="feld bs" data-feld="bewegung">
+    <legend>{feld.label}</legend>
+    {feld.hilfe && <p class="feld__hilfe">{feld.hilfe}</p>}
+    <div class="bs__liste">
+      {BEWEGUNGSSTUFEN.map((b) => (
+        <label class="bs__wahl">
+          <input type="radio" name={feld.name} value={b.wert} checked={bewegungWert === b.wert} />
+          <span class="bs__text">
+            <strong>{b.name}</strong>
+            <span class="bs__zeile">{b.erklaerung}</span>
+          </span>
+        </label>
+      ))}
+    </div>
+  </fieldset>
+)}
+
+<style>
+  .bs {
+    border: 0;
+    padding: 0;
+    margin: 0 0 var(--space-l);
+    min-width: 0;
+  }
+  .bs legend {
+    font-weight: 600;
+    margin-bottom: var(--space-xs);
+  }
+  .bs__liste {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    gap: var(--space-s);
+    margin-top: var(--space-s);
+  }
+  .bs__wahl {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    gap: var(--space-s);
+    padding: var(--space-s) var(--space-m);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    font-weight: 400;
+    cursor: pointer;
+  }
+  .bs__wahl input {
+    margin-top: 0.25em;
+  }
+  .bs__wahl:has(input:checked) {
+    border-color: var(--text);
+    box-shadow: inset 0 0 0 1px var(--text);
+  }
+  .bs__text {
+    min-width: 0;
+    line-height: 1.4;
+  }
+  .bs__art,
+  .bs__zeile {
+    font-size: var(--text-small);
+    color: var(--text-muted);
+  }
+  .bs__zeile {
+    display: block;
+    margin-top: 2px;
+  }
+  .bs__standard {
+    margin-top: var(--space-s);
+    font-size: var(--text-small);
+  }
+  .bs__standard summary {
+    cursor: pointer;
+    min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .bs__standard ul {
+    margin: var(--space-xs) 0;
+    padding-left: 1.2em;
+  }
+  .bs__standard p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+</style>

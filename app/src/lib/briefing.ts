@@ -12,12 +12,18 @@
 // Schema des Erstgespraechs selbst gewaehlt hat, ohne personenbezogene Daten.
 // Michi braucht ihn beim Bau; er steht zusaetzlich in der Spalte
 // briefings.farbpalette (Migration 010).
+//
+// Seit 07.10.2026 dazu Stil und Bewegung (Teil B), ebenfalls nur Kennungen aus
+// dem Template-System (src/data/stile.json). Sie stehen nur im JSON der Boegen,
+// eine eigene Spalte braucht es nicht. Besprochen werden sie im Zweittermin,
+// im Schema des Erstgespraechs kommen sie nicht vor.
 
 import type { Db } from './db.ts';
 import { holeKunde, isoDatum, istUuid } from './kunden.ts';
 import { MODULE_NUR_MIT, MODULE_PAKET_NAME, auswahlAusFeldern, findeModul, findePaket, leereAuswahl, moduleMoeglich, type Auswahl } from './preise.ts';
 import { moduleAusAdresse } from './module.ts';
 import { ALLE_PALETTEN, BRIEFING_ZU_TEMPLATE, PALETTE_OFFEN, findePalette, passtZuTemplate } from './paletten.ts';
+import { ALLE_STILE, BEWEGUNGSSTUFEN, BEWEGUNG_STANDARD, STIL_OFFEN, STIL_STANDARD, stilZurPalette } from './stile.ts';
 
 export type BriefingStatus = 'entwurf' | 'eingereicht' | 'uebernommen';
 
@@ -27,7 +33,7 @@ export const STATUS_LABEL: Record<BriefingStatus, string> = {
   uebernommen: 'Übernommen',
 };
 
-export type FeldTyp = 'text' | 'email' | 'tel' | 'date' | 'textarea' | 'checkbox' | 'select' | 'radio' | 'palette';
+export type FeldTyp = 'text' | 'email' | 'tel' | 'date' | 'textarea' | 'checkbox' | 'select' | 'radio' | 'palette' | 'stil' | 'bewegung';
 
 export interface Feld {
   name: string;
@@ -86,6 +92,24 @@ export const TEILE: Teil[] = [
           { wert: PALETTE_OFFEN, label: 'Noch offen' },
           ...ALLE_PALETTEN.map((p) => ({ wert: p.code, label: `${p.code} ${p.name}` })),
         ],
+      },
+      {
+        name: 'stil',
+        label: 'Stil der Website',
+        typ: 'stil',
+        hilfe: 'Im Paket enthalten, kein Aufpreis. Besprechen Sie den Stil im Zweittermin mit dem Betrieb, im Erstgespräch wird er nicht gezeigt. Ohne besonderen Wunsch: Standard der Branche.',
+        optionen: [
+          { wert: STIL_STANDARD, label: 'Standard der Branche' },
+          { wert: STIL_OFFEN, label: 'Noch offen' },
+          ...ALLE_STILE.map((s) => ({ wert: s.kennung, label: `${s.name} (${s.beschreibung})` })),
+        ],
+      },
+      {
+        name: 'bewegung',
+        label: 'Bewegung auf der Seite',
+        typ: 'bewegung',
+        hilfe: 'Wie viel sich beim Scrollen bewegt. Im Paket enthalten. Wer Bewegung am Gerät abgeschaltet hat, sieht immer eine ruhige Seite.',
+        optionen: BEWEGUNGSSTUFEN.map((b) => ({ wert: b.wert, label: b.name })),
       },
       { name: 'seiten_namen', label: 'Seiten, mit Namen', typ: 'textarea', max: 600, hilfe: 'Zum Beispiel Leistungen, Über uns, Referenzen. Eine je Zeile.' },
       { name: 'sprache_welche', label: 'Weitere Sprache, welche', typ: 'text', max: 80 },
@@ -192,7 +216,7 @@ export interface BriefingDaten {
 }
 
 export function leereDaten(): BriefingDaten {
-  return { felder: { kontaktformular: 'on' }, auswahl: leereAuswahl() };
+  return { felder: { kontaktformular: 'on', stil: STIL_STANDARD, bewegung: BEWEGUNG_STANDARD }, auswahl: leereAuswahl() };
 }
 
 // ---------------------------------------------------------------------------
@@ -259,7 +283,7 @@ export function pruefeBriefing(eingabe: Record<string, unknown>): Pruefung {
       sperren.push(`${feld.label}: keine gültige E-Mail-Adresse.`);
       continue;
     }
-    if ((feld.typ === 'select' || feld.typ === 'radio' || feld.typ === 'palette') && feld.optionen && !feld.optionen.some((o) => o.wert === wert)) continue;
+    if ((feld.typ === 'select' || feld.typ === 'radio' || feld.typ === 'palette' || feld.typ === 'stil' || feld.typ === 'bewegung') && feld.optionen && !feld.optionen.some((o) => o.wert === wert)) continue;
     if (enthaeltPasswort(wert)) {
       sperren.push(`${feld.label}: ${PASSWORT_SPERRE}`);
       continue;
@@ -282,6 +306,8 @@ export function pruefeBriefing(eingabe: Record<string, unknown>): Pruefung {
   if (auswahl.bausteine.individuell && !felder.individuell_beschreibung) fehlend.push('Individuelles Feature, Beschreibung');
   const palettenFehler = paletteZumTemplate(felder.branche, felder.farbpalette);
   if (palettenFehler) fehlend.push(palettenFehler);
+  const stilFehler = stilZurPalette(BRIEFING_ZU_TEMPLATE[felder.branche ?? ''], findePalette(felder.farbpalette), felder.stil);
+  if (stilFehler) fehlend.push(stilFehler);
   // Software-Module gibt es nur mit Paket Gross. Die Auswahl bleibt gespeichert
   // (Zwischenspeichern geht), nur Einreichen nicht: nichts wird still geloescht.
   const fremdeModule = moduleMoeglich(paket) ? [] : auswahl.module.map((s) => findeModul(s)?.name).filter((n): n is string => Boolean(n));

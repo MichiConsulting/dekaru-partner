@@ -122,3 +122,44 @@ export function stilZurPalette(templateId: string | undefined, palette: Palette 
   }
   return null;
 }
+
+export interface StilFuerBau {
+  /** gewaehlt: ein Stil ist ausdruecklich gesetzt. fehlt: alter Bogen ohne Feld. */
+  art: 'gewaehlt' | 'standard' | 'offen' | 'fehlt';
+  /** Der gesetzte Stil oder der Standard, den die Seite zurzeit bekaeme. */
+  stil: Stil | null;
+  /** Wert fuer site.config.ts. null heisst: Feld stil leer lassen. */
+  configStil: string | null;
+  /** Standard haengt noch an einer offenen Palette oder fehlender Branche. */
+  vorlaeufig: boolean;
+  /** Ein Satz fuer Ansicht und YAML. */
+  anzeige: string;
+  bewegung: Bewegungsstufe;
+  bewegungAngegeben: boolean;
+}
+
+/**
+ * Was beim Bau in site.config.ts steht. Beim Standard bleibt das Feld stil
+ * leer: dann waehlt der Build selbst den Standard zum Design der Palette,
+ * auch wenn die Palette sich noch aendert. Nur ein ausdruecklich gewaehlter
+ * Stil wird als Wert gesetzt.
+ */
+export function stilFuerBau(felder: Record<string, string | undefined>, templateId: string | undefined, palette: Palette | null): StilFuerBau {
+  const wert = felder.stil;
+  const gewaehlt = findeStil(wert);
+  const bewegungGewaehlt = findeBewegung(felder.bewegung);
+  const bewegung = bewegungGewaehlt ?? findeBewegung(BEWEGUNG_STANDARD)!;
+  const basis = { bewegung, bewegungAngegeben: Boolean(bewegungGewaehlt) };
+  if (gewaehlt) {
+    return { ...basis, art: 'gewaehlt', stil: gewaehlt, configStil: gewaehlt.kennung, vorlaeufig: false, anzeige: `${gewaehlt.name} (${gewaehlt.beschreibung})` };
+  }
+  if (wert === STIL_OFFEN) {
+    return { ...basis, art: 'offen', stil: null, configStil: null, vorlaeufig: true, anzeige: 'noch offen, mit dem Betrieb klären' };
+  }
+  const standard = standardStil(templateId, palette);
+  const vorlaeufig = !standard || !palette;
+  const zurzeit = standard ? `, ergibt zurzeit ${standard.name}${vorlaeufig ? ' (vorläufig, Palette noch offen)' : ''}` : ', Branche fehlt noch';
+  const art = wert === STIL_STANDARD ? 'standard' : 'fehlt';
+  const kopf = art === 'standard' ? 'Standard der Branche' : 'nicht angegeben, gilt als Standard der Branche';
+  return { ...basis, art, stil: standard, configStil: null, vorlaeufig, anzeige: `${kopf}${zurzeit}` };
+}
