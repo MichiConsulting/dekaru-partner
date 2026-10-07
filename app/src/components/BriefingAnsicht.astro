@@ -2,20 +2,23 @@
 /**
  * Der ausgefuellte Bogen zum Lesen: fuer den Vertriebler nach dem Einreichen,
  * fuer den Admin immer. Zeigt nur gefuellte Felder. Preise nur, wenn die
- * Person sie sehen darf.
+ * Person sie sehen darf. Mit fuerBau (Admin) zusaetzlich die Werte fuer
+ * site.config.ts zu Stil und Bewegung.
  */
 import PreisSumme from './PreisSumme.astro';
 import { ALLE_POSTEN, berechne, findeModul, findePaket, findeTarif, findeZusatzleistung } from '../lib/preise.ts';
 import { TEILE, type Briefing } from '../lib/briefing.ts';
-import { PALETTE_OFFEN, farbfelder, findePalette, gruppeVon } from '../lib/paletten.ts';
+import { BRIEFING_ZU_TEMPLATE, PALETTE_OFFEN, farbfelder, findePalette, gruppeVon } from '../lib/paletten.ts';
+import { stilFuerBau } from '../lib/stile.ts';
 import { datumDe } from '../lib/provision.ts';
 
 interface Props {
   briefing: Briefing;
   zeigePreise: boolean;
   zeigeProvision?: boolean;
+  fuerBau?: boolean;
 }
-const { briefing, zeigePreise, zeigeProvision = false } = Astro.props;
+const { briefing, zeigePreise, zeigeProvision = false, fuerBau = false } = Astro.props;
 const f = briefing.daten.felder;
 const a = briefing.daten.auswahl;
 const paket = findePaket(a.paket);
@@ -31,6 +34,7 @@ const bausteine = ALLE_POSTEN.filter((p) => {
 // Spalte aus Migration 010, sonst der Wert im JSON.
 const paletteWert = briefing.farbpalette ?? f.farbpalette ?? null;
 const palette = findePalette(paletteWert);
+const bau = stilFuerBau(f, BRIEFING_ZU_TEMPLATE[f.branche ?? ''], palette);
 const zusatz = a.zusatzleistungen.map((s) => findeZusatzleistung(s)?.name).filter(Boolean);
 // Software-Module: verkaufbare mit Namen. Ein Schluessel, der inzwischen nicht
 // mehr verkaufbar ist, bleibt sichtbar, damit Michi ihn beim Angebot sieht.
@@ -79,6 +83,19 @@ function anzeige(name: string, wert: string | undefined): string {
                   'nicht angegeben'
                 )}
               </dd>
+              <dt>Stil der Website</dt>
+              <dd data-briefing-stil>{bau.anzeige}</dd>
+              <dt>Bewegung auf der Seite</dt>
+              <dd data-briefing-bewegung>{bau.bewegungAngegeben ? bau.bewegung.name : `nicht angegeben, gilt als ${bau.bewegung.name}`}</dd>
+              {fuerBau && (
+                <>
+                  <dt>Für den Bau</dt>
+                  <dd data-briefing-bau>
+                    {bau.configStil ? <code>stil: "{bau.configStil}"</code> : bau.art === 'offen' ? 'stil: erst mit dem Betrieb klären' : 'stil: leer lassen (Standard)'},{' '}
+                    <code>bewegung: "{bau.bewegung.wert}"</code>. Im Paket enthalten, kein Aufpreis.
+                  </dd>
+                </>
+              )}
               <dt>Paket</dt>
               <dd>{paket ? paket.name : 'keins'}</dd>
               <dt>Zusatzbausteine</dt>
@@ -91,7 +108,7 @@ function anzeige(name: string, wert: string | undefined): string {
               <dd>
                 {tarif ? `${tarif.name}, ${tarif.monat === null || a.hosting.zahlweise === 'jaehrlich' ? 'Jahresvertrag' : 'monatlich'}${a.hosting.gratisquartal ? ', Gratisquartal zugesagt' : ''}` : 'kein Hosting'}
               </dd>
-              {zeilen.filter((z) => z.feld.name !== 'branche' && z.feld.name !== 'farbpalette').map((z) => (
+              {zeilen.filter((z) => !['branche', 'farbpalette', 'stil', 'bewegung'].includes(z.feld.name)).map((z) => (
                 <>
                   <dt>{z.feld.label}</dt>
                   <dd>{z.wert}</dd>

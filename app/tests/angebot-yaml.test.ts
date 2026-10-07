@@ -130,6 +130,22 @@ describe('Angebots-YAML', () => {
     expect(t2).toMatch(/# Modul modul-reel-werkstatt ist zurzeit nicht verkaufbar/);
   });
 
+  it('nennt Stil und Bewegung fuer den Bau, nur als Kommentar', () => {
+    const gewaehlt = erzeugeAngebotYaml(bogen({ ...GROSS, stil: 'plakat', bewegung: 'lebendig' }), KONTEXT).inhalt;
+    expect(gewaehlt).toMatch(/^# Für den Bau \(site\.config\.ts\), im Paket enthalten, kein Aufpreis:$/m);
+    expect(gewaehlt).toMatch(/^# stil: "plakat"  \(Plakat, ausdrücklich gewählt\)$/m);
+    expect(gewaehlt).toMatch(/^# bewegung: "lebendig"$/m);
+    // Standard: Feld leer lassen, damit der Build zur Palette passt.
+    const standard = erzeugeAngebotYaml(bogen({ ...GROSS, branche: 'Handwerk', farbpalette: 'DK-1', stil: 'standard', bewegung: 'ruhig' }), KONTEXT).inhalt;
+    expect(standard).toMatch(/^# stil: leer lassen \(Standard der Branche, ergibt zurzeit Raster\)$/m);
+    const offen = erzeugeAngebotYaml(bogen({ ...GROSS, branche: 'Handwerk', stil: 'standard' }), KONTEXT).inhalt;
+    expect(offen).toMatch(/^# stil: leer lassen \(Standard der Branche, ergibt zurzeit Werkstatt \(vorläufig, Palette noch offen\)\)$/m);
+    expect(erzeugeAngebotYaml(bogen({ ...GROSS, stil: 'offen' }), KONTEXT).inhalt).toMatch(/^# stil: noch offen, mit dem Kunden klären$/m);
+    // Alter Bogen ohne Felder.
+    expect(erzeugeAngebotYaml(bogen(GROSS), KONTEXT).inhalt).toMatch(/^# bewegung: "ruhig"  \(nicht angegeben, Standard\)$/m);
+    expect(gewaehlt).not.toMatch(/^stil:|^bewegung:/m);
+  });
+
   it('lehnt einen Bogen ohne Paket ab', () => {
     const b = bogen(GROSS);
     b.daten.auswahl.paket = 'riesig' as never;
