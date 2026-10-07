@@ -55,9 +55,12 @@ describe('Mini-Schemata', () => {
       }
       // Vormerken bleibt ausserhalb des summary, ein eigener Knopf.
       expect(block).not.toMatch(/<summary[^>]*>(?:(?!<\/summary>)[\s\S])*data-modul-wahl/);
-      // Jedes Mini-Schema nur einmal im Quelltext, die anderen Branchen bekommen Platzhalter.
+      // Jede Karte mit Mini-Schema nur einmal im Quelltext, die anderen Branchen bekommen
+      // Platzhalter, ihr Vormerken-Link bleibt (er traegt die Branche in der Adresse).
       expect(s.match(/class="ms ms--/g)).toHaveLength(VERKAUFBARE_MODULE.length);
-      expect(s.match(/data-ms-platz=/g)).toHaveLength(VERKAUFBARE_MODULE.length * 6);
+      expect(s.match(/<details class="modul-so"/g)).toHaveLength(VERKAUFBARE_MODULE.length);
+      expect(s.match(/data-modul-platz=/g)).toHaveLength(VERKAUFBARE_MODULE.length * 6);
+      expect(s.match(/class="modul-wahl"/g)).toHaveLength(VERKAUFBARE_MODULE.length * 7);
       // Zeichen nur einmal je Seite.
       expect(s.match(/class="ms-symbole"/g)).toHaveLength(1);
     }
