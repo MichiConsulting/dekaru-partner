@@ -63,8 +63,17 @@
 .ms--speisekarte {
   grid-template-columns: minmax(0, 1.3fr) auto minmax(0, 0.9fr) auto minmax(0, 0.9fr);
 }
+.ms--tischreservierung {
+  grid-template-columns: minmax(0, 1.2fr) auto minmax(0, 0.85fr) auto minmax(0, 1fr);
+}
+.ms--tischreservierung .ms-chip {
+  white-space: nowrap;
+}
 .ms--schichtplan {
-  grid-template-columns: minmax(0, 1.25fr) auto minmax(0, 0.9fr) auto minmax(0, 0.95fr);
+  grid-template-columns: minmax(0, 1.15fr) auto minmax(0, 0.85fr) auto minmax(0, 1.05fr);
+}
+.ms--schichtplan .ms-marke {
+  white-space: nowrap;
 }
 .ms svg {
   display: block;
