@@ -453,7 +453,7 @@
       "frage": "Haben Sie auch eine Online-Terminbuchung oder Tischreservierung?",
       "antwort": "Ja, als Modul zum Paket Groß. Im Paket ist die Terminanfrage schon dabei: Ihre Kunden schicken einen Wunschtermin, und Sie melden sich zurück. Mit der Terminbuchung wählen sie selbst eine freie Zeit, und der Termin steht sofort in Ihrem Kalender, mit Erinnerung vorher. Für Restaurants gibt es das Gleiche als Tischreservierung.",
       "pflicht": false,
-      "hinweis": "Die Anfrage bleibt im Paket Groß enthalten, die Buchung kostet extra und ersetzt auf der Website die Anfrage. Nie sagen, Groß enthalte die Buchung. Den Modulpreis nur in Stufe 2 aus dem Preisrechner. Praxen: Buchung nur ohne Freitext, Schweigepflicht klärt Michael Henning. Keine Anzahlung, keine Warteliste, kein Tischplan versprechen."
+      "hinweis": "Die Anfrage bleibt im Paket Groß enthalten, die Buchung kostet extra und ersetzt auf der Website die Anfrage. Nie sagen, Groß enthalte die Buchung. Den Modulpreis nur in Stufe 2 aus dem Preisrechner. Gebucht wird nur in Kalendern, die dem Google-Konto des Betriebs gehören, je Person legt Michael Henning einen an. Praxen: Buchung nur ohne Freitext, Schweigepflicht klärt Michael Henning. Keine Anzahlung, keine Warteliste, kein Tischplan versprechen."
     },
     {
       "id": "g49",
