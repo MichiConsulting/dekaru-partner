@@ -1,6 +1,6 @@
 {
   "_hinweis": "Erzeugt mit scripts/stile-sync.mjs aus dekaru-templates/_core/stile/stile.mjs. Nicht von Hand aendern. Texte mit Umlauten stehen in inhalt/stile.json. Nach jeder Aenderung an den Stilen: npm run stile-sync",
-  "quelle": "dekaru-templates, Branch stile, _core/stile/stile.mjs (noch nicht in main)",
+  "quelle": "dekaru-templates/_core/stile/stile.mjs",
   "feld": {
     "stil": "stil",
     "bewegung": "bewegung"
