@@ -18,7 +18,9 @@
     "paletten-sync": "node scripts/paletten-sync.mjs",
     "paletten-pruefen": "node scripts/paletten-sync.mjs --pruefen",
     "module-sync": "node scripts/module-sync.mjs",
-    "module-pruefen": "node scripts/module-sync.mjs --pruefen"
+    "module-pruefen": "node scripts/module-sync.mjs --pruefen",
+    "stile-sync": "node scripts/stile-sync.mjs",
+    "stile-pruefen": "node scripts/stile-sync.mjs --pruefen"
   },
   "dependencies": {
     "@astrojs/vercel": "^10.0.8",

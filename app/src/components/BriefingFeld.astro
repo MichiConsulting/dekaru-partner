@@ -2,6 +2,7 @@
 /** Ein Feld des Briefing-Bogens, je nach Typ Eingabe, Auswahl oder Haekchen. */
 import type { Feld } from '../lib/briefing.ts';
 import BriefingPalette from './BriefingPalette.astro';
+import BriefingStil from './BriefingStil.astro';
 
 interface Props {
   feld: Feld;
@@ -13,6 +14,8 @@ const id = `f-${feld.name}`;
 
 {feld.typ === 'palette' ? (
   <BriefingPalette feld={feld} wert={wert} />
+) : feld.typ === 'stil' || feld.typ === 'bewegung' ? (
+  <BriefingStil feld={feld} wert={wert} />
 ) : feld.typ === 'checkbox' ? (
   <div class="feld">
     <label class="wahl" for={id}>

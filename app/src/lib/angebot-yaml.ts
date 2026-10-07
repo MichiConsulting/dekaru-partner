@@ -12,6 +12,8 @@
 // das Format es so verlangt. Software-Module ebenso als freie Positionen.
 
 import type { Briefing } from './briefing.ts';
+import { BRIEFING_ZU_TEMPLATE, findePalette } from './paletten.ts';
+import { stilFuerBau } from './stile.ts';
 import { ALLE_POSTEN, FUNKTION, HOSTING, berechne, findeModul, findePaket, findeTarif, findeZusatzleistung, MODULE_NUR_MIT, moduleMoeglich, type Auswahl } from './preise.ts';
 
 export interface YamlKontext {
@@ -137,6 +139,26 @@ function positionenBlock(auswahl: Auswahl): string[] {
   return zeilen.some((z) => z.startsWith('  -')) ? ['positionen:', ...zeilen] : zeilen;
 }
 
+/**
+ * Stil und Bewegung fuer site.config.ts, als Kommentar: das Angebotssystem
+ * kennt die Felder nicht, sie sind im Paket enthalten. Beim Standard bleibt
+ * stil leer, damit der Build den Standard zum Design der Palette waehlt.
+ */
+function bauBlock(b: Briefing): string[] {
+  const f = b.daten.felder;
+  const bau = stilFuerBau(f, BRIEFING_ZU_TEMPLATE[f.branche ?? ''], findePalette(b.farbpalette ?? f.farbpalette));
+  const stil = bau.configStil
+    ? `# stil: "${bau.configStil}"  (${bau.stil!.name}, ausdrücklich gewählt)`
+    : bau.art === 'offen'
+      ? '# stil: noch offen, mit dem Kunden klären'
+      : `# stil: leer lassen (${bau.anzeige})`;
+  return [
+    '# Für den Bau (site.config.ts), im Paket enthalten, kein Aufpreis:',
+    stil,
+    `# bewegung: "${bau.bewegung.wert}"${bau.bewegungAngegeben ? '' : '  (nicht angegeben, Standard)'}`,
+  ];
+}
+
 function jaNein(wert: string | undefined): string {
   return wert === 'on' ? 'ja' : 'nein';
 }
@@ -194,6 +216,7 @@ export function erzeugeAngebotYaml(b: Briefing, k: YamlKontext): YamlErgebnis {
   if (f.seiten_namen) zeilen.push(...kommentarFeld('Seiten, mit Namen', f.seiten_namen));
   if (f.sprache_welche) zeilen.push(`# Weitere Sprache: ${f.sprache_welche}`);
   if (f.texte_kunde === 'on') zeilen.push('# Texte liefert der Kunde.');
+  zeilen.push(...bauBlock(b));
   zeilen.push('');
 
   const positionen = positionenBlock(a);

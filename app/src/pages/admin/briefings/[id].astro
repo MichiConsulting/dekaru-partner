@@ -114,7 +114,7 @@ try {
     Die Datei nach <code>dekaru-rechnungen/angebote/eingang/</code> legen und <code>/angebot</code> aufrufen. Der Download markiert einen eingereichten Bogen als übernommen.
   </p>
 
-  <BriefingAnsicht briefing={briefing} zeigePreise={true} zeigeProvision={true} />
+  <BriefingAnsicht briefing={briefing} zeigePreise={true} zeigeProvision={true} fuerBau={true} />
 
   <h2>Vorschau der Angebots-Eingabe</h2>
   {vorschauFehler ? <div class="meldung meldung--fehler" role="alert"><p>{vorschauFehler}</p></div> : <pre class="yaml"><code>{vorschau}</code></pre>}

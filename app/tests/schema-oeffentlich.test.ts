@@ -8,6 +8,8 @@ import type { Db } from '../src/lib/db.ts';
 import type { Benutzer } from '../src/lib/auth.ts';
 import { HOSTING, HOSTING_TARIFE, PAKETE, PREIS_AB, euro } from '../src/lib/preise.ts';
 import { BRANCHEN_IDS } from '../src/lib/schema.ts';
+import stileDaten from '../src/data/stile.json';
+import stileTexte from '../../inhalt/stile.json';
 import { entscheideZugriff, istOeffentlichesSchema } from '../src/lib/zugriff.ts';
 import { neueDb, vertriebler } from './helfer.ts';
 
@@ -203,6 +205,18 @@ describe('Seite /schema', () => {
     expect(text).not.toMatch(/Präsentieren|Präsentation/);
     expect(text).not.toMatch(/Nachschicken|nach dem Termin schicken/i);
     expect(text).not.toMatch(/Vertriebler/);
+  });
+
+  // Entscheidung 07.10.2026: der Stil kommt ins Angebot, nicht ins Erstgespraech.
+  it('zeigt keine Stile und keine Bewegungsstufen', async () => {
+    const html = await rendere('handwerk');
+    const text = nurText(html);
+    // Werkstatt, Stille, Frisch und Raster sind auch gewoehnliche Woerter, darum mit "Stil" davor.
+    for (const s of stileDaten.stile) expect(text, s.name).not.toContain(`Stil ${s.name}`);
+    expect(text).not.toMatch(/Feuilleton|Plakat/);
+    for (const t of Object.values(stileTexte.stile)) expect(text).not.toContain(t.leitidee);
+    expect(text).not.toMatch(/Stil der Website|Bewegung auf der Seite|Standard der Branche/);
+    expect(html).not.toMatch(/data-feld="(stil|bewegung)"/);
   });
 
   it('enthaelt alle Schritte und die Branchen-Links auf /schema', async () => {
