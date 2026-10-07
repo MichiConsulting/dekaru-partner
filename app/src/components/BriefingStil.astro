@@ -61,7 +61,7 @@ const standards = Object.entries(BRIEFING_ZU_TEMPLATE)
         <label class="bs__wahl">
           <input type="radio" name={feld.name} value={s.kennung} checked={stilWert === s.kennung} />
           <span class="bs__text">
-            <strong>{s.name}</strong> <span class="bs__art">{s.beschreibung}, {modiText(s)}</span>
+            <strong>{s.name}</strong>{' '}<span class="bs__art">{s.beschreibung}, {modiText(s)}</span>
             <span class="bs__zeile">{s.leitidee}</span>
             <span class="bs__zeile">Passt zu: {s.passtZu}</span>
           </span>
