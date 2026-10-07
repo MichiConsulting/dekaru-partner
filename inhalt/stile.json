@@ -1,0 +1,53 @@
+{
+  "_hinweis": "Texte zu den Stilen und Bewegungsstufen fuer Briefing-Bogen und Admin-Ansicht. Von Hand gepflegt, Wortlaut wie in der Stiluebersicht (PDF). Welche Stile es gibt, bestimmt app/src/data/stile.json (npm run stile-sync). Nie im Schema des Erstgespraechs verwenden.",
+  "stile": {
+    "feuilleton": {
+      "beschreibung": "editorial",
+      "leitidee": "Die Website liest sich wie eine gute Wochenendbeilage: große Antiqua, Spalten, Bildunterschriften, nichts Lautes.",
+      "passtZu": "Maler, Tischler, Buchhandlung, Kanzlei, Restaurant mit Geschichte"
+    },
+    "raster": {
+      "beschreibung": "schweizerisch",
+      "leitidee": "Ordnung als Gestaltung: sichtbares 12er-Raster, große Grotesk, Zahlen und Linien statt Schmuck.",
+      "passtZu": "Elektro, Metallbau, Architektur, Steuerberatung, Fahrschule, Umzug"
+    },
+    "werkstatt": {
+      "beschreibung": "warm-handwerklich",
+      "leitidee": "Papier, Klebeband, Stempel und ehrliche Kanten: die Seite sieht aus, als hätte jemand mit Händen daran gearbeitet.",
+      "passtZu": "Maler, Schreiner, Bäckerei, Hofladen, Gärtnerei, Fahrradwerkstatt"
+    },
+    "plakat": {
+      "beschreibung": "mutig-plakativ",
+      "leitidee": "Ein Plakat an der Bauzaunwand: riesige schmale Versalien, eine kräftige Farbe, kurze Sätze.",
+      "passtZu": "Tattoo, Fitness, Kfz, Barbershop, Bar, Umzug, Abrissunternehmen"
+    },
+    "stille": {
+      "beschreibung": "ruhig-luxuriös",
+      "leitidee": "Viel Raum, wenig Worte, eine leise Antiqua: Qualität wird gezeigt, nicht behauptet.",
+      "passtZu": "Innenausbau, Kosmetik, Friseur, Hotel, Weingut, Architektur, Praxis"
+    },
+    "frisch": {
+      "beschreibung": "freundlich-verspielt",
+      "leitidee": "Gute Laune ohne Kitsch: weiche Kacheln, Pastellflächen, ein Aufkleber und klare Knöpfe.",
+      "passtZu": "Reinigung, Tierbetreuung, Kita-nahe Angebote, Eisdiele, Blumenladen, Nachhilfe"
+    }
+  },
+  "bewegung": {
+    "aus": {
+      "name": "Aus",
+      "erklaerung": "Nichts bewegt sich, alles steht sofort da. Für Betriebe, die gar keine Bewegung wollen."
+    },
+    "ruhig": {
+      "name": "Ruhig",
+      "erklaerung": "Abschnitte gleiten beim Scrollen sanft herein, Listen nacheinander, dazu ein kurzer Moment im Kopf der Seite. Der Standard."
+    },
+    "lebendig": {
+      "name": "Lebendig",
+      "erklaerung": "Dazu steigen Überschriften auf, Kennzahlen zählen hoch, Fotos bewegen sich leicht, unter dem Kopf läuft ein Band. Für Seiten mit vielen Fotos und Zahlen."
+    },
+    "verspielt": {
+      "name": "Verspielt",
+      "erklaerung": "Dazu folgen Knöpfe und Karten am Computer ein Stück dem Mauszeiger. Passt zu Plakat und Frisch und zu jungen Zielgruppen."
+    }
+  }
+}

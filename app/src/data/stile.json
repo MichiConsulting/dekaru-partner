@@ -1,0 +1,198 @@
+{
+  "_hinweis": "Erzeugt mit scripts/stile-sync.mjs aus dekaru-templates/_core/stile/stile.mjs. Nicht von Hand aendern. Texte mit Umlauten stehen in inhalt/stile.json. Nach jeder Aenderung an den Stilen: npm run stile-sync",
+  "quelle": "dekaru-templates, Branch stile, _core/stile/stile.mjs (noch nicht in main)",
+  "feld": {
+    "stil": "stil",
+    "bewegung": "bewegung"
+  },
+  "stile": [
+    {
+      "kennung": "feuilleton",
+      "name": "Feuilleton",
+      "leitideeQuelle": "Wie eine gut gesetzte Zeitungsseite: grosse Antiqua, feine Linien, Bildunterschriften.",
+      "schriften": [
+        "Newsreader",
+        "Public Sans"
+      ],
+      "modi": [
+        "hell"
+      ],
+      "heroStyles": [
+        "split",
+        "vollbild",
+        "zentriert"
+      ],
+      "bewegungNicht": [
+        "magnet",
+        "kippen",
+        "cursor"
+      ]
+    },
+    {
+      "kennung": "raster",
+      "name": "Raster",
+      "leitideeQuelle": "Sachlich und praezise: sichtbares Spaltenraster, schmale Grotesk, Nummern in Mono.",
+      "schriften": [
+        "Archivo",
+        "IBM Plex Mono"
+      ],
+      "modi": [
+        "hell",
+        "dunkel"
+      ],
+      "heroStyles": [
+        "split",
+        "vollbild",
+        "zentriert"
+      ],
+      "bewegungNicht": [
+        "kippen"
+      ]
+    },
+    {
+      "kennung": "werkstatt",
+      "name": "Werkstatt",
+      "leitideeQuelle": "Warm und gemacht: Papier, Fotoabzuege mit Klebeband, kraeftige Grotesk.",
+      "schriften": [
+        "Bricolage Grotesque",
+        "Source Serif 4"
+      ],
+      "modi": [
+        "hell"
+      ],
+      "heroStyles": [
+        "split",
+        "zentriert"
+      ],
+      "bewegungNicht": [
+        "cursor"
+      ]
+    },
+    {
+      "kennung": "plakat",
+      "name": "Plakat",
+      "leitideeQuelle": "Laut und direkt: sehr schmale Versalien, eine kraeftige Farbe, grosse Flaechen.",
+      "schriften": [
+        "Big Shoulders Display",
+        "Work Sans"
+      ],
+      "modi": [
+        "hell",
+        "dunkel"
+      ],
+      "heroStyles": [
+        "split",
+        "vollbild",
+        "zentriert"
+      ],
+      "bewegungNicht": []
+    },
+    {
+      "kennung": "stille",
+      "name": "Stille",
+      "leitideeQuelle": "Edel und zurueckhaltend: leise Antiqua, viel Flaeche, Rundbogen.",
+      "schriften": [
+        "Instrument Serif",
+        "Instrument Sans"
+      ],
+      "modi": [
+        "hell",
+        "dunkel"
+      ],
+      "heroStyles": [
+        "split",
+        "vollbild",
+        "zentriert"
+      ],
+      "bewegungNicht": [
+        "band",
+        "kippen",
+        "cursor"
+      ]
+    },
+    {
+      "kennung": "frisch",
+      "name": "Frisch",
+      "leitideeQuelle": "Freundlich und leicht: breite Grotesk, Pastellkacheln, runde Formen.",
+      "schriften": [
+        "Unbounded",
+        "DM Sans"
+      ],
+      "modi": [
+        "hell"
+      ],
+      "heroStyles": [
+        "split",
+        "zentriert"
+      ],
+      "bewegungNicht": []
+    }
+  ],
+  "standard": {
+    "handwerk": {
+      "hell": "werkstatt",
+      "dunkel": "raster"
+    },
+    "gastro": {
+      "hell": "feuilleton",
+      "dunkel": "stille"
+    },
+    "dienstleister": {
+      "hell": "stille",
+      "dunkel": "stille"
+    },
+    "gesundheit": {
+      "hell": "stille",
+      "dunkel": "stille"
+    },
+    "garten": {
+      "hell": "werkstatt",
+      "dunkel": "stille"
+    },
+    "reinigung": {
+      "hell": "frisch",
+      "dunkel": "raster"
+    },
+    "umzug": {
+      "hell": "raster",
+      "dunkel": "raster"
+    },
+    "tierbetreuung": {
+      "hell": "frisch",
+      "dunkel": "stille"
+    },
+    "fitness": {
+      "hell": "plakat",
+      "dunkel": "plakat"
+    },
+    "tattoo": {
+      "hell": "plakat",
+      "dunkel": "plakat"
+    }
+  },
+  "dunkleBranchen": [
+    "tattoo"
+  ],
+  "bewegung": {
+    "stufen": [
+      "aus",
+      "ruhig",
+      "lebendig",
+      "verspielt"
+    ],
+    "standard": "ruhig",
+    "bausteine": {
+      "einblenden": "ruhig",
+      "staffeln": "ruhig",
+      "hero": "ruhig",
+      "titel": "lebendig",
+      "zaehler": "lebendig",
+      "parallax": "lebendig",
+      "band": "lebendig",
+      "magnet": "verspielt",
+      "kippen": "verspielt",
+      "cursor": "verspielt"
+    }
+  },
+  "erzeugt": "2026-10-07"
+}
