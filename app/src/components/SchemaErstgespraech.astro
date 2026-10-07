@@ -459,23 +459,29 @@ const paketMitFunktion = PAKETE_MIT_FUNKTION.join(' und ');
                         <ul class="karten karten--blau">
                           {g.module.map((m, i) => (
                             <li class="karte-sc modul-karte" style={`--i:${i + 5}`}>
-                              <details class="modul-so">
-                                <summary>
-                                  {/* Das Mini-Schema steht nur in der gewaehlten Branche im Quelltext,
-                                      sonst sieben Mal dasselbe. Wechselt das Skript die Branche, kopiert
-                                      es die Schemata in die Platzhalter (scripts/schema.ts). Ohne Skript
-                                      ist nur die gewaehlte Branche zu sehen. */}
-                                  {b.id === branche.id ? <ModulSchema kurz={m.kurz} /> : <span class="ms-platz" data-ms-platz={m.kurz} aria-hidden="true" />}
-                                  <strong class="modul-so__name">{m.name}</strong>
-                                  <span class="modul-so__nutzen">{m.nutzen}</span>
-                                  <span class="modul-so__knopf">So funktioniert es</span>
-                                </summary>
-                                <ol class="modul-so__schritte">
-                                  {m.soGehts.map((s) => (
-                                    <li>{s}</li>
-                                  ))}
-                                </ol>
-                              </details>
+                              {/* Die Karte mit Mini-Schema, Nutzen und "So funktioniert es" steht nur in
+                                  der gewaehlten Branche im Quelltext, sonst bei zehn Modulen siebenmal
+                                  dasselbe (rund 60 KB). Wechselt das Skript die Branche, kopiert es die
+                                  Karten in die Platzhalter (scripts/schema.ts). Ohne Skript ist nur die
+                                  gewaehlte Branche zu sehen. Der Vormerken-Link bleibt je Branche, er
+                                  traegt die Branche in der Adresse. */}
+                              {b.id === branche.id ? (
+                                <details class="modul-so" data-modul-so={m.kurz}>
+                                  <summary>
+                                    <ModulSchema kurz={m.kurz} />
+                                    <strong class="modul-so__name">{m.name}</strong>
+                                    <span class="modul-so__nutzen">{m.nutzen}</span>
+                                    <span class="modul-so__knopf">So funktioniert es</span>
+                                  </summary>
+                                  <ol class="modul-so__schritte">
+                                    {m.soGehts.map((s) => (
+                                      <li>{s}</li>
+                                    ))}
+                                  </ol>
+                                </details>
+                              ) : (
+                                <span class="modul-platz" data-modul-platz={m.kurz} />
+                              )}
                               <a
                                 class="modul-wahl"
                                 role="button"

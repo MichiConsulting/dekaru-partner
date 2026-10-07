@@ -10,20 +10,25 @@
       "merke": "Ein Modul ist nicht die mitarbeitende Funktion. Die steckt im Paket Groß, ein Modul kommt einzeln dazu, ebenfalls nur zu Groß."
     },
     {
-      "titel": "Zwei Arten",
-      "icon": "bildschirm",
+      "titel": "Anfrage oder Buchung",
+      "icon": "kalender",
       "saetze": [
-        "Werkzeuge für den Inhaber laufen in der Werkbank, einer App im Browser auf seinem Gerät, oder in seiner Google-Tabelle. Funktionen für Besucher laufen auf der Website."
+        "Die Online-Terminanfrage steckt in jedem Paket Groß: Der Kunde schickt einen Wunsch, der Betrieb meldet sich zurück. Die Terminbuchung ist ein Modul dazu: Der Termin steht sofort im Kalender."
       ],
-      "grafik": "module-zwei-arten.svg",
-      "merke": "Heute verkaufbar sind sieben: zwei für Besucher, Kostenrechner und Anfrage mit Fotos, und fünf Werkzeuge für den Inhaber."
+      "liste": [
+        "Gastronomie: Tischanfrage im Paket, Tischreservierung als Modul",
+        "Mit Modul ersetzt die Buchung auf der Website die Anfrage",
+        "Nie sagen, Groß enthalte eine Buchung"
+      ],
+      "merke": "Die Anfrage bleibt im Paket Groß, die Buchung kostet extra."
     },
     {
-      "titel": "Die sieben Module",
+      "titel": "Die zehn Module",
       "icon": "liste",
       "saetze": [
-        "Jedes Modul ist in jeder Branche wählbar, die Branche ist nur eine Empfehlung. Was jedes Modul braucht, steht hier."
+        "Jedes Modul ist in jeder Branche wählbar, die Branche ist nur eine Empfehlung. Vier sind für Besucher der Website, sechs sind Werkzeuge für den Inhaber."
       ],
+      "grafik": "module-zwei-arten.svg",
       "tabelle": {
         "kopf": ["Modul", "Stufe", "Braucht"],
         "zeilen": [
@@ -33,10 +38,13 @@
           ["Speisekarte und Preisliste", "mittel", "nichts, Anthropic wahlweise"],
           ["Angebots-Assistent", "mittel", "Leistungsliste, Anthropic wahlweise"],
           ["Anfrage mit Fotos", "mittel", "Google Workspace"],
-          ["Lagerliste", "mittel", "Workspace für ein Team"]
+          ["Lagerliste", "mittel", "Workspace für ein Team"],
+          ["Terminbuchung", "groß", "Google-Kalender, Workspace empfohlen"],
+          ["Tischreservierung", "groß", "Google-Konto, Workspace empfohlen"],
+          ["Schichtplan", "groß", "Workspace für ein Team"]
         ]
       },
-      "merke": "Was es nicht gibt, gibt es nicht: keine Terminbuchung, keine Tischreservierung, kein Schichtplan, keine Reel-Werkstatt, auch nicht als \"kommt bald\"."
+      "merke": "Was nicht unter Verkaufshilfen steht, gibt es nicht, etwa die Reel-Werkstatt, auch nicht als \"kommt bald\"."
     },
     {
       "titel": "Werkbank, PIN und Sicherung",
@@ -52,18 +60,18 @@
       "saetze": [
         "Gespeichert wird auf dem Gerät des Inhabers oder in seinem Google-Konto, nie bei dekaru. Beim Kostenrechner geht das Ergebnis mit dem Kontaktformular über den Formulardienst, gespeichert wird dort nichts."
       ],
-      "merke": "\"dekaru ist nicht dazwischen\" gilt für Anfrage mit Fotos, Lagerliste und die Werkbank, nicht für den Kostenrechner."
+      "merke": "\"dekaru ist nicht dazwischen\" gilt für die Werkbank und alle Module mit Betriebs-Skript, nicht für den Kostenrechner."
     },
     {
       "titel": "KI, Google und Praxen",
       "icon": "warnung",
       "saetze": [
-        "KI läuft über einen eigenen Schlüssel des Betriebs bei Anthropic, kein Abo. Anfrage mit Fotos nur mit Google Workspace, die Lagerliste im Team ebenso."
+        "KI läuft über einen eigenen Schlüssel des Betriebs bei Anthropic, kein Abo. Workspace ist Pflicht für die Anfrage mit Fotos und für Lagerliste und Schichtplan im Team, empfohlen für Terminbuchung und Tischreservierung."
       ],
       "liste": [
         "Laufende KI-Kosten nur als \"Cent-Beträge bis wenige Euro im Monat\"",
-        "Praxen: keine Anfrage mit Fotos, Gesundheitsdaten",
-        "Praxen fragen nach Bewertungen oder Beiträgen: an Michael Henning verweisen"
+        "Praxen: keine Anfrage mit Fotos, Terminbuchung nur ohne Freitext",
+        "Schichtplan: keine Rechtsberatung, keine Zeiterfassung, keine Krankheitsgründe"
       ]
     },
     {
@@ -77,8 +85,8 @@
         "zeilen": [
           ["klein", "200 €", "70 €"],
           ["mittel", "300 €", "105 €"],
-          ["groß", "400 €", "heute keines"],
-          ["sehr groß", "500 €", "heute keines"]
+          ["groß", "400 €", "140 €"],
+          ["sehr groß", "500 €", "heute kein Modul"]
         ]
       },
       "merke": "Provision nur, wenn das Modul im Erstauftrag mitverkauft wird. Später gekauft: Folgegeschäft ohne Provision."

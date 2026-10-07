@@ -267,7 +267,7 @@ describe('Seite /schema', () => {
     expect(text).toContain('Kostenrechner für Ihre Kunden');
     expect(text).not.toMatch(/\b(\d+|ein|zwei|drei|vier|fünf|sechs|sieben|acht|zehn)\s+(Werk)?(Tagen?|Wochen?)\b/i);
     // Nicht verkaufbare Module tauchen nie auf.
-    expect(text).not.toMatch(/Terminbuchung|Tischreservierung|Reel-Werkstatt|Schicht- und Urlaubsplan/);
-    expect(text).toContain('Anfrage mit Fotos');
+    expect(text).not.toMatch(/Reel-Werkstatt/);
+    for (const name of ['Anfrage mit Fotos', 'Terminbuchung mit Erinnerung', 'Tischreservierung', 'Schicht- und Urlaubsplan']) expect(text).toContain(name);
   });
 });

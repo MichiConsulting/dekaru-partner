@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "stand": "2026-10-06",
+  "stand": "2026-10-07",
   "hinweis": "Texte zu den Software-Modulen, die ein Betrieb sehen darf: Schema, Steckbrief zum Zeigen, Preisrechner. Angezeigt wird ein Modul nur, wenn es in app/src/data/module.json steht (verkaufbar laut dekaru-rechnungen). Keine Preise in dieser Datei. Interne Hinweise für Vertriebler stehen in verkaufshilfen.json. soGehts sind genau drei kurze Schritte für das Mini-Schema.",
   "module": [
     {
@@ -238,6 +238,108 @@
         "Material nehmen und am Handy mit einem Knopf buchen.",
         "Der Bestand sinkt, unter dem Minimum rutscht der Artikel auf die Nachbestell-Liste.",
         "Je Lieferant eine Liste oder ein Mail-Entwurf, abschicken tun Sie."
+      ]
+    },
+    {
+      "schluessel": "modul-terminbuchung",
+      "name": "Terminbuchung mit Erinnerung",
+      "art": "besucher",
+      "kurz": "Ihre Kunden buchen einen freien Termin selbst, er steht sofort in Ihrem Google-Kalender, mit Erinnerung vorher.",
+      "schemaBranchen": ["friseur", "praxis"],
+      "templates": ["handwerk", "garten", "reinigung", "umzug", "dienstleister", "gastro", "gesundheit", "tierbetreuung", "fitness", "tattoo"],
+      "einleitung": "Im Paket Groß ist die Online-Terminanfrage schon enthalten: Ein Kunde schickt einen Wunschtermin, und Sie melden sich zurück. Mit der Terminbuchung wählt der Kunde Leistung, Tag und eine freie Uhrzeit, und der Termin steht sofort in Ihrem Google-Kalender, mit Bestätigung und Erinnerung. Auf Ihrer Website tritt die Buchung dann an die Stelle der Anfrage.",
+      "nutzen": [
+        "Kein Hin und Her: Der Kunde sieht nur wirklich freie Zeiten und bucht selbst, auch abends und am Wochenende.",
+        "Vor dem Termin geht eine Erinnerung per Mail an den Kunden.",
+        "Absagen und Verschieben erledigt der Kunde über einen Link, bis zu einer Frist, die Sie festlegen.",
+        "Was in Ihrem Kalender als beschäftigt steht, etwa Urlaub, ist für Buchungen gesperrt."
+      ],
+      "kannNicht": [
+        "Keine Anzahlung, keine Online-Zahlung, keine Warteliste, keine Serientermine.",
+        "Keine Wahl einer bestimmten Person. Dafür lassen sich Leistungen je Person anlegen.",
+        "Verschieben Sie selbst im Kalender, bekommt der Kunde keine Nachricht.",
+        "Jede Abfrage dauert ein paar Sekunden. Ohne JavaScript zeigt die Seite Telefon und Mail."
+      ],
+      "voraussetzungen": [
+        "Eine Website von dekaru im Paket Groß, in jeder Branche.",
+        "Ein Google-Konto mit Kalender. Empfohlen ist Google Workspace: Nur damit gibt es einen Vertrag zur Auftragsverarbeitung, und mit kostenlosem Gmail reicht die Mailgrenze nur für grob 30 Buchungen am Tag.",
+        "Keine KI, kein Konto bei Anthropic."
+      ],
+      "einrichtung": "Michael Henning richtet das Betriebs-Skript im Einrichtungstermin mit Ihnen in Ihrem Google-Konto ein, legt Ihre Leistungen an und verbindet alles mit Ihrer Website. Die Einrichtung ist im Preis enthalten.",
+      "daten": "Die Buchung geht direkt an das Betriebs-Skript in Ihrem Google-Konto, nicht über dekaru. Für freie Zeiten liest es nur Beginn und Ende Ihrer Termine, nie Titel oder Namen. Die Angaben in der Tabelle löschen sich nach einer Frist von selbst. Ihre Datenschutzerklärung bekommt einen eigenen Abschnitt.",
+      "laufend": "Einmal gekauft. Updates und Hilfe gibt es, solange Ihre Website bei Michael Henning gehostet wird. Das Skript selbst kostet bei Google nichts extra.",
+      "soGehts": [
+        "Der Kunde wählt Leistung und Tag und tippt eine freie Uhrzeit an.",
+        "Der Termin steht sofort in Ihrem Google-Kalender, ohne Rückruf.",
+        "Er bekommt eine Bestätigung und vor dem Termin eine Erinnerung per Mail."
+      ]
+    },
+    {
+      "schluessel": "modul-tischreservierung",
+      "name": "Tischreservierung",
+      "art": "besucher",
+      "kurz": "Gäste reservieren online nach Personenzahl, Tag und Uhrzeit, nur wenn wirklich ein passender Platz frei ist.",
+      "schemaBranchen": ["gastro"],
+      "templates": ["handwerk", "garten", "reinigung", "umzug", "dienstleister", "gastro", "gesundheit", "tierbetreuung", "fitness", "tattoo"],
+      "einleitung": "Im Paket Groß ist die Online-Tischanfrage schon enthalten: Ein Gast schickt seinen Wunsch, und Sie melden sich zurück. Mit der Tischreservierung wählt der Gast Personenzahl, Tag und Ankunftszeit und sieht nur Zeiten, zu denen ein passender Platz frei ist. Bestätigt wird automatisch oder nach Ihrem Blick in die Tabelle. Auf Ihrer Website tritt die Reservierung dann an die Stelle der Anfrage.",
+      "nutzen": [
+        "Weniger Telefon im Service, reserviert wird auch abends und am Wochenende.",
+        "Keine Überbuchung: Plätze oder Tische werden vor jeder Reservierung geprüft, auch telefonische, die Sie in die Tabelle eintragen.",
+        "Gäste ändern oder sagen per Link selbst ab, vorher kommt eine Erinnerung.",
+        "Große Gruppen bittet die Seite anzurufen. Ab wie vielen Personen, legen Sie fest."
+      ],
+      "kannNicht": [
+        "Kein Feld für Allergien oder Unverträglichkeiten, das wären Gesundheitsdaten. Gäste werden gebeten, das direkt anzusprechen.",
+        "Kein Tischplan und keine Wahl eines bestimmten Tisches.",
+        "Keine Anzahlung, keine Warteliste, keine Vorbestellung von Gerichten.",
+        "Ändern Sie selbst in der Tabelle, bekommt der Gast keine Nachricht. Ohne JavaScript zeigt die Seite Telefon und Mail."
+      ],
+      "voraussetzungen": [
+        "Eine Website von dekaru im Paket Groß, in jeder Branche, vor allem Gastronomie.",
+        "Ein Google-Konto. Empfohlen ist Google Workspace: Nur damit gibt es einen Vertrag zur Auftragsverarbeitung, und mit kostenlosem Gmail reicht die Mailgrenze nur für grob 25 bis 30 Reservierungen am Tag.",
+        "Keine KI, kein Konto bei Anthropic."
+      ],
+      "einrichtung": "Michael Henning richtet das Betriebs-Skript im Einrichtungstermin mit Ihnen ein: Reservierungszeiten, Plätze oder Tische, Aufenthaltsdauer und ob Sie selbst bestätigen. Die Einrichtung ist im Preis enthalten.",
+      "daten": "Die Reservierung geht direkt an das Betriebs-Skript in Ihrem Google-Konto, nicht über dekaru. Den Anlass wählt der Gast aus einer festen Liste, ein kurzer Hinweis lässt sich abschalten. Die Angaben löschen sich nach einer Frist nach dem Besuch von selbst. Ihre Datenschutzerklärung bekommt einen eigenen Abschnitt.",
+      "laufend": "Einmal gekauft. Updates und Hilfe gibt es, solange Ihre Website bei Michael Henning gehostet wird. Das Skript selbst kostet bei Google nichts extra.",
+      "soGehts": [
+        "Der Gast wählt Personenzahl, Tag und eine freie Ankunftszeit.",
+        "Ein passender Tisch wird belegt, doppelt vergeben wird nichts.",
+        "Der Gast bekommt die Bestätigung per Mail, mit Link zum Ändern."
+      ]
+    },
+    {
+      "schluessel": "modul-schichtplan",
+      "name": "Schicht- und Urlaubsplan",
+      "art": "inhaber",
+      "kurz": "Sie planen die Woche am Handy oder Rechner, Ihr Team sieht seinen Plan und beantragt dort Urlaub.",
+      "schemaBranchen": ["gastro", "friseur"],
+      "templates": ["handwerk", "garten", "reinigung", "umzug", "dienstleister", "gastro", "gesundheit", "tierbetreuung", "fitness", "tattoo"],
+      "einleitung": "Ihr Dienstplan liegt in einer Google-Tabelle Ihres Betriebs, dazu kommt eine Seite fürs Handy, die nur Konten Ihres Betriebs öffnen. Sie füllen ein Wochenraster mit Schichten und veröffentlichen, erst dann sieht Ihr Team den Plan. Mitarbeitende beantragen dort Urlaub, Sie genehmigen. Beim Planen warnt der Plan, etwa bei zu kurzer Ruhezeit.",
+      "nutzen": [
+        "Ein Plan für alle, aktuell am Handy, statt Aushang und Fotos im Gruppenchat.",
+        "Warnungen schon beim Planen: zu kurze Ruhezeit, zu lange Dienste, fehlende Pausen, doppelte Schichten, Minijob-Grenze.",
+        "Urlaubsanträge mit Urlaubskonto je Person, ohne Zettel und ohne Gründe.",
+        "Die geplanten Stunden je Monat als Datei für Lohnbüro oder Steuerberatung."
+      ],
+      "kannNicht": [
+        "Keine Rechtsberatung. Die Prüfungen warnen nur und sperren nichts, Tarifverträge können abweichen.",
+        "Keine Zeiterfassung. Die tatsächliche Arbeitszeit erfassen Sie weiter selbst.",
+        "Keine Gründe und keine Krankmeldungen: Krankheit steht nur als abwesend im Plan.",
+        "Keine Tauschbörse, keine Prüfung für Jugendliche und Schwangere, nichts ohne Netz."
+      ],
+      "voraussetzungen": [
+        "Eine Website von dekaru im Paket Groß, in jeder Branche.",
+        "Google Workspace, damit jede Person mit dem eigenen Konto nur sieht, was sie sehen darf. Mit kostenlosem Gmail plant nur der Inhaber selbst.",
+        "Ein Handy oder Rechner mit Browser je Person. Keine KI, kein Konto bei Anthropic."
+      ],
+      "einrichtung": "Michael Henning richtet den Plan im Einrichtungstermin mit Ihnen in Ihrem Google-Konto ein: Team, Schichten, Urlaubsanspruch und die Seite auf den Handys. Die Einrichtung ist im Preis enthalten.",
+      "daten": "Plan, Anträge und Stunden liegen in Ihrer Google-Tabelle, nicht bei dekaru. Es sind Daten Ihrer Beschäftigten: Sagen Sie Ihrem Team vorher, wozu der Plan dient und wer was sieht. Mitarbeitende sehen nur den veröffentlichten Plan und ihre eigenen Daten. Gibt es einen Betriebsrat, bestimmt er mit.",
+      "laufend": "Einmal gekauft. Updates und Hilfe gibt es, solange Ihre Website bei Michael Henning gehostet wird. Das Skript selbst kostet bei Google nichts extra.",
+      "soGehts": [
+        "Sie füllen das Wochenraster mit Schichten und veröffentlichen den Plan.",
+        "Ist eine Ruhezeit zu kurz, zeigt der Plan eine Warnung.",
+        "Mitarbeitende beantragen Urlaub am Handy, Sie genehmigen mit einem Tipp."
       ]
     }
   ]

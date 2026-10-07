@@ -124,10 +124,10 @@ describe('Angebots-YAML', () => {
     expect(t).toMatch(/beschreibung: "Software-Modul: Kostenrechner für Ihre Kunden, einmalig, Einrichtung inklusive"\n    menge: 1\n    einheit: "Pauschale"\n    einzelpreis: 200\.00/);
     // Ein nicht verkaufbares Modul landet nie als Position im Angebot.
     const b = bogen({ ...GROSS, 'z_gbp-einrichtung': '' });
-    b.daten.auswahl.module = ['modul-terminbuchung'];
+    b.daten.auswahl.module = ['modul-reel-werkstatt'];
     const t2 = erzeugeAngebotYaml(b, KONTEXT).inhalt;
     expect(t2).not.toMatch(/^positionen:/m);
-    expect(t2).toMatch(/# Modul modul-terminbuchung ist zurzeit nicht verkaufbar/);
+    expect(t2).toMatch(/# Modul modul-reel-werkstatt ist zurzeit nicht verkaufbar/);
   });
 
   it('lehnt einen Bogen ohne Paket ab', () => {

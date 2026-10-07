@@ -81,7 +81,7 @@ describe('Module im Portal', () => {
     expect(ZWEITTERMIN?.schritte.length).toBeGreaterThanOrEqual(2);
   });
 
-  it('heute sind die sieben gebauten Module verkaufbar, mit Preis nach Stufe und 35 % Provision', () => {
+  it('heute sind die zehn gebauten Module verkaufbar, mit Preis nach Stufe und 35 % Provision', () => {
     expect(VERKAUFBARE_MODULE.map((m) => [m.schluessel, m.preis, m.provision])).toEqual([
       ['modul-kostenrechner', 200, 70],
       ['modul-beitrags-schreiber', 200, 70],
@@ -90,6 +90,9 @@ describe('Module im Portal', () => {
       ['modul-angebots-assistent', 300, 105],
       ['modul-anfrage-fotos', 300, 105],
       ['modul-lagerliste', 300, 105],
+      ['modul-terminbuchung', 400, 140],
+      ['modul-tischreservierung', 400, 140],
+      ['modul-schichtplan', 400, 140],
     ]);
     const k = VERKAUFBARE_MODULE[0];
     expect(k.name).toBe('Kostenrechner für Ihre Kunden');
@@ -117,9 +120,52 @@ describe('Module im Portal', () => {
   });
 
   it('Werkzeuge fuer den Inhaber nennen PIN und Sicherung ehrlich', () => {
-    for (const m of VERKAUFBARE_MODULE.filter((x) => x.art === 'inhaber' && x.schluessel !== 'modul-lagerliste')) {
+    // Nur die Werkbank hat eine PIN. Lagerliste und Schichtplan laufen in einer Google-Tabelle.
+    for (const m of VERKAUFBARE_MODULE.filter((x) => x.art === 'inhaber' && !['modul-lagerliste', 'modul-schichtplan'].includes(x.schluessel))) {
       expect(m.voraussetzungen.join(' '), m.schluessel).toMatch(/PIN mit mindestens 8 Zeichen/);
       expect(m.laufend, m.schluessel).toMatch(/Sicherung/);
+    }
+  });
+
+  it('Terminbuchung und Tischreservierung: Weiterentwicklung der Anfrage, die im Paket Groß enthalten bleibt', () => {
+    const t = VERKAUFBARE_MODULE.find((m) => m.schluessel === 'modul-terminbuchung')!;
+    const r = VERKAUFBARE_MODULE.find((m) => m.schluessel === 'modul-tischreservierung')!;
+    expect(t.art).toBe('besucher');
+    expect(r.art).toBe('besucher');
+    expect(t.einleitung).toMatch(/Im Paket Groß ist die Online-Terminanfrage schon enthalten/);
+    expect(r.einleitung).toMatch(/Im Paket Groß ist die Online-Tischanfrage schon enthalten/);
+    for (const m of [t, r]) {
+      expect(m.einleitung, m.schluessel).toMatch(/an die Stelle der Anfrage/);
+      expect(m.fragen[0].frage, m.schluessel).toMatch(/im Paket Groß schon dabei/);
+      expect(m.fragen[0].antwort, m.schluessel).toMatch(/bleibt im Paket Groß enthalten/);
+      expect(m.intern.join(' '), m.schluessel).toMatch(/mitarbeitende Funktion und bleibt im Paket Groß enthalten/);
+      // Workspace ist hier Empfehlung, mit der ehrlichen Mailgrenze von Gmail.
+      expect(m.voraussetzungen.join(' '), m.schluessel).toMatch(/Empfohlen ist Google Workspace/);
+      expect(m.voraussetzungen.join(' '), m.schluessel).toMatch(/Gmail/);
+    }
+    // Praxen: Buchung ohne Freitext, Schweigepflicht klaert Michael Henning.
+    expect(t.schemaBranchen).toContain('praxis');
+    expect(t.intern.join(' ')).toMatch(/Schweigepflicht/);
+    expect(t.intern.join(' ')).toMatch(/ohne Freitext/);
+    // Kein Feld fuer Allergien, das waeren Gesundheitsdaten.
+    expect(r.kannNicht.join(' ')).toMatch(/Kein Feld für Allergien/);
+    expect(r.schemaBranchen).toEqual(['gastro']);
+  });
+
+  it('Schichtplan: Werkzeug fuer den Betrieb, Workspace fuers Team, keine Gruende, keine Rechtsberatung', () => {
+    const s = VERKAUFBARE_MODULE.find((m) => m.schluessel === 'modul-schichtplan')!;
+    expect(s.art).toBe('inhaber');
+    expect(s.voraussetzungen.join(' ')).toMatch(/Google Workspace/);
+    expect(s.kannNicht.join(' ')).toMatch(/Keine Rechtsberatung/);
+    expect(s.kannNicht.join(' ')).toMatch(/Keine Zeiterfassung/);
+    expect(s.kannNicht.join(' ')).toMatch(/Keine Gründe und keine Krankmeldungen/);
+    expect(s.intern.join(' ')).toMatch(/Betriebsrat/);
+    expect(s.schemaBranchen).not.toContain('praxis');
+  });
+
+  it('die drei grossen Module muessen vor dem ersten Verkauf einmal echt laufen', () => {
+    for (const k of ['modul-terminbuchung', 'modul-tischreservierung', 'modul-schichtplan']) {
+      expect(VERKAUFBARE_MODULE.find((m) => m.schluessel === k)!.intern.join(' '), k).toMatch(/vor dem ersten Verkauf einmal echt/);
     }
   });
 
@@ -169,13 +215,13 @@ describe('Module im Portal', () => {
 
 describe('Module im Preisrechner', () => {
   it('liest m_<schluessel> nur fuer verkaufbare Module', () => {
-    const a = auswahlAusFeldern({ 'm_modul-kostenrechner': 'on', 'm_modul-terminbuchung': 'on' });
+    const a = auswahlAusFeldern({ 'm_modul-kostenrechner': 'on', 'm_modul-reel-werkstatt': 'on' });
     expect(a.module).toEqual(['modul-kostenrechner']);
   });
 
   it('rechnet Module ins Einmalige und in die Provision', () => {
     const ohne = berechne(leereAuswahl('gross'));
-    const mit = berechne({ ...leereAuswahl('gross'), module: ['modul-kostenrechner', 'modul-kostenrechner', 'modul-terminbuchung'] });
+    const mit = berechne({ ...leereAuswahl('gross'), module: ['modul-kostenrechner', 'modul-kostenrechner', 'modul-reel-werkstatt'] });
     expect(mit.summeModule).toBe(200);
     expect(mit.summeEinmalig).toBe(ohne.summeEinmalig + 200);
     expect(mit.provisionEinmalig).toBe(ohne.provisionEinmalig + 70);
@@ -226,12 +272,12 @@ describe('Module im Schema: in jeder Branche, Empfehlung zuerst', () => {
     expect(moduleFuerSchema('gastro', daten).weitere.map((m) => m.kurz)).toEqual(['b', 'c']);
   });
 
-  it('heute: alle sieben Module in jeder Branche, Empfehlung nach Branche', () => {
+  it('heute: alle zehn Module in jeder Branche, Empfehlung nach Branche', () => {
     const erwartet: Record<string, string[]> = {
       handwerk: ['modul-kostenrechner', 'modul-beitrags-schreiber', 'modul-bewertungs-assistent', 'modul-angebots-assistent', 'modul-anfrage-fotos', 'modul-lagerliste'],
-      gastro: ['modul-beitrags-schreiber', 'modul-bewertungs-assistent', 'modul-speisekarte'],
-      friseur: ['modul-beitrags-schreiber', 'modul-bewertungs-assistent', 'modul-speisekarte'],
-      praxis: [],
+      gastro: ['modul-beitrags-schreiber', 'modul-bewertungs-assistent', 'modul-speisekarte', 'modul-tischreservierung', 'modul-schichtplan'],
+      friseur: ['modul-beitrags-schreiber', 'modul-bewertungs-assistent', 'modul-speisekarte', 'modul-terminbuchung', 'modul-schichtplan'],
+      praxis: ['modul-terminbuchung'],
       umzug: ['modul-kostenrechner', 'modul-beitrags-schreiber', 'modul-bewertungs-assistent', 'modul-anfrage-fotos'],
       reinigung: ['modul-kostenrechner', 'modul-beitrags-schreiber', 'modul-bewertungs-assistent', 'modul-anfrage-fotos'],
       garten: ['modul-kostenrechner', 'modul-beitrags-schreiber', 'modul-bewertungs-assistent', 'modul-angebots-assistent', 'modul-anfrage-fotos', 'modul-lagerliste'],
@@ -239,7 +285,7 @@ describe('Module im Schema: in jeder Branche, Empfehlung zuerst', () => {
     for (const b of BRANCHEN_IDS) {
       const r = moduleFuerSchema(b);
       expect(r.empfohlen.map((m) => m.schluessel), b).toEqual(erwartet[b]);
-      expect([...r.empfohlen, ...r.weitere].length, b).toBe(7);
+      expect([...r.empfohlen, ...r.weitere].length, b).toBe(10);
     }
   });
 

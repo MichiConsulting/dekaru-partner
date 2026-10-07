@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "stand": "2026-10-06",
+  "stand": "2026-10-07",
   "titel": "Gesprächshilfe für Vertriebler",
   "einleitung": "Sechs Sätze lernen Sie wortgleich, alles andere sagen Sie in eigenen Worten.",
   "themen": [
@@ -419,17 +419,17 @@
       "id": "g41",
       "thema": "Software",
       "frage": "Geht das auch ganz ohne KI?",
-      "antwort": "Ja. Kostenrechner, Speisekarte und Lagerliste brauchen keine KI. Auch die Werkbank läuft ohne Schlüssel, dann eben ohne die KI-Helfer. Nur der Beitrags-Schreiber braucht ihn immer.",
+      "antwort": "Ja. Kostenrechner, Speisekarte, Lagerliste, Terminbuchung, Tischreservierung und Schichtplan brauchen keine KI. Auch die Werkbank läuft ohne Schlüssel, dann eben ohne die KI-Helfer. Nur der Beitrags-Schreiber braucht ihn immer.",
       "pflicht": false,
-      "hinweis": "Beim Bewertungs-Assistenten gehen ohne Schlüssel nur die fertigen Vorlagen, beim Angebots-Assistenten alles von Hand, die Anfrage mit Fotos ohne Assistent. Den Schlüssel kann der Betrieb später nachrüsten, das richtet Michael Henning ein. Google Workspace für Anfrage mit Fotos und Lagerliste bezahlt der Betrieb selbst bei Google, dazu keine Zahl nennen."
+      "hinweis": "Beim Bewertungs-Assistenten gehen ohne Schlüssel nur die fertigen Vorlagen, beim Angebots-Assistenten alles von Hand, die Anfrage mit Fotos ohne Assistent. Den Schlüssel kann der Betrieb später nachrüsten, das richtet Michael Henning ein. Google Workspace bezahlt der Betrieb selbst bei Google, dazu keine Zahl nennen."
     },
     {
       "id": "g42",
       "thema": "Software",
       "frage": "Wo liegen meine Daten? Sieht Herr Henning meine Anfragen?",
-      "antwort": "Bei Herrn Henning landet nichts. Die Werkzeuge der Werkbank speichern auf Ihrem Gerät, die Anfrage mit Fotos und die Lagerliste in Ihrem eigenen Google-Konto. Der Kostenrechner schickt sein Ergebnis mit dem normalen Kontaktformular, wie jede Anfrage, ohne dass etwas gespeichert wird.",
+      "antwort": "Bei Herrn Henning landet nichts. Die Werkzeuge der Werkbank speichern auf Ihrem Gerät. Anfrage mit Fotos, Terminbuchung, Tischreservierung, Lagerliste und Schichtplan speichern in Ihrem eigenen Google-Konto, Fotos etwa in einem Ordner in Ihrem Drive, ohne Standortdaten. Der Kostenrechner schickt sein Ergebnis mit dem normalen Kontaktformular, wie jede Anfrage, ohne dass etwas gespeichert wird.",
       "pflicht": false,
-      "hinweis": "Nicht sagen, dass dekaru beim Kostenrechner gar nicht dazwischen ist: das Ergebnis läuft wie jede Anfrage über den Formulardienst. \"Ihre Daten bleiben bei Ihnen\" stimmt für die Werkbank, die Anfrage mit Fotos und die Lagerliste."
+      "hinweis": "Nicht sagen, dass dekaru beim Kostenrechner gar nicht dazwischen ist: das Ergebnis läuft wie jede Anfrage über den Formulardienst. \"Ihre Daten bleiben bei Ihnen\" stimmt für die Werkbank und alle Module mit Betriebs-Skript. Die Anfrage mit Fotos nie für Praxen und nie für Fotos von Personen oder Beschwerden, das wären Gesundheitsdaten. Die Fotos löschen sich nach einer Frist, die der Betrieb festlegt."
     },
     {
       "id": "g43",
@@ -451,9 +451,9 @@
       "id": "g48",
       "thema": "Software",
       "frage": "Haben Sie auch eine Online-Terminbuchung oder Tischreservierung?",
-      "antwort": "Heute nicht als feste Buchung. Mit dem Paket Groß kommen Terminwünsche als Anfrage per Mail, und Sie bestätigen selbst.",
+      "antwort": "Ja, als Modul zum Paket Groß. Im Paket ist die Terminanfrage schon dabei: Ihre Kunden schicken einen Wunschtermin, und Sie melden sich zurück. Mit der Terminbuchung wählen sie selbst eine freie Zeit, und der Termin steht sofort in Ihrem Kalender, mit Erinnerung vorher. Für Restaurants gibt es das Gleiche als Tischreservierung.",
       "pflicht": false,
-      "hinweis": "Nur anbieten, was unter Verkaufshilfen steht. Terminbuchung und Reservierung mit Kalender sind nicht verkaufbar, nichts als \"kommt bald\" ankündigen."
+      "hinweis": "Die Anfrage bleibt im Paket Groß enthalten, die Buchung kostet extra und ersetzt auf der Website die Anfrage. Nie sagen, Groß enthalte die Buchung. Den Modulpreis nur in Stufe 2 aus dem Preisrechner. Gebucht wird nur in Kalendern, die dem Google-Konto des Betriebs gehören, je Person legt Michael Henning einen an. Praxen: Buchung nur ohne Freitext, Schweigepflicht klärt Michael Henning. Keine Anzahlung, keine Warteliste, kein Tischplan versprechen."
     },
     {
       "id": "g49",
@@ -483,17 +483,17 @@
       "id": "g53",
       "thema": "Software",
       "frage": "Brauche ich dafür Google Workspace?",
-      "antwort": "Für die Anfrage mit Fotos ja, und für die Lagerliste, wenn Ihr Team bucht. Nur mit Workspace gibt es einen Vertrag mit Google zur Auftragsverarbeitung. Für die übrigen Module brauchen Sie kein Google-Konto.",
+      "antwort": "Für die Anfrage mit Fotos ja, und für Lagerliste und Schichtplan, wenn Ihr Team damit arbeitet. Für Terminbuchung und Tischreservierung empfohlen, denn mit kostenlosem Gmail begrenzt Google die Mails, das reicht nur für grob 30 Buchungen am Tag. Nur mit Workspace gibt es einen Vertrag mit Google zur Auftragsverarbeitung. Die übrigen Module brauchen kein Google-Konto.",
       "pflicht": false,
-      "hinweis": "Workspace bezahlt der Betrieb selbst bei Google, keine Zahl nennen. Ohne Workspace keine Anfrage mit Fotos, auch nicht \"erst mal mit Gmail\". Bucht bei der Lagerliste nur der Inhaber allein, klärt Michael Henning das."
+      "hinweis": "Workspace bezahlt der Betrieb selbst bei Google, keine Zahl nennen. Ohne Workspace keine Anfrage mit Fotos, auch nicht \"erst mal mit Gmail\". Arbeitet bei Lagerliste oder Schichtplan nur der Inhaber allein, klärt Michael Henning das."
     },
     {
-      "id": "g54",
+      "id": "g55",
       "thema": "Software",
-      "frage": "Wo landen die Fotos, die meine Kunden schicken?",
-      "antwort": "In einem eigenen Ordner in Ihrem Google Drive, nicht bei Herrn Henning. Sie bekommen eine Mail mit dem Link. Standortdaten werden schon vorher entfernt, und die Fotos löschen sich nach einer Frist, die Sie festlegen.",
+      "frage": "Kann ich damit auch den Dienstplan für mein Team machen?",
+      "antwort": "Ja, mit dem Schicht- und Urlaubsplan. Sie planen die Woche am Handy oder Rechner, Ihr Team sieht den Plan und beantragt dort Urlaub, Sie genehmigen. Beim Planen warnt er, etwa wenn eine Ruhezeit zu kurz ist. Eine Zeiterfassung ist er nicht, die geleistete Arbeitszeit erfassen Sie weiter selbst.",
       "pflicht": false,
-      "hinweis": "Nicht für Praxen und nicht für Fotos von Personen oder Beschwerden, das wären Gesundheitsdaten. Fragt eine Praxis danach, an Michael Henning verweisen. Der Assistent ist freiwillig, dann gehen Beschreibung und Fotos auch an Anthropic."
+      "hinweis": "Keine Rechtsberatung, die Warnungen sperren nichts. Krankheit nur als abwesend, ohne Grund. Fürs Team nur mit Google Workspace. Gibt es einen Betriebsrat, als Hinweis an Michael Henning weitergeben."
     }
   ]
 }

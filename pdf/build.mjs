@@ -31,7 +31,7 @@ const INHALT = join(REPO, "inhalt");
 const BUILD = join(HIER, "build");
 const PDF = join(HIER, "dekaru-informationsblatt-vertrieb.pdf");
 const ABLAGE = resolve(REPO, "..", "_ablage", "dekaru-informationsblatt-vertrieb.pdf");
-const STAND = "06.10.2026";
+const STAND = "07.10.2026";
 const NUR_HTML = process.argv.includes("--html");
 
 // ---------------------------------------------------------------- Markdown

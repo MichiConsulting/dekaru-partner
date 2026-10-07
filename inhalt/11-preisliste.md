@@ -1,7 +1,7 @@
 ---
 nummer: 11
 titel: Preisliste für Vertriebler
-kurz: Pakete, Zusatzbausteine, Hosting-Stufen, Software-Module und Zusatzleistungen auf einer Seite. Stand 06.10.2026.
+kurz: Pakete, Zusatzbausteine, Hosting-Stufen, Software-Module und Zusatzleistungen auf einer Seite. Stand 07.10.2026.
 ---
 
 # Preisliste für Vertriebler
@@ -84,12 +84,15 @@ Nur zum Paket Groß, wie die mitarbeitende Funktion. Einmalpreis je Modul, Einri
 | Angebots-Assistent Handwerk | mittel | 300 € einmalig | 105 € | Handwerk, Garten- und Landschaftsbau |
 | Anfrage mit Fotos | mittel | 300 € einmalig | 105 € | Handwerk, Garten- und Landschaftsbau, Reinigung, Umzug. Nur mit Google Workspace, nie für Praxen |
 | Material- und Lagerliste | mittel | 300 € einmalig | 105 € | Handwerk, Garten- und Landschaftsbau. Für ein Team nur mit Google Workspace |
+| Terminbuchung mit Erinnerung | groß | 400 € einmalig | 140 € | Friseur und Kosmetik, Praxis. Workspace empfohlen |
+| Tischreservierung | groß | 400 € einmalig | 140 € | Gastronomie. Workspace empfohlen |
+| Schicht- und Urlaubsplan | groß | 400 € einmalig | 140 € | Gastronomie, Friseur und Kosmetik. Für ein Team nur mit Google Workspace |
 
-Die Stufen groß (400 €) und sehr groß (500 €) sind heute leer: Terminbuchung, Tischreservierung, Schichtplan und Reel-Werkstatt gibt es nicht zu kaufen.
+Die Stufe sehr groß (500 €) ist heute leer: Die Reel-Werkstatt gibt es nicht zu kaufen. Terminbuchung und Tischreservierung kommen zur Online-Terminanfrage im Paket Groß dazu, sie sind nicht dasselbe.
 
 Jedes Modul ist in jeder Branche wählbar. Die Spalte "Passt oft zu" ist nur eine Empfehlung.
 
-Provision 35 %, wenn das Modul im Erstauftrag mitverkauft wird. Module mit KI (Beitrags-Schreiber, Bewertungs-Assistent, wahlweise Speisekarte, Angebots-Assistent und der Assistent der Anfrage mit Fotos): der Betrieb zahlt seinen Verbrauch bei Anthropic selbst, das ist kein Preis von dekaru. Google Workspace bezahlt der Betrieb ebenfalls selbst bei Google.
+Provision 35 %, wenn das Modul im Erstauftrag mitverkauft wird. Module mit KI (Beitrags-Schreiber, Bewertungs-Assistent, wahlweise Speisekarte, Angebots-Assistent und der Assistent der Anfrage mit Fotos): der Betrieb zahlt seinen Verbrauch bei Anthropic selbst, das ist kein Preis von dekaru. Google Workspace bezahlt der Betrieb ebenfalls selbst bei Google. Terminbuchung, Tischreservierung und Schichtplan nutzen keine KI.
 
 ## Zusatzleistungen
 
