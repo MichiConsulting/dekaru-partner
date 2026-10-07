@@ -318,10 +318,6 @@
           "antwort": "Ja, ohne Freitextfeld. Patienten wählen nur Leistung und Zeit, Angaben zur Gesundheit fragt die Buchung nicht ab, und die Leistungen heißen neutral. Was die Schweigepflicht im Einzelnen verlangt, klärt Herr Henning vor der Einrichtung mit Ihnen."
         },
         {
-          "frage": "Kann der Kunde online bezahlen oder eine bestimmte Mitarbeiterin wählen?",
-          "antwort": "Bezahlen nicht, es gibt keine Anzahlung und keine Online-Zahlung. Eine Person wählt er über die Leistung: Wer das möchte, legt Leistungen je Person an, jeweils mit einem eigenen Kalender in Ihrem Konto."
-        },
-        {
           "frage": "Muss ich das selbst einrichten?",
           "antwort": "Nein. Herr Henning richtet das Programm in Ihrem Google-Konto gemeinsam mit Ihnen ein und verbindet es mit der Website. Das ist im Preis enthalten."
         }
@@ -331,14 +327,13 @@
         "Die Online-Terminanfrage ist die mitarbeitende Funktion und bleibt im Paket Groß enthalten. Die Terminbuchung ist ihre Weiterentwicklung als Modul: Bei der Anfrage meldet sich der Betrieb zurück, bei der Buchung steht der Termin sofort im Kalender. Nie sagen, Groß enthalte die Buchung, und nie, Groß verliere etwas.",
         "Praxen: Die Buchung läuft ohne Freitext, das Feld Anmerkung bleibt aus, die Leistungen heißen neutral, etwa Behandlung 30 Minuten. Schweigepflicht und Berufsrecht prüft Michael Henning vor dem ersten Praxis-Kunden. Sie sagen dazu nichts zu.",
         "Google Workspace ist Empfehlung, nicht Pflicht. Mit Gmail gibt es keinen Vertrag zur Auftragsverarbeitung und nur rund 100 Mails am Tag, das sind grob 30 Buchungen. Bei vollen Terminbüchern Workspace.",
-        "Läuft im Google-Konto des Betriebs, dekaru ist nicht dazwischen und sieht keine Termine.",
-        "Noch nie in einem echten Google-Konto gelaufen. Michael Henning testet vor dem ersten Verkauf einmal echt.",
+        "Läuft im Google-Konto des Betriebs, dekaru ist nicht dazwischen und sieht keine Termine. Noch nie in einem echten Google-Konto gelaufen: Michael Henning testet vor dem ersten Verkauf einmal echt.",
         "Die Einrichtung macht Michael Henning. Sie nehmen keine Zugangsdaten auf."
       ]
     },
     {
       "schluessel": "modul-tischreservierung",
-      "fuerWen": "Betriebe mit Paket Groß, die Tische vergeben: Restaurants, Cafés, Bars. Wählbar in jeder Branche. Voraussetzung ist ein Google-Konto, empfohlen ist Google Workspace.",
+      "fuerWen": "Betriebe mit Paket Groß, die Tische vergeben: Restaurants, Cafés, Bars. Ein Google-Konto ist nötig, Workspace empfohlen.",
       "einstieg": "Sie hatten erzählt, dass im vollen Service ständig das Telefon wegen Tischen klingelt: Wäre es eine Hilfe, wenn Gäste online reservieren und nur Zeiten sehen, zu denen wirklich ein Tisch frei ist?",
       "fragen": [
         {
@@ -358,10 +353,6 @@
           "antwort": "Dafür gibt es bewusst kein Feld, das wären Gesundheitsdaten. Website und Bestätigung bitten den Gast, Allergien direkt bei Ihnen anzusprechen."
         },
         {
-          "frage": "Was ist mit großen Gruppen?",
-          "antwort": "Die größte Gruppe für online legen Sie fest. Wer mit mehr Personen kommt, wird gebeten anzurufen."
-        },
-        {
           "frage": "Brauche ich dafür Google Workspace?",
           "antwort": "Empfohlen ja. Nur damit gibt es einen Vertrag mit Google zur Auftragsverarbeitung, und mit kostenlosem Gmail sind wegen der Mailgrenze von Google nur grob 25 bis 30 Reservierungen am Tag möglich, an einem vollen Samstag zu wenig."
         },
@@ -373,12 +364,9 @@
       "intern": [
         "Nur zum Paket Groß. Im Erstgespräch nur den Nutzen, keinen Preis. Stufe groß.",
         "In der Gastronomie ist die Online-Tischanfrage die mitarbeitende Funktion und bleibt im Paket Groß enthalten. Die Tischreservierung ist ein Modul dazu: Bei der Anfrage meldet sich der Betrieb zurück, bei der Reservierung ist der Tisch sofort belegt. Nie sagen, Groß enthalte die Reservierung.",
-        "Allergien und Unverträglichkeiten nie online abfragen, auch nicht im Hinweisfeld anregen. Das sind Gesundheitsdaten nach Art. 9 DSGVO.",
-        "Kein Tischplan, keine Tischwahl durch den Gast, keine Anzahlung, keine Warteliste. Nichts davon versprechen.",
-        "Google Workspace ist Empfehlung, nicht Pflicht. Mit Gmail grob 25 bis 30 Reservierungen am Tag, für ein volles Restaurant zu wenig. Das ehrlich sagen.",
-        "Läuft im Google-Konto des Betriebs, dekaru ist nicht dazwischen und sieht keine Reservierungen.",
-        "Noch nie in einem echten Google-Konto gelaufen. Michael Henning testet vor dem ersten Verkauf einmal echt.",
-        "Die Einrichtung macht Michael Henning. Sie nehmen keine Zugangsdaten auf."
+        "Allergien und Unverträglichkeiten nie online abfragen, auch nicht im Hinweisfeld anregen, das sind Gesundheitsdaten nach Art. 9 DSGVO. Auch keinen Tischplan, keine Anzahlung und keine Warteliste versprechen.",
+        "Workspace ist Empfehlung, nicht Pflicht. Mit Gmail grob 25 bis 30 Reservierungen am Tag.",
+        "Läuft im Google-Konto des Betriebs, dekaru ist nicht dazwischen. Noch nie in einem echten Google-Konto gelaufen: Michael Henning testet vor dem ersten Verkauf einmal echt. Er richtet ein, Sie nehmen keine Zugangsdaten auf."
       ]
     },
     {
@@ -407,10 +395,6 @@
           "antwort": "Für ein Team ja. Nur dann öffnet jede Person den Plan mit dem eigenen Konto und sieht nur, was sie sehen darf. Mit kostenlosem Gmail plant nur der Inhaber selbst."
         },
         {
-          "frage": "Brauche ich dafür KI?",
-          "antwort": "Nein. Der Plan nutzt keine KI und braucht kein Konto bei Anthropic."
-        },
-        {
           "frage": "Muss ich das selbst einrichten?",
           "antwort": "Nein. Herr Henning richtet den Plan in Ihrem Google-Konto mit Ihnen ein und legt die Seite auf die Handys Ihres Teams. Das ist im Preis enthalten."
         }
@@ -422,8 +406,7 @@
         "Keine Rechtsberatung: Die Prüfungen warnen nur. Nie sagen, der Plan sei rechtssicher oder ersetze die Zeiterfassung.",
         "Keine Gesundheits- oder Krankheitsgründe, auch nicht in anderen Spalten. Krank heißt im Plan nur abwesend.",
         "Gibt es einen Betriebsrat, bestimmt er bei Dienst- und Urlaubsplänen mit. Nur als Hinweis an Michael Henning weitergeben, keine Rechtsberatung. Jugendliche und Schwangere nicht mit diesen Prüfungen planen.",
-        "Läuft im Google-Konto des Betriebs, dekaru ist nicht dazwischen und sieht nichts.",
-        "Noch nie in einem echten Google-Konto gelaufen. Michael Henning testet vor dem ersten Verkauf einmal echt.",
+        "Läuft im Google-Konto des Betriebs, dekaru ist nicht dazwischen und sieht nichts. Noch nie in einem echten Google-Konto gelaufen: Michael Henning testet vor dem ersten Verkauf einmal echt.",
         "Die Einrichtung macht Michael Henning. Sie nehmen keine Zugangsdaten auf."
       ]
     }
